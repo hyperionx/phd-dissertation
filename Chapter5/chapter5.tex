@@ -1,0 +1,217 @@
+%!TEX root = ../thesis.tex
+%*******************************************************************************
+%****************************** Fifth Chapter **********************************
+%*******************************************************************************
+\chapter{Homeostasis Optimisation}
+
+\section[Introduction]{Introduction}
+
+\subsection[Optimisation Overview]{Optimisation Overview}
+
+Spike-based optimisation techniques seek to minimise the overall error of a network by optimising the times of individual neuron spikes. As the time at which a neuron spikes is a continuous value, continuous optimisation methods can be employed. However, the problem remains highly non-linear due to the potential for a small change in the input to a neuron (and thus a small change to the neuron's input weights) to push the neuron over its firing threshold, eliciting a spike and drastically changing the neuron's output \cite{gutig2014spike}. \\
+
+\noindent The initial algorithm to perform supervised deep learning by optimising spike times was SpikeProp \cite{bohte2002error}. This algorithm makes the simplifying assumption that each neuron will fire at most one spike during the spiking interval. In the event that multiple spikes are fired, only the first is optimised. Additionally, each connection is composed of numerous synaptic terminals, each with a distinct synaptic delay and connection weight. \\
+
+\noindent The authors demonstrate that their algorithm can solve the XOR problem and performs comparably to backpropagation, which has been optimized both with gradient descent (GD) and Levenberg-Marquardt (LM), on a number of small datasets (the largest of which has 36 input dimensions, six output classes, and 4,435 training examples). \\
+
+\noindent The single-spike optimisation procedure and multiple connection weights per synapse have presented significant challenges in expanding this work to larger datasets. Another work \cite{mckennoch2006fast} presented two methods to improve the rate of convergence of SpikeProp; however, the applications remain limited to small datasets. \\
+
+\noindent Another publication put forth an alternative to the SpikeProp algorithm \cite{mostafa2017supervised}, which was designed with the specific intention of accommodating non-leaky integrate-and-fire neurons. The proposed method relaxes the restriction that a connection must be composed of many different discrete-delay elements, and instead employs a more standard network architecture, with one exponential-synapse connection between each pair of neurons. The networks were trained with both one and two hidden layers, achieving 2.45\% and 2.86\% accuracy on the MNIST dataset, respectively. \\
+
+\noindent One challenge encountered by the author was that the dropout technique, the most commonly employed regularisation method, was ineffective in the network under consideration. This was because it frequently resulted in the complete cessation of neuronal firing. In the absence of an efficacious alternative regularisation method, the networks exhibited considerable generalisation errors, the training error for both networks was almost zero.\\
+
+\noindent While earlier algorithms focused on optimising the initial spike of each neuron, another relaxed this constraint by employing a genetic algorithm to enhance multiple spikes from each neuron \cite{stromatias2015supervised}. However, they limited their demonstration to relatively modest models comprising fewer than 10 hidden neurons. Genetic algorithms frequently encounter challenges in scaling to problems with numerous parameters, raising concerns about the scalability of this algorithm to datasets such as MNIST or CIFAR-10.\\
+
+\noindent In a similar vein, another publication \cite{lee2016training} also optimise over multiple spikes per neuron. The authors disregard the spiking discontinuity that occurs during backpropagation, instead treating the output of a neuron as a linear function of its inputs, which have been filtered by the membrane of the neuron in question. This enables the network to be run in spiking neurons during training, while still performing backpropagation without concern for discontinuities. \\
+
+\noindent Furthermore, the refractory period of the neurons is disregarded, as it is deemed to be relatively brief in comparison to the time interval between spikes, and therefore has a minimal impact on firing rates. In order to enhance the performance of the network, lateral inhibition components are introduced; however, only the first-order derivatives caused by these connections are optimised. \\
+
+\noindent Notwithstanding these simplifications, their method is still capable of learning appropriately on the MNIST task, achieving 1.30\% error using standard SGD and 1.23\% error using an ADAM optimiser. While it remains to be seen whether this method can generalise to larger datasets in a tractable way, it introduces a number of new ideas for training spiking networks that will hopefully be improved upon by future work. \\
+
+\noindent A different study introduce a novel method for making the spiking process continuous \cite{huh2018gradient}. They introduce a gating function, \textit{g(V)}, of the membrane voltage, \textit{V}, that is greater than zero for voltages approaching the firing threshold and zero otherwise, with unit integral. The region where $g(V) > 0$ is referred to as the active zone. \\
+
+\noindent In contrast to the conventional approach, whereby efferent synapses receive a current $\delta (t - t_k)$ upon the neuron crossing the firing threshold at time $t_k$, this method allows synapses to continuously receive current based on $g(V)\frac{dV}{dt}$. In the event that the voltage is situated outside the active zone, this term is rendered zero due to the fact that \textit{g(V)} is equal to zero. \\
+
+\noindent Conversely, should the voltage traverse the active zone (and thus the neuron spike), the integral of this term is equal to one. Ultimately, if the voltage enters the active zone but does not exceed the upper threshold (i.e., the firing threshold), the integral of the term will be a positive number between zero and one (this is analogous to a partial spike). \\
+
+\noindent This induced synaptic current is nearly identical to the traditional spiking current $\delta (t - t_k)$ in the extreme cases (i.e., when the neuron is silent or firing at a relatively high rate), but continuous in the intermediate region. The authors may then achieve a gradient through the network at any given point in time by employing backpropagation, and optimise the entire network by utilising backpropagation through time.\\
+
+\noindent The results presented focus on tasks that require a dynamic, temporal representation, such as predictive coding. This represents a distinct focus in comparison to the majority of other spike-based methods, which tend to prioritise static tasks (such as object classification). Consequently, a direct comparison is challenging. \\
+
+\noindent As a consequence of the method rendering the neural nonlinearity differentiable, a multitude of distinct neuron models may be employed. The present paper utilises non-leaky integrate-and-fire and quadratic integrate-and-fire models, with a plethora of alternative models being equally compatible. \\
+
+\noindent This, in conjunction with the capacity to optimise recurrent spiking networks effectively, renders this a potentially potent methodology for dynamic spiking networks. In the context of networks specialising in static tasks, it is postulated that the necessity for this method to optimise over potentially lengthy time series for each input stimulus would render it unsuitable for training large object classification networks. \\
+
+\noindent To date, spike-based optimisation methods have yet to be applied to larger, deeper architectures such as convolutional neural networks (CNNs). This has precluded the implementation of spike-based training on any datasets that are either larger or more challenging than the MNIST dataset. \\
+
+\noindent One of the challenges lies in the computational requirements of spike-based optimisation methods, which necessitate more computational resources than rate-based methods. This is due to the dynamic nature of the network and the iterative simulation required for each stimulus presentation. \\
+
+\noindent The majority of existing software has been designed for static artificial neural networks (ANNs), and extending it to spiking networks is a complex undertaking. Consequently, researchers have employed rate-based optimisation methods to address larger datasets with spiking networks, which will be discussed next. \\
+
+\noindent Rate-based optimisation methods operate under the simplifying assumption that all neurons are engaged in rate coding. Consequently, these methods are indifferent to the times of individual spikes, focusing instead on the number of spikes occurring within a given time period. \\
+
+\noindent In the majority of cases, these types of methods utilise this simplifying assumption to replace the spiking neural process with a continuous-valued rate approximation. In the case of derivative-based methods, this rate approximation is then differentiated. Derivative-free methods, in contrast, circumvent the necessity of taking the derivative of this rate approximation, instead opting for an optimisation method such as Contrastive Divergence that does not require it. \\
+
+\noindent Finally, function approximation methods approach the problem from a different angle. Rather than assuming a network of spiking neurons and attempting to identify rate approximations to these spiking neurons, they select an arbitrary nonlinearity for training the network, and then employ spiking neurons to approximate this nonlinearity.
+
+\subsection[Derivative-based Methods]{Derivative-based Methods}
+
+\noindent In 2010, a study pioneered the training of a spiking convolutional network \cite{perez2010spike}. A conventional convolutional neural network (CNN) was trained using the backpropagation algorithm with \textit{tanh} units. In order to transform this into a spiking network, the \textit{tanh} units were substituted with binary threshold units that incorporate a refractory period. \\
+
+\noindent In particular, if the input to a neuron exceeds a specified threshold, it generates a spike, after which the neuron is unable to spike for a designated period. The refractory period causes the firing rates of the neurons to saturate. The authors posit that this emulates the corresponding \textit{sigmoid} functions, namely the \textit{tanh} function, used in the rate model. \\
+
+\noindent However, they do not elucidate the precise mechanism through which the refractory period achieves this emulation. It may be presumed that the rationale is that the \textit{tanh} function is a saturating nonlinearity, and thus having the neuron firing rate saturate makes the firing rate curve more similar to the \textit{tanh} curve. \\
+
+\noindent A more principled approach to the conversion of rate-based convolutional neural networks (CNNs) to spiking CNNs was adopted in 2015 \cite{cao2015spiking}. They exploited the fact that rectified linear units (ReLUs) perfectly model the rate of a non-leaky integrate-and-fire neuron (IF). As ReLUs are currently the standard for deep networks, this allows networks to be trained with the same rate-based ReLUs and then replaced with spiking IF neurons at runtime. \\
+
+\noindent Additionally, the max-pooling layers utilized by the network were replaced with average pooling layers. Average pooling layers only entail the summation and scaling of inputs, thereby enabling them to function effectively with spiking neurons, in a manner that is biologically plausible. In contrast, max pooling lacks a clear spiking analogue. \\
+
+\noindent The process of taking the maximum of the binary spikes occurring at a given point in time (i.e., outputting one if any of the inputs are spiking, and zero otherwise) is not equivalent to taking the maximum across spike rates, as performed by traditional CNNs. Moreover, even taking the maximum across spikes is not biologically plausible, since there is no clear neuron-level mechanism for taking the maximum across incoming signals. \\
+
+\noindent The same study also removed biases from the network, on the grounds that they would be challenging to implement in a spiking network \cite{cao2015spiking}. However, it is not evident why biases would present a problem for spiking networks, particularly if targeting neuromorphic hardware (much of which supports biases). One advantage of removing biases is that it offers a somewhat more straightforward biological explanation, since the output of each neuron depends solely on the inputs from other neurons in the network. \\ 
+
+\noindent In a similar approach to that employed previously, a novel method of normalisation for weight magnitudes was utilised \cite{diehl2015fast}. One pivotal design decision in spiking networks is the trade-off between the firing rates of the neurons and the requisite integration time for the network to reach a decision. \\
+
+\noindent Higher firing rates facilitate the expeditious transmission of information, thereby enabling more rapid responses and enhanced accuracy. However, this increased speed comes at the cost of greater energy consumption. On certain neuromorphic platforms, there are imposed limits on the maximum allowable firing rates. An increase in integration time permits the accumulation of greater quantities of information, thereby enhancing accuracy. However, this approach also results in slower responses and an elevated number of spikes per example.\\
+
+\noindent It is therefore necessary to achieve a balance between accuracy, response time and energy efficiency by properly tuning the firing rates and integration time. Given that ReLUs—and, by extension, IF neurons—are scale-invariant, the firing rates of neurons in spiking IF networks can be set at any arbitrary value. In order to alter the firing rate of a neuron while preserving the integrity of the network, it is necessary to offset the increase in firing rate with a corresponding decrease in all connection weights originating from that neuron. \\
+
+\noindent The study present two techniques for normalising network weights, namely model-based and data-based normalisation \cite{diehl2015fast}. Both techniques are founded upon the principle that the input to any given neuron in a single timestep should not exceed the firing threshold of that neuron. Should this occur, it could result in the neuron being required to fire two spikes in the same timestep, which is not supported by the majority of neuromorphic hardware. \\
+
+\noindent In other words, the objective of the normalization process is to guarantee that the instantaneous firing rates of all neurons never exceed the rate of the neuromorphic chip (simulation rate). In the model-based normalization technique, the maximum sum of positive input weights across all neurons in a layer is identified, and then all neuron inputs in the layer are normalized using this sum. \\
+
+\noindent This guarantees that no neuron can receive an input greater than one (the firing threshold) in a single timestep. The authors discovered that this technique can result in weights that are smaller than necessary. This is because the maximum possible input to a neuron is often never encountered in real data, which in turn leads to longer-than-necessary integration times. \\
+
+\noindent In contrast, data-based normalization is contingent upon the examples within the training data. This ensures that for any given training example, no neuron will receive an input greater than one (the firing threshold). The authors discovered that data-based normalization reduced the integration time required by the network to achieve the same level of accuracy as an unnormalized network with a higher firing threshold. This paper presented the most advanced results to date for spiking networks on the MNIST dataset, achieving a test-set error of 0.88\%. \\
+
+\noindent In a study published in 2016 \cite{esser2015backpropagation}, the authors trained deep networks targeting the IBM TrueNorth neuromorphic chip \cite{merolla2014million}. In contrast to the other networks described herein, this network employs a basic binary threshold neuron, which generates a "spike" in response to a positive input at a given time step and remains quiescent otherwise. This can be considered to be equivalent to a rate-based binary threshold unit. \\
+
+\noindent Furthermore, the network presents each image for a single timestep before resetting all neuron voltages and presenting the next image. As a result of these considerations, the network is classified as rate-based, rather than spiking.  The authors trained very large networks, comprising 8 million neurons, on a number of tasks, including CIFAR-10 and SVHN. The results are at the cutting edge of the field when compared to spiking networks. \\
+
+\noindent However, a more pertinent comparison is with rate-based networks, where the sole innovation is the use of binary threshold units, which are not commonly employed in deep networks. The network is capable of running on neuromorphic hardware (TrueNorth), but utilises a considerable number of neurons even for relatively modest datasets such as CIFAR-10. Consequently, it would be challenging to scale up to larger datasets such as ImageNet. 
+
+\subsection[Derivative-free Methods]{Derivative-free Methods}
+
+\noindent Derivative-free, rate-based optimisation methods employ rate approximations for the spiking neural process, yet do not necessitate the derivative of the rate approximation. The entirety of the aforementioned methods are founded upon the utilisation of the Contrastive Divergence (CD) algorithm \cite{hinton2006fast} for the training of deep networks comprising stacked RBMs. \\
+
+\noindent In a study published in 2013 \cite{o2013real}, a spiking network of LIF neurons using RBMs was developed. In order to train the network, the researchers employ the Siegert approximation to a noisy spiking LIF neuron as the rate neuron model. The Siegert approximation is an equation that describes the mean firing rate of an LIF neuron when presented with a number of input spike trains, where the spikes are distributed according to a Poisson process with a constant firing rate. \\
+
+\noindent Subsequently, the output rates are normalised by the maximum firing rate (1/tref) in order to generate firing probabilities, and the hidden units are sampled from a binary distribution based on these probabilities. The authors employ this model to simulate the variability introduced by the use of spikes. \\
+
+\noindent Consequently, spiking LIF neurons are introduced in place of the rate neurons, and the network is trained using Poisson input trains based on pixel intensities, resulting in an error rate of 5.91\% on MNIST. A study in 2015 \cite{stromatias2015robustness} further extend this work by demonstrating the method's resilience to reduced weight precision, achieving an error rate of 5.06\% on MNIST with 11-bit fixed point weights running on the SpiNNaker platform. \\
+
+\noindent In a similar vein, a 2013 model was also developed spiking RBMs using LIF neurons \cite{neftci2014event}. Their approach entails fitting the mean firing rate of a noisy LIF neuron to a sigmoid curve and subsequently training using this sigmoid curve. This restricts the range of possible parameters for the LIF neuron, as they must permit the firing rate to be accurately approximated by a sigmoid function. However, it permits the RBMs to be trained with conventional sigmoid activation functions, thereby facilitating a more straightforward and efficient training process. \\
+
+\noindent They put forth an online variant of CD for spiking networks, based on an STDP learning rule. For each training image, two phases are conducted. The initial phase occurs immediately upon presentation of the image, wherein connections are updated based on the data (stimulus). Subsequently, following a designated period of time, the recurrent connections become active, thereby driving the network towards its reconstruction distribution. \\
+
+\noindent This has an effect that is similar to that of Gibbs sampling in the CD algorithm. During this period, the gating signal on the derivative is reversed, resulting in a negative impact on the weights based on the reconstruction. This constitutes one complete cycle of the algorithm, which is repeated for each training image over numerous iterations through the training data. This approach bears resemblance to CD, hence the authors have designated it as "event-based CD." Employing this technique, the researchers achieved an 8.1\% test-set error on MNIST in spiking neurons. 
+
+\subsection[Function-approximation and Noise]{Function-approximation and Noise}
+
+\noindent Approximation methods for functions diverge considerably from the previously discussed approaches. In contrast to the approach of utilising a single spiking neuron to represent each node in an ANN, function approximation methods employ multiple spiking neurons for each node. These spiking neurons are employed to approximate the nonlinear function (e.g., the sigmoid function) that is being computed by the node.\\
+
+\noindent There is only one documented instance of this method being employed \cite{eliasmith2012large}. The approximation of the sigmoid function computed by each node is achieved through the use of three spiking LIF neurons. The parameters for each neuron are randomly assigned, with the most significant aspect being the uniform distribution of the random bias current. This enables each of the three neurons to target a distinct portion of the sigmoid curve, in addition to the bias current assigned to the node during the training process.\\
+
+\noindent Once the random parameters have been set, a scalar weighting is calculated for each neuron, determining the extent to which it contributes to the sigmoid function. This is the standard method for function approximation, but applied to a limited number of neurons in order to approximate a sigmoid function. This method enables a spiking network to approximate a rate-based network in a highly general manner. \\
+
+\noindent One disadvantage is that it requires a greater number of neurons than nodes in the network, which makes it more costly in terms of neural resources than the aforementioned methods. The efficacy of this approach is contingent upon the ability of the neurons to accurately represent the node function within the operational domain. Sigmoid functions can be readily represented with LIF neurons. However, ReLUs are considerably flatter and do not undergo squashing, necessitating a significantly larger range of output values for accurate representation. This renders them less compatible with this method. \\
+
+\noindent The transmission of discrete, constant-amplitude spikes, as observed throughout much of the human central nervous system, represents a higher-variance method of information transmission than the simple transmission of a scalar value, such as a voltage. From a rate-based perspective, the increased variance can be conceptualised as 'noise' surrounding the firing rate, which can be considered the 'signal'. The firing rate is defined as the mean value of a spike train signal.\\
+
+\noindent If a spike train is passed through a low-pass filter, the result can be viewed as an estimate of the mean with additional time-varying noise superimposed. The quantity of noise is contingent upon the filter employed; the elimination of a greater proportion of high frequencies will yield a superior estimate with diminished noise, yet if the fundamental firing rate signal is also time-varying, then its higher frequencies will also be removed. In a spiking network that is receiving a sequence of images and outputting a response for each in real-time, this results in a longer response time for each image. \\
+
+\noindent It is observed that a considerable number of rate-based spiking neural networks do not take into account the variance caused by spikes. Amongst those that do, two distinct approaches have been identified. The first involves modelling the impact of spike noise on the mean neural firing rates, with these revised mean rates then being employed during the training process. The second approach entails incorporating stochastic elements into the model during training, with the objective of ensuring that the probability distribution of the training output rates reflects, to some extent, the variance resulting from the spikes employed during testing. \\
+
+\noindent An exemplar of this initial approach is the utilisation of the Siegert model to account for the effects of incoming spikes on the LIF neuron firing rate \cite{o2013real}. This approach is predicated on the assumption that neuronal inputs are uncorrelated and that spikes are governed by a Poisson process. \\
+
+\noindent The Siegert model then provides the mean firing rate of the LIF neuron, given the mean firing rates of all inputs and their respective connection weights. One disadvantage of this approach is that the Siegert equation is complex, containing an integral with no closed-form solution. The integrand of this integral contains both the exponential and error (erf) functions.\\
+
+\noindent Computing this function on a GPU (or even a CPU) would be challenging and time-consuming in comparison to the functions typically employed in neural networks. Additionally, this approach necessitates the calculation of two linear functions of the input neuron rates, one to determine the overall input mean and the other to ascertain the variance. Consequently, it requires twice the number of matrix-vector operations as a network without the Siegert model. \\
+
+\noindent The second approach, which involves incorporating stochastic elements into a model of spiking noise, has frequently been employed in a range of neural network contexts. However, this has not typically been done with the specific objective of running the final model in spiking neurons. \\
+
+\noindent A foundational example is that of Boltzmann machines, which employ binary sampling on probabilistic units \cite{hinton1983optimal}. This enables units to communicate binary values with one another, which bears resemblance to spikes. However, if one considers each unit to be attempting to transmit its underlying firing probability (which is analogous to a firing rate), this represents a particularly severe form of noise. \\
+
+\noindent Subsequent work significantly reduced the amount of noise by employing rectified linear activation functions with Gaussian noise on the neuron input \cite{nair2010rectified}. An additional illustration of the incorporation of stochastic elements into a model is the denoising autoencoder \cite{vincent2008extracting}. This approach entails the introduction of noise into the model inputs, followed by an attempt to reproduce the original, noise-free version of the input. \\
+
+\noindent The addition of noise to model inputs has frequently been employed as a means of enhancing the model's capacity to handle a diverse range of inputs, effectively constituting a form of data augmentation. Other forms of data augmentation, such as translation, rotation, or deformation of images, can also be regarded as a structured form of noise on model inputs, distinct from Gaussian noise. \\
+
+\noindent Nevertheless, the incorporation of noise into hidden units, whether at the input or output level, remains a relatively uncommon practice in the context of nonlinear networks \cite{poole2014analyzing}. Despite extensive research, there seems to be a dearth of examples where this approach has been employed to model the inherent variability associated with spikes, with the aim of translating a rate model into a spiking neuron framework.
+
+\section[Methodology]{Methodology}
+
+\subsection[Neural-engine Framework]{Neural-engine Framework}
+
+\noindent While it is possible to modify the mapping scheme in order to achieve specific behaviours, this is a highly detailed and complex approach that requires a fundamental understanding of the physics of memristors. Therefore, even when training is conducted externally, the network designer must consider not only the conventional training hyperparameters, such as learning rates or the number of epochs, but also the physical implementation of MNNs, as this will affect the network performance. \\
+
+\noindent In order to make MNNs a feasible proposition in the real world, it may be necessary to adopt more high-level approaches that require minimal understanding of the hardware. This is similar to how the Compute Unified Device Architecture (CUDA) hides the complexity of graphics processing units (GPUs) behind high-level software abstractions \cite{el2008performance}.\\
+
+\noindent The original Neural Engineering Framework is a theory that connects neural-level computations with higher-level algorithmic descriptions \cite{eliasmith2003neural}. Specifically, it describes how neurons can perform vector computations, which can then be built upon to create increasingly complex systems \cite{eliasmith2012large}. It has three main tenets: representation, how neurons represent a real-world value; transformation, how neurons compute (static) functions on represented values; and dynamics, how neurons can implement dynamical systems or functions. \\
+
+\noindent The Neural Engineering Framework is a scheme that was founded upon the principle of population coding \cite{salinas1994vector}. In particular, it employs a methodology whereby linear least-squares techniques are utilised to identify linear decoders for a population of neurons. This concept can be succinctly encapsulated as nonlinear encoding, linear decoding. \\
+
+\noindent The fundamental premise of the NEF is that a "population" of neurons can be conceptualised as a representation of a specific value. This could be either a value in the real world or a purely internal value. In the core NEF, each population represents a vector $\textbf{x}$, but this can be extended to representing things like scalar- and vector-fields, too.\\
+
+\noindent Each neural population is equipped with a set of encoders, designated as \textbf{E}, which facilitate the mapping from the state space, a \textit{d}-dimensional representation of the values that the population can represent, to the neuron space, a \textit{n}-dimensional representation of neural activities. The mapping is nonlinear.
+\begin{align}
+a_{j}(\textbf{x}) = G_{j}\left( \alpha_{j}\sum_{i}^{} E_{ji}x_{i} +\beta_{j} \right) \label{eq:5.1} 
+\end{align}
+
+\noindent In this context, the vector value represented by \textbf{\textit{x}} denotes the encoding of the population, while $a_j$ signifies the activity of neuron \textit{j}, $G_j(\cdot)$ represents a rate-based neural nonlinearity that transforms input currents into firing rates. $E$ is a matrix of dimensions $n \times d$, comprising encoders, while $\alpha_j$ and $\beta_j$ are scalar gain and bias terms, respectively. It is common practice to model neurons in the NEF as LIF neurons. In such cases, $G_j(\cdot)$ is given by Equation \ref{eq:2.17} for all neurons.\\
+
+\noindent In order to decode information from the population, it is necessary to identify a suitable linear decoder \textit{D}. When this is multiplied by the neural activities \textbf{\textit{a(x)}}, the resulting value \textbf{\textit{x}} represents the state-space value. In practice, the choice of decoder is typically based on the minimisation of the squared error $\left\| D \textbf{a} (\textbf{x})  - \textbf{x}\right\|^{2}_{2}$. \\
+
+\noindent In an ideal scenario, the objective would be to minimise this across all possible values of \textbf{\textit{x}}. However, in practice, the space of \textbf{\textit{x}} is sampled at \textit{m} points, which are referred to as evaluation points. Given an $m \times d$ matrix of evaluation points, \textbf{\textit{X}}, and the corresponding neural activities at each evaluation point, \textbf{\textit{A}}, the least-squares optimal decoders can be found as follows:
+\begin{align}
+D = \left( A^\intercal A \right)^{-1} A^\intercal X \label{eq:5.2} 
+\end{align}
+
+\noindent In practice, some neurons may exhibit similar activity patterns, rendering this an ill-conditioned problem. Furthermore, it is common practice to impose a penalty on large decoders in order to mitigate the impact of variability in the spiking neurons on the decoded value. To address these issues, regularisation is typically employed. \\
+
+\noindent Given that the number of neurons in the population n is typically much larger than the number of dimensions \textit{d} in the encoded vector \textbf{\textit{x}}, it follows that the neural population not only contains information about \textbf{\textit{x}}, but also about possible functions of \textbf{\textit{x}}. The decoding of a function \textit{f}(\textbf{\textit{x}}) from the population can be achieved by identifying decoders Df that minimise the squared error $\left\| D_f \textbf{a} (\textbf{x})  - \textbf{x}\right\|^{2}_{2}$.\\
+
+\noindent This results in a similar least-squares optimisation problem as previously described, but with the matrix of evaluation points \textit{X} replaced by a matrix of targets \textit{Y}. This method can be used to decode arbitrary functions from the population. The accuracy with which a given function can be decoded depends on the characteristics of the function (e.g. higher frequency changes are more difficult to decode), the tuning curves of the neurons, and the relationship between these two factors. \\
+
+\noindent One notable aspect of the encoding model is its rate-based structure. The decoders are identified through the utilisation of the rate response function of the neurons. This does not imply that NEF models employ traditional rate coding. Indeed, firing rates can vary with considerable rapidity, and one can construct models, for example, an oscillator, where neurons fire in rapid bursts, the timing of which is of consequence.\\
+
+\noindent It is not possible for NEF networks to exploit synchronisation between neurons. Any correlations between neural firing will merely result in increased variability (noise) in the decoded output. Furthermore, NEF networks function equally well or better when rate-based neurons are used instead of spiking neurons. This indicates that these networks utilise a fundamentally rate code, albeit one that can change quickly. \\
+
+\noindent A significant feature of NEF networks is the heterogeneity of neurons with regard to their encoders and biases, which results in differential responses to input stimuli. This heterogeneity enables neurons to not only encode different aspects of their input signals a capability that can also be demonstrated by noisy homogeneous neurons \cite{hunsberger2014competing}, but also to compute nonlinear transformations of these signals. \\
+
+\noindent The precise nature of this heterogeneity has a substantial impact on both the signals that can be represented and the transformations that can be computed. It is not always the case that representation and transformation are mutually exclusive; for instance, a population of neurons that are all tuned to the sum of two inputs is unable to represent the individual signals, but is capable of computing a transformation such as the square of their sum. There has been limited examination of the types of heterogeneity that are most effective for computing specific functions.
+
+\subsection{Programming Variabilities}
+
+One of the most common non-idealities observed in memristive devices is the phenomenon of devices becoming stuck. This topic was previously explored in depth in the preceding chapter. In this chapter, a similar model is employed, in which devices may become stuck at $G_{off}$ or $G_{on}$. For both types of simulations, a range of probability were used, indicating that any individual may become stuck in that state. Although this is a simple model, it is not data-specific, and thus could be combined with the nonidealities that were modelled using experimental data, specifically $SiO_x$ nonlinearities.\\
+
+\noindent A more realistic probabilistic model for describing stuck device behaviour in crossbar array can be introduced. This is achieved by randomly drawing from a sample of all memristors and setting the conductance to the closest achievable state. Although this method is relatively robust given the high number of devices, it is discrete in nature and therefore more difficult to apply during SNN training, where gradients need to be computed. \\
+
+\noindent Furthermore, the method is limited in data in certain conductance regions, which may result in training that fits the weights to the behaviour of a single instance of a crossbar array. Consequently, a more continuous approach to picking the states at which the devices may get stuck in was adopted.\\
+
+\noindent It is possible to display previously encountered data; in this case, all potentiation and depression cycles are shown for some of the devices. The majority of memristors are capable of achieving a high conductance range, with only a small proportion exhibiting limited conductance or remaining in a fixed state. In this chapter, the simulations were conducted with $G_{off}$ and $G_{on}$ defined as the median of minimum and maximum conductances, respectively. \\
+
+\noindent Any device whose maximum range (i.e., the difference between the highest and lowest conductances achieved) was less than half the median range (Gon - Goff) was classified as stuck. A further simplifying assumption was made that any such device would be treated as fully stuck. This overestimates the effect of the variability because in reality some of the 'stuck' devices may still be tweaked, albeit within a narrower range.\\
+
+\noindent The challenge in constructing a probabilistic model in this case is the generation of a probability density function (PDF) that accurately describes the conductance values at which devices may become stuck. The selection of devices that may become stuck is a relatively straightforward process. \\
+
+\noindent These devices can be chosen randomly, with the proportion of devices that fit the previously defined criteria for stuck behaviour being the determining factor. For instance, 10\% of the devices may be deemed to exhibit the necessary characteristics. However, the conversion of the discrete mean conductance values of these devices into a probability distribution that can be applied to a wider range of situations represents a more challenging aspect of this process.\\
+
+\noindent In order to produce a probabilistic model, it was decided that kernel density estimation (KDE) would be employed. KDE is a method of producing a probability density function (PDF) given a sequence of randomly distributed variables. Each point is usually approximated with a random distribution, which are then summed together. \\
+
+\noindent As these distributions are typically identical, the only choices that have to be made are the type of distributions to be used, or the width of those distributions, which is more commonly referred to as "bandwidth" \cite{turlach1993bandwidth} in the context of KDE. In this chapter, it was decided to employ truncated normal distributions, truncated at zero to circumvent the issue of negative conductance. \\
+
+\noindent The underlying normal distributions were set to have a mean equal to the mean conductance of faulty devices, with the objective of estimating the standard deviation of the underlying distributions. In order to achieve this, Scott's rule \cite{scott2015multivariate} was utilised. As a consequence of the clipping of conductance values below zero, a bias is introduced, whereby the probability density is underestimated in the vicinity of the boundary, even if the PDF is re-scaled after truncation \cite{silverman2018density}. \\
+
+\noindent To address this issue, a reflection method can be employed. Rather than performing re-normalisation, a second distribution was introduced, representing the reflection of the original normal distribution around zero. The negative part of this distribution was then clipped \cite{jones1993simple}. This approach ensures that the two truncated PDFs sum to one, while providing a more reliable estimate of the probability density near zero.\\
+
+\noindent Furthermore, device-to-device (D2D) variability, which arises from inaccuracies during device programming, was also taken into account. As discussed in the preceding chapter, during the mapping of weights onto conductances, one may ultimately arrive at values that differ from the desired outcome. \\
+
+\noindent Lognormal distribution is a commonly utilized approach to model these discrepancies. For instance, it has been demonstrated that resistance deviations adhere to this trend, with the relative (and consequently, the absolute) magnitude of the deviations being more pronounced in the high-resistance state (HRS) compared to the low-resistance state (LRS).
+
+\subsection{Architecture Modifications}
+
+\subsection{Biosignal Applications}
+
+\section[Results]{Results}
+
+\section[Conclusion]{Conclusion}

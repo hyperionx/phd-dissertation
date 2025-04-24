@@ -1,0 +1,83 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: thesis.aux
+Reallocating 'name_of_file' (item size: 1) to 28 items.
+A level-1 auxiliary file: Declaration/declaration.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Abstract/abstract.aux
+Reallocating 'name_of_file' (item size: 1) to 18 items.
+A level-1 auxiliary file: Impact/impact.aux
+Reallocating 'name_of_file' (item size: 1) to 36 items.
+A level-1 auxiliary file: Acknowledgement/acknowledgement.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter1/chapter1.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter2/chapter2.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter3/chapter3.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter4/chapter4.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter5/chapter5.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter6/chapter6.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Chapter7/chapter7.aux
+Reallocating 'name_of_file' (item size: 1) to 8 items.
+The style file: apalike.bst
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+Reallocating 'field_info' (item size: 4) to 14218 items.
+Database file #1: References/references.bib
+Reallocating 'str_pool' (item size: 1) to 130000 items.
+Warning--entry type for "nikolaos_barmpatsalos_2021_5762184" isn't style-file defined
+--line 4568 of file References/references.bib
+Warning--empty journal in bellec2019eligibility
+Warning--can't use both volume and number fields in bishop2006pattern
+Warning--empty school in du2017metal
+Warning--empty journal in krizhevsky2009learning
+Warning--empty journal in li2018analog
+Warning--can't use both volume and number fields in netzer2011reading
+Warning--empty journal in wang2022tsmc
+Warning--there's a number but no volume in yon1966sodium
+You've used 419 entries,
+            1935 wiz_defined-function locations,
+            2570 strings with 90920 characters,
+and the built_in function-call counts, 198041 in all, are:
+= -- 18878
+> -- 10765
+< -- 202
++ -- 3932
+- -- 3825
+* -- 18242
+:= -- 34464
+add.period$ -- 1300
+call.type$ -- 419
+change.case$ -- 3952
+chr.to.int$ -- 404
+cite$ -- 427
+duplicate$ -- 6563
+empty$ -- 12371
+format.name$ -- 4382
+if$ -- 38096
+int.to.chr$ -- 16
+int.to.str$ -- 0
+missing$ -- 425
+newline$ -- 2091
+num.names$ -- 1259
+pop$ -- 3459
+preamble$ -- 1
+purify$ -- 3969
+quote$ -- 0
+skip$ -- 4938
+stack$ -- 0
+substring$ -- 13181
+swap$ -- 929
+text.length$ -- 76
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 2486
+warning$ -- 8
+while$ -- 1522
+width$ -- 0
+write$ -- 5459
+(There were 9 warnings)
