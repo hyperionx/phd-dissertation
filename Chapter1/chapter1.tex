@@ -3,10 +3,10 @@
 %*********************************** First Chapter *****************************
 %*******************************************************************************
 
-\chapter{Background}  %Title of the First Chapter
+\chapter{Introduction}  %Title of the First Chapter
 
 
-\section[Introduction]{Introduction}
+\section[Background]{Background}
 
 Neuromorphic computing aims to bridge the gap between neuroscience and artificial intelligence by emulating the structural and functional principles of biological neural systems. At the heart of this vision is a pressing research question: how can we implement biorealistic learning on memristive networks to develop energy-efficient, scalable and adaptive computing architectures? Addressing this question requires a multidisciplinary approach, combining insights from neurobiology, electronic materials science and computational modelling. \\
 
@@ -28,7 +28,7 @@ Computational neuroscience employs a computational methodology to elucidate the 
 
 % \noindent This distinction has resulted in a historical focus on developing comprehensive mathematical models of individual neurons and small- to medium-sized networks in computational neuroscience. Recently, however, there has been a convergence with other fields, leading to the creation of neurally detailed models capable of reproducing organism-level behaviors. \\
 
-\noindent This section provides foundational relevant biological details, both at the neural level and at the network level. It should be noted that the models detailed in this dissertaion are still relatively basic in comparison to the extensive body of evidence documenting the neural system \cite{kandel2000principles} which provide the majority of our neural data about these areas. Consequently, this section presents only the most fundamental biological facts relevant to this work.\\
+\noindent This section provides foundational relevant biological details, both at the neural level and at the network level. It should be noted that the models detailed in this dissertaion are still relatively basic in comparison to the extensive body of evidence documenting the neural system \cite{kandel2000principles} which provide the majority of our neural data about these areas. Consequently, this section presents only the most fundamental biological facts relevant to this work.
 
 \subsection[Neuron Anatomy and Electrophysiology]{Neuron Anatomy and Electrophysiology}
 
@@ -73,7 +73,7 @@ Computational neuroscience employs a computational methodology to elucidate the 
 
 % \noindent When an electrical pulse is generated, it causes the vesicles to release neurotransmitter into the synaptic cleft, which is the narrow space between the presynaptic terminal and the postsynaptic terminal. This neurotransmitter then activates receptors on the postsynaptic terminal, which open and permit the flow of current into the postsynaptic cell. The specific neurotransmitter utilized by the synapse is contingent upon the presynaptic neuron. \\
 
-\noindent All synapses on a neuron's axon release the same neurotransmitter or combination of neurotransmitters, a phenomenon known as Dale's principle. At the time of its development, Dale's principle was based on the assumption that each neuron produced a single type of neurotransmitter. However, evidence of cotransmission was only discovered later \cite{burnstock2004cotransmission}, with the understanding that neurotransmitters can be excitatory or inhibitory. It is not the case that any neurons play both an excitatory and inhibitory role with respect to different postsynaptic cells.
+\noindent It has been established that all synapses located along a neuron's axon are responsible for the release of a singular neurotransmitter or a combination of neurotransmitters. This phenomenon is commonly referred to as Dale's principle. At the time of its development, Dale's principle was based on the assumption that each neuron produced a single type of neurotransmitter. Nevertheless, evidence of cotransmission was only discovered subsequently \cite{burnstock2004cotransmission}. It was understood that neurotransmitters can only be either excitatory or inhibitory,in relation to different postsynaptic cells.
 
 \subsection[Spiking Neuron Dynamics]{Spiking Neuron Dynamics}
 
@@ -147,15 +147,15 @@ Computational neuroscience employs a computational methodology to elucidate the 
     \frac{dh}{dt} &= \alpha_h(V_m)(1-h)-\beta_h(V_m)h \label{eq:1.5}
 \end{align}
 
-\noindent The reversal potentials $V_K$, $V_{Na}$, and $V_L$ are the three parameters in question. The rate constants $\alpha_i$ and $\beta_i$, which depend on the membrane potential, describe the behaviour of the $i^{th}$ ion channel. The maximal value of the conductance is represented by $G_K$, $G_{Na}$, and $G_L$. Finally, the dimensionless quantities \textit{n}, \textit{m}, and \textit{h}, which lie between 0 and 1, are associated with three ion channels. \\
+\noindent The reversal potentials $V_K$, $V_{Na}$, and $V_L$ are the three parameters in question. The rate constants $\alpha_i$ and $\beta_i$, which depend on the membrane potential, describe the behaviour of the $i^{th}$ ion channel. The maximal value of the conductance is represented by $G_K$, $G_{Na}$, and $G_L$. \\
 
-\noindent In order to achieve the optimal fit for human cardiac action potentials, the HH model is reduced by setting the leakage channel conductance to $G_L = 0$  \cite{noble1962modification}.It has been demonstrated that $G_{Na}$ and $G_K$ are memristors \cite{chua1976memristive}, as illustrated by the equivalent circuit in figure \ref{fig:3c}(b). \\
+\noindent Finally, the dimensionless quantities \textit{n}, \textit{m}, and \textit{h}, which lie between 0 and 1, are associated with three ion channels. In order to achieve the optimal fit for human action potentials, the HH model is reduced by setting the leakage channel conductance to $G_L = 0$  \cite{noble1962modification}.It has been demonstrated that $G_{Na}$ and $G_K$ are memristors \cite{chua1976memristive}, in the equivalent circuit in figure \ref{fig:1c}(b). \\
 
 \noindent The integrate-and-fire (IF) neuron \cite{lapicque1907louis} constituted one of the earliest computational models of a neuron. This model was developed prior to the ability of researchers to measure the electrical and chemical changes occurring in a functioning neuron. It is based on the premise that the neuron membrane can be modelled as a capacitor that stores charge over time \cite{abbott1999lapicque}.\\
 
 \noindent As the name suggests, the IF model exhibits two principal behaviours: The model integrates current over time, as would be expected of a capacitor, and fires when the voltage reaches a threshold. Furthermore, the model may or may not incorporate a leak term, which represents a resistor in parallel with the capacitor that permits the dissipation of charge over time. The model with a leak term is typically designated as the leaky integrate-and-fire (LIF) model. While the term "integrate-and-fire (IF) model" can be used interchangably. \\
 
-\noindent With the objective is to identify how the neuron's membrane voltage evolves over time and, based on this, to determine when the neuron spikes. The charge \textit{Q} across a capacitor is given by $Q = V \times C$, where \textit{V} is the voltage across the capacitor and \textit{C} is the capacitance. Differentiating this with respect to time, we find that the membrane voltage $\textit{V(t)}$ of the neuron is governed by:
+\noindent To identify how the neuron's membrane voltage evolves over time and, based on this, to determine when the neuron spikes, the charge \textit{Q} across a capacitor is represented by $Q = V \times C$, where \textit{V} is the voltage across the capacitor and \textit{C} is the capacitance. By differentiating this with respect to time, the membrane voltage $\textit{V(t)}$ of the neuron is:
 \begin{align}
     C \frac{dV(t)}{dt} = J(t) \label{eq:1.6} 
 \end{align}
@@ -164,7 +164,7 @@ Computational neuroscience employs a computational methodology to elucidate the 
 
 \noindent This is achieved by defining a threshold voltage, $V_{th}$, which is exceeded when the voltage passes this threshold, resulting in the neuron firing. This is a fundamental principle in neurophysiology: once the neuron voltage passes a threshold, the neuron begins firing a spike, and once this firing process begins, it is almost impossible to reverse. \\
 
-\noindent A reset procedure is finally defined. Once a neuron has fired a spike, the membrane voltage is reset to the resting potential, $V_{rest}$. This phenomenon can be attributed to physiological processes. Following the occurrence of a spike in a neuron, other ionic currents, typically potassium, are initiated, leading to a restoration of the membrane voltage towards the resting potential.\\
+\noindent Once a neuron has fired a spike, the membrane voltage is reset to the resting potential, $V_{rest}$. This phenomenon can be attributed to physiological resetting procedures. Following the occurrence of a spike in a neuron, other ionic currents, typically potassium, are initiated, leading to a restoration of the membrane voltage towards the resting potential.\\
 
 % \noindent Some integrate-and-fire models may also incorporate an absolute refractory period, defined as a time interval during which the voltage is maintained at the resting potential $V_{rest}$ following a spike. In cortical neurons, post-spike potassium currents are sufficiently strong to prevent another spike from occurring for a considerable duration. This time interval is referred to as the absolute refractory period. The model accounts for this by holding the membrane voltage at $V_{rest}$ for a duration equal to the absolute refractory period. \\
 
@@ -174,7 +174,7 @@ Computational neuroscience employs a computational methodology to elucidate the 
 C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:1.7} 
 \end{align}
 
-\noindent In this model, \textit{R} represents the membrane resistance, and the remaining parameters are consistent with those of the IF model. The resetting procedure is also identical to that of the IF model.\\
+\noindent In this model, \textit{R} represents the membrane resistance, and the remaining parameters are consistent with those of the IF model, with identical resetting procedure.\\
 
 \noindent The LIF model comprises a number of parameters, including $C, R, V_{rest}$ and $V_{th}$. It is possible to normalise the model in order to reduce the number of parameters while maintaining the full dynamics of the original model. In particular, the model can be manipulated so that the normalised voltage lies within the range [0, 1], with a normalised resting potential of zero and a normalised firing threshold of one. Initially, Equation \ref{eq:1.7} is multiplied by R to give:
 
@@ -195,18 +195,18 @@ C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:1.7}
     \tau_{rc} \frac{d\bar{V}}{dt} &= \bar{J}(t) - \bar{V} \label{eq:1.14} 
 \end{align}
 
-\noindent When the firing threshold for the new equation $\bar{V_{th}} = 1$, the voltage resets to $\bar{V_{rest}} = 0$, and $\bar{J}(t) = \frac{R}{V_{th} - V_{rest}} J(t)$. It can be observed that $\bar{J}(t)$ is merely a linear transformation of $J(t)$. Consequently, Equation \ref{eq:1.14} retains the full dynamics of Equation \ref{eq:1.7} for a scaled input, but with only one parameter, $\tau_{RC}$. \\
+\noindent When the firing threshold for the new equation $\bar{V_{th}} = 1$, the voltage resets to $\bar{V_{rest}} = 0$, and $\bar{J}(t) = \frac{R}{V_{th} - V_{rest}} J(t)$. It can be observed that $\bar{J}(t)$ is merely a linear transformation of $J(t)$. Consequently, (\ref{eq:1.14}) retains the full dynamics of (\ref{eq:1.7}) for a scaled input, but with only one parameter, $\tau_{RC}$. \\
 
 \noindent It should be noted that both $\bar{V}$ and $\bar{J}$ are unitless quantities. Conventionally, the unitless space is employed exclusively, and the quantities are often referred to simply as \textit{V} and \textit{J}, despite the fact that they are not voltages or currents. This simplifies the mathematical representation, without limiting the generality of the models. \\
 
-\noindent Equation \ref{eq:1.14} provides an exact description of the circumstances under which the model neuron will spike in response to a given input current, \textit{J(t)}. However, in some cases, it is sufficient to consider only the spike rate, that is, the number of spikes per second that the neuron will produce in response to a given input current. \\
+\noindent (\ref{eq:1.14}) provides an exact description of the circumstances under which the model neuron will spike in response to a given input current, \textit{J(t)}. However, in some cases, it is sufficient to consider only the spike rate, that is, the number of spikes per second that the neuron will produce in response to a given input current. \\
 
-\noindent In the case of the LIF model, it is possible to determine the analytical firing rate for a constant input current. This is achieved by calculating the inter-spike interval (ISI), which is the time between one spike and the next. The firing rate is then given by the inverse of the ISI. When a constant input current, $J(t) = j$, is provided, it is possible to solve Equation \ref{eq:1.14} in order to find the neuron voltage over time. 
+\noindent In the case of the LIF model, it is possible to determine the analytical firing rate for a constant input current. This is achieved by calculating the inter-spike interval (ISI), which is the time between one spike and the next. The firing rate is then given by the inverse of the ISI. When a constant input current, $J(t) = j$, is provided, it is possible to solve (\ref{eq:1.14}) in order to find the neuron voltage over time. 
 \begin{align}
     V(t) = (V(0) - j)e^{\frac{-t}{\tau_{rc}}} + j \label{eq:1.15}
 \end{align}
 
-\noindent In the absence of spikes, the objective is to ascertain the time required for the voltage to increase from$ V(0) = 0$ to $V(t) = 1$. This property will only occur if $j > 1$. Substitution into Equation \ref{eq:3.15} and subsequent solution for \textit{t} yields:
+\noindent In the absence of spikes, the objective is to ascertain the time required for the voltage to increase from$ V(0) = 0$ to $V(t) = 1$. This property will only occur if $j > 1$. Substitution into (\ref{eq:3.15}) and subsequent solution for \textit{t} yields:
 \begin{align}
     t = - \tau_{RC} log \left( - \frac{1}{j} \right) \label{eq:1.16}
 \end{align}
@@ -220,7 +220,133 @@ C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:1.7}
 \end{align}
 
 
-% \noindent For simplicity and hardware tractability, many neuromorphic models use the leaky integrate-and-fire (LIF) model.
+\noindent The LIF model is one of the most widely utilised simplified neuron models \cite{lapique1907researches}. The simple equivalent model is illustrated in Figure \ref{fig:1d}(a). In this model \cite{stein1967frequency}, a resistor \textit{R}, connected in series with a \textit{DC} source $V_{rest}/V_{reset}$, is connected in parallel with a capacitor \textit{C}. A postsynaptic neuron receives a synaptic current \textit{I(t)}, generated by presynaptic spikes. \\
+
+\noindent A proportion of the current \textit{I(t)} flowing into \textit{C} results in an increase in the membrane potential \textit{V(t)}. The charge leakage occurs via resistor \textit{R}. When \textit{V(t)} reaches a threshold value, the neuron generates a spike. Following the generation of a spike, the membrane potential is reset to the reset value. \\
+
+\noindent In the absence of \textit{I(t)}, the voltage across \textit{C} is eventually settled at $V_{rest}$, representing the cell's resting potential. During the refractory period $t_0$, a neuron is incapable of spiking. Figure \ref{fig:1d}(c,d) illustrates the LIF neuron dynamics for the case of a \textit{DC} input current and a zero rest and reset potential, $E_{reset} = E_{rest} = 0$ \cite{tal1997computing}. \\
+
+\begin{figure}[htbp!] 
+\centering    
+\includegraphics[width=1\textwidth]{Chapter1/Figs/1d.png}
+\caption[The Leaky Integrate-and-Fire neuron model.]{The LIF neuron model. (a) Schematic diagram of the LIF electrical model. (b) Input current in the form of an alpha function, $\tau_{\alpha} = 0.1, I_0 = 1$ (c)The LIF model allows for the control of spiking behaviour through a comparison of membrane potential and threshold at each time step. Upon the triggering of a spike, a voltage-controlled switch discharges C for a duration corresponding to the refractory period $t_0$ \cite{tal1997computing}. (d) A simulation of constant firing frequency for DC current input in which $t_0$ is hidden. DC input current and output spikes are both shown. (e) A generalised LIF model with threshold control \cite{teeter2018generalized}. }
+\label{fig:1d}
+\end{figure}
+
+\noindent The input synaptic current, \textit{I(t)}, can be described by a time-varying alpha function. However, alternative functions may be employed, including "Instantaneous Rise and Single Exponential Decay," "Biexponential Functions," "Sawtooth," and "Pulse Function." The alpha synaptic current is modeled by Equation \ref{eq:3.15}, and the resulting plot is shown in Figure \ref{fig:4b}(b). \\
+
+\noindent Nevertheless, Figure \ref{fig:3d}(a) lacks a circuit for resetting the system when the threshold is reached. In order to evaluate the inequality $V > V_{threshold}$, it is necessary to use an active circuit, such as a comparator. Upon reaching the threshold, the membrane potential must be reset in accordance with the illustration in Figure \ref{fig:3d}(d). Therefore, the LIF model's generalized version necessitates additional overhead, as illustrated in Figure \ref{fig:3d}(e). \\
+
+% \noindent In the generalized LIF model, the reset behavior necessitates external control to pull down the membrane potential below the resting potential. This external control requires intricate, active circuits comprising MOS transistors, resistors, and even a silicon-controlled rectifier (SCR), which represents a significant drawback in a neuromorphic system due to its substantial power and area consumption. \\
+
+% \noindent In order to address the limitations of conventional neuron models, memristor technologies can be employed to emulate biological neurons with the objective of reducing energy consumption and increasing packing density. The HH model has been emulated by utilising two memristors in parallel with two capacitors, respectively mimicking two channels that are coupled to each other with a resistor. \\
+
+% \noindent Additionally, an input resistor and an output impedance comprising a resistor and a capacitor have been proposed \cite{pickett2013scalable}. The LIF neuron has been demonstrated using a diffusive/volatile memristor in parallel with a capacitor, and the neuron has been employed in a fully memristive neural network \cite{wang2018fully}. \\
+
+% \noindent Despite the existence of memristor-based neuron models, the lack of accessible experimental data and hardware for prototyping memristive circuits represents a significant obstacle. A significant number of state-of-the-art experimental demonstrations have relied on bespoke fabrication processes that cannot be reproduced using off-the-shelf memristors. \\
+
+% \noindent Furthermore, the limited choice of commercially available, low-cost, discretely packaged memristors, which are known to be highly sensitive and stochastic in behaviour, has compounded the issue. The challenge in developing hardware prototypes has made it difficult to perform experimental validation. \\
+
+% \noindent In addition to the acceleration of neural networks, the design of a solid-state brain that can harness the neural code has gained increasing attention as a means of processing vast quantities of sensory data without being constrained by the von Neumann bottleneck. The solid-state brain is structured in a manner that emulates the cerebral cortex, with neurons interconnected by a vast array of variable synapses. \\
+
+% \noindent It is hypothesised that neurons and synapses can be realised with memristors integrated with a complementary metal-oxide semiconductor (CMOS) process. However, the design of a large-scale solid-state brain remains elusive in neuromorphic computing due to the considerable overheads associated with mimicking the surface area of neural tissue, constrained power consumption, routing, and the massive parallelism of synaptic connections.
+
+\noindent It is evident that neurons manifest considerable heterogeneity with regard to their dynamics, morphology and connectivity. They can summarily be categorised as follows: Excitatory neurons are responsible for promoting activity in connected neurons. In contrast, inhibitory neurons are responsible for suppressing activity, a process that is crucial for stability and rhythm. Finally, interneurons connect local circuits, thereby enabling complex computations.
 
 \subsection[Synaptic Transmission and Plasticity]{Synaptic Transmission and Plasticity}
 
+Prior to model internal neural dynamics, it is essential to model the dynamics of the synapses that connect neurons to one another. Synapses exert a significant functional effect as a low-pass filter on the spikes that pass through them. A spike in the presynaptic neuron elicits an extended current pulse in the postsynaptic neuron. This pulse can be conceptualised as a low-pass filtered version of the presynaptic spike. \\
+
+\noindent The simplest model of a synapse is that of a first-order low-pass filter. The impulse response of a filter describes the manner in which the filter responds to an infinitesimally short input of unit integral, which is called an impulse. This idealised impulse is also a reasonable model of a spike, and thus the impulse response also describes what the postsynaptic current will look like in response to a presynaptic spike. The impulse response of the first-order low-pass filter is as follows:
+\begin{align}
+h(t) = \frac{1}{\tau_s}e^{\frac{t}{\tau_s}} \label{eq:1.18} 
+\end{align}
+
+\noindent The synaptic time constant, denoted by $\tau_s$, is defined as the length of time over which the postsynaptic current is spread. Given that the impulse response is an exponential function, the exponential synapse model is therefore a suitable description.
+\begin{align}
+h(t) = \frac{1}{\tau_s^2}e^{\frac{t}{\tau_s}} \label{eq:1.19} 
+\end{align}
+
+\noindent It was determined that a second-order lowpass filter is a superior model for a synapse \cite{mainen1995reliability}. The impulse response of this filter is defined by (\ref{eq:1.19}). This function is referred to as the alpha function, and thus the model is designated as the alpha synapse model. Both of these models are based on the current generated by a spike in the postsynaptic neuron, which is a current-based synapse model.\\
+
+% \noindent Other current-based synapse models exist; a popular one is the double-exponential model, which is similar to the alpha synapse but with two time constants, thereby affording greater control over the rise and fall of the impulse response. Where The double-exponential model with both time constants set to the same value reduces to the alpha synapse. \\
+
+% \noindent Many of the other, more realistic synapse models are conductance-based, meaning that they model the conductance of the neural membrane at the synapse. The current flowing into the neuron is dependent on both the conductance and the voltage across the membrane. The latter undergoes a change as the synapse becomes active. \\
+
+% % \subsection[Neural Coding Schemes]{Neural Coding Schemes}
+
+\noindent One of the primary objectives of computational neuroscience is to ascertain the manner in which the brain represents—or encodes—information. To this end, researchers have put forth a multitude of potential coding schemes that neurons could utilise for information encoding. One key distinction between rate coding and temporal coding is the following dichotomy. \\
+
+\noindent In a rate code, the sole pertinent measure is the firing rate (i.e. the number of spikes) of a neuron over a given period of time. An exemple of a rate code is motor neurons in the peripheral nervous system. The contraction of a muscle is contingent upon the number of spikes per unit time; thus, only the rate of motor neuron spikes is significant \cite{gerstner1997neural}. In a temporal code, the time of individual spikes is also a factor. For example, in the early auditory system, precise spike timing facilitates the localisation of sounds \cite{chase2006spike}.\\
+
+\noindent The precise definitions of rate and temporal codes remain contentious, with differing interpretations presented by various authors \cite{dayan2005theoretical}. To illustrate, a neuron may discharge a number of spikes in rapid succession, followed by a period of quiescence. A second neuron may be observed to fire the same number of spikes, but in a more evenly distributed manner over a given period. \\
+
+% \noindent One possible interpretation is that both neurons have the same firing rate, but the first has all its spikes occurring near the beginning of the period, in which case the timing of the spikes is a significant factor. An alternative perspective posits that the instantaneous firing rate of the first neuron fluctuates over the period, whereas that of the second neuron remains constant. This suggests that it is the instantaneous firing rate, rather than the overall firing rate, that is of primary importance. \\
+
+% \noindent This highlights a limitation of solely examining the overall firing rate (i.e., the number of spikes) of a neuron over a given period. It is unclear which period should be considered. In real neurons, the period of time that is relevant for counting spikes depends on parameters such as the membrane time constant tau of the postsynaptic neuron. \\
+
+% \noindent For this reason, neuroscientists will often differentiate between rate and timing codes based on the frequency of alterations in the instantaneous firing rate. If the rate of firing exhibits rapid fluctuations, and if these fluctuations contain information about the stimulus (and are not simply spurious variation or "noise"), then the code is said to be temporal; otherwise, it is a rate code. \\
+
+% \noindent Once again, there is a lack of consensus regarding the minimum frequency of fluctuations in firing rates that must be observed to qualify as temporal codes. One possible definition is relative to the stimulus. The firing rate of neurons can be triggered to change rapidly in response to fast-changing stimuli, regardless of whether the code in use is rate or temporal. \\
+
+% \noindent If the temporal code is defined as having meaningful firing rate fluctuations at a faster time scale than changes in the stimulus, then it can be differentiated between codes that have fluctuations because they are using them for coding and those that simply have fluctuations triggered by the stimulus. According to this definition, neurons using a temporal code will have a fluctuating firing rate in response to a constant stimulus, whereas neurons using a rate code will have a non-fluctuating firing rate. \\
+
+\noindent Both rate codes and temporal codes describe the encoding properties of individual neurons. Additionally, one may inquire about the coding properties of a group (also known as a population) of neurons. The concept of population coding pertains to instances where a representation is distributed across numerous neurons within a population, such that the represented value cannot be decoded from the activities of a limited number of neurons.\\
+
+\noindent The simplest method of extrapolating the concept of rate or temporal coding to multiple neurons would be to have numerous neurons all implementing the same code. In other words, all neurons will exhibit a similar firing pattern when representing a given value, due to their comparable tuning properties. This results in a significant degree of redundancy between neurons. \\
+
+\noindent In contrast, population coding entails each neuron representing a distinct aspect of the represented value. To illustrate, if the objective is to represent head direction, there are neurons that represent a head that is fully turned to the left, others that represent a head that is fully turned to the right, and still others that represent a centred head. Additionally, there are neurons that represent values in between these three head directions. The direction in which a neuron is most active is referred to as its preferred direction. \\
+
+% \noindent It should be noted that each neuron exhibits some degree of variance, whereby it will fire for head directions that are relatively close to its preferred direction. Conversely, the further the actual head direction is from a neuron's preferred direction, the less it will fire. By utilising the activities of all neurons in the population, it is possible to decode the head direction with a high degree of accuracy. \\
+
+% \noindent From a population perspective, it is possible to differentiate between codes that exploit synchrony between neurons and those that do not. This can be facilitated, for example, by coincidence detection, whereby a postsynaptic neuron will only fire if the spikes of two of its input neurons are coincident, that is to say, they fall within the same (small) temporal window. \\
+
+% \noindent This distinction between temporal and rate coding schemes is further exemplified by the fact that only temporal codes can take advantage of correlations between individual spikes of neurons. Rate coding schemes, on the other hand, can only take advantage of synchrony between neurons in terms of synchronised fluctuations of their instantaneous firing rates, since they lack the temporal precision to co-ordinate individual spikes.
+
+\noindent Synapses are therefore known to play a dual role in the nervous system. They facilitate communication between neurons and serve as the primary locus of learning and memory. The magnitude of this influence, or 'synaptic strength' \cite{bastos2022motor}, is determined by the relative strength of the connection between the presynaptic and postsynaptic neurons. This phenomenon is known as synaptic plasticity. \\
+
+\noindent It is important to note that plasticity can be categorised into several distinct types. Short-Term Plasticity (STP): Transient changes that last from milliseconds to seconds. Long-Term Potentiation (LTP) and Long-Term Depression (LTD): The phenomenon of sustained increases or decreases in synaptic strength over time. \\
+
+\noindent The most significant model of synaptic plasticity is Hebbian learning, which can be succinctly summarised as follows: The hypothesis that neurons that fire together wire together has been proven to be accurate. A more precise, temporally-sensitive rule is Spike-Timing Dependent Plasticity (STDP) \cite{zheng2018learning}. \\
+
+\noindent Mathematical Models can capture the effect of precise spike timing on synaptic weight updates. If a presynaptic neuron fires before a postsynaptic neuron within a short window, the synapse is strengthened; if the order is reversed, the synapse weakens. A common representation for this is:
+\begin{align}
+\Delta w = \left\{ \begin{array}{cl}
+    A_+ \cdot e^{-\Delta t/\tau_+}, & \ \Delta t > 0 \\
+    -A_- \cdot e^{-\Delta t/\tau_-}, & \ \Delta t < 0
+    \end{array} \right. \label{eq:1.20}
+\end{align}
+
+\noindent Where $\Delta t = t_{post} - t_{pre}$ is the timing difference, $A_+, A_-$ are learning rates, $\tau_+, \tau_-$ are time constants for potentiation and depression. This asymmetric window is indicative of experimental observations and provides a biologically plausible basis for synaptic learning in hardware.\\
+
+\noindent As a small primer, memristive devices offer an electronic analogue to synapses due to their tunable conductance and memory of past activity. When configured in crossbar arrays, these devices have the capacity to implement synaptic weight matrices directly in hardware, with updates governed by local voltage or current pulses.\\
+
+\noindent Memristive STDP implementations frequently exploit device physics, where conductance change is contingent on pulse overlap:
+\begin{align}
+    \Delta G = f(V_{pre}, V_{post}, \Delta t) \label{eq:1.21}
+\end{align}
+\noindent where $f$ is a device-specific function determined by material properties and pulse shapes. \\
+
+\noindent It is important to note that memristors have the capacity to inherently facilitate the nonlinear, history-dependent behaviour that is characteristic of biological plasticity rules, such as STDP. To illustrate this point, the application of carefully timed voltage pulses to a memristor has been demonstrated to result in an increase or decrease in conductance, respectively, reminiscent of LTP and LTD.
+
+\section[Foundations of Neuromorphic Computing]{Foundations of Neuromorphic Computing}
+
+Neuromorphic computing signifies a paradigm shift of the manner in which information is processed and stored; this is inspired directly by the architecture and function of biological neural systems. Conventional computing systems compartmentalise memory and processing units, a configuration that engenders energy and velocity inefficiencies due to incessant data movement. Neuromorphic systems are designed to co-locate memory and computation by leveraging distributed, parallel architectures that emulate the brain's functionality.
+
+\subsection[Memristor Fundamentals]{Memristor Fundamentals}
+
+Memristive devices, also known as memory resistors, are emerging as foundational elements in neuromorphic computing due to their ability to retain resistive states based on electrical history, thereby emulating biological synapses. The central purpose of these components is to facilitate both memory storage and computation within a unified, compact structure, thereby enabling the co-location of memory and processing elements that is vital for brain-inspired architectures.
+
+\subsection[From Biological Inspiration to Silicon Realization]{From Biological Inspiration to Silicon Realization}
+
+\subsection[Encoding Plasticity in Memristors]{Encoding Plasticity in Memristors}
+
+\section[Architectures and System-Level Integration]{Architectures and System-Level Integration}
+
+\subsection[Hierarchical Modular Architectures]{Hierarchical Modular Architectures}
+
+\subsection[Hardware-Software Co-Design]{Hardware-Software Co-Design}
+
+\subsection[Experimental Validations Structure]{Experimental Validations Structure}
+
+\section[Summary]{Summary}
