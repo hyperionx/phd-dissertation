@@ -1,44 +1,13 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Conceptual symmetries of resistor, capacitor, inductor, and memristor}}{2}{figure.caption.11}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces Typical I-V characteristic of a memristor}}{3}{figure.caption.12}%
-\contentsline {figure}{\numberline {1.3}{\ignorespaces The main RRAM types.}}{4}{figure.caption.13}%
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Energy-band diagrams showing different conduction mechanisms.}}{9}{figure.caption.22}%
-\contentsline {figure}{\numberline {1.5}{\ignorespaces Schematic I-V curves.}}{10}{figure.caption.23}%
-\contentsline {figure}{\numberline {1.6}{\ignorespaces Full Adder Circuit.}}{13}{figure.caption.27}%
-\contentsline {figure}{\numberline {1.7}{\ignorespaces The memristor-based crossbar architecture.}}{17}{figure.caption.28}%
-\contentsline {figure}{\numberline {1.8}{\ignorespaces Typical hardware technologies for DNN acceleration.}}{24}{figure.caption.30}%
-\contentsline {figure}{\numberline {1.9}{\ignorespaces The structure and operation of a perceptron.}}{33}{figure.caption.32}%
-\contentsline {figure}{\numberline {1.10}{\ignorespaces Sample images from MNIST test dataset.}}{42}{figure.caption.40}%
-\contentsline {figure}{\numberline {1.11}{\ignorespaces The backbone architectures of neural networks}}{44}{figure.caption.45}%
-\contentsline {figure}{\numberline {1.12}{\ignorespaces Activation functions commonly used in ANN}}{47}{figure.caption.46}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Labeled diagram of the neuron.}}{55}{figure.caption.47}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Spiking dynamics of a neuron.}}{56}{figure.caption.48}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Hodgkin-Huxley neuron model.}}{61}{figure.caption.50}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces The Leaky Integrate-and-Fire neuron model.}}{66}{figure.caption.51}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Stressing responses of ITO top contacted device.}}{72}{figure.caption.53}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Schematic representation of an XPS system.}}{75}{figure.caption.54}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces SPICE Model diagram.}}{80}{figure.caption.55}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces The current-time response for a device with a conductive ITO top electrode.}}{87}{figure.caption.56}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Labeled diagram of the neuron.}}{5}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Spiking dynamics of a neuron.}}{7}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Hodgkin-Huxley neuron model.}}{8}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces The Leaky Integrate-and-Fire neuron model.}}{12}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Conceptual symmetries of resistor, capacitor, inductor, and memristor}}{18}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Typical I-V characteristic of a memristor}}{19}{figure.caption.16}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces The main RRAM types.}}{20}{figure.caption.17}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces The memristor-based crossbar architecture.}}{23}{figure.caption.18}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces The address-event representation.}}{30}{figure.caption.19}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Current transients illustration}}{90}{figure.caption.57}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Transient's peak identification}}{96}{figure.caption.58}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Device Structure}}{97}{figure.caption.59}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Response of devices to different magnitudes of stressing currents.}}{102}{figure.caption.60}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces The voltage dependence of the current transient in the subthreshold regime.}}{105}{figure.caption.61}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Repeatability of current transients in the sub-threshold range.}}{105}{figure.caption.62}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Device response to a spike train.}}{106}{figure.caption.63}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Dependence of potentiation and depression on the amplitude of applied voltage pulses.}}{108}{figure.caption.64}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Depression selection using spike trains of greater amplitudes.}}{109}{figure.caption.65}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Device current dependence on stressing magnitudes.}}{109}{figure.caption.66}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Device suitable for trains of voltage spikes with varying inter-spike time periods.}}{110}{figure.caption.67}%
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Response of the device to different frequency of spike pulses}}{111}{figure.caption.68}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{135}{figure.caption.69}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{137}{figure.caption.70}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{140}{figure.caption.71}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces A pair of spikes are applied across a synapse to create relative-timing dependent net potential.}}{142}{figure.caption.72}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{147}{figure.caption.73}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{152}{figure.caption.74}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Device Structure}}{40}{figure.caption.20}%
