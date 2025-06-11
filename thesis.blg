@@ -29,46 +29,44 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 22 items.
 Database file #1: References/references.bib
-Warning--empty school in du2017metal
-You've used 68 entries,
+You've used 74 entries,
             1935 wiz_defined-function locations,
-            911 strings with 17926 characters,
-and the built_in function-call counts, 30221 in all, are:
-= -- 2886
-> -- 1528
-< -- 38
-+ -- 552
-- -- 536
-* -- 2780
-:= -- 5298
-add.period$ -- 208
-call.type$ -- 68
-change.case$ -- 593
-chr.to.int$ -- 68
-cite$ -- 69
-duplicate$ -- 1003
-empty$ -- 1958
-format.name$ -- 634
-if$ -- 5779
+            942 strings with 19046 characters,
+and the built_in function-call counts, 32988 in all, are:
+= -- 3153
+> -- 1666
+< -- 41
++ -- 600
+- -- 584
+* -- 3026
+:= -- 5774
+add.period$ -- 227
+call.type$ -- 74
+change.case$ -- 646
+chr.to.int$ -- 74
+cite$ -- 74
+duplicate$ -- 1100
+empty$ -- 2142
+format.name$ -- 692
+if$ -- 6323
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 74
-newline$ -- 343
-num.names$ -- 204
-pop$ -- 493
+missing$ -- 81
+newline$ -- 373
+num.names$ -- 222
+pop$ -- 542
 preamble$ -- 1
-purify$ -- 601
+purify$ -- 655
 quote$ -- 0
-skip$ -- 761
+skip$ -- 833
 stack$ -- 0
-substring$ -- 2111
-swap$ -- 109
-text.length$ -- 7
+substring$ -- 2301
+swap$ -- 124
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 394
-warning$ -- 1
-while$ -- 240
+type$ -- 428
+warning$ -- 0
+while$ -- 261
 width$ -- 0
-write$ -- 883
-(There was 1 warning)
+write$ -- 962

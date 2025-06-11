@@ -97,7 +97,7 @@ Di~Ventra, M., Pershin, Y.~V., and Chua, L.~O. (2009).
 Du, C. (2017).
 \newblock {\em Metal Oxide Memristors with Internal Dynamics for Neuromorphic
   Applications}.
-\newblock PhD thesis.
+\newblock PhD thesis, The University of Michigan, US.
 
 \bibitem[Frenkel et~al., 2019]{frenkel2019morphic}
 Frenkel, C., Legat, J.-D., and Bol, D. (2019).
@@ -105,6 +105,11 @@ Frenkel, C., Legat, J.-D., and Bol, D. (2019).
   neuromorphic processor with stochastic spike-driven online learning.
 \newblock {\em IEEE transactions on biomedical circuits and systems},
   13(5):999--1010.
+
+\bibitem[Ge et~al., 2014]{ge2014electrode}
+Ge, N., Zhang, M., Zhang, L., Yang, J.~J., Li, Z., and Williams, R.~S. (2014).
+\newblock Electrode-material dependent switching in taox memristors.
+\newblock {\em Semiconductor Science and Technology}, 29(10):104003.
 
 \bibitem[Gerstner et~al., 1997]{gerstner1997neural}
 Gerstner, W., Kreiter, A.~K., Markram, H., and Herz, A.~V. (1997).
@@ -144,6 +149,12 @@ Hebb, D.~O. (2005).
 \newblock {\em The organization of behavior: A neuropsychological theory}.
 \newblock Psychology Press.
 
+\bibitem[Hirose and Hirose, 1976]{hirose1976polarity}
+Hirose, Y. and Hirose, H. (1976).
+\newblock Polarity-dependent memory switching and behavior of ag dendrite in
+  ag-photodoped amorphous as2s3 films.
+\newblock {\em Journal of Applied Physics}, 47(6):2767--2772.
+
 \bibitem[Hodgkin and Huxley, 1952]{hodgkin1952quantitative}
 Hodgkin, A.~L. and Huxley, A.~F. (1952).
 \newblock A quantitative description of membrane current and its application to
@@ -154,6 +165,13 @@ Hodgkin, A.~L. and Huxley, A.~F. (1952).
 Indiveri, G. (2021).
 \newblock Introducing ‘neuromorphic computing and engineering’.
 \newblock {\em Neuromorphic Computing and Engineering}, 1(1):010401.
+
+\bibitem[Jeong et~al., 2008]{jeong2008origin}
+Jeong, J.~H., Yang, H.~W., Park, J.-S., Jeong, J.~K., Mo, Y.-G., Kim, H.~D.,
+  Song, J., and Hwang, C.~S. (2008).
+\newblock Origin of subthreshold swing improvement in amorphous indium gallium
+  zinc oxide transistors.
+\newblock {\em Electrochemical and Solid-State Letters}, 11(6):H157.
 
 \bibitem[Jo et~al., 2010]{jo2010nanoscale}
 Jo, S.~H., Chang, T., Ebong, I., Bhadviya, B.~B., Mazumder, P., and Lu, W.
@@ -250,6 +268,12 @@ Liu, Q., Long, S., Lv, H., Wang, W., Niu, J., Huo, Z., Chen, J., and Liu, M.
   solid-electrolyte-based reram by using a metal nanocrystal covered bottom
   electrode.
 \newblock {\em ACS nano}, 4(10):6162--6168.
+
+\bibitem[Mabilleau and Sabokbar, 2008]{mabilleau2008vitro}
+Mabilleau, G. and Sabokbar, A. (2008).
+\newblock In vitro biological test methods to evaluate bioresorbability.
+\newblock In {\em Degradation Rate of Bioresorbable Materials}, pages 145--160.
+  Elsevier.
 
 \bibitem[Madams et~al., 1974]{madams1974migration}
 Madams, C., Morgan, D., and Howes, M. (1974).
@@ -357,6 +381,11 @@ Strukov, D.~B., Snider, G.~S., Stewart, D.~R., and Williams, R.~S. (2008).
 \newblock The missing memristor found.
 \newblock {\em nature}, 453(7191):80--83.
 
+\bibitem[Sze et~al., 2021]{sze2021physics}
+Sze, S.~M., Li, Y., and Ng, K.~K. (2021).
+\newblock {\em Physics of semiconductor devices}.
+\newblock John wiley \& sons.
+
 \bibitem[Tal and Schwartz, 1997]{tal1997computing}
 Tal, D. and Schwartz, E.~L. (1997).
 \newblock Computing with the leaky integrate-and-fire neuron: logarithmic
@@ -407,5 +436,10 @@ Zheng, N. and Mazumder, P. (2018).
 \newblock Learning in memristor crossbar-based spiking neural networks through
   modulation of weight-dependent spike-timing-dependent plasticity.
 \newblock {\em IEEE Transactions on Nanotechnology}, 17(3):520--532.
+
+\bibitem[Zhuge et~al., 2013]{zhuge2013advances}
+Zhuge, F., Fu, B., and Cao, H. (2013).
+\newblock Advances in resistive switching memories based on graphene oxide.
+\newblock {\em New Prog. Graphene Res}, 7:185--206.
 
 \end{thebibliography}
