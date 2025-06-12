@@ -32,9 +32,12 @@
 \contentsline {section}{\numberline {3.3}Resistive Switching in Silicon Oxide}{61}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Conduction Mechanisms}{62}{subsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.1.1}Fowler-Nordheim Tunnelling}{65}{subsubsection.3.3.1.1}%
-\contentsline {subsubsection}{\numberline {3.3.1.2}Poole-Frenkel Conduction Mechanism}{66}{subsubsection.3.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.3.1.2}Poole-Frenkel Hopping}{66}{subsubsection.3.3.1.2}%
 \contentsline {subsubsection}{\numberline {3.3.1.3}Thermionic Emission}{67}{subsubsection.3.3.1.3}%
-\contentsline {subsubsection}{\numberline {3.3.1.4}Trap Assisted Tunnelling}{67}{subsubsection.3.3.1.4}%
-\contentsline {subsection}{\numberline {3.3.2}Switching Model Analysis}{67}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Summary}{67}{section.3.4}%
-\contentsline {chapter}{References}{69}{chapter*.41}%
+\contentsline {subsubsection}{\numberline {3.3.1.4}Trap Assisted Tunnelling}{69}{subsubsection.3.3.1.4}%
+\contentsline {subsection}{\numberline {3.3.2}Switching Model Analysis}{69}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Summary}{73}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Current Transients in Memristive Devices}{77}{chapter.4}%
+\contentsline {section}{\numberline {4.1}The Subthreshold Regime}{77}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Foundational Properties}{77}{subsection.4.1.1}%
+\contentsline {chapter}{References}{79}{chapter*.44}%

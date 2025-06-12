@@ -394,7 +394,7 @@ As demonstrated in previous observations, the switching of both unipolar and pol
 
 \noindent The identification of the mechanism for the device is possible through the rearrangement of (\ref{eq:3.10}) and the graphical representation of the Fowler-Nordheim plot of $ln(J/E^2)$ against $\frac{1}{E}$ for experimental I-V characterisations. The gradient of this straight-line plot is equivalent to $-\frac{4\sqrt{2m^{*}}(q\phi _{B})^{^{3/2}}}{3q\hslash}$, which can be rearranged to obtain the barrier height $\phi_B$. The y-intercept, on the other hand, describes the geometrical efficiency of electron-field emission. The occurrence of this mechanism is contingent upon the product of the electric field and layer thickness exceeding the barrier height.
 
-\subsubsection[Poole-Frenkel Conduction Mechanism]{Poole-Frenkel Conduction Mechanism}
+\subsubsection[Poole-Frenkel Hopping]{Poole-Frenkel Conduction Hopping}
 
 \noindent Conduction may also occur in the absence of quantum tunnelling through the insulator. In the context of materials characterised by a high density of structural defects, the movement of carriers is constrained in a manner that is distinct from the behaviour exhibited by tunnelling mechanisms. The presence of these structural defects also gives rise to the appearance of additional energy states, also known as traps, in the vicinity of the energy band edges. The function of these traps is to restrict the flow of current, and they achieve this by means of a capture and release process.\\
 
@@ -408,12 +408,131 @@ As demonstrated in previous observations, the switching of both unipolar and pol
 
 \subsubsection[Thermionic Emission]{Thermionic Emission}
 
+The concept of thermionic emission can be explained through the utilisation of the Schottky diode as a theoretical model. In the majority of cases, Schottky diodes are constructed using a metal-to-insulator junction as opposed to a P-N semiconductor junction. This configuration frequently enables a low forward voltage drop and a rapid switching action. It is imperative to ensure a pristine surface for the purpose of facilitating intimate contact between the metal and the semiconductor surface during the fabrication process.
+\begin{align}
+    J &= A^{**}T^2exp \left[ -\frac{q(\phi _{B} - \sqrt{qE_i/4\pi \varepsilon _i} )}{kT} \right] \label{eq:3.14} \\
+    J &\propto exp \left[ \frac{q}{Kt} \left( a\sqrt{V} - \phi _{B} \right) \right] \label{eq:3.15}
+\end{align}
+
+\noindent (\ref{eq:3.14}) denotes the fundamental relationships underlying the thermally induced current. In the context of electrical engineering, the effective Richardson constant, denoted by $A^{**}$, is a critical metric that quantifies the electrical properties of a material. The insulator permittivity, represented by $\epsilon$, and a constant of proportionality, denoted by $a$, are key inputs in the calculation of $A^{**}$. \\
+
+\noindent This current is attributable to the thermally excited flow of charge carriers from a surface, which can be electrons or ions, over a potential barrier. It is imperative that the thermal energy of the carriers exceeds the material work function. The magnitude of the current density is found to depend quadratically on the temperature.\\
+
+\noindent In the event of contact between a semiconductor and a metal surface, a Schottky barrier is produced. The metal functions as the anode, with the n-type semiconductor acting as the cathode. In the context of thermal equilibrium, the net flow of electrons is sustained until the two Fermi levels are equal. The phenomenon of electron flow gives rise to a depleted region on the interface. This depletion region is primarily composed of positive ions, which is a characteristic of n-type semiconductor material.\\
+
+\noindent A layer of negative space charge is built up on the metal interface in order to maintain charge neutrality. This results in the formation of a potential barrier, with electrons migrating from the semiconductor interface to the metal interface. The Schottky diode typically functions with a small forward bias of approximately 0.2V, while its reverse breakdown voltage is approximately 2V.\\
+
+\noindent In the forward bias configuration, the semiconductor experiences a decline in its electrical potential relative to the metal, thereby reducing the interface barrier and facilitating enhanced electron flow through thermionic emission. Conversely, when the diode is under reverse bias, the potential barrier will increase, causing a very small number of thermal electrons to tunnel through the barrier. This effect persists until the reverse breakdown voltage is attained.\\
+
+\noindent In many cases, it is necessary to establish a non-rectifying ohmic contact to facilitate the flow of current into the semiconductor interface, thereby enabling the carriers to move unimpeded across the junction in any direction. This objective can be realised through the process of quantum mechanical tunnelling across a potential barrier. The magnitude of this effect is modulated by the width of the depletion layer, which can be reduced by increasing the dopant concentration on the semiconductor. \\
+
+\noindent It has been shown that, at elevated dopant concentrations, a substantial number of carriers can be permitted to flow, thereby establishing an ohmic interface. It is important to note that this doping concentration cannot be achieved by conventional means. Alternatively, a thin layer of metal can be evaporated on the semiconductor interface, allowing diffusion to take place and heavily dope the semiconductor material.
 
 \subsubsection[Trap Assisted Tunnelling]{Trap Assisted Tunnelling}
 
+As outlined in preceding sections, the tunnelling process under discussion is predicated on a one-step tunnelling process. Furthermore, the presence of defects within the insulating layer can facilitate two or more tunnelling steps. The presence of structural defects or traps has been observed to occur during the fabrication process or as a result of exposure to high levels of electrical stress. The presence of traps has been demonstrated to result in the division of the energy barrier into multiple paths. This phenomenon is known to increase the probability that carriers will sequentially tunnel through thinner barriers.
+\begin{align}
+    J \propto exp \left[ -\frac{8\pi\sqrt{2qm^*}}{3\hslash E} \phi_t^{\frac{3}{2}} \right] \label{eq:3.16}
+\end{align}
+
+\noindent The process of trap-assisted tunnelling can be categorised into two distinct classifications: the elastic process and the inelastic process. These processes may occur with or without loss of energy in the carriers. In the context of materials characterised by a high density of structural defects, the probability of conduction is observed to be amplified in the presence of multiple oxide traps during the tunnelling process. A plethora of theoretical models have been advanced to explain the process of trap-assisted tunnelling. A simplified expression relating current density with trap barrier height $\phi_t$ is given in (\ref{eq:3.16}).
 
 \subsection[Switching Model Analysis]{Switching Model Analysis}
+
+\noindent An analysis of the conduction mechanisms was performed on the results obtained from both unipolar and bipolar switching modes. The application of the equations obtained in the preceding sections facilitated the completion of appropriate curve fittings, which were utilised to assess the presence of the various conducting mechanisms within the samples. Employing the relationships previously delineated, it is feasible to extract the relative dielectric constant, $\epsilon_r$, for Poole-Frenkel and thermionic emission, as well as the trap barrier height, $\phi_t$, for trap-assisted tunnelling. \\
+
+\noindent Furthermore, the graphical representation of Fowler-Nordheim plots is a possibility, albeit with significantly inferior fittings. The following section presents the fitting results for both unipolar and bipolar switching across all conducting mechanisms. The forward fit is representative of HRS in the Set case and LRS in the Reset case. Conversely, the reverse fit represents LRS in the Set case and HRS in the Reset case.\\
+
+\begin{table}[ht]
+    \caption{Curve fitting results for the conduction mechanism analysis.}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|c|cc|cc|}
+    \hline
+    \multirow{2}{*}{Conduction Mechanism}     & \multirow{2}{*}{Process} & \multicolumn{2}{c|}{Unipolar Device}                           & \multicolumn{2}{c|}{Bipolar Device}                            \\ \cline{3-6} 
+                                              &                          & \multicolumn{1}{c|}{HRS}                 & LRS                 & \multicolumn{1}{c|}{HRS}                 & LRS                 \\ \hline
+    \multirow{2}{*}{Poole-Frenkel Hopping}    & Setting                  & \multicolumn{1}{c|}{$\epsilon_r = 15$}   & $\epsilon_r = 11$   & \multicolumn{1}{c|}{$\epsilon_r = 12$}   & $\epsilon_r = 9.1$  \\ \cline{2-6} 
+                                              & Resetting                & \multicolumn{1}{c|}{$\epsilon_r = 13$}   & $\epsilon_r = 10$   & \multicolumn{1}{c|}{$\epsilon_r = 7.8$}  & $\epsilon_r = 5.8$  \\ \hline
+    \multirow{2}{*}{Thermionic Emission}      & Setting                  & \multicolumn{1}{c|}{$\epsilon_r = 1.4$}  & $\epsilon_r = 0.9$  & \multicolumn{1}{c|}{$\epsilon_r = 1.5$}  & $\epsilon_r = 1.0$  \\ \cline{2-6} 
+                                              & Resetting                & \multicolumn{1}{c|}{$\epsilon_r = 1.3$}  & $\epsilon_r = 0.2$  & \multicolumn{1}{c|}{$\epsilon_r = 1.9$}  & $\epsilon_r = 1.5$  \\ \hline
+    \multirow{2}{*}{Trap-Assisted Tunnelling} & Setting                  & \multicolumn{1}{c|}{$\theta_t = 0.26eV$} & $\theta_t = 0.15eV$ & \multicolumn{1}{c|}{$\theta_t = 0.21eV$} & $\theta_t = 0.09eV$ \\ \cline{2-6} 
+                                              & Resetting                & \multicolumn{1}{c|}{$\theta_t = 0.41eV$} & $\theta_t = 0.21eV$ & \multicolumn{1}{c|}{$\theta_t = 0.14eV$} & $\theta_t = 0.10eV$ \\ \hline
+    \end{tabular}%
+    }
+    \label{table:3a}
+\end{table}
+
+\noindent  The relative dielectric constants obtained for Poole-Frenkel conduction are higher than the theoretical values for silicon dioxide ($\epsilon_r = 4$) and comparable to those for pure silicon ($\epsilon_r = 12$). The findings indicate that the Poole–Frenkel mechanism may be feasible with the samples, despite encountering certain challenges. Thermionic emission has been demonstrated to align the relative dielectric constants with theoretical values. \\
+
+\noindent The findings of this study demonstrate that the performance of trap-assisted tunnelling is optimal for both unipolar and bipolar devices, particularly at higher applied electric fields. It can be posited that the application of an electric field facilitates the tunnelling process of the carriers through the silicon oxide layer, which may be considered to be of greater thickness, or alternatively, that it raises the height of the trap barrier. The obtained fitting values are displayed in the following table. \\
+
+\noindent The findings indicate the potential for all three conduction mechanisms to occur within the samples, in addition to ohmic conduction. These conduction methods may manifest in isolation or in conjunction with one another. It appears that the transportation of current is predominantly facilitated by means of trap-assisted tunnelling in the devices that have been tested thus far. The subsequent section will provide a synopsis of the conduction mechanism and switching model.\\ 
+
+\noindent The material of particular interest in the samples is silicon-rich silica, which contains a high concentration of oxygen vacancies. This material is known to readily separate into silicon dioxide and silicon. The application of an electric field to the material has also been demonstrated to facilitate the segregation of silicon and oxygen ions. This process is further exacerbated by structural defects in the material, particularly in structures grown via sputtering.\\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.95\textwidth]{Chapter3/Figs/v.png}
+    \caption[Schematic of switching mechanism in SiOx devices.]{Schematic of bipolar switching in asymmetric devices (left) and of unipolar switching in symmetric devices (right).}
+    \label{fig:3v}
+\end{figure}
+
+\noindent The phenomenon of bipolar switching in asymmetric devices can be described in qualitative terms as the movement of oxygen through a thin silicon oxide film (Figure \ref{fig:3v}). This phenomenon can be attributed to the deformation occurring in proximity to the electrode surface, which facilitates the injection of electrons and subsequent release of oxygen molecules. In the absence of any external damage, the silicon oxide of the device contains oxygen vacancies, i.e. structural defects. \\
+
+\noindent The defects under scrutiny were formed during the fabrication process and were distributed evenly throughout the amorphous structure. It has been established that, under ambient temperature conditions, the diffusion of these defects occurs at a relatively slow rate. This is attributed to the presence of a substantial diffusion barrier. \\
+
+\noindent When a voltage bias is applied to the material, these structural defects can rearrange into different configuration, while additional defects are also generated. The diffusion barrier in silicon oxide is significantly reduced with the new configuration. This enables negative oxygen ions to travel faster towards the positive electrode.\\
+
+\noindent These oxygen anions are eventually trapped at the metal-oxide interface. The anions then discharge and form oxygen molecules $O_2$. Under extreme conditions, enough oxygen molecules built-up at the interface can cause bubbles of oxygen to form and eventually burst at the electrode surface, in the form of super oxide. \\
+
+\noindent In operating conditions, the movement of oxygen ions within the oxide facilitates the electrical properties of the device. When an electric field below electric breakdown is applied to the device, the configuration changes can be conceptualised as the electroforming process for RRAM. The alterations in the distribution of oxygen vacancies are terminated once an abrupt conductance change has occurred, thereby forming a conductive filament in the silicon oxide film.\\
+
+\noindent It is hypothesised that trap-assisted tunnelling is the predominant mode of carrier transport for bipolar switching. This finding indicates that the conductive filament within the material is not continuous, but rather consists of a series of neighbouring oxygen vacancies. The lower barrier heights observed in the preceding section indicate the occurrence of electron conduction through oxygen vacancy defects. Once the conductive filament has been formed under controlled breakdown conditions, the subsequent diffusion of oxygen vacancies is known to control the switching mechanism in bipolar mode, possibly via a local redox process occurring at the metal-oxide interface.\\
+
+\noindent The process of bipolar switching is primarily governed by the movement of oxygen ions in response to an externally applied electric field. Conduction in unipolar switching mode is likely to share some similarity with bipolar switching. A significant distinction pertains to the reset process in these devices.\\
+
+\noindent The conductive filament in unipolar switching samples can be conceptualised as exhibiting slightly greater continuity, thereby facilitating enhanced ohmic conduction. Consequently, a thermal effect is associated with the current passing through the filament during the switching process. The occurrence of a critical current threshold may result in the abrupt rupture of the conducting filament via thermally activated diffusion or Joule heating, thereby effecting a reset of the device.\\
+
+\noindent In summary, it has been observed that resistive switching in metal oxides may be attributed to the presence of oxygen vacancies in the conductive filaments of silicon oxide. The role of the applied electric field is also of significance in the switching process, particularly in the context of bipolar switching, and in conjunction with Joule heating in the case of unipolar switching.\\
+
+\noindent In the set process, oxygen anions are known to drift towards the electrode. This process results in the formation of positive oxygen vacancies, which facilitate the conduction of electrons. In the reset process, the oxygen ions residing near the metal-insulator interface are displaced into the vacancies. Alternatively, a sufficiently high local Joule heating can also overcome the vacancies binding energies. In either scenario, the conductive filament is ruptured and the device is reset.
+
+% \subsection[Other Device Behaviours]{Other Device Behaviours}
 
 
 \section[Summary]{Summary}
 
+The primary insulating layer material for the devices and samples examined in this study is silicon dioxide ($SiO_x$) \cite{mehonic2012resistive}, in conjunction with electrode materials such as silver ($Ag$) or copper ($Cu$). Silicon-rich silica, which is predominantly utilised in the insulating layer, exhibits considerable promise for fully CMOS-compatible processing. A silicon oxide electron injection model has been developed to facilitate a more profound comprehension of the characteristics of silicon oxide \cite{gao2016mechanism}. \\
+
+\noindent The amorphous silicon oxide structure exhibits $O-Si-O$ bonds, with a subset of these bonds featuring broad angle bonds, which possess the capacity to function as deep electron traps, with the capability to capture two electrons. The $Si-O$ bond is subsequently weakened once the broad bonds have collected both electrons. This reduction in energy requirement is attributed to the minimisation of the force required to break the connection and create the Frenkel defect. The formation of these defects gives rise to a population of vacancies, which can then contribute to the formation of the conductive filament. \\
+
+\noindent Following an investigation into the underlying physics of the materials and mechanisms that comprise new RRAM devices, it is advantageous to analyse general device behaviours in terms of overall $I-V$ characteristics, volatility, polarity dependence, and power consumption, with a view to enhancing application design. This analysis would facilitate improved application design. RRAM devices have been shown to respond in three distinct ways \cite{li2017resistive}. \\
+
+\noindent The classification of these as unipolar is predicated on the premise that they are set and reset with the same polarity. The term "bipolar" is employed to describe a device that has been successfully set and reset with opposing polarities. Finally, threshold switching occurs when a device transitions to its low resistance state within a certain voltage range. \\
+
+\noindent Additionally, the term 'nonpolar' is employed to denote devices that are characterised by polarity independence, thereby enabling them to execute both unipolar and bipolar operations. As illustrated in Figure \ref{fig:3w}, these three groups can be summarised as follows. \\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=1\textwidth]{Chapter3/Figs/w.png}
+    \caption[Schematic I-V curves.]{Schematic I-V curves in: a) non-volatile bipolar memory switching mode, b) non-volatile unipolar memory switching mode; and c) volatile threshold switching mode. In the SET process, a compliance current is required to avoid hard breakdown \cite{li2017resistive}.}
+    \label{fig:3w}
+\end{figure}
+
+\noindent Bipolar switching involves setting and resetting devices in opposing polarities. This behaviour has been observed in a variety of oxide materials \cite{wei2008highly}. The switching method requires current compliance during setup, but it can be reset with the same applied current compliance. \\
+
+\noindent In comparison to the unipolar switching strategy, this results in a significantly simpler compliance system. The magnitude of the switching voltage for bipolar devices is generally within the limits for digital chip integration. For example, the operational voltages can be sub $\pm 1V$ in both polarities \cite{menke2009separation}. \\
+
+\noindent Unipolar switching, like bipolar switching, has been demonstrated in a variety of oxide materials \cite{jeong2007coexistence}. Under unipolar operation, electroforming and setting are field-driven processes, whereas resetting is typically a current-driven one. To eliminate rivalry between the two working systems, a current compliance must be imposed during the set process, as resetting is triggered by excessive currents. Once the device has been set, the current compliance can be increased or removed completely to allow a sufficient amount of current to flow and the device to reset. \\
+
+\noindent The capacity of the unipolar device to function with a single supply rail allows it to be combined with digital integrated circuits. A rather sophisticated current compliance system, on the other hand, remains one of the main downsides of such devices, with the high reset current causing heating and power consumption difficulties, particularly when scaling big memory arrays \cite{yun2007random}. \\
+
+\noindent Threshold switching occurs when a device flips to a low resistance state when the applied voltage reaches a threshold and then instantly resets when the voltage falls below a lower threshold, demonstrating hysteresis. \cite{adler1980threshold}. This phenomenon was proposed as a result of heat dissipation after evaluating the varied thicknesses of the bottom electrode \cite{chang2008effects}. This implies that changing the size of the electrode during the fabrication process can result in different intended threshold switching behaviors. \\
+
+\noindent Aside from the switching processes, several aspects must be addressed when developing RRAM. To start, OxRAM samples usually have a lower on/off conductance ratio in the range of 10s–100s and offer good retention of up to $10^{12}$ cycles\cite{ielmini2010resistance}, while the CBRAM on/off conductance ratio can be fairly high in the range of $10^3$–$10^6$, but has limited endurance to less than $10^4$ cycles \cite{ambrogio2014statistical1}. \\
+
+\noindent The unpredictability of switching parameters resulting from the stochastic behaviour of oxygen or metal ions during ionic migration, as well as the variability in filament form from device to device and cycle to cycle within a single device, provide a significant difficulty for the design of RRAM cells \cite{ambrogio2014statistical2}. As a result of these variations, the density of RRAM prototypes ready for commercialization is quite low at $\sim 4 Mb$. \\
+
+\noindent Recent research has made tremendous progress in demonstrating the potential of high-density devices with remarkable attributes and low power consumption of $\sim$0.1 pJ \cite{yang2013memristive}, better reliability with endurance of more than $>10^{12}$ cycles and retention of $>10$ years at $150^{\circ}C$ \cite{hu2014review}, higher density of 32 Gb via a simpler fabrication steps and stronger thermal characteristics \cite{cha2013nanoscale}. This, together with the significant resistance variation not just between different devices but also inside and between programming cycles on the same device \cite{moore2006lithography}, has resulted in concerns with the repeatability of their electrical properties. These issues, taken together, have prevented RRAM from being commercialised, despite its many appealing characteristics. \\
+
+\noindent Fortunately, the main deep learning-based neural processing techniques—such as regression, pattern recognition, and speech recognition—are random in nature and need less precise computation than deterministic traditional computing. As a result, compared to memory applications, variation in memory devices during manufacture has less of an influence on computation outcomes \cite{malik2013governing}. The more tolerated necessity for variation in neural applications, combined with recent technical advancement, has contributed to generate additional possibilities for RRAM devices to become suitable candidates for neural technologies.

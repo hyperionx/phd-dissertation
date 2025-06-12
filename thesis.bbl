@@ -6,6 +6,25 @@ Abbott, L.~F. (1999).
   (1907).
 \newblock {\em Brain research bulletin}, 50(5-6):303--304.
 
+\bibitem[Adler et~al., 1980]{adler1980threshold}
+Adler, D., Shur, M., Silver, M., and Ovshinsky, S. (1980).
+\newblock Threshold switching in chalcogenide-glass thin films.
+\newblock {\em Journal of Applied Physics}, 51(6):3289--3309.
+
+\bibitem[Ambrogio et~al., 2014a]{ambrogio2014statistical1}
+Ambrogio, S., Balatti, S., Cubeta, A., Calderoni, A., Ramaswamy, N., and
+  Ielmini, D. (2014a).
+\newblock Statistical fluctuations in hfo x resistive-switching memory: part
+  i-set/reset variability.
+\newblock {\em IEEE Transactions on electron devices}, 61(8):2912--2919.
+
+\bibitem[Ambrogio et~al., 2014b]{ambrogio2014statistical2}
+Ambrogio, S., Balatti, S., Cubeta, A., Calderoni, A., Ramaswamy, N., and
+  Ielmini, D. (2014b).
+\newblock Statistical fluctuations in hfo x resistive-switching memory: Part
+  ii—random telegraph noise.
+\newblock {\em IEEE Transactions on Electron Devices}, 61(8):2920--2927.
+
 \bibitem[Bastos and Barbosa, 2022]{bastos2022motor}
 Bastos, P. and Barbosa, R. (2022).
 \newblock Motor reserve: How to build neuronal resilience against ageing and
@@ -35,6 +54,21 @@ Ceolini, E., Frenkel, C., Shrestha, S.~B., Taverni, G., Khacef, L., Payvand,
 \newblock Hand-gesture recognition based on emg and event-based camera sensor
   fusion: A benchmark in neuromorphic computing.
 \newblock {\em Frontiers in Neuroscience}, 14:637.
+
+\bibitem[Cha et~al., 2013]{cha2013nanoscale}
+Cha, E., Woo, J., Lee, D., Lee, S., Song, J., Koo, Y., Lee, J., Park, C.~G.,
+  Yang, M.~Y., Kamiya, K., et~al. (2013).
+\newblock Nanoscale (~ 10nm) 3d vertical reram and nbo 2 threshold selector
+  with tin electrode.
+\newblock In {\em 2013 IEEE International Electron Devices Meeting}, pages
+  10--5. IEEE.
+
+\bibitem[Chang et~al., 2008]{chang2008effects}
+Chang, S., Chae, S., Lee, S., Liu, C., Noh, T., Lee, J., Kahng, B., Jang, J.,
+  Kim, M., Kim, D.-W., et~al. (2008).
+\newblock Effects of heat dissipation on unipolar resistance switching in pt/
+  ni o/ pt capacitors.
+\newblock {\em Applied Physics Letters}, 92(18):183507.
 
 \bibitem[Chase and Young, 2006]{chase2006spike}
 Chase, S.~M. and Young, E.~D. (2006).
@@ -106,6 +140,12 @@ Frenkel, C., Legat, J.-D., and Bol, D. (2019).
 \newblock {\em IEEE transactions on biomedical circuits and systems},
   13(5):999--1010.
 
+\bibitem[Gao et~al., 2016]{gao2016mechanism}
+Gao, D.~Z., El-Sayed, A.-M., and Shluger, A.~L. (2016).
+\newblock A mechanism for frenkel defect creation in amorphous sio2 facilitated
+  by electron injection.
+\newblock {\em Nanotechnology}, 27(50):505207.
+
 \bibitem[Ge et~al., 2014]{ge2014electrode}
 Ge, N., Zhang, M., Zhang, L., Yang, J.~J., Li, Z., and Williams, R.~S. (2014).
 \newblock Electrode-material dependent switching in taox memristors.
@@ -121,6 +161,13 @@ Gerstner, W., Kreiter, A.~K., Markram, H., and Herz, A.~V. (1997).
 Gewaltig, M.-O. and Diesmann, M. (2007).
 \newblock Nest (neural simulation tool).
 \newblock {\em Scholarpedia}, 2(4):1430.
+
+\bibitem[Ghibaudo et~al., 1999]{ghibaudo1999emerging}
+Ghibaudo, G., Riess, P., Bruyere, S., DeSalvo, B., Jahan, C., Scarpa, A.,
+  Pananakakis, G., and Vincent, E. (1999).
+\newblock Emerging oxide degradation mechanisms: stress induced leakage current
+  (silc) and quasi-breakdown (qb).
+\newblock {\em Microelectronic engineering}, 49(1-2):41--50.
 
 \bibitem[Goux and Valov, 2016]{goux2016electrochemical}
 Goux, L. and Valov, I. (2016).
@@ -161,10 +208,29 @@ Hodgkin, A.~L. and Huxley, A.~F. (1952).
   conduction and excitation in nerve.
 \newblock {\em The Journal of physiology}, 117(4):500.
 
+\bibitem[Hu et~al., 2014]{hu2014review}
+Hu, S., Wu, S., Jia, W., Yu, Q., Deng, L., Fu, Y.~Q., Liu, Y., and Chen, T.~P.
+  (2014).
+\newblock Review of nanostructured resistive switching memristor and its
+  applications.
+\newblock {\em Nanoscience and Nanotechnology Letters}, 6(9):729--757.
+
+\bibitem[Ielmini et~al., 2010]{ielmini2010resistance}
+Ielmini, D., Nardi, F., and Cagli, C. (2010).
+\newblock Resistance-dependent amplitude of random telegraph-signal noise in
+  resistive switching memories.
+\newblock {\em Applied Physics Letters}, 96(5):053503.
+
 \bibitem[Indiveri, 2021]{indiveri2021introducing}
 Indiveri, G. (2021).
 \newblock Introducing ‘neuromorphic computing and engineering’.
 \newblock {\em Neuromorphic Computing and Engineering}, 1(1):010401.
+
+\bibitem[Jeong et~al., 2007]{jeong2007coexistence}
+Jeong, D.~S., Schroeder, H., and Waser, R. (2007).
+\newblock Coexistence of bipolar and unipolar resistive switching behaviors in
+  a pt/ tio2/ pt stack.
+\newblock {\em Electrochemical and solid-state letters}, 10(8):G51.
 
 \bibitem[Jeong et~al., 2008]{jeong2008origin}
 Jeong, J.~H., Yang, H.~W., Park, J.-S., Jeong, J.~K., Mo, Y.-G., Kim, H.~D.,
@@ -255,6 +321,13 @@ Lapique, L. (1907).
   comme une polarization.
 \newblock {\em Journal of Physiology, Pathology and Genetics}, 9:620--635.
 
+\bibitem[Li et~al., 2017]{li2017resistive}
+Li, Y., Long, S., Liu, Q., Lv, H., and Liu, M. (2017).
+\newblock Resistive switching performance improvement via modulating nanoscale
+  conductive filament, involving the application of two-dimensional layered
+  materials.
+\newblock {\em Small}, 13(35):1604306.
+
 \bibitem[Liu et~al., 2015]{liu2015categorization}
 Liu, J.-C., Hsu, C.-W., Wang, I.-T., and Hou, T.-H. (2015).
 \newblock Categorization of multilevel-cell storage-class memory: an rram
@@ -285,6 +358,11 @@ Mainen, Z.~F. and Sejnowski, T.~J. (1995).
 \newblock Reliability of spike timing in neocortical neurons.
 \newblock {\em Science}, 268(5216):1503--1506.
 
+\bibitem[Malik, 2013]{malik2013governing}
+Malik, P. (2013).
+\newblock Governing big data: principles and practices.
+\newblock {\em IBM Journal of Research and Development}, 57(3/4):1--1.
+
 \bibitem[Markram et~al., 1997]{markram1997regulation}
 Markram, H., L{\"u}bke, J., Frotscher, M., and Sakmann, B. (1997).
 \newblock Regulation of synaptic efficacy by coincidence of postsynaptic aps
@@ -303,6 +381,12 @@ Mead, C. and Ismail, M. (1989).
 \newblock {\em Analog VLSI implementation of neural systems}, volume~80.
 \newblock Springer Science \& Business Media.
 
+\bibitem[Mehonic et~al., 2012]{mehonic2012resistive}
+Mehonic, A., Cueff, S., Wojdak, M., Hudziak, S., Jambois, O., Labb{\'e}, C.,
+  Garrido, B., Rizk, R., and Kenyon, A.~J. (2012).
+\newblock Resistive switching in silicon suboxide films.
+\newblock {\em Journal of Applied Physics}, 111(7):074507.
+
 \bibitem[Mehonic et~al., 2017]{mehonic2017intrinsic}
 Mehonic, A., Munde, M.~S., Ng, W., Buckwell, M., Montesi, L., Bosman, M.,
   Shluger, A., and Kenyon, A. (2017).
@@ -320,6 +404,16 @@ Mehonic, A., Shluger, A.~L., Gao, D., Valov, I., Miranda, E., Ielmini, D.,
 Mel, B.~W. (1994).
 \newblock Information processing in dendritic trees.
 \newblock {\em Neural computation}, 6(6):1031--1085.
+
+\bibitem[Menke et~al., 2009]{menke2009separation}
+Menke, T., Meuffels, P., Dittmann, R., Szot, K., and Waser, R. (2009).
+\newblock Separation of bulk and interface contributions to electroforming and
+  resistive switching behavior of epitaxial fe-doped srtio 3.
+
+\bibitem[Moore, 2006]{moore2006lithography}
+Moore, G.~E. (2006).
+\newblock Lithography and the future of moore's law.
+\newblock {\em IEEE Solid-State Circuits Society Newsletter}, 11(3):37--42.
 
 \bibitem[Noble, 1962]{noble1962modification}
 Noble, D. (1962).
@@ -419,11 +513,31 @@ Wang, Z., Joshi, S., Savel’ev, S.~E., Jiang, H., Midya, R., Lin, P., Hu, M.,
   neuromorphic computing.
 \newblock {\em Nature materials}, 16(1):101--108.
 
+\bibitem[Wei et~al., 2008]{wei2008highly}
+Wei, Z., Kanzawa, Y., Arita, K., Katoh, Y., Kawai, K., Muraoka, S., Mitani, S.,
+  Fujii, S., Katayama, K., Iijima, M., et~al. (2008).
+\newblock Highly reliable taox reram and direct evidence of redox reaction
+  mechanism.
+\newblock In {\em 2008 IEEE International Electron Devices Meeting}, pages
+  1--4. IEEE.
+
 \bibitem[Wen and Zeng, 2012]{wen2012dynamics}
 Wen, S. and Zeng, Z. (2012).
 \newblock Dynamics analysis of a class of memristor-based recurrent networks
   with time-varying delays in the presence of strong external stimuli.
 \newblock {\em Neural processing letters}, 35(1):47--59.
+
+\bibitem[Yang et~al., 2013]{yang2013memristive}
+Yang, J.~J., Strukov, D.~B., and Stewart, D.~R. (2013).
+\newblock Memristive devices for computing.
+\newblock {\em Nature nanotechnology}, 8(1):13--24.
+
+\bibitem[Yun et~al., 2007]{yun2007random}
+Yun, J.-B., Kim, S., Seo, S., Lee, M.-J., Kim, D.-C., Ahn, S.-E., Park, Y.,
+  Kim, J., and Shin, H. (2007).
+\newblock Random and localized resistive switching observation in pt/nio/pt.
+\newblock {\em physica status solidi (RRL)--Rapid Research Letters},
+  1(6):280--282.
 
 \bibitem[Zha and Li, 2017]{zha2017imec}
 Zha, Y. and Li, J. (2017).

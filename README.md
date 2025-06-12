@@ -9,7 +9,7 @@ CUED PhD thesis template
 [![Version](http://img.shields.io/badge/version-2.2-brightgreen.svg)](https://github.com/kks32/phd-thesis-template/releases/latest)
 
 ## Author(s)
-*   Krishna Kumar
+*   Viet Cuong Vu
 
 --------------------------------------------------------------------------------
 ## Features
