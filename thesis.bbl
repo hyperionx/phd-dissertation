@@ -25,11 +25,40 @@ Ambrogio, S., Balatti, S., Cubeta, A., Calderoni, A., Ramaswamy, N., and
   ii—random telegraph noise.
 \newblock {\em IEEE Transactions on Electron Devices}, 61(8):2920--2927.
 
+\bibitem[Asanuma et~al., 2009]{asanuma2009relationship}
+Asanuma, S., Akoh, H., Yamada, H., and Sawa, A. (2009).
+\newblock Relationship between resistive switching characteristics and band
+  diagrams of ti/pr 1- x ca x mno 3 junctions.
+\newblock {\em Physical Review B}, 80(23):235113.
+
+\bibitem[Banerjee et~al., 1987]{banerjee1987degradation}
+Banerjee, R., Ray, S., Basu, N., Batabyal, A., and Barua, A. (1987).
+\newblock Degradation of tin-doped indium-oxide film in hydrogen and argon
+  plasma.
+\newblock {\em Journal of applied physics}, 62(3):912--916.
+
+\bibitem[Bardeen, 1947]{bardeen1947surface}
+Bardeen, J. (1947).
+\newblock Surface states and rectification at a metal semi-conductor contact.
+\newblock {\em Physical review}, 71(10):717.
+
 \bibitem[Bastos and Barbosa, 2022]{bastos2022motor}
 Bastos, P. and Barbosa, R. (2022).
 \newblock Motor reserve: How to build neuronal resilience against ageing and
   neurodegeneration?
 \newblock {\em Revue Neurologique}, 178(8):845--854.
+
+\bibitem[Boikov et~al., 2002]{boikov2002near}
+Boikov, Y.~A., Goltsman, B., Yarmarkin, V., and Lemanov, V. (2002).
+\newblock Near-electrode model of transient currents in (ba, sr) tio 3 thin
+  film capacitor structures.
+\newblock {\em Applied physics letters}, 80(21):4003--4005.
+
+\bibitem[Buckwell et~al., 2015]{buckwell2015conductance}
+Buckwell, M., Montesi, L., Hudziak, S., Mehonic, A., and Kenyon, A.~J. (2015).
+\newblock Conductance tomography of conductive filaments in intrinsic
+  silicon-rich silica rram.
+\newblock {\em Nanoscale}, 7(43):18030--18035.
 
 \bibitem[Burnstock, 2004]{burnstock2004cotransmission}
 Burnstock, G. (2004).
@@ -70,11 +99,23 @@ Chang, S., Chae, S., Lee, S., Liu, C., Noh, T., Lee, J., Kahng, B., Jang, J.,
   ni o/ pt capacitors.
 \newblock {\em Applied Physics Letters}, 92(18):183507.
 
+\bibitem[Chang et~al., 2011]{chang2011short}
+Chang, T., Jo, S.-H., and Lu, W. (2011).
+\newblock Short-term memory to long-term memory transition in a nanoscale
+  memristor.
+\newblock {\em ACS nano}, 5(9):7669--7676.
+
 \bibitem[Chase and Young, 2006]{chase2006spike}
 Chase, S.~M. and Young, E.~D. (2006).
 \newblock Spike-timing codes enhance the representation of multiple
   simultaneous sound-localization cues in the inferior colliculus.
 \newblock {\em Journal of Neuroscience}, 26(15):3889--3898.
+
+\bibitem[Chen et~al., 2010]{chen2010observation}
+Chen, L., Bang, W., Park, Y.-J., Ryan, E.~T., King, S., and Kim, C.-U. (2010).
+\newblock Observation of space charge limited current by cu ion drift in porous
+  low-k/cu interconnects.
+\newblock {\em Applied Physics Letters}, 96(9).
 
 \bibitem[Chen et~al., 2017]{chen2017neurosim+}
 Chen, P.-Y., Peng, X., and Yu, S. (2017).
@@ -103,6 +144,19 @@ Chua, L.~O. and Kang, S.~M. (1976).
 \newblock Memristive devices and systems.
 \newblock {\em Proceedings of the IEEE}, 64(2):209--223.
 
+\bibitem[Ciocci et~al., 2021]{ciocci2021differentiating}
+Ciocci, P., Lemineur, J.-F., No{\"e}l, J.-M., Combellas, C., and Kanoufi, F.
+  (2021).
+\newblock Differentiating electrochemically active regions of indium tin oxide
+  electrodes for hydrogen evolution and reductive decomposition reactions. an
+  in situ optical microscopy approach.
+\newblock {\em Electrochimica Acta}, 386:138498.
+
+\bibitem[Cowley and Sze, 1965]{cowley1965surface}
+Cowley, A. and Sze, S. (1965).
+\newblock Surface states and barrier height of metal-semiconductor systems.
+\newblock {\em Journal of Applied Physics}, 36(10):3212--3220.
+
 \bibitem[Cox et~al., 2021]{cox2021nanoscale}
 Cox, H.~R., Buckwell, M., Ng, W.~H., Mannion, D.~J., Mehonic, A., Shearing,
   P.~R., Fearn, S., and Kenyon, A.~J. (2021).
@@ -116,6 +170,12 @@ Dayan, P. and Abbott, L.~F. (2005).
   modeling of neural systems}.
 \newblock MIT press.
 
+\bibitem[Deal, 1974]{deal1974current}
+Deal, B.~E. (1974).
+\newblock The current understanding of charges in the thermally oxidized
+  silicon structure.
+\newblock {\em Journal of the Electrochemical Society}, 121(6):198C.
+
 \bibitem[Deiss et~al., 1999]{deiss1999pulse}
 Deiss, S.~R., Douglas, R.~J., Whatley, A.~M., and Maass, W. (1999).
 \newblock A pulse-coded communications infrastructure for neuromorphic systems.
@@ -127,11 +187,35 @@ Di~Ventra, M., Pershin, Y.~V., and Chua, L.~O. (2009).
   meminductors.
 \newblock {\em Proceedings of the IEEE}, 97(10):1717--1724.
 
+\bibitem[DiMaria and Cartier, 1995]{dimaria1995mechanism}
+DiMaria, D. and Cartier, E. (1995).
+\newblock Mechanism for stress-induced leakage currents in thin silicon dioxide
+  films.
+\newblock {\em Journal of Applied physics}, 78(6):3883--3894.
+
 \bibitem[Du, 2017]{du2017metal}
 Du, C. (2017).
 \newblock {\em Metal Oxide Memristors with Internal Dynamics for Neuromorphic
   Applications}.
 \newblock PhD thesis, The University of Michigan, US.
+
+\bibitem[El~Kamel et~al., 2006]{el2006space}
+El~Kamel, F., Gonon, P., Ort{\'e}ga, L., Jomni, F., and Yangui, B. (2006).
+\newblock Space charge limited transient currents and oxygen vacancy mobility
+  in amorphous ba ti o 3 thin films.
+\newblock {\em Journal of applied physics}, 99(9):094107.
+
+\bibitem[El~Kamel et~al., 2007]{el2007ionic}
+El~Kamel, F., Gonon, P., Yangui, B., and Jomni, F. (2007).
+\newblock Ionic and electronic defects in a-batio3 thin films studied by
+  transient and steady state conductivity measurements.
+\newblock {\em physica status solidi c}, 4(3):1242--1245.
+
+\bibitem[El-Sayed et~al., 2013]{el2013identification}
+El-Sayed, A.-M., Watkins, M.~B., Shluger, A.~L., and Afanas’ev, V.~V. (2013).
+\newblock Identification of intrinsic electron trapping sites in bulk amorphous
+  silica from ab initio calculations.
+\newblock {\em Microelectronic engineering}, 109:68--71.
 
 \bibitem[Frenkel et~al., 2019]{frenkel2019morphic}
 Frenkel, C., Legat, J.-D., and Bol, D. (2019).
@@ -139,6 +223,19 @@ Frenkel, C., Legat, J.-D., and Bol, D. (2019).
   neuromorphic processor with stochastic spike-driven online learning.
 \newblock {\em IEEE transactions on biomedical circuits and systems},
   13(5):999--1010.
+
+\bibitem[Frenkel, 1938]{frenkel1938pre}
+Frenkel, J. (1938).
+\newblock On pre-breakdown phenomena in insulators and electronic
+  semi-conductors.
+\newblock {\em Physical Review}, 54(8):647.
+
+\bibitem[Fujii et~al., 2005]{fujii2005hysteretic}
+Fujii, T., Kawasaki, M., Sawa, A., Akoh, H., Kawazoe, Y., and Tokura, Y.
+  (2005).
+\newblock Hysteretic current--voltage characteristics and resistance switching
+  at an epitaxial oxide schottky junction srruo3/ srti0. 99nb0. 01o3.
+\newblock {\em Applied Physics Letters}, 86(1).
 
 \bibitem[Gao et~al., 2016]{gao2016mechanism}
 Gao, D.~Z., El-Sayed, A.-M., and Shluger, A.~L. (2016).
@@ -184,6 +281,12 @@ Govoreanu, B., Redolfi, A., Zhang, L., Adelmann, C., Popovici, M., Clima, S.,
 \newblock In {\em 2013 IEEE International Electron Devices Meeting}, pages
   10--2. IEEE.
 
+\bibitem[Hansen et~al., 2015]{hansen2015double}
+Hansen, M., Ziegler, M., Kolberg, L., Soni, R., Dirkmann, S., Mussenbrock, T.,
+  and Kohlstedt, H. (2015).
+\newblock A double barrier memristive device.
+\newblock {\em Scientific reports}, 5(1):13753.
+
 \bibitem[Hazan et~al., 2018]{hazan2018bindsnet}
 Hazan, H., Saunders, D.~J., Khan, H., Patel, D., Sanghavi, D.~T., Siegelmann,
   H.~T., and Kozma, R. (2018).
@@ -208,6 +311,11 @@ Hodgkin, A.~L. and Huxley, A.~F. (1952).
   conduction and excitation in nerve.
 \newblock {\em The Journal of physiology}, 117(4):500.
 
+\bibitem[Hofstein, 1967]{hofstein1967proton}
+Hofstein, S.~R. (1967).
+\newblock Proton and sodium transport in sio 2 films.
+\newblock {\em IEEE Transactions on Electron Devices}, 14(11):749--759.
+
 \bibitem[Hu et~al., 2014]{hu2014review}
 Hu, S., Wu, S., Jia, W., Yu, Q., Deng, L., Fu, Y.~Q., Liu, Y., and Chen, T.~P.
   (2014).
@@ -215,11 +323,30 @@ Hu, S., Wu, S., Jia, W., Yu, Q., Deng, L., Fu, Y.~Q., Liu, Y., and Chen, T.~P.
   applications.
 \newblock {\em Nanoscience and Nanotechnology Letters}, 6(9):729--757.
 
+\bibitem[Huang et~al., 2003]{huang2003electrochemical}
+Huang, C., Li, K., Tu, G., and Wang, W. (2003).
+\newblock The electrochemical behavior of tin-doped indium oxide during
+  reduction in 0.3 m hydrochloric acid.
+\newblock {\em Electrochimica Acta}, 48(24):3599--3605.
+
+\bibitem[Huang et~al., 2019]{huang2019binary}
+Huang, P., Li, Z., Dong, Z., Han, R., Zhou, Z., Zhu, D., Liu, L., Liu, X., and
+  Kang, J. (2019).
+\newblock Binary resistive-switching-device-based electronic synapse with
+  spike-rate-dependent plasticity for online learning.
+\newblock {\em ACS Applied Electronic Materials}, 1(6):845--853.
+
 \bibitem[Ielmini et~al., 2010]{ielmini2010resistance}
 Ielmini, D., Nardi, F., and Cagli, C. (2010).
 \newblock Resistance-dependent amplitude of random telegraph-signal noise in
   resistive switching memories.
 \newblock {\em Applied Physics Letters}, 96(5):053503.
+
+\bibitem[Ielmini et~al., 2000]{ielmini2000modelingII}
+Ielmini, D., Spinelli, A.~S., Rigamonti, M.~A., and Lacaita, A.~L. (2000).
+\newblock Modeling of silc based on electron and hole tunneling. ii.
+  steady-state.
+\newblock {\em IEEE Transactions on Electron Devices}, 47(6):1266--1272.
 
 \bibitem[Indiveri, 2021]{indiveri2021introducing}
 Indiveri, G. (2021).
@@ -238,6 +365,13 @@ Jeong, J.~H., Yang, H.~W., Park, J.-S., Jeong, J.~K., Mo, Y.-G., Kim, H.~D.,
 \newblock Origin of subthreshold swing improvement in amorphous indium gallium
   zinc oxide transistors.
 \newblock {\em Electrochemical and Solid-State Letters}, 11(6):H157.
+
+\bibitem[Jim{\'e}nez-Molinos et~al., 2001]{jimenez2001physical}
+Jim{\'e}nez-Molinos, F., Palma, A., G{\'a}miz, F., Banqueri, J., and
+  L{\'o}pez-Villanueva, J. (2001).
+\newblock Physical model for trap-assisted inelastic tunneling in
+  metal-oxide-semiconductor structures.
+\newblock {\em Journal of Applied Physics}, 90(7):3396--3404.
 
 \bibitem[Jo et~al., 2010]{jo2010nanoscale}
 Jo, S.~H., Chang, T., Ebong, I., Bhadviya, B.~B., Mazumder, P., and Lu, W.
@@ -282,6 +416,13 @@ Kenyon, A.~J., Munde, M.~S., Ng, W.~H., Buckwell, M., Joksas, D., and Mehonic,
   resistance switching.
 \newblock {\em Faraday discussions}, 213:151--163.
 
+\bibitem[Khan and Kim, 2020]{khan2020comparison}
+Khan, S.~A. and Kim, S. (2020).
+\newblock Comparison of diverse resistive switching characteristics and
+  demonstration of transitions among them in al-incorporated hfo 2-based
+  resistive switching memory for neuromorphic applications.
+\newblock {\em RSC advances}, 10(52):31342--31347.
+
 \bibitem[Khodagholy et~al., 2015]{khodagholy2015neurogrid}
 Khodagholy, D., Gelinas, J.~N., Thesen, T., Doyle, W., Devinsky, O., Malliaras,
   G.~G., and Buzs{\'a}ki, G. (2015).
@@ -310,6 +451,23 @@ Kozicki, M.~N., Mitkova, M., and Valov, I. (2016).
 \newblock {\em Resistive switching: from fundamentals of nanoionic redox
   processes to memristive device applications}, pages 483--514.
 
+\bibitem[Kusaka et~al., 1987]{1487102}
+Kusaka, T., Ohji, Y., and Mukai, K. (1987).
+\newblock Time-dependent dielectric breakdown of ultra-thin silicon oxide.
+\newblock {\em IEEE Electron Device Letters}, 8(2):61--63.
+
+\bibitem[Lagarias et~al., 1998]{lagarias1998convergence}
+Lagarias, J.~C., Reeds, J.~A., Wright, M.~H., and Wright, P.~E. (1998).
+\newblock Convergence properties of the nelder--mead simplex method in low
+  dimensions.
+\newblock {\em SIAM Journal on optimization}, 9(1):112--147.
+
+\bibitem[Lampert and Schilling, 1970]{lampert1970current}
+Lampert, M.~A. and Schilling, R.~B. (1970).
+\newblock Current injection in solids: The regional approximation method.
+\newblock In {\em Semiconductors and semimetals}, volume~6, pages 1--96.
+  Elsevier.
+
 \bibitem[Lapicque, 1907]{lapicque1907louis}
 Lapicque, L.~{\'E}. (1907).
 \newblock Louis lapicque.
@@ -321,6 +479,25 @@ Lapique, L. (1907).
   comme une polarization.
 \newblock {\em Journal of Physiology, Pathology and Genetics}, 9:620--635.
 
+\bibitem[Lee et~al., 2019]{lee2019charge}
+Lee, J., Schell, W., Zhu, X., Kioupakis, E., and Lu, W.~D. (2019).
+\newblock Charge transition of oxygen vacancies during resistive switching in
+  oxide-based rram.
+\newblock {\em ACS applied materials \& interfaces}, 11(12):11579--11586.
+
+\bibitem[Li et~al., 2020]{li2020enhanced}
+Li, J., Xu, H., Sun, S.-Y., Liu, S., Li, N., Li, Q., Liu, H., and Li, Z.
+  (2020).
+\newblock Enhanced spiking neural network with forgetting phenomenon based on
+  electronic synaptic devices.
+\newblock {\em Neurocomputing}, 408:21--30.
+
+\bibitem[Li et~al., 2015]{li2015visible}
+Li, Y., Lei, Y., Shen, B., and Sun, J. (2015).
+\newblock Visible-light-accelerated oxygen vacancy migration in strontium
+  titanate.
+\newblock {\em Scientific reports}, 5(1):14576.
+
 \bibitem[Li et~al., 2017]{li2017resistive}
 Li, Y., Long, S., Liu, Q., Lv, H., and Liu, M. (2017).
 \newblock Resistive switching performance improvement via modulating nanoscale
@@ -328,11 +505,21 @@ Li, Y., Long, S., Liu, Q., Lv, H., and Liu, M. (2017).
   materials.
 \newblock {\em Small}, 13(35):1604306.
 
-\bibitem[Liu et~al., 2015]{liu2015categorization}
-Liu, J.-C., Hsu, C.-W., Wang, I.-T., and Hou, T.-H. (2015).
+\bibitem[Lifshitz and Smolinsky, 1989]{lifshitz1989detection}
+Lifshitz, N. and Smolinsky, G. (1989).
+\newblock Detection of water-related charge in electronic dielectrics.
+\newblock {\em Applied physics letters}, 55(4):408--410.
+
+\bibitem[Liu et~al., 2015a]{liu2015categorization}
+Liu, J.-C., Hsu, C.-W., Wang, I.-T., and Hou, T.-H. (2015a).
 \newblock Categorization of multilevel-cell storage-class memory: an rram
   example.
 \newblock {\em IEEE Transactions on Electron Devices}, 62(8):2510--2516.
+
+\bibitem[Liu et~al., 2015b]{liu2015important}
+Liu, L., Yellinek, S., Valdinger, I., Donval, A., and Mandler, D. (2015b).
+\newblock Important implications of the electrochemical reduction of ito.
+\newblock {\em Electrochimica Acta}, 176:1374--1381.
 
 \bibitem[Liu et~al., 2010]{liu2010controllable}
 Liu, Q., Long, S., Lv, H., Wang, W., Niu, J., Huo, Z., Chen, J., and Liu, M.
@@ -363,6 +550,37 @@ Malik, P. (2013).
 \newblock Governing big data: principles and practices.
 \newblock {\em IBM Journal of Research and Development}, 57(3/4):1--1.
 
+\bibitem[Manceau et~al., 2007a]{manceau2007current}
+Manceau, J.-P., Bruyere, S., Jeannot, S., Sylvestre, A., and Gonon, P. (2007a).
+\newblock Current instability, permittivity variation with frequency, and their
+  relationship in capacitor.
+\newblock {\em IEEE transactions on device and materials reliability},
+  7(2):315--323.
+
+\bibitem[Manceau et~al., 2007b]{manceau2007metal}
+Manceau, J.-P., Bruyere, S., Jeannot, S., Sylvestre, A., and Gonon, P. (2007b).
+\newblock Metal-insulator-metal capacitors’ current instability improvement
+  using dielectric stacks to prevent oxygen vacancies formation.
+\newblock {\em Applied Physics Letters}, 91(13).
+
+\bibitem[Mannion, 2022]{mannion2022current}
+Mannion, D.~J. (2022).
+\newblock {\em Current transient phenomena in silicon oxide resistance
+  switching oxides: characterisation and computational applications}.
+\newblock PhD thesis, UCL (University College London).
+
+\bibitem[Many and Rakavy, 1962]{many1962theory}
+Many, A. and Rakavy, G. (1962).
+\newblock Theory of transient space-charge-limited currents in solids in the
+  presence of trapping.
+\newblock {\em Physical Review}, 126(6):1980.
+
+\bibitem[Marder and Goaillard, 2006]{marder2006variability}
+Marder, E. and Goaillard, J.-M. (2006).
+\newblock Variability, compensation and homeostasis in neuron and network
+  function.
+\newblock {\em Nature Reviews Neuroscience}, 7(7):563--574.
+
 \bibitem[Markram et~al., 1997]{markram1997regulation}
 Markram, H., L{\"u}bke, J., Frotscher, M., and Sakmann, B. (1997).
 \newblock Regulation of synaptic efficacy by coincidence of postsynaptic aps
@@ -376,16 +594,27 @@ Markram, H., Muller, E., Ramaswamy, S., Reimann, M.~W., Abdellah, M., Sanchez,
 \newblock Reconstruction and simulation of neocortical microcircuitry.
 \newblock {\em Cell}, 163(2):456--492.
 
+\bibitem[Mead, 1990]{mead1990neuromorphic}
+Mead, C. (1990).
+\newblock Neuromorphic electronic systems.
+\newblock {\em Proceedings of the IEEE}, 78(10):1629--1636.
+
 \bibitem[Mead and Ismail, 1989]{mead1989analog}
 Mead, C. and Ismail, M. (1989).
 \newblock {\em Analog VLSI implementation of neural systems}, volume~80.
 \newblock Springer Science \& Business Media.
 
-\bibitem[Mehonic et~al., 2012]{mehonic2012resistive}
+\bibitem[Mehonic et~al., 2012a]{mehonic2012resistive}
 Mehonic, A., Cueff, S., Wojdak, M., Hudziak, S., Jambois, O., Labb{\'e}, C.,
-  Garrido, B., Rizk, R., and Kenyon, A.~J. (2012).
+  Garrido, B., Rizk, R., and Kenyon, A.~J. (2012a).
 \newblock Resistive switching in silicon suboxide films.
 \newblock {\em Journal of Applied Physics}, 111(7):074507.
+
+\bibitem[Mehonic et~al., 2012b]{mehonic2012electrically}
+Mehonic, A., Cueff, S., Wojdak, M., Hudziak, S., Labb{\'e}, C., Rizk, R., and
+  Kenyon, A.~J. (2012b).
+\newblock Electrically tailored resistance switching in silicon oxide.
+\newblock {\em Nanotechnology}, 23(45):455201.
 
 \bibitem[Mehonic et~al., 2017]{mehonic2017intrinsic}
 Mehonic, A., Munde, M.~S., Ng, W., Buckwell, M., Montesi, L., Bosman, M.,
@@ -410,10 +639,29 @@ Menke, T., Meuffels, P., Dittmann, R., Szot, K., and Waser, R. (2009).
 \newblock Separation of bulk and interface contributions to electroforming and
   resistive switching behavior of epitaxial fe-doped srtio 3.
 
+\bibitem[Meyer et~al., 2005]{meyer2005oxygen}
+Meyer, R., Liedtke, R., and Waser, R. (2005).
+\newblock Oxygen vacancy migration and time-dependent leakage current behavior
+  of ba0. 3sr0. 7tio3 thin films.
+\newblock {\em Applied Physics Letters}, 86(11).
+
+\bibitem[Moon et~al., 2019]{moon2019rram}
+Moon, K., Lim, S., Park, J., Sung, C., Oh, S., Woo, J., Lee, J., and Hwang, H.
+  (2019).
+\newblock Rram-based synapse devices for neuromorphic systems.
+\newblock {\em Faraday discussions}, 213:421--451.
+
 \bibitem[Moore, 2006]{moore2006lithography}
 Moore, G.~E. (2006).
 \newblock Lithography and the future of moore's law.
 \newblock {\em IEEE Solid-State Circuits Society Newsletter}, 11(3):37--42.
+
+\bibitem[Munde et~al., 2017]{munde2017intrinsic}
+Munde, M., Mehonic, A., Ng, W., Buckwell, M., Montesi, L., Bosman, M., Shluger,
+  A., and Kenyon, A. (2017).
+\newblock Intrinsic resistance switching in amorphous silicon suboxides: the
+  role of columnar microstructure.
+\newblock {\em Scientific reports}, 7(1):9274.
 
 \bibitem[Noble, 1962]{noble1962modification}
 Noble, D. (1962).
@@ -428,10 +676,23 @@ Orchard, G., Frady, E.~P., Rubin, D. B.~D., Sanborn, S., Shrestha, S.~B.,
 \newblock In {\em 2021 IEEE Workshop on Signal Processing Systems (SiPS)},
   pages 254--259. IEEE.
 
+\bibitem[Peng et~al., 2012]{peng2012resistive}
+Peng, C.-N., Wang, C.-W., Chan, T.-C., Chang, W.-Y., Wang, Y.-C., Tsai, H.-W.,
+  Wu, W.-W., Chen, L.-J., and Chueh, Y.-L. (2012).
+\newblock Resistive switching of au/zno/au resistive memory: an in situ
+  observation of conductive bridge formation.
+\newblock {\em Nanoscale research letters}, 7:1--6.
+
 \bibitem[Polsky et~al., 2004]{polsky2004computational}
 Polsky, A., Mel, B.~W., and Schiller, J. (2004).
 \newblock Computational subunits in thin dendrites of pyramidal cells.
 \newblock {\em Nature neuroscience}, 7(6):621--627.
+
+\bibitem[Saha and Krupanidhi, 2001]{saha2001transient}
+Saha, S. and Krupanidhi, S. (2001).
+\newblock Transient analysis in al-doped barium strontium titanate thin films
+  grown by pulsed laser deposition.
+\newblock {\em Journal of Applied Physics}, 90(3):1250--1254.
 
 \bibitem[Sa{\"\i}ghi et~al., 2015]{saighi2015plasticity}
 Sa{\"\i}ghi, S., Mayr, C.~G., Serrano-Gotarredona, T., Schmidt, H., Lecerf, G.,
@@ -439,6 +700,42 @@ Sa{\"\i}ghi, S., Mayr, C.~G., Serrano-Gotarredona, T., Schmidt, H., Lecerf, G.,
   (2015).
 \newblock Plasticity in memristive devices for spiking neural networks.
 \newblock {\em Frontiers in neuroscience}, 9:51.
+
+\bibitem[Sawa et~al., 2004]{sawa2004hysteretic}
+Sawa, A., Fujii, T., Kawasaki, M., and Tokura, Y. (2004).
+\newblock Hysteretic current--voltage characteristics and resistance switching
+  at a rectifying ti/ pr0. 7ca0. 3mno3 interface.
+\newblock {\em Applied Physics Letters}, 85(18):4073--4075.
+
+\bibitem[Schlaf et~al., 2001]{schlaf2001work}
+Schlaf, R., Murata, H., and Kafafi, Z. (2001).
+\newblock Work function measurements on indium tin oxide films.
+\newblock {\em Journal of Electron Spectroscopy and Related Phenomena},
+  120(1-3):149--154.
+
+\bibitem[Senthilkumar et~al., 2008]{senthilkumar2008electrochemical}
+Senthilkumar, M., Mathiyarasu, J., Joseph, J., Phani, K., and Yegnaraman, V.
+  (2008).
+\newblock Electrochemical instability of indium tin oxide (ito) glass in acidic
+  ph range during cathodic polarization.
+\newblock {\em Materials Chemistry and Physics}, 108(2-3):403--407.
+
+\bibitem[Seong et~al., 2007]{seong2007hpha}
+Seong, D.-j., Jo, M., Lee, D., and Hwang, H. (2007).
+\newblock Hpha effect on reversible resistive switching of pt/ nb-doped srtio3
+  schottky junction for nonvolatile memory application.
+\newblock {\em Electrochemical and solid-state letters}, 10(6):H168.
+
+\bibitem[Shen et~al., 2021]{shen2021experimentally}
+Shen, W., Kumar, S., and Kumar, S. (2021).
+\newblock Experimentally calibrated electro-thermal modeling of temperature
+  dynamics in memristors.
+\newblock {\em Applied Physics Letters}, 118(10).
+
+\bibitem[Snow et~al., 1965]{snow1965ion}
+Snow, E., Grove, A., Deal, B., and Sah, C. (1965).
+\newblock Ion transport phenomena in insulating films.
+\newblock {\em Journal of Applied Physics}, 36(5):1664--1673.
 
 \bibitem[Squire et~al., 2012]{squire2012fundamental}
 Squire, L., Berg, D., Bloom, F.~E., Du~Lac, S., Ghosh, A., and Spitzer, N.~C.
@@ -493,6 +790,17 @@ Teeter, C., Iyer, R., Menon, V., Gouwens, N., Feng, D., Berg, J., Szafer, A.,
   types.
 \newblock {\em Nature communications}, 9(1):709.
 
+\bibitem[Tien and Kerschensteiner, 2018]{tien2018homeostatic}
+Tien, N.-W. and Kerschensteiner, D. (2018).
+\newblock Homeostatic plasticity in neural development.
+\newblock {\em Neural development}, 13(1):1--7.
+
+\bibitem[Tran et~al., 2019]{tran2019anisotropic}
+Tran, R., Li, X.-G., Montoya, J.~H., Winston, D., Persson, K.~A., and Ong,
+  S.~P. (2019).
+\newblock Anisotropic work function of elemental crystals.
+\newblock {\em Surface Science}, 687:48--55.
+
 \bibitem[Truong and Min, 2014]{truong2014new}
 Truong, S.~N. and Min, K.-S. (2014).
 \newblock New memristor-based crossbar array architecture with 50-\% area
@@ -501,10 +809,75 @@ Truong, S.~N. and Min, K.-S. (2014).
 \newblock {\em JSTS: Journal of Semiconductor Technology and Science},
   14(3):356--363.
 
+\bibitem[Tuller and Bishop, 2011]{tuller2011point}
+Tuller, H.~L. and Bishop, S.~R. (2011).
+\newblock Point defects in oxides: tailoring materials through defect
+  engineering.
+\newblock {\em Annual Review of Materials Research}, 41(1):369--398.
+
+\bibitem[Turrigiano, 1999]{turrigiano1999homeostatic}
+Turrigiano, G.~G. (1999).
+\newblock Homeostatic plasticity in neuronal networks: the more things change,
+  the more they stay the same.
+\newblock {\em Trends in neurosciences}, 22(5):221--227.
+
+\bibitem[Vanheusden et~al., 1998a]{vanheusden1998thermally}
+Vanheusden, K., Karna, S., Pugh, R., Warren, W., Fleetwood, D., Devine, R., and
+  Edwards, A. (1998a).
+\newblock Thermally activated electron capture by mobile protons in sio 2 thin
+  films.
+\newblock {\em Applied physics letters}, 72(1):28--30.
+
+\bibitem[Vanheusden et~al., 1999]{vanheusden1999non}
+Vanheusden, K., Warren, W., Devine, R., Fleetwood, D., Draper, B., and Schwank,
+  J. (1999).
+\newblock A non-volatile mosfet memory device based on mobile protons in sio2
+  thin films.
+\newblock {\em Journal of non-crystalline solids}, 254(1-3):1--10.
+
+\bibitem[Vanheusden et~al., 1998b]{vanheusden1998chemical}
+Vanheusden, K., Warren, W., Fleetwood, D., Schwank, J., Shaneyfelt, M., Draper,
+  B., Winokur, P., Devine, R., Archer, L., Brown, G., et~al. (1998b).
+\newblock Chemical kinetics of mobile-proton generation and annihilation in sio
+  2 thin films.
+\newblock {\em Applied physics letters}, 73(5):674--676.
+
+\bibitem[Vanka et~al., 2022]{vanka2022hydrogen}
+Vanka, S., Shin, H., Davidson, B.~A., Liu, C., and Zou, K. (2022).
+\newblock Hydrogen atom doping—a versatile method for modulated interface
+  resistive switching.
+\newblock {\em Advanced Electronic Materials}, 8(10):2200353.
+
+\bibitem[Vieluf et~al., 2022]{vieluf2022seizure}
+Vieluf, S., El~Atrache, R., Cantley, S., Jackson, M., Clark, J., Sheehan, T.,
+  Bosl, W.~J., Zhang, B., and Loddenkemper, T. (2022).
+\newblock Seizure-related differences in biosignal 24-h modulation patterns.
+\newblock {\em Scientific reports}, 12(1):1--9.
+
 \bibitem[Von~Neumann, 1993]{von1993first}
 Von~Neumann, J. (1993).
 \newblock First draft of a report on the edvac.
 \newblock {\em IEEE Annals of the History of Computing}, 15(4):27--75.
+
+\bibitem[Wakiya et~al., 2006]{wakiya2006activation}
+Wakiya, N., Tajiri, N., Kiguchi, T., Mizutani, N., Cross, J.~S., and Shinozaki,
+  K. (2006).
+\newblock Activation energy of oxygen vacancy diffusion of
+  yttria-stabilized-zirconia thin film determined from dc current measurements
+  below 150 c.
+\newblock {\em Japanese journal of applied physics}, 45(6L):L525.
+
+\bibitem[Wang and Trolier-McKinstry, 2006]{wang2006oxygen}
+Wang, J. and Trolier-McKinstry, S. (2006).
+\newblock Oxygen vacancy motion in er-doped barium strontium titanate thin
+  films.
+\newblock {\em Applied physics letters}, 89(17).
+
+\bibitem[Wang et~al., 2003]{wang2003optical}
+Wang, Y., Chen, W.~P., Cheng, K.~C., Chan, H. L.~W., and Choy, C.~L. (2003).
+\newblock Optical degradation of indium tin oxide thin films induced by
+  hydrogen-related room temperature reduction.
+\newblock {\em Japanese journal of applied physics}, 42(5B):L546.
 
 \bibitem[Wang et~al., 2017]{wang2017memristors}
 Wang, Z., Joshi, S., Savel’ev, S.~E., Jiang, H., Midya, R., Lin, P., Hu, M.,
@@ -512,6 +885,24 @@ Wang, Z., Joshi, S., Savel’ev, S.~E., Jiang, H., Midya, R., Lin, P., Hu, M.,
 \newblock Memristors with diffusive dynamics as synaptic emulators for
   neuromorphic computing.
 \newblock {\em Nature materials}, 16(1):101--108.
+
+\bibitem[Warren et~al., 1997]{warren1997protonic}
+Warren, W., Fleetwood, D., Schwank, J., Shaneyfelt, M., Draper, B., Winokur,
+  P., Knoll, M., Vanheusden, K., Devine, R., Archer, L., et~al. (1997).
+\newblock Protonic nonvolatile field effect transistor memories in si/sio/sub
+  2//si structures.
+\newblock {\em IEEE Transactions on Nuclear Science}, 44(6):1789--1798.
+
+\bibitem[Waser et~al., 1990a]{waser1990dcI}
+Waser, R., Baiatu, T., and H{\"a}rdtl, K.-H. (1990a).
+\newblock Dc electrical degradation of perovskite-type titanates: I, ceramics.
+\newblock {\em Journal of the American Ceramic Society}, 73(6):1645--1653.
+
+\bibitem[Waser et~al., 1990b]{waser1990dcII}
+Waser, R., Baiatu, T., and H{\"a}rdtl, K.-H. (1990b).
+\newblock Dc electrical degradation of perovskite-type titanates: Ii, single
+  crystals.
+\newblock {\em Journal of the American Ceramic Society}, 73(6):1654--1662.
 
 \bibitem[Wei et~al., 2008]{wei2008highly}
 Wei, Z., Kanzawa, Y., Arita, K., Katoh, Y., Kawai, K., Muraoka, S., Mitani, S.,
@@ -527,10 +918,35 @@ Wen, S. and Zeng, Z. (2012).
   with time-varying delays in the presence of strong external stimuli.
 \newblock {\em Neural processing letters}, 35(1):47--59.
 
+\bibitem[Winokur et~al., 1977]{winokur1977field}
+Winokur, P., Boesch, H., McGarrity, J., and McLean, F. (1977).
+\newblock Field-and time-dependent radiation effects at the sio2/si interface
+  of hardened mos capacitors.
+\newblock {\em IEEE Transactions on Nuclear Science}, 24(6):2113--2118.
+
+\bibitem[Wronski and Carlson, 1977]{wronski1977surface}
+Wronski, C. and Carlson, D. (1977).
+\newblock Surface states and barrier heights of metal-amorphous silicon
+  schottky barriers.
+\newblock {\em Solid State Communications}, 23(7):421--424.
+
+\bibitem[Wu et~al., 2015]{wu2015evolution}
+Wu, X., Mei, S., Bosman, M., Raghavan, N., Zhang, X., Cha, D., Li, K., and Pey,
+  K.~L. (2015).
+\newblock Evolution of filament formation in ni/hfo2/siox/si-based rram
+  devices.
+\newblock {\em Advanced Electronic Materials}, 1(11):1500130.
+
 \bibitem[Yang et~al., 2013]{yang2013memristive}
 Yang, J.~J., Strukov, D.~B., and Stewart, D.~R. (2013).
 \newblock Memristive devices for computing.
 \newblock {\em Nature nanotechnology}, 8(1):13--24.
+
+\bibitem[Yon et~al., 1966]{yon1966sodium}
+Yon, E., Ko, W., and Kuper, A. (1966).
+\newblock Sodium distribution in thermal oxide on silicon by radiochemical and
+  mos analysis.
+\newblock {\em IEEE Transactions on Electron Devices}, 1(2):276--280.
 
 \bibitem[Yun et~al., 2007]{yun2007random}
 Yun, J.-B., Kim, S., Seo, S., Lee, M.-J., Kim, D.-C., Ahn, S.-E., Park, Y.,
@@ -539,17 +955,42 @@ Yun, J.-B., Kim, S., Seo, S., Lee, M.-J., Kim, D.-C., Ahn, S.-E., Park, Y.,
 \newblock {\em physica status solidi (RRL)--Rapid Research Letters},
   1(6):280--282.
 
+\bibitem[Zafar et~al., 2011]{zafar2011measurement}
+Zafar, S., Jagannathan, H., Edge, L.~F., and Gupta, D. (2011).
+\newblock Measurement of oxygen diffusion in nanometer scale hfo2 gate
+  dielectric films.
+\newblock {\em Applied Physics Letters}, 98(15).
+
+\bibitem[Zafar et~al., 1998]{zafar1998oxygen}
+Zafar, S., Jones, R.~E., Jiang, B., White, B., Chu, P., Taylor, D., and
+  Gillespie, S. (1998).
+\newblock Oxygen vacancy mobility determined from current measurements in thin
+  ba 0.5 sr 0.5 tio 3 films.
+\newblock {\em Applied physics letters}, 73(2):175--177.
+
 \bibitem[Zha and Li, 2017]{zha2017imec}
 Zha, Y. and Li, J. (2017).
 \newblock Imec: A fully morphable in-memory computing fabric enabled by
   resistive crossbar.
 \newblock {\em IEEE Computer Architecture Letters}, 16(2):123--126.
 
+\bibitem[Zhang et~al., 2017]{zhang2017emulating}
+Zhang, X., Liu, S., Zhao, X., Wu, F., Wu, Q., Wang, W., Cao, R., Fang, Y., Lv,
+  H., Long, S., et~al. (2017).
+\newblock Emulating short-term and long-term plasticity of bio-synapse based on
+  cu/a-si/pt memristor.
+\newblock {\em IEEE Electron Device Letters}, 38(9):1208--1211.
+
 \bibitem[Zheng and Mazumder, 2018]{zheng2018learning}
 Zheng, N. and Mazumder, P. (2018).
 \newblock Learning in memristor crossbar-based spiking neural networks through
   modulation of weight-dependent spike-timing-dependent plasticity.
 \newblock {\em IEEE Transactions on Nanotechnology}, 17(3):520--532.
+
+\bibitem[Zhong et~al., 2010]{zhong2010transient}
+Zhong, N., Shima, H., and Akinaga, H. (2010).
+\newblock Transient current study on pt/tio2-x/pt capacitor.
+\newblock {\em Japanese Journal of Applied Physics}, 49(4S):04DJ15.
 
 \bibitem[Zhuge et~al., 2013]{zhuge2013advances}
 Zhuge, F., Fu, B., and Cao, H. (2013).
