@@ -166,8 +166,8 @@ The current transients observed in amorphous silicon oxide devices appear to res
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=1\textwidth]{Chapter5/Figs/d.png}
-    \caption[SPICE Model diagram.]{SPICE Model diagram. The SPICE model generates an output current, \textit{I(t)}, based on an input voltage, \textit{V(t)}. The circuit incorporates a single resistor, $R_0$, along with two diode models that serve to attenuate or amplify the voltage applied to the resistor. These diode models are represented by the sub-circuits highlighted in blue and red.}
+    \includegraphics[width=0.8\textwidth]{Chapter5/Figs/d.png}
+    \caption[Empirical SPICE Model diagram.]{Empirical SPICE Model diagram. (A) The SPICE model produces an output current, $I(t)$, given an input voltage, $V(t)$. The circuit consists of a single resistor, $R_0$, in addition to two voltage sources which act to reduce or increase the magnitude of the voltage applied to the resistor. These voltage sources are described by the sub-circuits highlighted in blue and red. (B) The voltage source, $V_n(t)$, has an initial value of $V_{n0}$ and reduces over time leading to an increase in device current. (C) In contrast, the voltage source $V_{sc}(t)$ has an initial value of $0V$ and increases over time causing a reduction in the current flowing through the device. All capacitors are set to a value of $1F$, whereas the values of the resistors and voltage biases are obtained from fitting the experimental data.}
     \label{fig:5d}
 \end{figure}
 
@@ -206,21 +206,45 @@ I_n(t) = \alpha \times \left[ V_n(t) - V_{n\infty} \right] \label{eq:5.5}
 I_{sc}(t) = \left[ V_{scmax} - V_{sc}(t) \right] \times \left[ \mu \left( V(t) - V_{sc}(t) \right) \right] \label{eq:5.6} 
 \end{align}
 
-\noindent The blue sub-circuit illustrated in \ref{fig:5d} is responsible for monitoring the accumulation of the space charge and its corresponding voltage drop, which is represented by the voltage across the capacitor $C_{sc}$. The capacitor is charged by the current source, $I_{sc}(t)$, which generates a current in (\ref{eq:5.6}). The capacitor is defined by the voltage applied across the device and $\mu$, which symbolises the mobility of the space charge. The current source draws charge from a voltage source representing the steady-state voltage drop, i.e. the maximum voltage drop consumed by the accumulated space charge $V_{scmax}$.
-\begin{align}
-I_d(t) = \left( I_0 + I_{\delta} V_n(t) \right)\times \left( e^{\frac{V(d_1,d_2)}{nV_t} }  - 1\right) \label{eq:5.7}
-\end{align}
-
-\noindent To complete the model, the subcircuits for both potential drops are combined as illustrated (\ref{eq:5.7}). The two voltage drops act upon a single resistor representing the conductive channel, $R_0$. In practice, this channel does not exhibit ohmic conduction and thus its resistance will have a voltage dependence. This is taken into account while collecting the meta-parameters.
-
 \section[The Combined Model]{The Combined Model}
+
+\noindent To complete the model, the subcircuits for both potential drops are combined as illustrated in Fig \ref{fig:5d}. The two voltage drops act upon a single resistor representing the conductive channel, $R_0$. In practice, this channel does not exhibit ohmic conduction and thus its resistance will have a voltage dependence. This is taken into account while collecting the meta-parameters.
 
 \subsection[Parameter Fitting]{Parameter Fitting}
 
+The complete model comprises six parameters, which are listed in Table \ref{table:5b}. These parameters will be fitted to the dataset plotted, which shows the current transients observed in a single device at various voltages ranging from 0.7 V to 1.1 V.\\
+
+\begin{table}[ht]
+    \caption{Comparison of the modified device stacks.}
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    Parameter   & Function                & Value                                      \\ \hline
+    $R_0$       & Exponential             & $R_0(V) = 6.00 \times 10^6 \cdot exp(-1.07V)$         \\ \hline
+    $\alpha$    & Linear                  & $\alpha(V) = 1.09V -0.454$                 \\ \hline
+    $V_{n\infty}$ & Constant                & $V_{n\infty} = 0.35$                         \\ \hline
+    $V_{n0}$    & Linear                  & $V_{n0}(V) = 1.03V - 0.391 $               \\ \hline
+    $\mu$       & Second Order Polynomial & $\mu(V) = -0.038V^2 + 0.142V - 0.057$      \\ \hline
+    $V_{scmax}$ & Exponential             & $V_{scmax}(V) = 5.17 \times 10^{-2} \cdot exp(2.01V)$ \\ \hline
+    \end{tabular}
+    \label{table:5b}
+\end{table}
+
+\noindent Initially, the model is individually fit to each voltage trial and will then be generalised in a later stage. Fitting is carried out in MATLAB using the \texttt{fminsearch} function which employs the simplex search method \cite{lagarias1998convergence} to minimise an error function which has been set to the mean-squared-error. \\
+
+\noindent The process of fitting individual voltage trials results in a set of parameters which exhibit voltage dependencies except for one exception, $V_{n\infty}$, which is spread around a central value for different voltages and so is assumed to be independent of the applied voltage. For this parameter we calculate the mean average of its value across the dataset and then set it as constant, 0.35V.
+
+
 \subsection[Model Performance]{Model Performance}
+
+% \noindent The blue sub-circuit illustrated in \ref{fig:5d} is responsible for monitoring the accumulation of the space charge and its corresponding voltage drop, which is represented by the voltage across the capacitor $C_{sc}$. The capacitor is charged by the current source, $I_{sc}(t)$, which generates a current in (\ref{eq:5.6}). The capacitor is defined by the voltage applied across the device and $\mu$, which symbolises the mobility of the space charge. The current source draws charge from a voltage source representing the steady-state voltage drop, i.e. the maximum voltage drop consumed by the accumulated space charge $V_{scmax}$.
+% \begin{align}
+% I_d(t) = \left( I_0 + I_{\delta} V_n(t) \right)\times \left( e^{\frac{V(d_1,d_2)}{nV_t} }  - 1\right) \label{eq:5.7}
+% \end{align}
 
 \section[Summary]{Summary}
 
 \noindent Neuromorphic modelling is concerned with the creation of artificial systems that emulate the functionality of biological neural systems, particularly in terms of their physical implementation. The term was first used in the late 1980s to describe digital and analogue hardware that is organised in a more brain-like manner than traditional computer hardware \cite{mead1990neuromorphic}. \\
 
 \noindent One of the fundamental concepts underlying neuromorphic systems is parallel distributed processing. Neuromorphic systems arrange computations at the neural level, with a specific focus on facilitating rapid communication between neural processing units. This contrasts with other parallel distributed systems, such as graphics processing units (GPUs), which are typically optimized for independent parallel computations and exhibit limited communication between units. \\
+
