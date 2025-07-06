@@ -6,9 +6,9 @@
 
 \section[Optically Active Device]{Optically Active Device}
 
-This chapter presents a model for resistance switching devices that demonstrates both analogue potentiation and conductance depression under the same voltage polarity, exploring the subthreshold regime with current transients, which has the potential to simplify neuromorphic circuits. The utilisation of an empirical SPICE model enables the simulation of these transients, with the process of validation being achieved through the use of experimental data. \\
+This chapter presents a model for resistance switching devices that demonstrates both analogue potentiation and conductance depression under the same voltage polarity, exploring the subthreshold regime with current transients, which has the potential to simplify neuromorphic circuits. The utilisation of an empirical SPICE model enables the simulation of these transients, with the process of validation achieved through the use of experimental data. \\
 
-\noindent This provides parameters for reader simulations and facilitates applications such as fault mobility estimation and neuromorphic circuit functions. The enhancements made to the previous model include the integration of diodes to emulate Schottky-like contact and the incorporation of relaxation dynamics upon the removal of step potentials or the grounding of the device.
+\noindent This provides parameters for simulations and facilitates applications such as fault mobility estimation and neuromorphic circuit functions. The enhancements made to the previous model include the integration of diodes to emulate Schottky-like contact and the incorporation of relaxation dynamics upon the removal of step potentials or the grounding of the device.
 
 \subsection[Modified Device Stack]{Modified Device Stack}
 
@@ -206,16 +206,16 @@ I_n(t) = \alpha \times \left[ V_n(t) - V_{n\infty} \right] \label{eq:5.5}
 I_{sc}(t) = \left[ V_{scmax} - V_{sc}(t) \right] \times \left[ \mu \left( V(t) - V_{sc}(t) \right) \right] \label{eq:5.6} 
 \end{align}
 
+\noindent As illustrated in Figure \ref{fig:5d}C, the sub-circuit meticulously monitors the accumulation of the space charge and its concomitant voltage drop. The voltage across the capacitor is represented by the voltage drop. The charging of the capacitor is effected by the current source $I_{sc}(t)$, the result being the generation of a current in accordance with equation \ref{eq:5.6}. The term is defined by the voltage applied across the device and $\mu$, which symbolises the mobility of the space charge. The current source is able to draw charge from a voltage source, which represents the steady-state voltage drop. That is to say, the maximum voltage drop consumed by the accumulated space charge $V_{scmax}$.
+
 \section[The Combined Model]{The Combined Model}
 
 \noindent To complete the model, the subcircuits for both potential drops are combined as illustrated in Fig \ref{fig:5d}. The two voltage drops act upon a single resistor representing the conductive channel, $R_0$. In practice, this channel does not exhibit ohmic conduction and thus its resistance will have a voltage dependence. This is taken into account while collecting the meta-parameters.
 
 \subsection[Parameter Fitting]{Parameter Fitting}
 
-The complete model comprises six parameters, which are listed in Table \ref{table:5b}. These parameters will be fitted to the dataset plotted, which shows the current transients observed in a single device at various voltages ranging from 0.7 V to 1.1 V.\\
-
 \begin{table}[ht]
-    \caption{Comparison of the modified device stacks.}
+    \caption{Model parameter values.}
     \centering
     \begin{tabular}{|c|c|c|}
     \hline
@@ -230,21 +230,133 @@ The complete model comprises six parameters, which are listed in Table \ref{tabl
     \label{table:5b}
 \end{table}
 
+\noindent The complete model comprises six parameters, which are listed in Table \ref{table:5b}. These parameters will be fitted to the dataset plotted, which shows the current transients observed in a single device at various voltages ranging from 0.7 V to 1.1 V.\\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=1\textwidth]{Chapter5/Figs/e.png}
+    \caption[Fitting performance of the SPICE model.]{Fitting performance of the SPICE model. (A) The model’s response is compared with experimental data for a range of voltages. Experimental datapoints are indicated with gray points while model predictions are plotted with solid coloured lines. For each voltage case, the parameters in table \ref{table:5b} are refitted to minimise the mean-squared-error between the experimental and model's response. (B) The residuals between the model's prediction and experimental data is plotted for $V=0.7V$  which exhibits the largest error of 13\% at the onset of the transient which is predominantly due to noise within the experimental data. In contrast, the average percentage difference for the duration of the transient is 2\% with absolute residuals never exceeding $5nA$.}
+    \label{fig:5e}
+\end{figure}
+
 \noindent Initially, the model is individually fit to each voltage trial and will then be generalised in a later stage. Fitting is carried out in MATLAB using the \texttt{fminsearch} function which employs the simplex search method \cite{lagarias1998convergence} to minimise an error function which has been set to the mean-squared-error. \\
 
-\noindent The process of fitting individual voltage trials results in a set of parameters which exhibit voltage dependencies except for one exception, $V_{n\infty}$, which is spread around a central value for different voltages and so is assumed to be independent of the applied voltage. For this parameter we calculate the mean average of its value across the dataset and then set it as constant, 0.35V.
+\noindent The process of fitting individual voltage trials results in a set of parameters which exhibit voltage dependencies except for one exception, $V_{n\infty}$, which is spread around a central value for different voltages and so is assumed to be independent of the applied voltage. For this parameter we calculate the mean average of its value across the dataset and then set it as constant, 0.35V.\\
 
+\noindent The prediction of the model when parameters are reoptimised for each specific voltage case is plotted in Fig. 3A. As illustrated in Figure 3B, an example residual for the case of 0.7 V is presented. This figure demonstrates the presence of suboptimal residuals, attributable to the diminished device currents. It is noteworthy that a maximum error of 13\% is exhibited at the transient's onset. Nevertheless, these errors decrease quickly, resulting in a mean error of only 1.9\% over the duration of the transient. \\
+
+\noindent For all voltage cases, the absolute error remains less than 5nA throughout the transient. This appears to be a reasonable fit. However, a persistent oscillation is observed in the residuals of all voltage cases, suggesting that the model is missing some dynamics within the current transient. It is evident that this approach to fitting will result in an optimal fit, owing to the re-optimisation of parameters for each voltage case. \\
+
+\noindent It should be noted that the model has not yet been generalised. In its present state, it is necessary to modify the SPICE model's parameters in accordance with the voltage applied to the device. The ideal scenario would involve the development of a generalized model, in which a single set of parameters is applicable to a range of applied voltages.\\
+
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=1\textwidth]{Chapter5/Figs/f.png}
+    \caption[Fitting of the model's meta-parameters.]{Fitting of the model's meta-parameters. (A-E) The fitting for each of the model's parameters is plotted using the equations described in Table \ref{table:5b}. These functions' coefficients are referred to as meta-parameters and are used in the generalised model to produce a black box model that reproduces the current-time response to any voltage between 0.7 and 1.0 V. (F) The generalised model's response is plotted alongside the experimental data. This model uses the previously described meta-parameters. However, the generalised model breaks down at larger voltages, i.e. at 1.1 V. We assume this is due to the additional stressing of the oxide that occurs at higher voltages and device currents.}
+    \label{fig:5f}
+\end{figure}
+
+\noindent In order to generalise the model, it is necessary to modify it in order to account for the voltage dependency of each parameter. It is inevitable that this process will introduce error into the model's behaviour and increase fitting residuals. Nevertheless, the capacity to predict device behaviour over a range of voltages using a single set of parameters justifies this reduction in accuracy. \\
+
+\noindent For each of the voltage-dependent parameters, the parameter values are fitted to a suitable function, as indicated in Table \ref{table:5b} and illustrated in Fig. \ref{fig:5f}A-E. The extraction of the coefficients that describe the voltage dependency, for example the gradient and offset of a single order polynomial, is achieved from these functions. The term 'meta-parameters' is employed to denote these coefficients, as they encompass the parameters obtained previously from fitting the experimental data.\\
+
+\noindent The predictions of the generalised model are illustrated in Figure \ref{fig:5f}F. The discrepancies between the experimental and simulated device currents for each voltage curve have increased in comparison to the voltage-specific parameters. However, the advantage of the generalised model is that its parameters no longer require refitting for different applied voltages.\\
+
+\noindent A substantial departure from the established model is observed for the case of 1.1V. As demonstrated in Figure \ref{fig:5f}F, the model reliably forecasts a reduced device current during the initial phase of the transient. This phenomenon can be attributed to the elevated applied voltage and the resultant currents, which induce electrical stress within the oxide. \\
+
+\noindent It has been established that these devices exhibit an increase in conductivity in response to electrical stress \cite{mannion2023unipolar}. This can be rectified by the introduction of a stressing term, which serves to augment the number of traps within our representation of the Schottky interface. The discharge current, as outlined in equation \ref{eq:5.5}, is modified to encompass a term that facilitates the charging of the capacitor. 
+\begin{align}
+    I_n(t) = \alpha \times \left[ V_n(t) - V_{n\infty} \right] -\sigma I(t) \label{eq:5.7} 
+\end{align}
+
+\noindent This modification is employed to simulate the creation of additional trap sites. The term is proportional to the current flowing through the device, $\sigma$, which represents the probability of defect creation for a given magnitude of current. This process ultimately yields the result depicted in equation \ref{eq:5.7}.\\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/g.png}
+    \caption[The improvement of SPICE fit at higher voltages.]{The improvement of SPICE fit at higher voltages. Two versions of the The following generalised models are plotted for 1.1 V. As indicated in the legend, the model incorporating an additional stressing term, $\sigma = 5.61 \times 10^5$, demonstrates enhanced performance at elevated voltages in comparison to the model devoid of the stressing term. The necessity for this term can be attributed to the hypothesis that stress is beginning to occur within the oxide at this higher voltage.}
+    \label{fig:5g}
+\end{figure}
+
+\noindent The result of introducing this additional stressing term is illustrated in Figure \ref{fig:5g}. The two models are contrasted both with and without the stressing term, and it is evident that the introduction of the stressing term, where $\sigma = 5.61 \times 10^5$, improves the model's performance in the first half of the transient. It is important to note, however, that the model is no longer generalized because this stressing term does not apply to smaller voltages.\\
+
+\noindent The SPICE model proposed in Figure \ref{fig:5d} can therefore be generalised for silicon dioxide devices for voltage ranges within 0.7V and 1.0V. It is imperative that the model be modified to account for the additional stressing occurring within the oxide. This can be achieved by introducing a stressing term, as outlined in equation \ref{eq:5.7}. Nevertheless, the validity of this stressing term remains unvalidated for voltages in excess of 1.1V. Consequently, it is highly probable that additional modifications will be required to ensure accurate stressing.
 
 \subsection[Model Performance]{Model Performance}
 
-% \noindent The blue sub-circuit illustrated in \ref{fig:5d} is responsible for monitoring the accumulation of the space charge and its corresponding voltage drop, which is represented by the voltage across the capacitor $C_{sc}$. The capacitor is charged by the current source, $I_{sc}(t)$, which generates a current in (\ref{eq:5.6}). The capacitor is defined by the voltage applied across the device and $\mu$, which symbolises the mobility of the space charge. The current source draws charge from a voltage source representing the steady-state voltage drop, i.e. the maximum voltage drop consumed by the accumulated space charge $V_{scmax}$.
-% \begin{align}
-% I_d(t) = \left( I_0 + I_{\delta} V_n(t) \right)\times \left( e^{\frac{V(d_1,d_2)}{nV_t} }  - 1\right) \label{eq:5.7}
-% \end{align}
+\noindent In its current configuration, the model operates within a constrained voltage range to prevent significant electrical stressing of the device. For example, device characterization has been limited to voltages not exceeding 1.1V. If the voltage is increased beyond this threshold, stress-induced effects alter the shape of the current transient, rendering the existing model invalid. The appropriate voltage range can be determined empirically by performing multiple trials at a fixed voltage. If a gradual increase in conductance is observed across trials, it indicates the onset of stressing, and the voltage should be reduced accordingly \\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.9\textwidth]{Chapter5/Figs/h.png}
+    \caption[The extended SPICE Model diagram.]{The extended SPICE Model diagram. The improvement of SPICE fit at higher voltages. The SPICE model generates an output current, \textit{I(t)}, based on an input voltage, \textit{V(t)}. The circuit incorporates a single resistor, $R_0$, along with two diode models that serve to attenuate or amplify the voltage applied to the resistor. These diode models are represented by the sub-circuits highlighted in blue and red.}
+    \label{fig:5h}
+\end{figure}
+
+\noindent To extend the model’s applicability to more general inputs—beyond simple step potentials—it is essential to account for the relaxation behavior of the current transient. This can be achieved by adding leakage components $R_{leak}$ to the charge-trapping and space-charge subcircuits, allowing their associated capacitors to charge and discharge over time.\\
+
+\noindent The enhanced model shown in Figure \ref{fig:5h} builds upon earlier designs by replacing static voltage sources with diode-based elements that better replicate Schottky-like metal-insulator contact behavior. It also introduces dynamic relaxation features that emerge when input potentials are removed or the device is grounded.
+\begin{align}
+I_d(t) = \left( I_0 + I_{\delta} V_n(t) \right)\times \left( e^{\frac{V(d_1,d_2)}{nV_t} }  - 1\right) \label{eq:5.8}
+\end{align}
+
+\noindent Where $I_d(t)$ is the time-dependent diode current, which captures how the current evolves over time due to transient phenomena or dynamic voltage input. $I_0$ is the reverse saturation current or the leakage current through the diode when reverse-biased. It is an intrinsic property of the junction and depends on factors like material properties and temperature. \\
+
+\noindent $I_{\delta} V_n(t)$ is the modulated current term, a dynamic extension not present in the standard Shockley equation. It introduces a time-varying modulation of the saturation current, where $I_{\delta}$ is a scaling factor representing sensitivity of the diode to input modulation and $V_n(t)$ is a time-dependent voltage signal driven from an internal node. Together this term allows the diode behavior to adapt dynamically to changes in the input signal, which is crucial for modeling transient memristive phenomena such as relaxation and adaptation.\\
+
+\noindent $V(d_1,d_2)$ Voltage difference across the diode terminals in the SPICE model. This is equivalent to the V in the traditional Shockley equation. This voltage controls the exponential response of the diode. $n$ Ideality factor that reflects how closely the diode follows the ideal Shockley behavior. An $n>1$ accounts for recombination losses or non-idealities in real diodes and is often used to better fit experimental data. Finally, $V_t$ is the thermal voltage.\\
+
+\noindent To derive a form that better matches experimentally observed transient behavior from the original (\ref{eq:5.5}), it is assumed that $V_{n\infty} = V_{scmax}$, a simplification that assumes both voltages reflect the same saturation point for field-driven relaxation. Moreover, since the decay dynamics of $V_n(t)$ are influenced by the total device current, a modulation term by the main current $I_d(t)$ from (\ref{eq:5.8}) is introduced, leading to the modified expression:
+\begin{equation}
+I_n(t) = \alpha I_d(t) \left[ V_{scmax} - V_n(t) \right] \label{eq:5.9}
+\end{equation}
+This equation captures both the deviation from equilibrium and the feedback from the instantaneous device current, providing a more accurate representation of the charge relaxation behavior observed in subthreshold memristive devices.\\
+
+\noindent To simplify the original space-charge current (\ref{eq:5.6}) expression for modeling in SPICE, the voltage driving the ionic drift as the terminal voltage is approximated as $V(d_1, d_2)$. Additionally, the modulation term $\left[ V_{scmax} - V_{sc}(t) \right]$ can be treated as constant or absorbed into the mobility factor $\mu$ in certain operating regimes. This leads to the simplified form:
+\begin{equation}
+I_{sc}(t) = \mu V_{sc}(t) \cdot V(d_1, d_2) \label{eq:5.10}
+\end{equation}
+which effectively captures the relationship between accumulated space charge potential and the applied terminal bias. These modified equations are better suited for implementation in compact SPICE models used to simulate transient behavior in neuromorphic circuits. 
+
+\begin{table}[ht]
+    \caption{Extemded model parameter values.}
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    Parameter   & Function                & Value                                      \\ \hline
+    $I_0$       & Exponential             & $I_0(V) = 2.39\times10^{-9}\cdot e^{-13.4V} + 1.03\times 10^{-13}\cdot e^{-1.53V}$         \\ \hline
+    $I_{\delta}$    & Power                  & $I_{\delta}(V)=7.41\times 10^{-15} \cdot V^{-2.91}$                 \\ \hline
+    $n$ & Polynomial                & $n(V)=-0.131V^2 + 1.01V + 0.615$                         \\ \hline
+    \end{tabular}
+    \label{table:5c}
+\end{table}
+
+\noindent The initial equation fitting for each trial yielded small residuals, indicating a satisfactory fit, albeit only within the noise range and limited to individual voltages. The model was then generalised, with parameters plotted across various voltages. This resulted in a set of empirical functions (hyperparameters) that account for voltage dependency in table \ref{table:5c}. This approach facilitates the simulation of blackbox circuits and consequently identifies novel diode parameters that augment the previous model's fit, as seen in Figure \ref{fig:5i}.\\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.9\textwidth]{Chapter5/Figs/i.png}
+    \caption[Fitting of the extended model's meta-parameters.]{Fitting of the extended model's meta-parameters. (A-C) The fitting for each of the model's parameters is plotted using the equations described in Table \ref{table:5c} that reproduces the current-time response at higher voltage. (D) The generalised model's response is plotted alongside the experimental data from 0.8V to 1.5V.}
+    \label{fig:5i}
+\end{figure}
+
+\noindent Finally, Figure \ref{fig:5j} illustrates the behavior of the extended SPICE model incorporating relaxation dynamics, particularly under pulsed input conditions. Each pulse generates a sharp rise in current followed by a decay, reflecting the transient response of charge trapping and space-charge mechanisms.\\
+
+\noindent Over successive pulses, the peak current gradually decreases, demonstrating the cumulative effect of relaxation when the step potential is removed between pulses. This decay mirrors experimentally observed behaviors in memristive devices operating in the subthreshold regime, where ionic and electronic processes relax during the off periods. The extended model captures this temporal evolution, offering improved accuracy for simulating pulsed neuromorphic stimuli.
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.7\textwidth]{Chapter5/Figs/j.png}
+    \caption[Simulated current transient response under repeated voltage pulses using the extended SPICE model.]{Simulated current transient response under repeated voltage pulses using the extended SPICE model. The gradual decay in peak current illustrates the relaxation dynamics of charge trapping and space-charge effects when step potentials are intermittently removed, consistent with subthreshold memristive behavior.}
+    \label{fig:5j}
+\end{figure}
 
 \section[Summary]{Summary}
 
-\noindent Neuromorphic modelling is concerned with the creation of artificial systems that emulate the functionality of biological neural systems, particularly in terms of their physical implementation. The term was first used in the late 1980s to describe digital and analogue hardware that is organised in a more brain-like manner than traditional computer hardware \cite{mead1990neuromorphic}. \\
+\noindent This chapter has introduced a comprehensive framework for modeling current transients in silicon oxide-based memristive devices, with a particular focus on their relevance to neuromorphic applications. A key finding is the discovery that modifying the top electrode material—specifically, replacing gold with indium tin oxide (ITO)—leads to a significant change in transient behavior. \\
 
-\noindent One of the fundamental concepts underlying neuromorphic systems is parallel distributed processing. Neuromorphic systems arrange computations at the neural level, with a specific focus on facilitating rapid communication between neural processing units. This contrasts with other parallel distributed systems, such as graphics processing units (GPUs), which are typically optimized for independent parallel computations and exhibit limited communication between units. \\
+\noindent While gold-contacted devices exhibit both the characteristic increase and subsequent decay in conductance, ITO-contacted devices demonstrate only one phase strongly. This divergence provides strong evidence that the current transient is governed by two independent physical processes: a rapid increase in conduction attributed to charge trapping at Schottky-like barriers, and a slower decay driven by the accumulation of mobile ionic species, likely protons, near the top metal-insulator interface.\\
 
+\noindent To accurately simulate these dual-phase transients, an extended SPICE model was developed that integrates two time-dependent voltage sources acting on a shared resistive path. The model incorporates leakage terms and relaxation dynamics, enabling it to replicate the experimentally observed response to voltage pulses with high fidelity. The inclusion of both fast and slow processes allows the model to track current evolution under biologically relevant pulse conditions, making it suitable for spiking neural network (SNN) simulations.\\
+
+\noindent Through voltage-dependent parameter fitting and the addition of a stressing term at higher voltages, the model is generalised to predict device behavior across a practical operating range (0.7-1.5V). These results not only validate the physical hypotheses underpinning transient dynamics but also highlight the model's applicability in neuromorphic computing tasks, such as synaptic emulation and event-based learning.

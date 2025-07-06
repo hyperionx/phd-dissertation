@@ -1,6 +1,6 @@
 \thispagestyle {empty}
 \contentsline {chapter}{List of figures}{xv}{chapter*.9}%
-\contentsline {chapter}{List of tables}{xvii}{chapter*.10}%
+\contentsline {chapter}{List of tables}{xix}{chapter*.10}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Research Context}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Motivations and Challenges}{1}{section.1.2}%
@@ -59,7 +59,34 @@
 \contentsline {subsection}{\numberline {5.2.1}Evaluation Approach}{116}{subsection.5.2.1}%
 \contentsline {subsection}{\numberline {5.2.2}Model Definition}{119}{subsection.5.2.2}%
 \contentsline {section}{\numberline {5.3}The Combined Model}{122}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Parameter Fitting}{122}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Model Performance}{123}{subsection.5.3.2}%
-\contentsline {section}{\numberline {5.4}Summary}{123}{section.5.4}%
-\contentsline {chapter}{References}{125}{chapter*.62}%
+\contentsline {subsection}{\numberline {5.3.1}Parameter Fitting}{123}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Model Performance}{127}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Summary}{131}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Biorealistic Computing}{133}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Spiking Deep Networks}{133}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Neural Computing Nomenclatures}{134}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Memristive Frameworks}{136}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Analogue Hardware Challenges}{140}{subsection.6.1.3}%
+\contentsline {section}{\numberline {6.2}Nonidealities Simulation}{145}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Learning Rules}{145}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{151}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{158}{subsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.2.4}Nonidealities Calibrations}{163}{subsection.6.2.4}%
+\contentsline {section}{\numberline {6.3}Inference and Classification}{168}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Simulation Configurations}{168}{subsection.6.3.1}%
+\contentsline {section}{\numberline {6.4}Summary}{168}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{169}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Optimisation Overview}{169}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Derivative-based Methods}{173}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Derivative-free Methods}{175}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}Function-approximation and Noise}{177}{subsection.7.1.3}%
+\contentsline {section}{\numberline {7.2}Homeostasis Regularization}{180}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{180}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Architecture Modifications}{182}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Biosignal Applications}{182}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Summary}{182}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{183}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Contributions}{183}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Open Questions}{183}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Future Works}{183}{section.8.3}%
+\contentsline {chapter}{References}{185}{chapter*.75}%

@@ -11,6 +11,12 @@ Adler, D., Shur, M., Silver, M., and Ovshinsky, S. (1980).
 \newblock Threshold switching in chalcogenide-glass thin films.
 \newblock {\em Journal of Applied Physics}, 51(6):3289--3309.
 
+\bibitem[Agrawal et~al., 2019]{agrawal2019x}
+Agrawal, A., Lee, C., and Roy, K. (2019).
+\newblock X-changr: Changing memristive crossbar mapping for mitigating
+  line-resistance induced accuracy degradation in deep neural networks.
+\newblock {\em arXiv preprint arXiv:1907.00285}.
+
 \bibitem[Ambrogio et~al., 2014a]{ambrogio2014statistical1}
 Ambrogio, S., Balatti, S., Cubeta, A., Calderoni, A., Ramaswamy, N., and
   Ielmini, D. (2014a).
@@ -25,6 +31,31 @@ Ambrogio, S., Balatti, S., Cubeta, A., Calderoni, A., Ramaswamy, N., and
   ii—random telegraph noise.
 \newblock {\em IEEE Transactions on Electron Devices}, 61(8):2920--2927.
 
+\bibitem[Ambrogio et~al., 2018]{ambrogio2018equivalent}
+Ambrogio, S., Narayanan, P., Tsai, H., Shelby, R.~M., Boybat, I., Di~Nolfo, C.,
+  Sidler, S., Giordano, M., Bodini, M., Farinha, N.~C., et~al. (2018).
+\newblock Equivalent-accuracy accelerated neural-network training using
+  analogue memory.
+\newblock {\em Nature}, 558(7708):60--67.
+
+\bibitem[Amirsoleimani et~al., 2020]{amirsoleimani2020memory}
+Amirsoleimani, A., Alibart, F., Yon, V., Xu, J., Pazhouhandeh, M.~R., Ecoffey,
+  S., Beilliard, Y., Genov, R., and Drouin, D. (2020).
+\newblock In-memory vector-matrix multiplication in monolithic complementary
+  metal--oxide--semiconductor-memristor integrated circuits: Design choices,
+  challenges, and perspectives.
+\newblock {\em Advanced Intelligent Systems}, 2(11):2000115.
+
+\bibitem[Ankit et~al., 2019]{ankit2019puma}
+Ankit, A., Hajj, I.~E., Chalamalasetti, S.~R., Ndu, G., Foltin, M., Williams,
+  R.~S., Faraboschi, P., Hwu, W.-m.~W., Strachan, J.~P., Roy, K., et~al.
+  (2019).
+\newblock Puma: A programmable ultra-efficient memristor-based accelerator for
+  machine learning inference.
+\newblock In {\em Proceedings of the Twenty-Fourth International Conference on
+  Architectural Support for Programming Languages and Operating Systems}, pages
+  715--731.
+
 \bibitem[Asanuma et~al., 2009]{asanuma2009relationship}
 Asanuma, S., Akoh, H., Yamada, H., and Sawa, A. (2009).
 \newblock Relationship between resistive switching characteristics and band
@@ -37,16 +68,43 @@ Banerjee, R., Ray, S., Basu, N., Batabyal, A., and Barua, A. (1987).
   plasma.
 \newblock {\em Journal of applied physics}, 62(3):912--916.
 
+\bibitem[Bao et~al., 2019]{bao2019dual}
+Bao, L., Zhu, J., Yu, Z., Jia, R., Cai, Q., Wang, Z., Xu, L., Wu, Y., Yang, Y.,
+  Cai, Y., et~al. (2019).
+\newblock Dual-gated mos2 neuristor for neuromorphic computing.
+\newblock {\em ACS applied materials \& interfaces}, 11(44):41482--41489.
+
 \bibitem[Bardeen, 1947]{bardeen1947surface}
 Bardeen, J. (1947).
 \newblock Surface states and rectification at a metal semi-conductor contact.
 \newblock {\em Physical review}, 71(10):717.
+
+\bibitem[Barmpatsalos and Mehonic, 2021]{nikolaos_barmpatsalos_2021_5762184}
+Barmpatsalos, N. and Mehonic, A. (2021).
+\newblock {SiOx memristor structure - Gradual RESET conductance modulation}.
 
 \bibitem[Bastos and Barbosa, 2022]{bastos2022motor}
 Bastos, P. and Barbosa, R. (2022).
 \newblock Motor reserve: How to build neuronal resilience against ageing and
   neurodegeneration?
 \newblock {\em Revue Neurologique}, 178(8):845--854.
+
+\bibitem[Bear and Malenka, 1994]{bear1994synaptic}
+Bear, M.~F. and Malenka, R.~C. (1994).
+\newblock Synaptic plasticity: Ltp and ltd.
+\newblock {\em Current opinion in neurobiology}, 4(3):389--399.
+
+\bibitem[Bill and Legenstein, 2014]{bill2014compound}
+Bill, J. and Legenstein, R. (2014).
+\newblock A compound memristive synapse model for statistical learning through
+  stdp in spiking neural networks.
+\newblock {\em Frontiers in neuroscience}, 8:412.
+
+\bibitem[Bohte et~al., 2002]{bohte2002error}
+Bohte, S.~M., Kok, J.~N., and La~Poutre, H. (2002).
+\newblock Error-backpropagation in temporally encoded networks of spiking
+  neurons.
+\newblock {\em Neurocomputing}, 48(1-4):17--37.
 
 \bibitem[Boikov et~al., 2002]{boikov2002near}
 Boikov, Y.~A., Goltsman, B., Yarmarkin, V., and Lemanov, V. (2002).
@@ -65,6 +123,21 @@ Burnstock, G. (2004).
 \newblock Cotransmission.
 \newblock {\em Current opinion in pharmacology}, 4(1):47--52.
 
+\bibitem[Burr et~al., 2015]{burr2015experimental}
+Burr, G.~W., Shelby, R.~M., Sidler, S., Di~Nolfo, C., Jang, J., Boybat, I.,
+  Shenoy, R.~S., Narayanan, P., Virwani, K., Giacometti, E.~U., et~al. (2015).
+\newblock Experimental demonstration and tolerancing of a large-scale neural
+  network (165 000 synapses) using phase-change memory as the synaptic weight
+  element.
+\newblock {\em IEEE Transactions on Electron Devices}, 62(11):3498--3507.
+
+\bibitem[Cai et~al., 2019]{cai2019fully}
+Cai, F., Correll, J.~M., Lee, S.~H., Lim, Y., Bothra, V., Zhang, Z., Flynn,
+  M.~P., and Lu, W.~D. (2019).
+\newblock A fully integrated reprogrammable memristor--cmos system for
+  efficient multiply--accumulate operations.
+\newblock {\em Nature Electronics}, 2(7):290--299.
+
 \bibitem[Cai et~al., 2011]{cai2011abel}
 Cai, W., Ellinger, F., Tetzlaff, R., and Schmidt, T. (2011).
 \newblock Abel dynamics of titanium dioxide memristor based on nonlinear ionic
@@ -76,6 +149,12 @@ Campbell, K.~A., Drake, K.~T., and Barney~Smith, E.~H. (2016).
 \newblock Pulse shape and timing dependence on the spike-timing dependent
   plasticity response of ion-conducting memristors as synapses.
 \newblock {\em Frontiers in bioengineering and biotechnology}, 4:97.
+
+\bibitem[Cao et~al., 2015]{cao2015spiking}
+Cao, Y., Chen, Y., and Khosla, D. (2015).
+\newblock Spiking deep convolutional neural networks for energy-efficient
+  object recognition.
+\newblock {\em International Journal of Computer Vision}, 113:54--66.
 
 \bibitem[Ceolini et~al., 2020]{ceolini2020hand}
 Ceolini, E., Frenkel, C., Shrestha, S.~B., Taverni, G., Khacef, L., Payvand,
@@ -91,6 +170,13 @@ Cha, E., Woo, J., Lee, D., Lee, S., Song, J., Koo, Y., Lee, J., Park, C.~G.,
   with tin electrode.
 \newblock In {\em 2013 IEEE International Electron Devices Meeting}, pages
   10--5. IEEE.
+
+\bibitem[Chai et~al., 2018]{chai2018impact}
+Chai, Z., Freitas, P., Zhang, W., Hatem, F., Zhang, J.~F., Marsland, J.,
+  Govoreanu, B., Goux, L., and Kar, G.~S. (2018).
+\newblock Impact of rtn on pattern recognition accuracy of rram-based synaptic
+  neural network.
+\newblock {\em IEEE Electron Device Letters}, 39(11):1652--1655.
 
 \bibitem[Chang et~al., 2008]{chang2008effects}
 Chang, S., Chae, S., Lee, S., Liu, C., Noh, T., Lee, J., Kahng, B., Jang, J.,
@@ -111,18 +197,50 @@ Chase, S.~M. and Young, E.~D. (2006).
   simultaneous sound-localization cues in the inferior colliculus.
 \newblock {\em Journal of Neuroscience}, 26(15):3889--3898.
 
+\bibitem[Chen, 2016]{chen2016review}
+Chen, A. (2016).
+\newblock A review of emerging non-volatile memory (nvm) technologies and
+  applications.
+\newblock {\em Solid-State Electronics}, 125:25--38.
+
 \bibitem[Chen et~al., 2010]{chen2010observation}
 Chen, L., Bang, W., Park, Y.-J., Ryan, E.~T., King, S., and Kim, C.-U. (2010).
 \newblock Observation of space charge limited current by cu ion drift in porous
   low-k/cu interconnects.
 \newblock {\em Applied Physics Letters}, 96(9).
 
-\bibitem[Chen et~al., 2017]{chen2017neurosim+}
-Chen, P.-Y., Peng, X., and Yu, S. (2017).
+\bibitem[Chen et~al., 2017a]{chen2017accelerator}
+Chen, L., Li, J., Chen, Y., Deng, Q., Shen, J., Liang, X., and Jiang, L.
+  (2017a).
+\newblock Accelerator-friendly neural-network training: Learning variations and
+  defects in rram crossbar.
+\newblock In {\em Design, Automation \& Test in Europe Conference \& Exhibition
+  (DATE), 2017}, pages 19--24. IEEE.
+
+\bibitem[Chen et~al., 2017b]{chen2017neurosim+}
+Chen, P.-Y., Peng, X., and Yu, S. (2017b).
 \newblock Neurosim+: An integrated device-to-algorithm framework for
   benchmarking synaptic devices and array architectures.
 \newblock In {\em 2017 IEEE International Electron Devices Meeting (IEDM)},
   pages 6--1. IEEE.
+
+\bibitem[Chen et~al., 2018a]{chen2018neurosim}
+Chen, P.-Y., Peng, X., and Yu, S. (2018a).
+\newblock Neurosim: A circuit-level macro model for benchmarking neuro-inspired
+  architectures in online learning.
+\newblock {\em IEEE Transactions on Computer-Aided Design of Integrated
+  Circuits and Systems}, 37(12):3067--3080.
+
+\bibitem[Chen et~al., 2018b]{chen2018neural}
+Chen, R.~T., Rubanova, Y., Bettencourt, J., and Duvenaud, D.~K. (2018b).
+\newblock Neural ordinary differential equations.
+\newblock {\em Advances in neural information processing systems}, 31.
+
+\bibitem[Cheney et~al., 2017]{cheney2017robustness}
+Cheney, N., Schrimpf, M., and Kreiman, G. (2017).
+\newblock On the robustness of convolutional neural networks to internal
+  architecture and weight perturbations.
+\newblock {\em arXiv preprint arXiv:1703.08245}.
 
 \bibitem[Chua, 1971]{chua1971memristor}
 Chua, L. (1971).
@@ -181,11 +299,24 @@ Deiss, S.~R., Douglas, R.~J., Whatley, A.~M., and Maass, W. (1999).
 \newblock A pulse-coded communications infrastructure for neuromorphic systems.
 \newblock {\em Pulsed neural networks}, 6:157--78.
 
+\bibitem[Del~Valle et~al., 2020]{del2020caloritronics}
+Del~Valle, J., Salev, P., Kalcheim, Y., and Schuller, I.~K. (2020).
+\newblock A caloritronics-based mott neuristor.
+\newblock {\em Scientific reports}, 10(1):4292.
+
 \bibitem[Di~Ventra et~al., 2009]{di2009circuit}
 Di~Ventra, M., Pershin, Y.~V., and Chua, L.~O. (2009).
 \newblock Circuit elements with memory: memristors, memcapacitors, and
   meminductors.
 \newblock {\em Proceedings of the IEEE}, 97(10):1717--1724.
+
+\bibitem[Diehl et~al., 2015]{diehl2015fast}
+Diehl, P.~U., Neil, D., Binas, J., Cook, M., Liu, S.-C., and Pfeiffer, M.
+  (2015).
+\newblock Fast-classifying, high-accuracy spiking deep networks through weight
+  and threshold balancing.
+\newblock In {\em 2015 International joint conference on neural networks
+  (IJCNN)}, pages 1--8. ieee.
 
 \bibitem[DiMaria and Cartier, 1995]{dimaria1995mechanism}
 DiMaria, D. and Cartier, E. (1995).
@@ -198,6 +329,13 @@ Du, C. (2017).
 \newblock {\em Metal Oxide Memristors with Internal Dynamics for Neuromorphic
   Applications}.
 \newblock PhD thesis, The University of Michigan, US.
+
+\bibitem[Duan et~al., 2020]{duan2020spiking}
+Duan, Q., Jing, Z., Zou, X., Wang, Y., Yang, K., Zhang, T., Wu, S., Huang, R.,
+  and Yang, Y. (2020).
+\newblock Spiking neurons with spatiotemporal dynamics and gain modulation for
+  monolithically integrated memristive neural networks.
+\newblock {\em Nature communications}, 11(1):3399.
 
 \bibitem[El~Kamel et~al., 2006]{el2006space}
 El~Kamel, F., Gonon, P., Ort{\'e}ga, L., Jomni, F., and Yangui, B. (2006).
@@ -217,6 +355,55 @@ El-Sayed, A.-M., Watkins, M.~B., Shluger, A.~L., and Afanas’ev, V.~V. (2013).
   silica from ab initio calculations.
 \newblock {\em Microelectronic engineering}, 109:68--71.
 
+\bibitem[Eliasmith et~al., 2012]{eliasmith2012large}
+Eliasmith, C., Stewart, T.~C., Choo, X., Bekolay, T., DeWolf, T., Tang, Y., and
+  Rasmussen, D. (2012).
+\newblock A large-scale model of the functioning brain.
+\newblock {\em science}, 338(6111):1202--1205.
+
+\bibitem[Eshraghian et~al., 2018]{eshraghian2018formulation}
+Eshraghian, J.~K., Baek, S., Kim, J.-H., Iannella, N., Cho, K., Goo, Y.~S., Iu,
+  H.~H., Kang, S.-M., and Eshraghian, K. (2018).
+\newblock Formulation and implementation of nonlinear integral equations to
+  model neural dynamics within the vertebrate retina.
+\newblock {\em International Journal of Neural Systems}, 28(07):1850004.
+
+\bibitem[Eshraghian et~al., 2021]{eshraghian20213}
+Eshraghian, J.~K., Cho, K., and Kang, S.~M. (2021).
+\newblock A 3-d reconfigurable rram crossbar inference engine.
+\newblock In {\em 2021 IEEE International Symposium on Circuits and Systems
+  (ISCAS)}, pages 1--5. IEEE.
+
+\bibitem[Eshraghian et~al., 2022]{eshraghian2022memristor}
+Eshraghian, J.~K., Wang, X., and Lu, W.~D. (2022).
+\newblock Memristor-based binarized spiking neural networks: Challenges and
+  applications.
+\newblock {\em IEEE Nanotechnology Magazine}, 16(2):14--23.
+
+\bibitem[Eshraghian et~al., 2023]{eshraghian2023training}
+Eshraghian, J.~K., Ward, M., Neftci, E.~O., Wang, X., Lenz, G., Dwivedi, G.,
+  Bennamoun, M., Jeong, D.~S., and Lu, W.~D. (2023).
+\newblock Training spiking neural networks using lessons from deep learning.
+\newblock {\em Proceedings of the IEEE}.
+
+\bibitem[Esser et~al., 2015]{esser2015backpropagation}
+Esser, S.~K., Appuswamy, R., Merolla, P., Arthur, J.~V., and Modha, D.~S.
+  (2015).
+\newblock Backpropagation for energy-efficient neuromorphic computing.
+\newblock {\em Advances in neural information processing systems}, 28.
+
+\bibitem[Fang et~al., 2018]{fang2018improvement}
+Fang, Y., Yu, Z., Wang, Z., Zhang, T., Yang, Y., Cai, Y., and Huang, R. (2018).
+\newblock Improvement of hfo x-based rram device variation by inserting ald tin
+  buffer layer.
+\newblock {\em IEEE Electron Device Letters}, 39(6):819--822.
+
+\bibitem[Feurer and Hutter, 2019]{feurer2019hyperparameter}
+Feurer, M. and Hutter, F. (2019).
+\newblock Hyperparameter optimization.
+\newblock {\em Automated machine learning: Methods, systems, challenges}, pages
+  3--33.
+
 \bibitem[Frenkel et~al., 2019]{frenkel2019morphic}
 Frenkel, C., Legat, J.-D., and Bol, D. (2019).
 \newblock Morphic: A 65-nm 738k-synapse/$mm^2$ quad-core binary-weight digital
@@ -230,6 +417,12 @@ Frenkel, J. (1938).
   semi-conductors.
 \newblock {\em Physical Review}, 54(8):647.
 
+\bibitem[Fröhlich, 2016]{FROHLICH201647}
+Fröhlich, F. (2016).
+\newblock Chapter 4 - synaptic plasticity.
+\newblock In Fröhlich, F., editor, {\em Network Neuroscience}, pages 47--58.
+  Academic Press, San Diego.
+
 \bibitem[Fujii et~al., 2005]{fujii2005hysteretic}
 Fujii, T., Kawasaki, M., Sawa, A., Akoh, H., Kawazoe, Y., and Tokura, Y.
   (2005).
@@ -237,16 +430,35 @@ Fujii, T., Kawasaki, M., Sawa, A., Akoh, H., Kawazoe, Y., and Tokura, Y.
   at an epitaxial oxide schottky junction srruo3/ srti0. 99nb0. 01o3.
 \newblock {\em Applied Physics Letters}, 86(1).
 
+\bibitem[Gaba et~al., 2013]{gaba2013stochastic}
+Gaba, S., Sheridan, P., Zhou, J., Choi, S., and Lu, W. (2013).
+\newblock Stochastic memristive devices for computing and neuromorphic
+  applications.
+\newblock {\em Nanoscale}, 5(13):5872--5878.
+
 \bibitem[Gao et~al., 2016]{gao2016mechanism}
 Gao, D.~Z., El-Sayed, A.-M., and Shluger, A.~L. (2016).
 \newblock A mechanism for frenkel defect creation in amorphous sio2 facilitated
   by electron injection.
 \newblock {\em Nanotechnology}, 27(50):505207.
 
+\bibitem[Gaol et~al., 2021]{gaol2021reliable}
+Gaol, D., Zhang, G.~L., Yin, X., Li, B., Schlichtmann, U., and Zhuo, C. (2021).
+\newblock Reliable memristor-based neuromorphic design using variation-and
+  defect-aware training.
+\newblock In {\em 2021 IEEE/ACM International Conference On Computer Aided
+  Design (ICCAD)}, pages 1--9. IEEE.
+
 \bibitem[Ge et~al., 2014]{ge2014electrode}
 Ge, N., Zhang, M., Zhang, L., Yang, J.~J., Li, Z., and Williams, R.~S. (2014).
 \newblock Electrode-material dependent switching in taox memristors.
 \newblock {\em Semiconductor Science and Technology}, 29(10):104003.
+
+\bibitem[Gerstner et~al., 2014]{gerstner2014neuronal}
+Gerstner, W., Kistler, W.~M., Naud, R., and Paninski, L. (2014).
+\newblock {\em Neuronal dynamics: From single neurons to networks and models of
+  cognition}.
+\newblock Cambridge University Press.
 
 \bibitem[Gerstner et~al., 1997]{gerstner1997neural}
 Gerstner, W., Kreiter, A.~K., Markram, H., and Herz, A.~V. (1997).
@@ -258,6 +470,12 @@ Gerstner, W., Kreiter, A.~K., Markram, H., and Herz, A.~V. (1997).
 Gewaltig, M.-O. and Diesmann, M. (2007).
 \newblock Nest (neural simulation tool).
 \newblock {\em Scholarpedia}, 2(4):1430.
+
+\bibitem[Ghanbari et~al., 2017]{ghanbari2017estimating}
+Ghanbari, A., Malyshev, A., Volgushev, M., and Stevenson, I.~H. (2017).
+\newblock Estimating short-term synaptic plasticity from pre-and postsynaptic
+  spiking.
+\newblock {\em PLoS computational biology}, 13(9):e1005738.
 
 \bibitem[Ghibaudo et~al., 1999]{ghibaudo1999emerging}
 Ghibaudo, G., Riess, P., Bruyere, S., DeSalvo, B., Jahan, C., Scarpa, A.,
@@ -281,11 +499,34 @@ Govoreanu, B., Redolfi, A., Zhang, L., Adelmann, C., Popovici, M., Clima, S.,
 \newblock In {\em 2013 IEEE International Electron Devices Meeting}, pages
   10--2. IEEE.
 
+\bibitem[G{\"u}tig, 2014]{gutig2014spike}
+G{\"u}tig, R. (2014).
+\newblock To spike, or when to spike?
+\newblock {\em Current opinion in neurobiology}, 25:134--139.
+
+\bibitem[Han et~al., 2015]{han2015learning}
+Han, S., Pool, J., Tran, J., and Dally, W. (2015).
+\newblock Learning both weights and connections for efficient neural network.
+\newblock {\em Advances in neural information processing systems}, 28.
+
 \bibitem[Hansen et~al., 2015]{hansen2015double}
 Hansen, M., Ziegler, M., Kolberg, L., Soni, R., Dirkmann, S., Mussenbrock, T.,
   and Kohlstedt, H. (2015).
 \newblock A double barrier memristive device.
 \newblock {\em Scientific reports}, 5(1):13753.
+
+\bibitem[Hao et~al., 2020]{hao2020monolayer}
+Hao, S., Ji, X., Zhong, S., Pang, K.~Y., Lim, K.~G., Chong, T.~C., and Zhao, R.
+  (2020).
+\newblock A monolayer leaky integrate-and-fire neuron for 2d memristive
+  neuromorphic networks.
+\newblock {\em Advanced Electronic Materials}, 6(4):1901335.
+
+\bibitem[Hasan et~al., 2017]{hasan2017chip}
+Hasan, R., Taha, T.~M., and Yakopcic, C. (2017).
+\newblock On-chip training of memristor crossbar based multi-layer neural
+  networks.
+\newblock {\em Microelectronics journal}, 66:31--40.
 
 \bibitem[Hazan et~al., 2018]{hazan2018bindsnet}
 Hazan, H., Saunders, D.~J., Khan, H., Patel, D., Sanghavi, D.~T., Siegelmann,
@@ -294,16 +535,46 @@ Hazan, H., Saunders, D.~J., Khan, H., Patel, D., Sanghavi, D.~T., Siegelmann,
   in python.
 \newblock {\em Frontiers in neuroinformatics}, 12:89.
 
+\bibitem[He et~al., 2019]{he2019noise}
+He, Z., Lin, J., Ewetz, R., Yuan, J.-S., and Fan, D. (2019).
+\newblock Noise injection adaption: End-to-end reram crossbar non-ideal effect
+  adaption for neural network mapping.
+\newblock In {\em Proceedings of the 56th Annual Design Automation Conference
+  2019}, pages 1--6.
+
+\bibitem[Hebb, 2002]{hebb2002organization}
+Hebb, D. (2002).
+\newblock The organization of behavior. 1949.
+\newblock {\em New York Wiely}, 2(7):8.
+
 \bibitem[Hebb, 2005]{hebb2005organization}
 Hebb, D.~O. (2005).
 \newblock {\em The organization of behavior: A neuropsychological theory}.
 \newblock Psychology Press.
+
+\bibitem[Hinton et~al., 2006]{hinton2006fast}
+Hinton, G.~E., Osindero, S., and Teh, Y.-W. (2006).
+\newblock A fast learning algorithm for deep belief nets.
+\newblock {\em Neural computation}, 18(7):1527--1554.
+
+\bibitem[Hinton and Sejnowski, 1983]{hinton1983optimal}
+Hinton, G.~E. and Sejnowski, T.~J. (1983).
+\newblock Optimal perceptual inference.
+\newblock In {\em Proceedings of the IEEE conference on Computer Vision and
+  Pattern Recognition}, volume 448, pages 448--453. Citeseer.
 
 \bibitem[Hirose and Hirose, 1976]{hirose1976polarity}
 Hirose, Y. and Hirose, H. (1976).
 \newblock Polarity-dependent memory switching and behavior of ag dendrite in
   ag-photodoped amorphous as2s3 films.
 \newblock {\em Journal of Applied Physics}, 47(6):2767--2772.
+
+\bibitem[Hochstetter et~al., 2021]{hochstetter2021avalanches}
+Hochstetter, J., Zhu, R., Loeffler, A., Diaz-Alvarez, A., Nakayama, T., and
+  Kuncic, Z. (2021).
+\newblock Avalanches and edge-of-chaos learning in neuromorphic nanowire
+  networks.
+\newblock {\em Nature Communications}, 12(1):4008.
 
 \bibitem[Hodgkin and Huxley, 1952]{hodgkin1952quantitative}
 Hodgkin, A.~L. and Huxley, A.~F. (1952).
@@ -316,6 +587,13 @@ Hofstein, S.~R. (1967).
 \newblock Proton and sodium transport in sio 2 films.
 \newblock {\em IEEE Transactions on Electron Devices}, 14(11):749--759.
 
+\bibitem[Hu et~al., 2016]{hu2016dot}
+Hu, M., Strachan, J.~P., Li, Z., Stanley, R., et~al. (2016).
+\newblock Dot-product engine as computing memory to accelerate machine learning
+  algorithms.
+\newblock In {\em 2016 17th International Symposium on Quality Electronic
+  Design (ISQED)}, pages 374--379. IEEE.
+
 \bibitem[Hu et~al., 2014]{hu2014review}
 Hu, S., Wu, S., Jia, W., Yu, Q., Deng, L., Fu, Y.~Q., Liu, Y., and Chen, T.~P.
   (2014).
@@ -323,11 +601,30 @@ Hu, S., Wu, S., Jia, W., Yu, Q., Deng, L., Fu, Y.~Q., Liu, Y., and Chen, T.~P.
   applications.
 \newblock {\em Nanoscience and Nanotechnology Letters}, 6(9):729--757.
 
+\bibitem[Huang et~al., 2018]{huang2018memristor}
+Huang, A., Zhang, X., Li, R., and Chi, Y. (2018).
+\newblock Memristor neural network design.
+\newblock {\em Memristor and Memristive Neural Networks}, pages 1--35.
+
 \bibitem[Huang et~al., 2003]{huang2003electrochemical}
 Huang, C., Li, K., Tu, G., and Wang, W. (2003).
 \newblock The electrochemical behavior of tin-doped indium oxide during
   reduction in 0.3 m hydrochloric acid.
 \newblock {\em Electrochimica Acta}, 48(24):3599--3605.
+
+\bibitem[Huang et~al., 2022]{huang2022neuropack}
+Huang, J., Stathopoulos, S., Serb, A., and Prodromakis, T. (2022).
+\newblock Neuropack: An algorithm-level python-based simulator for
+  memristor-empowered neuro-inspired computing.
+\newblock {\em Frontiers in Nanotechnology}, 4:851856.
+
+\bibitem[Huang et~al., 2021]{huang2021method}
+Huang, L., Diao, J., Teng, S., Li, Z., Wang, W., Liu, S., Li, M., and Liu, H.
+  (2021).
+\newblock A method for obtaining highly robust memristor based binarized
+  convolutional neural network.
+\newblock In {\em INTERNATIONAL CONFERENCE ON WIRELESS COMMUNICATIONS,
+  NETWORKING AND APPLICATIONS}, pages 813--822. Springer.
 
 \bibitem[Huang et~al., 2019]{huang2019binary}
 Huang, P., Li, Z., Dong, Z., Han, R., Zhou, Z., Zhu, D., Liu, L., Liu, X., and
@@ -335,6 +632,11 @@ Huang, P., Li, Z., Dong, Z., Han, R., Zhou, Z., Zhu, D., Liu, L., Liu, X., and
 \newblock Binary resistive-switching-device-based electronic synapse with
   spike-rate-dependent plasticity for online learning.
 \newblock {\em ACS Applied Electronic Materials}, 1(6):845--853.
+
+\bibitem[Huh and Sejnowski, 2018]{huh2018gradient}
+Huh, D. and Sejnowski, T.~J. (2018).
+\newblock Gradient descent for spiking neural networks.
+\newblock {\em Advances in neural information processing systems}, 31.
 
 \bibitem[Ielmini et~al., 2010]{ielmini2010resistance}
 Ielmini, D., Nardi, F., and Cagli, C. (2010).
@@ -352,6 +654,13 @@ Ielmini, D., Spinelli, A.~S., Rigamonti, M.~A., and Lacaita, A.~L. (2000).
 Indiveri, G. (2021).
 \newblock Introducing ‘neuromorphic computing and engineering’.
 \newblock {\em Neuromorphic Computing and Engineering}, 1(1):010401.
+
+\bibitem[Jain and Raghunathan, 2019]{jain2019cxdnn}
+Jain, S. and Raghunathan, A. (2019).
+\newblock Cxdnn: Hardware-software compensation methods for deep neural
+  networks on resistive crossbar systems.
+\newblock {\em ACM Transactions on Embedded Computing Systems (TECS)},
+  18(6):1--23.
 
 \bibitem[Jeong et~al., 2007]{jeong2007coexistence}
 Jeong, D.~S., Schroeder, H., and Waser, R. (2007).
@@ -379,10 +688,21 @@ Jo, S.~H., Chang, T., Ebong, I., Bhadviya, B.~B., Mazumder, P., and Lu, W.
 \newblock Nanoscale memristor device as synapse in neuromorphic systems.
 \newblock {\em Nano letters}, 10(4):1297--1301.
 
+\bibitem[Jo et~al., 2009]{jo2009programmable}
+Jo, S.~H., Kim, K.-H., and Lu, W. (2009).
+\newblock Programmable resistance switching in nanoscale two-terminal devices.
+\newblock {\em Nano letters}, 9(1):496--500.
+
 \bibitem[Johnston et~al., 1996]{johnston1996active}
 Johnston, D., Magee, J.~C., Colbert, C.~M., and Christie, B.~R. (1996).
 \newblock Active properties of neuronal dendrites.
 \newblock {\em Annual review of neuroscience}, 19(1):165--186.
+
+\bibitem[Joksas, 2022]{joksas2022memristive}
+Joksas, D. (2022).
+\newblock {\em Memristive crossbars as hardware accelerators: modelling, design
+  and new uses}.
+\newblock PhD thesis, UCL (University College London).
 
 \bibitem[Joksas et~al., 2020]{joksas2020committee}
 Joksas, D., Freitas, P., Chai, Z., Ng, W.~H., Buckwell, M., Li, C., Zhang, W.,
@@ -398,16 +718,55 @@ Joksas, D., Wang, E., Barmpatsalos, N., Ng, W.~H., Kenyon, A.~J.,
   memristive neural networks.
 \newblock {\em Advanced Science}, 9(17):2105784.
 
+\bibitem[Jones, 1993]{jones1993simple}
+Jones, M.~C. (1993).
+\newblock Simple boundary correction for kernel density estimation.
+\newblock {\em Statistics and computing}, 3:135--146.
+
+\bibitem[Joshi et~al., 2020]{joshi2020accurate}
+Joshi, V., Le~Gallo, M., Haefeli, S., Boybat, I., Nandakumar, S.~R., Piveteau,
+  C., Dazzi, M., Rajendran, B., Sebastian, A., and Eleftheriou, E. (2020).
+\newblock Accurate deep neural network inference using computational
+  phase-change memory.
+\newblock {\em Nature communications}, 11(1):2473.
+
 \bibitem[Kandel et~al., 2000]{kandel2000principles}
 Kandel, E.~R., Schwartz, J.~H., Jessell, T.~M., Siegelbaum, S., Hudspeth,
   A.~J., Mack, S., et~al. (2000).
 \newblock {\em Principles of neural science}, volume~4.
 \newblock McGraw-hill New York.
 
+\bibitem[Kang et~al., 2015]{kang2015emulation}
+Kang, D.-H., Jun, H.-G., Ryoo, K.-C., Jeong, H., and Sohn, H. (2015).
+\newblock Emulation of spike-timing dependent plasticity in nano-scale phase
+  change memory.
+\newblock {\em Neurocomputing}, 155:153--158.
+
+\bibitem[Kang et~al., 2021]{kang2021build}
+Kang, S.~M., Choi, D., Eshraghian, J.~K., Zhou, P., Kim, J., Kong, B.-S., Zhu,
+  X., Demirkol, A.~S., Ascoli, A., Tetzlaff, R., et~al. (2021).
+\newblock How to build a memristive integrate-and-fire model for spiking
+  neuronal signal generation.
+\newblock {\em IEEE Transactions on Circuits and Systems I: Regular Papers},
+  68(12):4837--4850.
+
+\bibitem[Kappel et~al., 2014]{kappel2014stdp}
+Kappel, D., Nessler, B., and Maass, W. (2014).
+\newblock Stdp installs in winner-take-all circuits an online approximation to
+  hidden markov model learning.
+\newblock {\em PLoS computational biology}, 10(3):e1003511.
+
 \bibitem[Kempter et~al., 1999]{kempter1999hebbian}
 Kempter, R., Gerstner, W., and Van~Hemmen, J.~L. (1999).
 \newblock Hebbian learning and spiking neurons.
 \newblock {\em Physical Review E}, 59(4):4498.
+
+\bibitem[Kendall et~al., 2020]{kendall2020training}
+Kendall, J., Pantone, R., Manickavasagam, K., Bengio, Y., and Scellier, B.
+  (2020).
+\newblock Training end-to-end analog neural networks with equilibrium
+  propagation.
+\newblock {\em arXiv preprint arXiv:2006.01981}.
 
 \bibitem[Kenyon et~al., 2019]{kenyon2019interplay}
 Kenyon, A.~J., Munde, M.~S., Ng, W.~H., Buckwell, M., Joksas, D., and Mehonic,
@@ -423,16 +782,34 @@ Khan, S.~A. and Kim, S. (2020).
   resistive switching memory for neuromorphic applications.
 \newblock {\em RSC advances}, 10(52):31342--31347.
 
+\bibitem[Kheradpisheh et~al., 2018]{kheradpisheh2018stdp}
+Kheradpisheh, S.~R., Ganjtabesh, M., Thorpe, S.~J., and Masquelier, T. (2018).
+\newblock Stdp-based spiking deep convolutional neural networks for object
+  recognition.
+\newblock {\em Neural Networks}, 99:56--67.
+
 \bibitem[Khodagholy et~al., 2015]{khodagholy2015neurogrid}
 Khodagholy, D., Gelinas, J.~N., Thesen, T., Doyle, W., Devinsky, O., Malliaras,
   G.~G., and Buzs{\'a}ki, G. (2015).
 \newblock Neurogrid: recording action potentials from the surface of the brain.
 \newblock {\em Nature neuroscience}, 18(2):310--315.
 
+\bibitem[Kiani et~al., 2021]{kiani2021fully}
+Kiani, F., Yin, J., Wang, Z., Yang, J.~J., and Xia, Q. (2021).
+\newblock A fully hardware-based memristive multilayer neural network.
+\newblock {\em Science advances}, 7(48):eabj4801.
+
 \bibitem[Kim et~al., 2021]{kim20214k}
 Kim, H., Mahmoodi, M., Nili, H., and Strukov, D.~B. (2021).
 \newblock 4k-memristor analog-grade passive crossbar circuit.
 \newblock {\em Nature communications}, 12(1):5198.
+
+\bibitem[Kim et~al., 2016]{kim2016voltage}
+Kim, K.~M., Yang, J.~J., Strachan, J.~P., Grafals, E.~M., Ge, N., Melendez,
+  N.~D., Li, Z., and Williams, R.~S. (2016).
+\newblock Voltage divider effect for the improvement of variability and
+  endurance of taox memristor.
+\newblock {\em Scientific reports}, 6(1):20085.
 
 \bibitem[Knight, 1972]{knight1972dynamics}
 Knight, B.~W. (1972).
@@ -451,6 +828,18 @@ Kozicki, M.~N., Mitkova, M., and Valov, I. (2016).
 \newblock {\em Resistive switching: from fundamentals of nanoionic redox
   processes to memristive device applications}, pages 483--514.
 
+\bibitem[Krizhevsky et~al., 2012]{krizhevsky2012imagenet}
+Krizhevsky, A., Sutskever, I., and Hinton, G.~E. (2012).
+\newblock Imagenet classification with deep convolutional neural networks.
+\newblock {\em Advances in neural information processing systems}, 25.
+
+\bibitem[Krzysteczko et~al., 2012]{krzysteczko2012memristive}
+Krzysteczko, P., M{\"u}nchenberger, J., Sch{\"a}fers, M., Reiss, G., and
+  Thomas, A. (2012).
+\newblock The memristive magnetic tunnel junction as a nanoscopic
+  synapse-neuron system.
+\newblock {\em Advanced Materials}, 24(6):762--766.
+
 \bibitem[Kusaka et~al., 1987]{1487102}
 Kusaka, T., Ohji, Y., and Mukai, K. (1987).
 \newblock Time-dependent dielectric breakdown of ultra-thin silicon oxide.
@@ -461,6 +850,12 @@ Lagarias, J.~C., Reeds, J.~A., Wright, M.~H., and Wright, P.~E. (1998).
 \newblock Convergence properties of the nelder--mead simplex method in low
   dimensions.
 \newblock {\em SIAM Journal on optimization}, 9(1):112--147.
+
+\bibitem[Lammie et~al., 2022]{lammie2022memtorch}
+Lammie, C., Xiang, W., Linares-Barranco, B., and Azghadi, M.~R. (2022).
+\newblock Memtorch: An open-source simulation framework for memristive deep
+  learning systems.
+\newblock {\em Neurocomputing}, 485:124--133.
 
 \bibitem[Lampert and Schilling, 1970]{lampert1970current}
 Lampert, M.~A. and Schilling, R.~B. (1970).
@@ -485,6 +880,36 @@ Lee, J., Schell, W., Zhu, X., Kioupakis, E., and Lu, W.~D. (2019).
   oxide-based rram.
 \newblock {\em ACS applied materials \& interfaces}, 11(12):11579--11586.
 
+\bibitem[Lee et~al., 2016]{lee2016training}
+Lee, J.~H., Delbruck, T., and Pfeiffer, M. (2016).
+\newblock Training deep spiking neural networks using backpropagation.
+\newblock {\em Frontiers in neuroscience}, 10:508.
+
+\bibitem[Lentz et~al., 2013]{lentz2013current}
+Lentz, F., Roesgen, B., Rana, V., Wouters, D.~J., and Waser, R. (2013).
+\newblock Current compliance-dependent nonlinearity in tiox reram.
+\newblock {\em IEEE electron device letters}, 34(8):996--998.
+
+\bibitem[Li et~al., 2019]{li2019build}
+Li, B., Yan, B., Liu, C., and Li, H. (2019).
+\newblock Build reliable and efficient neuromorphic design with memristor
+  technology.
+\newblock In {\em Proceedings of the 24th Asia and South Pacific Design
+  Automation Conference}, pages 224--229.
+
+\bibitem[Li et~al., 2017a]{li2017three}
+Li, C., Han, L., Jiang, H., Jang, M.-H., Lin, P., Wu, Q., Barnell, M., Yang,
+  J.~J., Xin, H.~L., and Xia, Q. (2017a).
+\newblock Three-dimensional crossbar arrays of self-rectifying si/sio2/si
+  memristors.
+\newblock {\em Nature communications}, 8(1):15666.
+
+\bibitem[Li et~al., 2018]{li2018analogue}
+Li, C., Hu, M., Li, Y., Jiang, H., Ge, N., Montgomery, E., Zhang, J., Song, W.,
+  D{\'a}vila, N., Graves, C.~E., et~al. (2018).
+\newblock Analogue signal and image processing with large memristor crossbars.
+\newblock {\em Nature electronics}, 1(1):52--59.
+
 \bibitem[Li et~al., 2020]{li2020enhanced}
 Li, J., Xu, H., Sun, S.-Y., Liu, S., Li, N., Li, Q., Liu, H., and Li, Z.
   (2020).
@@ -492,23 +917,59 @@ Li, J., Xu, H., Sun, S.-Y., Liu, S., Li, N., Li, Q., Liu, H., and Li, Z.
   electronic synaptic devices.
 \newblock {\em Neurocomputing}, 408:21--30.
 
+\bibitem[Li et~al., 2014]{li2014stochastic}
+Li, Q., Khiat, A., Salaoru, I., Xu, H., and Prodromakis, T. (2014).
+\newblock Stochastic switching of tio 2-based memristive devices with identical
+  initial memory states.
+\newblock {\em Nanoscale research letters}, 9:1--5.
+
+\bibitem[Li, 2018]{li2018analog}
+Li, Y. (2018).
+\newblock Analog computing using 1t1r crossbar arrays analog computing using
+  1t1r crossbar arrays.
+\newblock {\em Feb}, 28:1--81.
+
 \bibitem[Li et~al., 2015]{li2015visible}
 Li, Y., Lei, Y., Shen, B., and Sun, J. (2015).
 \newblock Visible-light-accelerated oxygen vacancy migration in strontium
   titanate.
 \newblock {\em Scientific reports}, 5(1):14576.
 
-\bibitem[Li et~al., 2017]{li2017resistive}
-Li, Y., Long, S., Liu, Q., Lv, H., and Liu, M. (2017).
+\bibitem[Li et~al., 2017b]{li2017resistive}
+Li, Y., Long, S., Liu, Q., Lv, H., and Liu, M. (2017b).
 \newblock Resistive switching performance improvement via modulating nanoscale
   conductive filament, involving the application of two-dimensional layered
   materials.
 \newblock {\em Small}, 13(35):1604306.
 
+\bibitem[Li et~al., 2013]{li2013ultrafast}
+Li, Y., Zhong, Y., Xu, L., Zhang, J., Xu, X., Sun, H., and Miao, X. (2013).
+\newblock Ultrafast synaptic events in a chalcogenide memristor.
+\newblock {\em Scientific reports}, 3(1):1619.
+
 \bibitem[Lifshitz and Smolinsky, 1989]{lifshitz1989detection}
 Lifshitz, N. and Smolinsky, G. (1989).
 \newblock Detection of water-related charge in electronic dielectrics.
 \newblock {\em Applied physics letters}, 55(4):408--410.
+
+\bibitem[Lim et~al., 2015]{lim2015reliability}
+Lim, H., Kornijcuk, V., Seok, J.~Y., Kim, S.~K., Kim, I., Hwang, C.~S., and
+  Jeong, D.~S. (2015).
+\newblock Reliability of neuronal information conveyed by unreliable
+  neuristor-based leaky integrate-and-fire neurons: a model study.
+\newblock {\em Scientific reports}, 5(1):9776.
+
+\bibitem[Lin et~al., 2020]{lin2020adaptive}
+Lin, C.-Y., Chen, J., Chen, P.-H., Chang, T.-C., Wu, Y., Eshraghian, J.~K.,
+  Moon, J., Yoo, S., Wang, Y.-H., Chen, W.-C., et~al. (2020).
+\newblock Adaptive synaptic memory via lithium ion modulation in rram devices.
+\newblock {\em Small}, 16(42):2003964.
+
+\bibitem[Liu et~al., 2017]{liu2017rescuing}
+Liu, C., Hu, M., Strachan, J.~P., and Li, H. (2017).
+\newblock Rescuing memristor-based neuromorphic design with high defects.
+\newblock In {\em Proceedings of the 54th Annual Design Automation Conference
+  2017}, pages 1--6.
 
 \bibitem[Liu et~al., 2015a]{liu2015categorization}
 Liu, J.-C., Hsu, C.-W., Wang, I.-T., and Hou, T.-H. (2015a).
@@ -528,6 +989,12 @@ Liu, Q., Long, S., Lv, H., Wang, W., Niu, J., Huo, Z., Chen, J., and Liu, M.
   solid-electrolyte-based reram by using a metal nanocrystal covered bottom
   electrode.
 \newblock {\em ACS nano}, 4(10):6162--6168.
+
+\bibitem[Loeffler et~al., 2021]{loeffler2021modularity}
+Loeffler, A., Zhu, R., Hochstetter, J., Diaz-Alvarez, A., Nakayama, T., Shine,
+  J.~M., and Kuncic, Z. (2021).
+\newblock Modularity and multitasking in neuro-memristive reservoir networks.
+\newblock {\em Neuromorphic Computing and Engineering}, 1(1):014003.
 
 \bibitem[Mabilleau and Sabokbar, 2008]{mabilleau2008vitro}
 Mabilleau, G. and Sabokbar, A. (2008).
@@ -563,11 +1030,22 @@ Manceau, J.-P., Bruyere, S., Jeannot, S., Sylvestre, A., and Gonon, P. (2007b).
   using dielectric stacks to prevent oxygen vacancies formation.
 \newblock {\em Applied Physics Letters}, 91(13).
 
+\bibitem[Mandal et~al., 2014]{mandal2014novel}
+Mandal, S., El-Amin, A., Alexander, K., Rajendran, B., and Jha, R. (2014).
+\newblock Novel synaptic memory device for neuromorphic computing.
+\newblock {\em Scientific reports}, 4(1):5333.
+
 \bibitem[Mannion, 2022]{mannion2022current}
 Mannion, D.~J. (2022).
 \newblock {\em Current transient phenomena in silicon oxide resistance
   switching oxides: characterisation and computational applications}.
 \newblock PhD thesis, UCL (University College London).
+
+\bibitem[Mannion et~al., 2023]{mannion2023unipolar}
+Mannion, D.~J., Vu, V.~C., Ng, W.~H., Mehonic, A., and Kenyon, A.~J. (2023).
+\newblock Unipolar potentiation and depression in memristive devices utilizing
+  the subthreshold regime.
+\newblock {\em IEEE Transactions on Nanotechnology}, 22:313--320.
 
 \bibitem[Many and Rakavy, 1962]{many1962theory}
 Many, A. and Rakavy, G. (1962).
@@ -575,11 +1053,22 @@ Many, A. and Rakavy, G. (1962).
   presence of trapping.
 \newblock {\em Physical Review}, 126(6):1980.
 
+\bibitem[Maranh{\~a}o and Guimar{\~a}es, 2021]{maranhao2021low}
+Maranh{\~a}o, G. and Guimar{\~a}es, J.~G. (2021).
+\newblock Low-power hybrid memristor-cmos spiking neuromorphic stdp learning
+  system.
+\newblock {\em IET Circuits, Devices \& Systems}, 15(3):237--250.
+
 \bibitem[Marder and Goaillard, 2006]{marder2006variability}
 Marder, E. and Goaillard, J.-M. (2006).
 \newblock Variability, compensation and homeostasis in neuron and network
   function.
 \newblock {\em Nature Reviews Neuroscience}, 7(7):563--574.
+
+\bibitem[Markram et~al., 2012]{markram2012spike}
+Markram, H., Gerstner, W., and Sj{\"o}str{\"o}m, P.~J. (2012).
+\newblock Spike-timing-dependent plasticity: a comprehensive overview.
+\newblock {\em Frontiers in synaptic neuroscience}, 4:2.
 
 \bibitem[Markram et~al., 1997]{markram1997regulation}
 Markram, H., L{\"u}bke, J., Frotscher, M., and Sakmann, B. (1997).
@@ -594,6 +1083,12 @@ Markram, H., Muller, E., Ramaswamy, S., Reimann, M.~W., Abdellah, M., Sanchez,
 \newblock Reconstruction and simulation of neocortical microcircuitry.
 \newblock {\em Cell}, 163(2):456--492.
 
+\bibitem[McKennoch et~al., 2006]{mckennoch2006fast}
+McKennoch, S., Liu, D., and Bushnell, L.~G. (2006).
+\newblock Fast modifications of the spikeprop algorithm.
+\newblock In {\em The 2006 IEEE International Joint Conference on Neural
+  Network Proceedings}, pages 3970--3977. IEEE.
+
 \bibitem[Mead, 1990]{mead1990neuromorphic}
 Mead, C. (1990).
 \newblock Neuromorphic electronic systems.
@@ -603,6 +1098,13 @@ Mead, C. (1990).
 Mead, C. and Ismail, M. (1989).
 \newblock {\em Analog VLSI implementation of neural systems}, volume~80.
 \newblock Springer Science \& Business Media.
+
+\bibitem[Mehonic et~al., 2015]{mehonic2015structural}
+Mehonic, A., Buckwell, M., Montesi, L., Garnett, L., Hudziak, S., Fearn, S.,
+  Chater, R., McPhail, D., and Kenyon, A.~J. (2015).
+\newblock Structural changes and conductance thresholds in metal-free intrinsic
+  siox resistive random access memory.
+\newblock {\em Journal of Applied Physics}, 117(12).
 
 \bibitem[Mehonic et~al., 2012a]{mehonic2012resistive}
 Mehonic, A., Cueff, S., Wojdak, M., Hudziak, S., Jambois, O., Labb{\'e}, C.,
@@ -615,6 +1117,11 @@ Mehonic, A., Cueff, S., Wojdak, M., Hudziak, S., Labb{\'e}, C., Rizk, R., and
   Kenyon, A.~J. (2012b).
 \newblock Electrically tailored resistance switching in silicon oxide.
 \newblock {\em Nanotechnology}, 23(45):455201.
+
+\bibitem[Mehonic et~al., 2019]{mehonic2019simulation}
+Mehonic, A., Joksas, D., Ng, W.~H., Buckwell, M., and Kenyon, A.~J. (2019).
+\newblock Simulation of inference accuracy using realistic rram devices.
+\newblock {\em Frontiers in neuroscience}, 13:593.
 
 \bibitem[Mehonic et~al., 2017]{mehonic2017intrinsic}
 Mehonic, A., Munde, M.~S., Ng, W., Buckwell, M., Montesi, L., Bosman, M.,
@@ -639,11 +1146,24 @@ Menke, T., Meuffels, P., Dittmann, R., Szot, K., and Waser, R. (2009).
 \newblock Separation of bulk and interface contributions to electroforming and
   resistive switching behavior of epitaxial fe-doped srtio 3.
 
+\bibitem[Merolla et~al., 2014]{merolla2014million}
+Merolla, P.~A., Arthur, J.~V., Alvarez-Icaza, R., Cassidy, A.~S., Sawada, J.,
+  Akopyan, F., Jackson, B.~L., Imam, N., Guo, C., Nakamura, Y., et~al. (2014).
+\newblock A million spiking-neuron integrated circuit with a scalable
+  communication network and interface.
+\newblock {\em Science}, 345(6197):668--673.
+
 \bibitem[Meyer et~al., 2005]{meyer2005oxygen}
 Meyer, R., Liedtke, R., and Waser, R. (2005).
 \newblock Oxygen vacancy migration and time-dependent leakage current behavior
   of ba0. 3sr0. 7tio3 thin films.
 \newblock {\em Applied Physics Letters}, 86(11).
+
+\bibitem[Molter and Nugent, 2016]{molter2016generalized}
+Molter, T.~W. and Nugent, M.~A. (2016).
+\newblock The generalized metastable switch memristor model.
+\newblock In {\em CNNA 2016; 15th International workshop on cellular nanoscale
+  networks and their applications}, pages 1--2. VDE.
 
 \bibitem[Moon et~al., 2019]{moon2019rram}
 Moon, K., Lim, S., Park, J., Sung, C., Oh, S., Woo, J., Lee, J., and Hwang, H.
@@ -656,6 +1176,13 @@ Moore, G.~E. (2006).
 \newblock Lithography and the future of moore's law.
 \newblock {\em IEEE Solid-State Circuits Society Newsletter}, 11(3):37--42.
 
+\bibitem[Mostafa, 2017]{mostafa2017supervised}
+Mostafa, H. (2017).
+\newblock Supervised learning based on temporal coding in spiking neural
+  networks.
+\newblock {\em IEEE transactions on neural networks and learning systems},
+  29(7):3227--3235.
+
 \bibitem[Munde et~al., 2017]{munde2017intrinsic}
 Munde, M., Mehonic, A., Ng, W., Buckwell, M., Montesi, L., Bosman, M., Shluger,
   A., and Kenyon, A. (2017).
@@ -663,11 +1190,41 @@ Munde, M., Mehonic, A., Ng, W., Buckwell, M., Montesi, L., Bosman, M., Shluger,
   role of columnar microstructure.
 \newblock {\em Scientific reports}, 7(1):9274.
 
+\bibitem[Nair and Hinton, 2010]{nair2010rectified}
+Nair, V. and Hinton, G.~E. (2010).
+\newblock Rectified linear units improve restricted boltzmann machines.
+\newblock In {\em Proceedings of the 27th international conference on machine
+  learning (ICML-10)}, pages 807--814.
+
+\bibitem[Neftci et~al., 2014]{neftci2014event}
+Neftci, E., Das, S., Pedroni, B., Kreutz-Delgado, K., and Cauwenberghs, G.
+  (2014).
+\newblock Event-driven contrastive divergence for spiking neuromorphic systems.
+\newblock {\em Frontiers in neuroscience}, 7:272.
+
+\bibitem[Neftci et~al., 2019]{neftci2019surrogate}
+Neftci, E.~O., Mostafa, H., and Zenke, F. (2019).
+\newblock Surrogate gradient learning in spiking neural networks: Bringing the
+  power of gradient-based optimization to spiking neural networks.
+\newblock {\em IEEE Signal Processing Magazine}, 36(6):51--63.
+
+\bibitem[Nessler et~al., 2013]{nessler2013bayesian}
+Nessler, B., Pfeiffer, M., Buesing, L., and Maass, W. (2013).
+\newblock Bayesian computation emerges in generic cortical microcircuits
+  through spike-timing-dependent plasticity.
+\newblock {\em PLoS computational biology}, 9(4):e1003037.
+
 \bibitem[Noble, 1962]{noble1962modification}
 Noble, D. (1962).
 \newblock A modification of the hodgkin—huxley equations applicable to
   purkinje fibre action and pacemaker potentials.
 \newblock {\em The Journal of physiology}, 160(2):317.
+
+\bibitem[O'Connor et~al., 2013]{o2013real}
+O'Connor, P., Neil, D., Liu, S.-C., Delbruck, T., and Pfeiffer, M. (2013).
+\newblock Real-time classification and sensor fusion with a spiking deep belief
+  network.
+\newblock {\em Frontiers in neuroscience}, 7:178.
 
 \bibitem[Orchard et~al., 2021]{orchard2021efficient}
 Orchard, G., Frady, E.~P., Rubin, D. B.~D., Sanborn, S., Shrestha, S.~B.,
@@ -676,6 +1233,11 @@ Orchard, G., Frady, E.~P., Rubin, D. B.~D., Sanborn, S., Shrestha, S.~B.,
 \newblock In {\em 2021 IEEE Workshop on Signal Processing Systems (SiPS)},
   pages 254--259. IEEE.
 
+\bibitem[Pehle and Egholm~Pedersen, 2021]{pehle2021norse}
+Pehle, C.-G. and Egholm~Pedersen, J. (2021).
+\newblock Norse-a deep learning library for spiking neural networks.
+\newblock {\em Zenodo}.
+
 \bibitem[Peng et~al., 2012]{peng2012resistive}
 Peng, C.-N., Wang, C.-W., Chan, T.-C., Chang, W.-Y., Wang, Y.-C., Tsai, H.-W.,
   Wu, W.-W., Chen, L.-J., and Chueh, Y.-L. (2012).
@@ -683,10 +1245,62 @@ Peng, C.-N., Wang, C.-W., Chan, T.-C., Chang, W.-Y., Wang, Y.-C., Tsai, H.-W.,
   observation of conductive bridge formation.
 \newblock {\em Nanoscale research letters}, 7:1--6.
 
+\bibitem[Perez-Carrasco et~al., 2010]{perez2010spike}
+Perez-Carrasco, J.-A., Serrano, C., Acha, B., Serrano-Gotarredona, T., and
+  Linares-Barranco, B. (2010).
+\newblock Spike-based convolutional network for real-time processing.
+\newblock In {\em 2010 20th International Conference on Pattern Recognition},
+  pages 3085--3088. IEEE.
+
+\bibitem[Pfeiffer and Pfeil, 2018]{pfeiffer2018deep}
+Pfeiffer, M. and Pfeil, T. (2018).
+\newblock Deep learning with spiking neurons: opportunities and challenges.
+\newblock {\em Frontiers in neuroscience}, page 774.
+
+\bibitem[Pi et~al., 2019]{pi2019memristor}
+Pi, S., Li, C., Jiang, H., Xia, W., Xin, H., Yang, J.~J., and Xia, Q. (2019).
+\newblock Memristor crossbar arrays with 6-nm half-pitch and 2-nm critical
+  dimension.
+\newblock {\em Nature nanotechnology}, 14(1):35--39.
+
 \bibitem[Polsky et~al., 2004]{polsky2004computational}
 Polsky, A., Mel, B.~W., and Schiller, J. (2004).
 \newblock Computational subunits in thin dendrites of pyramidal cells.
 \newblock {\em Nature neuroscience}, 7(6):621--627.
+
+\bibitem[Poole et~al., 2014]{poole2014analyzing}
+Poole, B., Sohl-Dickstein, J., and Ganguli, S. (2014).
+\newblock Analyzing noise in autoencoders and deep networks.
+\newblock {\em arXiv preprint arXiv:1406.1831}.
+
+\bibitem[Prakash and Hwang, 2016]{prakash2016multilevel}
+Prakash, A. and Hwang, H. (2016).
+\newblock Multilevel cell storage and resistance variability in resistive
+  random access memory.
+\newblock {\em Physical Sciences Reviews}, 1(6):20160010.
+
+\bibitem[Puglisi and Pavan, 2016]{puglisi2016guidelines}
+Puglisi, F.~M. and Pavan, P. (2016).
+\newblock Guidelines for a reliable analysis of random telegraph noise in
+  electronic devices.
+\newblock {\em IEEE Transactions on Instrumentation and Measurement},
+  65(6):1435--1442.
+
+\bibitem[Querlioz et~al., 2012]{querlioz2012bioinspired}
+Querlioz, D., Zhao, W., Dollfus, P., Klein, J.-O., Bichler, O., and Gamrat, C.
+  (2012).
+\newblock Bioinspired networks with nanoscale memristive devices that combine
+  the unsupervised and supervised learning approaches.
+\newblock In {\em Proceedings of the 2012 IEEE/ACM International Symposium on
+  Nanoscale Architectures}, pages 203--210.
+
+\bibitem[Rasch et~al., 2021]{rasch2021flexible}
+Rasch, M.~J., Moreda, D., Gokmen, T., Le~Gallo, M., Carta, F., Goldberg, C.,
+  El~Maghraoui, K., Sebastian, A., and Narayanan, V. (2021).
+\newblock A flexible and fast pytorch toolkit for simulating training and
+  inference on analog crossbar arrays.
+\newblock In {\em 2021 IEEE 3rd international conference on artificial
+  intelligence circuits and systems (AICAS)}, pages 1--4. IEEE.
 
 \bibitem[Saha and Krupanidhi, 2001]{saha2001transient}
 Saha, S. and Krupanidhi, S. (2001).
@@ -713,6 +1327,17 @@ Schlaf, R., Murata, H., and Kafafi, Z. (2001).
 \newblock {\em Journal of Electron Spectroscopy and Related Phenomena},
   120(1-3):149--154.
 
+\bibitem[Scott, 2015]{scott2015multivariate}
+Scott, D.~W. (2015).
+\newblock {\em Multivariate density estimation: theory, practice, and
+  visualization}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Sengupta et~al., 2015]{sengupta2015spin}
+Sengupta, A., Al~Azim, Z., Fong, X., and Roy, K. (2015).
+\newblock Spin-orbit torque induced spike-timing dependent plasticity.
+\newblock {\em Applied Physics Letters}, 106(9):093704.
+
 \bibitem[Senthilkumar et~al., 2008]{senthilkumar2008electrochemical}
 Senthilkumar, M., Mathiyarasu, J., Joseph, J., Phani, K., and Yegnaraman, V.
   (2008).
@@ -726,16 +1351,45 @@ Seong, D.-j., Jo, M., Lee, D., and Hwang, H. (2007).
   schottky junction for nonvolatile memory application.
 \newblock {\em Electrochemical and solid-state letters}, 10(6):H168.
 
+\bibitem[Serrano-Gotarredona et~al., 2013]{serrano2013stdp}
+Serrano-Gotarredona, T., Masquelier, T., Prodromakis, T., Indiveri, G., and
+  Linares-Barranco, B. (2013).
+\newblock Stdp and stdp variations with memristors for spiking neuromorphic
+  learning systems.
+\newblock {\em Frontiers in neuroscience}, 7:2.
+
+\bibitem[Shatz, 1992]{shatz1992developing}
+Shatz, C.~J. (1992).
+\newblock The developing brain.
+\newblock {\em Scientific American}, 267(3):60--67.
+
 \bibitem[Shen et~al., 2021]{shen2021experimentally}
 Shen, W., Kumar, S., and Kumar, S. (2021).
 \newblock Experimentally calibrated electro-thermal modeling of temperature
   dynamics in memristors.
 \newblock {\em Applied Physics Letters}, 118(10).
 
+\bibitem[Silverman, 2018]{silverman2018density}
+Silverman, B.~W. (2018).
+\newblock {\em Density estimation for statistics and data analysis}.
+\newblock Routledge.
+
 \bibitem[Snow et~al., 1965]{snow1965ion}
 Snow, E., Grove, A., Deal, B., and Sah, C. (1965).
 \newblock Ion transport phenomena in insulating films.
 \newblock {\em Journal of Applied Physics}, 36(5):1664--1673.
+
+\bibitem[Soni et~al., 2011]{soni2011stochastic}
+Soni, R., Meuffels, P., Staikov, G., Weng, R., K{\"u}geler, C., Petraru, A.,
+  Hambe, M., Waser, R., and Kohlstedt, H. (2011).
+\newblock On the stochastic nature of resistive switching in cu doped ge0.
+  3se0. 7 based memory devices.
+\newblock {\em Journal of applied physics}, 110(5).
+
+\bibitem[Sprekeler et~al., 2007]{sprekeler2007slowness}
+Sprekeler, H., Michaelis, C., and Wiskott, L. (2007).
+\newblock Slowness: An objective for spike-timing--dependent plasticity?
+\newblock {\em PLoS Computational Biology}, 3(6):e112.
 
 \bibitem[Squire et~al., 2012]{squire2012fundamental}
 Squire, L., Berg, D., Bloom, F.~E., Du~Lac, S., Ghosh, A., and Spitzer, N.~C.
@@ -767,10 +1421,45 @@ Stone, J.~V. (2019).
   mathematics of deep learning}.
 \newblock Sebtel Press Warszawa, Poland.
 
+\bibitem[Stromatias and Marsland, 2015]{stromatias2015supervised}
+Stromatias, E. and Marsland, J.~S. (2015).
+\newblock Supervised learning in spiking neural networks with limited
+  precision: Snn/lp.
+\newblock In {\em 2015 International Joint Conference on Neural Networks
+  (IJCNN)}, pages 1--7. IEEE.
+
+\bibitem[Stromatias et~al., 2015]{stromatias2015robustness}
+Stromatias, E., Neil, D., Pfeiffer, M., Galluppi, F., Furber, S.~B., and Liu,
+  S.-C. (2015).
+\newblock Robustness of spiking deep belief networks to noise and reduced bit
+  precision of neuro-inspired hardware platforms.
+\newblock {\em Frontiers in neuroscience}, 9:222.
+
 \bibitem[Strukov et~al., 2008]{strukov2008missing}
 Strukov, D.~B., Snider, G.~S., Stewart, D.~R., and Williams, R.~S. (2008).
 \newblock The missing memristor found.
 \newblock {\em nature}, 453(7191):80--83.
+
+\bibitem[Sun et~al., 2018]{sun2018synaptic}
+Sun, L., Zhang, Y., Hwang, G., Jiang, J., Kim, D., Eshete, Y.~A., Zhao, R., and
+  Yang, H. (2018).
+\newblock Synaptic computation enabled by joule heating of single-layered
+  semiconductors for sound localization.
+\newblock {\em Nano letters}, 18(5):3229--3234.
+
+\bibitem[Sung et~al., 2018]{sung2018effect}
+Sung, C., Lim, S., Kim, H., Kim, T., Moon, K., Song, J., Kim, J.-J., and Hwang,
+  H. (2018).
+\newblock Effect of conductance linearity and multi-level cell characteristics
+  of taox-based synapse device on pattern recognition accuracy of neuromorphic
+  system.
+\newblock {\em Nanotechnology}, 29(11):115203.
+
+\bibitem[Suri et~al., 2013]{suri2013bio}
+Suri, M., Querlioz, D., Bichler, O., Palma, G., Vianello, E., Vuillaume, D.,
+  Gamrat, C., and DeSalvo, B. (2013).
+\newblock Bio-inspired stochastic computing using binary cbram synapses.
+\newblock {\em IEEE Transactions on Electron Devices}, 60(7):2402--2409.
 
 \bibitem[Sze et~al., 2021]{sze2021physics}
 Sze, S.~M., Li, Y., and Ng, K.~K. (2021).
@@ -783,6 +1472,19 @@ Tal, D. and Schwartz, E.~L. (1997).
   computation and multiplication.
 \newblock {\em Neural computation}, 9(2):305--318.
 
+\bibitem[Tang et~al., 2020]{tang2020fully}
+Tang, Z., Chen, Y., Ye, S., Hu, R., Wang, H., He, J., Huang, Q., and Chang, S.
+  (2020).
+\newblock Fully memristive spiking-neuron learning framework and its
+  applications on pattern recognition and edge detection.
+\newblock {\em Neurocomputing}, 403:80--87.
+
+\bibitem[Tavanaei et~al., 2019]{tavanaei2019deep}
+Tavanaei, A., Ghodrati, M., Kheradpisheh, S.~R., Masquelier, T., and Maida, A.
+  (2019).
+\newblock Deep learning in spiking neural networks.
+\newblock {\em Neural networks}, 111:47--63.
+
 \bibitem[Teeter et~al., 2018]{teeter2018generalized}
 Teeter, C., Iyer, R., Menon, V., Gouwens, N., Feng, D., Berg, J., Szafer, A.,
   Cain, N., Zeng, H., Hawrylycz, M., et~al. (2018).
@@ -794,6 +1496,12 @@ Teeter, C., Iyer, R., Menon, V., Gouwens, N., Feng, D., Berg, J., Szafer, A.,
 Tien, N.-W. and Kerschensteiner, D. (2018).
 \newblock Homeostatic plasticity in neural development.
 \newblock {\em Neural development}, 13(1):1--7.
+
+\bibitem[Toyoizumi et~al., 2004]{toyoizumi2004spike}
+Toyoizumi, T., Pfister, J.-P., Aihara, K., and Gerstner, W. (2004).
+\newblock Spike-timing dependent plasticity and mutual information maximization
+  for a spiking neuron model.
+\newblock {\em Advances in neural information processing systems}, 17.
 
 \bibitem[Tran et~al., 2019]{tran2019anisotropic}
 Tran, R., Li, X.-G., Montoya, J.~H., Winston, D., Persson, K.~A., and Ong,
@@ -814,6 +1522,11 @@ Tuller, H.~L. and Bishop, S.~R. (2011).
 \newblock Point defects in oxides: tailoring materials through defect
   engineering.
 \newblock {\em Annual Review of Materials Research}, 41(1):369--398.
+
+\bibitem[Turlach, 1993]{turlach1993bandwidth}
+Turlach, B.~A. (1993).
+\newblock Bandwidth selection in kernel density estimation: a rewiew.
+\newblock Technical report, Humboldt Universitaet Berlin.
 
 \bibitem[Turrigiano, 1999]{turrigiano1999homeostatic}
 Turrigiano, G.~G. (1999).
@@ -854,6 +1567,12 @@ Vieluf, S., El~Atrache, R., Cantley, S., Jackson, M., Clark, J., Sheehan, T.,
 \newblock Seizure-related differences in biosignal 24-h modulation patterns.
 \newblock {\em Scientific reports}, 12(1):1--9.
 
+\bibitem[Vincent et~al., 2008]{vincent2008extracting}
+Vincent, P., Larochelle, H., Bengio, Y., and Manzagol, P.-A. (2008).
+\newblock Extracting and composing robust features with denoising autoencoders.
+\newblock In {\em Proceedings of the 25th international conference on Machine
+  learning}, pages 1096--1103.
+
 \bibitem[Von~Neumann, 1993]{von1993first}
 Von~Neumann, J. (1993).
 \newblock First draft of a report on the edvac.
@@ -867,17 +1586,64 @@ Wakiya, N., Tajiri, N., Kiguchi, T., Mizutani, N., Cross, J.~S., and Shinozaki,
   below 150 c.
 \newblock {\em Japanese journal of applied physics}, 45(6L):L525.
 
+\bibitem[Wan et~al., 2020]{wan2020voltage}
+Wan, W., Kubendran, R., Gao, B., Joshi, S., Raina, P., Wu, H., Cauwenberghs,
+  G., and Wong, H.~P. (2020).
+\newblock A voltage-mode sensing scheme with differential-row weight mapping
+  for energy-efficient rram-based in-memory computing.
+\newblock In {\em 2020 IEEE Symposium on VLSI Technology}, pages 1--2. IEEE.
+
+\bibitem[Wang et~al., 2018a]{wang2018handwritten}
+Wang, J., Hu, S., Zhan, X., Yu, Q., Liu, Z., Chen, T.~P., Yin, Y., Hosaka, S.,
+  and Liu, Y. (2018a).
+\newblock Handwritten-digit recognition by hybrid convolutional neural network
+  based on hfo2 memristive spiking-neuron.
+\newblock {\em Scientific reports}, 8(1):12546.
+
 \bibitem[Wang and Trolier-McKinstry, 2006]{wang2006oxygen}
 Wang, J. and Trolier-McKinstry, S. (2006).
 \newblock Oxygen vacancy motion in er-doped barium strontium titanate thin
   films.
 \newblock {\em Applied physics letters}, 89(17).
 
+\bibitem[Wang et~al., 2020a]{wang2020supervised}
+Wang, X., Lin, X., and Dang, X. (2020a).
+\newblock Supervised learning in spiking neural networks: A review of
+  algorithms and evaluations.
+\newblock {\em Neural Networks}, 125:258--280.
+
+\bibitem[Wang et~al., 2022]{wang2022low}
+Wang, X.-Y., Dong, C.-T., Zhou, P.-F., Nandi, S.~K., Nath, S.~K., Elliman,
+  R.~G., Iu, H. H.-C., Kang, S.-M., and Eshraghian, J.~K. (2022).
+\newblock Low-variance memristor-based multi-level ternary combinational logic.
+\newblock {\em IEEE Transactions on Circuits and Systems I: Regular Papers},
+  69(6):2423--2434.
+
+\bibitem[Wang et~al., 2020b]{wang2020high}
+Wang, X.-Y., Zhou, P.-F., Eshraghian, J.~K., Lin, C.-Y., Iu, H. H.-C., Chang,
+  T.-C., and Kang, S.-M. (2020b).
+\newblock High-density memristor-cmos ternary logic family.
+\newblock {\em IEEE Transactions on Circuits and Systems I: Regular Papers},
+  68(1):264--274.
+
 \bibitem[Wang et~al., 2003]{wang2003optical}
 Wang, Y., Chen, W.~P., Cheng, K.~C., Chan, H. L.~W., and Choy, C.~L. (2003).
 \newblock Optical degradation of indium tin oxide thin films induced by
   hydrogen-related room temperature reduction.
 \newblock {\em Japanese journal of applied physics}, 42(5B):L546.
+
+\bibitem[Wang et~al., 2020c]{wang2020ssm}
+Wang, Y., Wu, S., Tian, L., and Shi, L. (2020c).
+\newblock Ssm: a high-performance scheme for in situ training of imprecise
+  memristor neural networks.
+\newblock {\em Neurocomputing}, 407:270--280.
+
+\bibitem[Wang et~al., 2018b]{wang2018fully}
+Wang, Z., Joshi, S., Savel’Ev, S., Song, W., Midya, R., Li, Y., Rao, M., Yan,
+  P., Asapu, S., Zhuo, Y., et~al. (2018b).
+\newblock Fully memristive neural networks for pattern classification with
+  unsupervised learning.
+\newblock {\em Nature Electronics}, 1(2):137--145.
 
 \bibitem[Wang et~al., 2017]{wang2017memristors}
 Wang, Z., Joshi, S., Savel’ev, S.~E., Jiang, H., Midya, R., Lin, P., Hu, M.,
@@ -918,17 +1684,43 @@ Wen, S. and Zeng, Z. (2012).
   with time-varying delays in the presence of strong external stimuli.
 \newblock {\em Neural processing letters}, 35(1):47--59.
 
+\bibitem[Werbos, 1990]{werbos1990backpropagation}
+Werbos, P.~J. (1990).
+\newblock Backpropagation through time: what it does and how to do it.
+\newblock {\em Proceedings of the IEEE}, 78(10):1550--1560.
+
+\bibitem[Wijesinghe et~al., 2018]{wijesinghe2018all}
+Wijesinghe, P., Ankit, A., Sengupta, A., and Roy, K. (2018).
+\newblock An all-memristor deep spiking neural computing system: A step toward
+  realizing the low-power stochastic brain.
+\newblock {\em IEEE Transactions on Emerging Topics in Computational
+  Intelligence}, 2(5):345--358.
+
 \bibitem[Winokur et~al., 1977]{winokur1977field}
 Winokur, P., Boesch, H., McGarrity, J., and McLean, F. (1977).
 \newblock Field-and time-dependent radiation effects at the sio2/si interface
   of hardened mos capacitors.
 \newblock {\em IEEE Transactions on Nuclear Science}, 24(6):2113--2118.
 
+\bibitem[Woo et~al., 2016]{woo2016improved}
+Woo, J., Moon, K., Song, J., Lee, S., Kwak, M., Park, J., and Hwang, H. (2016).
+\newblock Improved synaptic behavior under identical pulses using alo x/hfo 2
+  bilayer rram array for neuromorphic systems.
+\newblock {\em IEEE Electron Device Letters}, 37(8):994--997.
+
 \bibitem[Wronski and Carlson, 1977]{wronski1977surface}
 Wronski, C. and Carlson, D. (1977).
 \newblock Surface states and barrier heights of metal-amorphous silicon
   schottky barriers.
 \newblock {\em Solid State Communications}, 23(7):421--424.
+
+\bibitem[Wu et~al., 2018]{wu2018methodology}
+Wu, W., Wu, H., Gao, B., Yao, P., Zhang, X., Peng, X., Yu, S., and Qian, H.
+  (2018).
+\newblock A methodology to improve linearity of analog rram for neuromorphic
+  computing.
+\newblock In {\em 2018 IEEE symposium on VLSI technology}, pages 103--104.
+  IEEE.
 
 \bibitem[Wu et~al., 2015]{wu2015evolution}
 Wu, X., Mei, S., Bosman, M., Raghavan, N., Zhang, X., Cha, D., Li, K., and Pey,
@@ -937,16 +1729,87 @@ Wu, X., Mei, S., Bosman, M., Raghavan, N., Zhang, X., Cha, D., Li, K., and Pey,
   devices.
 \newblock {\em Advanced Electronic Materials}, 1(11):1500130.
 
+\bibitem[Wu and Saxena, 2017]{wu2017enabling}
+Wu, X. and Saxena, V. (2017).
+\newblock Enabling bio-plausible multi-level stdp using cmos neurons with
+  dendrites and bistable rrams.
+\newblock In {\em 2017 International Joint Conference on Neural Networks
+  (IJCNN)}, pages 3522--3526. IEEE.
+
+\bibitem[Wu and Saxena, 2018]{wu2018dendritic}
+Wu, X. and Saxena, V. (2018).
+\newblock Dendritic-inspired processing enables bio-plausible stdp in compound
+  binary synapses.
+\newblock {\em IEEE Transactions on Nanotechnology}, 18:149--159.
+
+\bibitem[Wunderlich et~al., 2019]{wunderlich2019demonstrating}
+Wunderlich, T., Kungl, A.~F., M{\"u}ller, E., Hartel, A., Stradmann, Y., Aamir,
+  S.~A., Gr{\"u}bl, A., Heimbrecht, A., Schreiber, K., St{\"o}ckel, D., et~al.
+  (2019).
+\newblock Demonstrating advantages of neuromorphic computation: a pilot study.
+\newblock {\em Frontiers in neuroscience}, 13:260.
+
+\bibitem[Xia et~al., 2016]{xia2016technological}
+Xia, L., Gu, P., Li, B., Tang, T., Yin, X., Huangfu, W., Yu, S., Cao, Y., Wang,
+  Y., and Yang, H. (2016).
+\newblock Technological exploration of rram crossbar array for matrix-vector
+  multiplication.
+\newblock {\em Journal of Computer Science and Technology}, 31(1):3--19.
+
+\bibitem[Xia et~al., 2017]{xia2017stuck}
+Xia, L., Huangfu, W., Tang, T., Yin, X., Chakrabarty, K., Xie, Y., Wang, Y.,
+  and Yang, H. (2017).
+\newblock Stuck-at fault tolerance in rram computing systems.
+\newblock {\em IEEE Journal on Emerging and Selected Topics in Circuits and
+  Systems}, 8(1):102--115.
+
+\bibitem[Xia and Yang, 2019]{xia2019memristive}
+Xia, Q. and Yang, J.~J. (2019).
+\newblock Memristive crossbar arrays for brain-inspired computing.
+\newblock {\em Nature materials}, 18(4):309--323.
+
+\bibitem[Yakopcic et~al., 2013]{yakopcic2013generalized}
+Yakopcic, C., Taha, T.~M., Subramanyam, G., and Pino, R.~E. (2013).
+\newblock Generalized memristive device spice model and its application in
+  circuit design.
+\newblock {\em IEEE Transactions on Computer-Aided Design of Integrated
+  Circuits and Systems}, 32(8):1201--1214.
+
 \bibitem[Yang et~al., 2013]{yang2013memristive}
 Yang, J.~J., Strukov, D.~B., and Stewart, D.~R. (2013).
 \newblock Memristive devices for computing.
 \newblock {\em Nature nanotechnology}, 8(1):13--24.
+
+\bibitem[Ye et~al., 2023]{ye2023improving}
+Ye, N., Cao, L., Yang, L., Zhang, Z., Fang, Z., Gu, Q., and Yang, G.-Z. (2023).
+\newblock Improving the robustness of analog deep neural networks through a
+  bayes-optimized noise injection approach.
+\newblock {\em Communications Engineering}, 2(1):25.
+
+\bibitem[Yi et~al., 2016]{yi2016quantized}
+Yi, W., Savel'Ev, S.~E., Medeiros-Ribeiro, G., Miao, F., Zhang, M.-X., Yang,
+  J.~J., Bratkovsky, A.~M., and Williams, R.~S. (2016).
+\newblock Quantized conductance coincides with state instability and excess
+  noise in tantalum oxide memristors.
+\newblock {\em Nature communications}, 7(1):11142.
 
 \bibitem[Yon et~al., 1966]{yon1966sodium}
 Yon, E., Ko, W., and Kuper, A. (1966).
 \newblock Sodium distribution in thermal oxide on silicon by radiochemical and
   mos analysis.
 \newblock {\em IEEE Transactions on Electron Devices}, 1(2):276--280.
+
+\bibitem[Yu et~al., 2012]{yu2012switching}
+Yu, S., Guan, X., and Wong, H.-S.~P. (2012).
+\newblock On the switching parameter variation of metal oxide rram—part ii:
+  Model corroboration and device design strategy.
+\newblock {\em IEEE Transactions on Electron Devices}, 59(4):1183--1188.
+
+\bibitem[Yu et~al., 2011]{yu2011electronic}
+Yu, S., Wu, Y., Jeyasingh, R., Kuzum, D., and Wong, H.-S.~P. (2011).
+\newblock An electronic synapse device based on metal oxide resistive switching
+  memory for neuromorphic computation.
+\newblock {\em IEEE Transactions on Electron Devices}, 58(8):2729--2737.
 
 \bibitem[Yun et~al., 2007]{yun2007random}
 Yun, J.-B., Kim, S., Seo, S., Lee, M.-J., Kim, D.-C., Ahn, S.-E., Park, Y.,
@@ -968,6 +1831,13 @@ Zafar, S., Jones, R.~E., Jiang, B., White, B., Chu, P., Taylor, D., and
   ba 0.5 sr 0.5 tio 3 films.
 \newblock {\em Applied physics letters}, 73(2):175--177.
 
+\bibitem[Zamarre{\~n}o-Ramos et~al., 2011]{zamarreno2011spike}
+Zamarre{\~n}o-Ramos, C., Camu{\~n}as-Mesa, L.~A., P{\'e}rez-Carrasco, J.~A.,
+  Masquelier, T., Serrano-Gotarredona, T., and Linares-Barranco, B. (2011).
+\newblock On spike-timing-dependent-plasticity, memristive devices, and
+  building a self-learning visual cortex.
+\newblock {\em Frontiers in neuroscience}, 5:26.
+
 \bibitem[Zha and Li, 2017]{zha2017imec}
 Zha, Y. and Li, J. (2017).
 \newblock Imec: A fully morphable in-memory computing fabric enabled by
@@ -981,6 +1851,13 @@ Zhang, X., Liu, S., Zhao, X., Wu, F., Wu, Q., Wang, W., Cao, R., Fang, Y., Lv,
   cu/a-si/pt memristor.
 \newblock {\em IEEE Electron Device Letters}, 38(9):1208--1211.
 
+\bibitem[Zhang et~al., 2020]{zhang2020brain}
+Zhang, Y., Wang, Z., Zhu, J., Yang, Y., Rao, M., Song, W., Zhuo, Y., Zhang, X.,
+  Cui, M., Shen, L., et~al. (2020).
+\newblock Brain-inspired computing with memristors: Challenges in devices,
+  circuits, and systems.
+\newblock {\em Applied Physics Reviews}, 7(1).
+
 \bibitem[Zheng and Mazumder, 2018]{zheng2018learning}
 Zheng, N. and Mazumder, P. (2018).
 \newblock Learning in memristor crossbar-based spiking neural networks through
@@ -992,9 +1869,51 @@ Zhong, N., Shima, H., and Akinaga, H. (2010).
 \newblock Transient current study on pt/tio2-x/pt capacitor.
 \newblock {\em Japanese Journal of Applied Physics}, 49(4S):04DJ15.
 
+\bibitem[Zhou, 2022]{zhou2022memristive}
+Zhou, P. (2022).
+\newblock {\em Memristive Spiking Neural Network for Neuromorphic Computing}.
+\newblock University of California, Santa Cruz.
+
+\bibitem[Zhou and Abbaszadeh, 2020]{zhou2020towards}
+Zhou, P. and Abbaszadeh, S. (2020).
+\newblock Towards real-time machine learning for anomaly detection.
+\newblock In {\em 2020 IEEE Nuclear Science Symposium and Medical Imaging
+  Conference (NSS/MIC)}, pages 1--3. IEEE.
+
+\bibitem[Zhou et~al., 2022]{zhou2022fully}
+Zhou, P., Choi, D.-U., Eshraghian, J.~K., and Kang, S.-M. (2022).
+\newblock A fully memristive spiking neural network with unsupervised learning.
+\newblock In {\em 2022 IEEE International Symposium on Circuits and Systems
+  (ISCAS)}, pages 634--638. IEEE.
+
+\bibitem[Zhu et~al., 2021]{zhu2021mnist}
+Zhu, R., Loeffler, A., Hochstetter, J., Diaz-Alvarez, A., Nakayama, T., Stieg,
+  A., Gimzewski, J., Lizier, J., and Kuncic, Z. (2021).
+\newblock Mnist classification using neuromorphic nanowire networks.
+\newblock In {\em International Conference on Neuromorphic Systems 2021}, pages
+  1--4.
+
+\bibitem[Zhu et~al., 2020a]{zhu2020memristor}
+Zhu, X., Wang, Q., and Lu, W.~D. (2020a).
+\newblock Memristor networks for real-time neural activity analysis.
+\newblock {\em Nature communications}, 11(1):2439.
+
+\bibitem[Zhu et~al., 2020b]{zhu2020statistical}
+Zhu, Y., Zhang, G.~L., Wang, T., Li, B., Shi, Y., Ho, T.-Y., and Schlichtmann,
+  U. (2020b).
+\newblock Statistical training for neuromorphic computing using memristor-based
+  crossbars considering process variations and noise.
+\newblock In {\em 2020 Design, Automation \& Test in Europe Conference \&
+  Exhibition (DATE)}, pages 1590--1593. IEEE.
+
 \bibitem[Zhuge et~al., 2013]{zhuge2013advances}
 Zhuge, F., Fu, B., and Cao, H. (2013).
 \newblock Advances in resistive switching memories based on graphene oxide.
 \newblock {\em New Prog. Graphene Res}, 7:185--206.
+
+\bibitem[Zucker and Regehr, 2002]{zucker2002short}
+Zucker, R.~S. and Regehr, W.~G. (2002).
+\newblock Short-term synaptic plasticity.
+\newblock {\em Annual review of physiology}, 64(1):355--405.
 
 \end{thebibliography}
