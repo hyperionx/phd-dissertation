@@ -58,11 +58,14 @@
 \contentsline {figure}{\numberline {5.9}{\ignorespaces Fitting of the extended model's meta-parameters.}}{130}{figure.caption.67}%
 \contentsline {figure}{\numberline {5.10}{\ignorespaces Simulated current transient response under repeated voltage pulses using the extended SPICE model.}}{131}{figure.caption.68}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{147}{figure.caption.69}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{149}{figure.caption.70}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{152}{figure.caption.71}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces A pair of spikes are applied across a synapse to create relative-timing dependent net potential.}}{154}{figure.caption.72}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{159}{figure.caption.73}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{164}{figure.caption.74}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials are transmitted between neurons via chemical and electrical signaling at synapses.}}{135}{figure.caption.69}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces xample of Memristors and CMOS neuron circuits arrangement for achieving STDP learning.}}{135}{figure.caption.70}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{145}{figure.caption.71}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{147}{figure.caption.72}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{150}{figure.caption.73}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces A pair of spikes are applied across a synapse to create relative-timing dependent net potential.}}{152}{figure.caption.74}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{157}{figure.caption.75}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{162}{figure.caption.76}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{166}{figure.caption.77}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

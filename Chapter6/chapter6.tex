@@ -13,6 +13,40 @@ Traditional neuromorphic circuits consist of two main components: neurons and sy
 
 \noindent Modern artificial neural networks and neuro-computing architectures usually neglect the principles of neuroscience \cite{pfeiffer2018deep}. As a consequence, essential elements of the organic cerebral processing systems are either disregarded or overlooked. The aim of biorealistic approaches is to mimic the functions of computational cells using electronic devices. The creation of these circuits in CMOS was traditionally known as neuromorphic engineering, with backpropagating networks being a more direct influence from nature.
 
+\subsection[Bio-inspired Analogy]{Bio-inspired Analogy}
+
+\noindent The human brain is capable of performing complex tasks, including the classification of unstructured data and the recognition of images. In the human brain, the transmission of excitatory and inhibitory postsynaptic potentials from presynaptic to postsynaptic neurons occurs via chemical and electrical signals at synapses, thereby modulating the strength of the synaptic connection. \\
+
+\noindent The synaptic weight is precisely adjusted by the ionic flow through the neurons. In the context of neural networks, this mechanism can be simulated by memristors. There are numerous instances of memristors being utilised as synapses, thus establishing their potential for application as synapses in SNN. In this configuration, the memristor functions as a synapse between two CMOS neurons, with the neurons in question acting as pre- and post-synaptic neurons, respectively. \\
+
+\noindent The input signal of presynaptic neurons was transmitted to postsynaptic neurons via the synapse. In the event of a presynaptic spike being triggered prior to a postsynaptic spike, it is observed that a positive voltage is applied to the memristor. Consequently, an increase in the synaptic weight is recorded, and this process is repeated in reverse \cite{chang2011short}.\\
+
+\noindent In the domain of biology, the membrane plays a crucial role in maintaining the separation of inter-cell ions and enter-cell ions. It is postulated that, according to the electrochemical mechanism, the potential on the sides of the membrane is balanced. It is evident that when the excitatory and inhibitory postsynaptic potentials are reached, the signals transmitted through the dendrites of neurons are subject to disruption, thereby compromising the equilibrium that underlies the complex dynamics of neuronal activity. \\
+
+\noindent The occurrence of neuronal firing is contingent upon the surpassing of a certain threshold potential. The emulation of these neuronal mechanisms, including the maintenance of balance of potential, the instantaneous mechanism, and the process of neurotransmission, is pivotal in the implementation of a biological plausible neuromorphic computing system.\\
+
+\noindent In the context of neural networks, the use of a memristor as a neuron does not necessitate continuous change in conductance; rather, it is sufficient for the memristor to exhibit accumulative behaviour. The application of competent pulses results in the firing of the neuron. These pulses have the capacity to modify the conductance state of the memristor.\\
+
+\begin{figure}[htbp!] 
+\centering    
+\includegraphics[width=0.75\textwidth]{Chapter6/Figs/a.png}
+\caption[Excitatory and inhibitory postsynaptic potentials are transmitted between neurons via chemical and electrical signaling at synapses.]{Excitatory and inhibitory postsynaptic potentials are transmitted between neurons via chemical and electrical signaling at synapses, ultimately driving the generation of new action potentials. \cite{burr2017neuromorphic}.}
+\label{fig:6a}
+\end{figure}
+
+\noindent Neurons are characterised by a soma, which contains the nucleus, an axon, and a dendritic tree. The formation of a synapse occurs at the site of connection between the axon of one neuron and the dendrite/soma/axon of another. As illustrated in Figure \ref{fig:6a}, the biological neuron network with soma and synapse is demonstrated. Similarly, Figure \ref{fig:6b} presents an illustration of the SNN with three layers of neurons and two fully connected inter-layer meshes of memristors. \\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/b.png}
+    \caption[xample of Memristors and CMOS neuron circuits arrangement for achieving STDP learning.]{Example of Memristors and CMOS neuron circuits arrangement for achieving STDP learning: feed-forward neural system with 3 layers of neurons and two fully connecting synapse crossbars. \cite{saighi2015plasticity}.}
+    \label{fig:6b}
+\end{figure}
+
+\noindent  The fabrication of the neuron layers involves the use of CMOS devices, with the inter-layer meshes of memristors being constructed using nanowires positioned on a CMOS substrate. The representation of the neuron soma is depicted as a triangle, with the flat side corresponding to the input (dendrites) and the sharp side denoting the output (axon). Dark rectangles represent memristors, with each one corresponding to a synaptic junction. Each neuron exerts control over the voltage at its input and output nodes. \\
+
+\noindent In this particular SNN circuit, the CMOS-based spiking neurons demonstrate a comparable functionality to conventional integrate-and-fire neurons, utilising the proposed spike shape and a specific spike back-propagation method \cite{prezioso2016self}. The total current of the receiving neuron is determined by Ohm's Law, which is expressed as the conductance of the connected synapses and the voltage drop across the synapses. The SNN training process necessitates the construction of an external circuit. Within this circuit, the input signals are prepared, and the output signal is measured.
+
 \subsection[Neural Computing Nomenclatures]{Neural Computing Nomenclatures}
 
 Deep artificial neural networks (DNNs), particularly convolutional neural networks, represent a significant triumph in the field of modern computer vision. They have demonstrated remarkable efficacy in recognizing a diverse array of objects within expansive, intricate images \cite{krizhevsky2012imagenet}. However, these networks have been engineered for and operate exclusively on rate-based neurons. The question of how they can be executed on spiking neurons represents an emerging frontier of investigation.\\
@@ -95,61 +129,7 @@ Deep artificial neural networks (DNNs), particularly convolutional neural networ
 
 \noindent In terms of hardware implementation, the conventional use of RRAM in circuits often necessitates a considerable amount of overhead to convert analogue currents into digital voltages, which in turn results in a significant power consumption \cite{cai2019fully}. In many instances, the power and area demands of the ADCs and digital-to-analogue converters (DACs) exceed the overhead brought on by RRAM, thereby negating the advantages of memristors. In contrast, spike-based approach eliminates the need for ADCs and DACs, thereby substantially reducing the cost of peripheral circuits.
 
-\subsection[Analogue Hardware Challenges]{Analogue Hardware Challenges}
 
-\noindent Novel computer hardware solutions that employ analogue devices still exhibit limited precision and unreliability. However, both physical and algorithmic techniques can be employed to mitigate these issues. In contrast to digital technology, the analogue approach inherently involves a degree of imprecision. \\
-
-\noindent Analogue devices, such as RRAM, are susceptible to a number of issues, including stuck states, device-to-device variability and I-V nonlinearity. However, the development of advanced fabrication methods and circuit-level optimisations has enabled the mitigation of some of these non-idealities, while algorithmic techniques have also been shown to be effective in reducing their impact.\\
-
-\noindent In contrast to the digital paradigm, where a multitude of physical imperfections are effectively concealed within a bit representation (either '1' or '0'), analogue electronics is confronted with significant challenges due to the intrinsic imprecision associated with non-discrete systems. Even with a minimal amount of non-idealities, it is challenging to encode information with perfect precision using an exact conductance value.\\
-
-\noindent However, non-idealities do exist and can result in significant deviations from ideal behaviour. These include the device becoming stuck in certain conductance states, undergoing changes in conductance over time, showing non-linear current-voltage characteristics, or displaying non-linear conductance modulation in response to voltage stimuli. \\
-
-\noindent It could be argued that analogue computing's more fundamental challenge lies in its reduced precision compared to digital computing, especially when digital systems utilise 16 or more bits of representation. While these issues may be grounds for disqualification in many applications, this may not be the case for machine learning applications, which often employ reduced precision computing, even within digital systems. \\
-
-\noindent In general, machine learning models demonstrate a degree of robustness to minor alterations, such as the presence of noise \cite{cheney2017robustness}. In the event of significant deviations from ideal conditions, hardware imperfections may result in a decline in accuracy. However, this does not necessarily render the system inoperable. It is, therefore, crucial to comprehend the impact of non-idealities and to ascertain how they can be effectively mitigated. \\
-
-\noindent In the context of linear algebra applications, a proportional relationship between voltage and current (i.e. Ohmic behaviour) is the preferred option. This is due to the fact that Ohm's law is employed in the implementation of multiplication, as previously discussed. Nevertheless, exceptions to this linear relationship do arise, particularly in the case of high-resistance devices \cite{mehonic2017intrinsic}. \\
-
-\noindent A number of approaches exist at the device and circuit level that facilitate the resolution or even circumvention of the issue of nonlinearity. During the fabrication of RRAM devices, the adoption of a hot-forming step can result in the generation of more linear characteristics \cite{sung2018effect}. \\
-
-\noindent In the case of individual device programming, the adoption of a transistor-to-resistor ratio (1T1R) architecture can facilitate the precise tuning of memristor conductance, despite the presence of any I-V nonlinearities \cite{li2018analogue}. Alternatively, a charge-based accumulation approach can be employed, wherein a constant voltage is applied, but the input is encoded into pulse width \cite{amirsoleimani2020memory}. This eliminates the dependence on the shape of the I-V curve. \\
-
-\noindent It is possible that some memristive devices may become fixed in a specific conductance state. This phenomenon has been observed following processes such as electroforming, as well as after several successful programming cycles \cite{joksas2022nonideality}. In general, the greater the discrepancy between the intended and actual conductance, the greater the potential for adverse effects. Therefore, it is of paramount importance to identify methods for the prevention or mitigation of faulty devices.\\
-
-\noindent The overall effect of a device becoming stuck is contingent upon the behaviour of other devices, and thus this phenomenon can be employed to mitigate the negative effects. To illustrate, if a device becomes stuck, its negative effect may be counteracted by adjusting the conductance of another device in the differential pair \cite{liu2017rescuing}. On occasion, such an adjustment may occur accidentally, whereby both devices in a differential pair become stuck simultaneously.\\
-
-\noindent As an alternative, if faulty devices can be identified prior to programming, more sophisticated mapping strategies can be employed. The most significant weights can be mapped onto crossbar rows and columns with the lowest incidence of stuck devices \cite{gaol2021reliable}. The most significant terms refer to the weights that could have the greatest impact on accuracy. One way to identify such weights is to calculate of sensitivity $\Delta w_{i,j} := - \eta \frac{\partial E}{\partial \Delta w_{i,j}}$, for each weight $w_{i,j}$, where \textit{E} is the back-propagated loss at the current neuron and $\eta$ is the learning rate.\\
-
-\noindent The term 'limited dynamic range nonideality' is used to describe a situation whereby the $\frac{G_{on}}{G_{off}}$ ratio is relatively small, which can ultimately result in a reduction in effective precision. In the context of other non-idealities, such as device variability, limited dynamic range can result in a reduction in the number of distinguishable states that are available. \\
-
-\noindent If each state is associated with a certain amount of absolute variability, it is evident that a larger dynamic range is preferable, as it allows for a more effective differentiation between those states that are less distinct. The impact of the dynamic range is highly dependent on the specific application. Should one desire to utilise analogue arrays for the storage of digital information, an enhanced dynamic range will facilitate a greater precision in the number of equivalent bits.\\
-
-\noindent Nevertheless, when considering the acceleration of linear algebra operations (and, by extension, machine learning), such comparisons cannot be made with the same degree of ease. As these hardware accelerators are based on analogue computation, the concept of 'bits' – although potentially useful – does not apply directly. In analogue contexts, an error is defined as any deviation from the intended value. The magnitude of the error is the key factor in determining the severity of the mistake. \\
-
-\noindent In the context of inference applications, a large dynamic range is not a crucial factor. If a naive mapping scheme is employed whereby the value of a weight is represented using a single conductance value, then the inaccuracies produced by this imperfect mapping can be addressed with a $\frac{G_{on}}{G_{off}}$ ratio of as low as 3 \cite{mehonic2019simulation}. In other contexts, the impact of limited dynamic range cannot be evaluated without first understanding the nature of other non-idealities, namely the deviations they cause.\\
-
-\noindent Line resistance represents a non-ideality that arises from the presence of non-zero interconnect resistances in crossbar arrays. In the event of its presence, this results in discrepancies from the ideal computation of vector-matrix products. While the impact on accuracy can be significant, there are both physical and algorithmic techniques that can be employed to mitigate it. \\
-
-\noindent One of the most straightforward methods for mitigating the impact of line resistance is to enhance the ratio between the resistance of the devices and the resistance of the interconnecting wires. As resistance is inversely proportional to the cross-sectional area of the wire, one method of reducing interconnect resistance is to increase the width of the wires \cite{li2017three}.\\
-
-\noindent However, this can be challenging in dense arrays, and an alternative approach is to use more conductive materials, for example, $2nm$ platinum nanofins \cite{pi2019memristor}. Another approach is to increase the resistance of the crossbar devices, although this can sometimes result in less stable device behaviour. \\
-
-\noindent At the circuit level, a variety of techniques may be employed which utilise the systematic properties of line resistance in different ways. For instance, a technique designated as double biasing can facilitate a more symmetrical distribution of electric potentials within crossbar arrays, thereby attenuating the impact of line resistance effects \cite{hu2016dot}. As the size of the crossbar array increases, voltage drops tend to accumulate. \\
-
-\noindent Therefore, splitting up the array into smaller units \cite{xia2016technological}, or even organising them in three-dimensional structures \cite{xia2019memristive} can help to mitigate this issue. In considering the specific applications for which crossbar arrays are to be employed, algorithms may be deployed to ascertain optimal mappings from software parameters to physical quantities, such as voltage and conductance.  A nonlinear mapping from weights to conductances can be employed to counteract the detrimental effects of line resistance. \\
-
-\noindent Alternatively, sensitivity analysis can identify the weights that are most sensitive, and thus map them closest to the applied voltages, where their contribution would be disturbed the least \cite{agrawal2019x}. In the specific context of supervised learning, input intensities may be predicted, and the inputs with the highest expected intensity (as well as the corresponding weights) can be mapped closest to the outputs in order to minimise the negative effects of line resistance. \\
-
-\noindent When training networks directly on crossbar arrays, i.e. in situ, linear adjustments of conductance are the preferred approach \cite{burr2015experimental}. In order to ensure a linear response, the system must be modified physically. Some previous studies have proposed adjusting the device structure \cite{woo2016improved}, typically by introducing additional layers \cite{wu2018methodology}. An alternative approach is combining memristive devices with CMOS transistors, which help to improve the linearity \cite{ambrogio2018equivalent}.\\
-
-\noindent Random telegraph noise (RTN) is defined as the occurrence of unpredictable switching between two or more discrete voltage levels in electronic devices \cite{puglisi2016guidelines}. This phenomenon is frequently observed in memristors. RTN is more commonly experienced in devices with higher resistance, which can impede the use of such devices for reducing power consumption or mitigating the effects of line resistance. To circumvent RTN or at least mitigate its effects, it is necessary to modify the fabrication process. For instance, some studies have demonstrated that non-filamentary devices can assist in reducing this type of noise \cite{chai2018impact}. \\
-
-\noindent Once the specific application where memristive crossbars will be employed is identified—for instance, classification using neural networks, a pertinent metric such as accuracy, may be optimised instead of attempting to address individual non-idealities. This methodology is more technology-agnostic, as the nature of non-idealities frequently differs between technologies. However, approaches that optimise the metrics pertinent to the application tend to be algorithmic and, thus, more readily transferable.\\
-
-\noindent In the field of machine learning, averaging approaches have the potential to enhance the accuracy and robustness of models, particularly in situations where the memristive implementation is susceptible to non-idealities. One strategy is to utilise multiple networks in parallel and compute their average outputs. Additionally, stability over time can be a crucial consideration, as certain non-idealities, such as RTN, are stochastic in nature. By averaging over time, the effects of these non-idealities can be mitigated \cite{wan2020voltage}.\\
-
-\noindent The statistical approaches employed in modern machine learning are based on the minimisation of deviations from ideal behaviour in the training data. This can be extended to incorporate the non-ideal effects of the hardware on which the model will be implemented. In some instances, this can be achieved by introducing non-ideality-agnostic noise during training in order to enhance the robustness of the networks \cite{ye2023improving}. Alternatively, noise can be designed to reflect the nature of the non-idealities, thereby enabling the model to adapt more effectively to the various shortcomings of the hardware \cite{huang2021method}.
 
 \section[Nonidealities Simulation]{Nonidealities Simulation}
 
@@ -181,9 +161,9 @@ Deep artificial neural networks (DNNs), particularly convolutional neural networ
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=0.45\textwidth]{Chapter6/Figs/a.png}
+\includegraphics[width=0.45\textwidth]{Chapter6/Figs/c.png}
 \caption[Depiction of Spike-timing-dependent plasticity (STDP).]{Depiction of spike-timing-dependent plasticity (STDP). If the presynaptic spike occurs before the postsynaptic spike (“pre before post”), the synapse is strengthened (red, LTP, long-term potentiation). If the postsynaptic spike occurs before the presynaptic spike, the synapses are weakened (blue, LTD, long-term depression). Typically, two action potentials need to occur within at most a few tens of milliseconds for STDP to be recruited. \cite{FROHLICH201647}.}
-\label{fig:6a}
+\label{fig:6c}
 \end{figure}
 
 \noindent Another prevalent learning rule is spike-timing-dependent plasticity (STDP). The STDP process entails an increase or decrease in synaptic weight contingent on the time interval between pre- and postsynaptic spikes. The total weight change from neuron \textit{j} to neuron \textit{i} is defined as follows:
@@ -227,14 +207,14 @@ W_- (x) &= \left\{ A_-(w)e^{-\left| \Delta t \right| / \tau_-} \right\}  \quad \
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.5\textwidth]{Chapter6/Figs/b.png}
+    \includegraphics[width=0.5\textwidth]{Chapter6/Figs/d.png}
     \caption[Memristor between presynaptic and postsynaptic neurons.]{Memristor between presynaptic and postsynaptic neurons \cite{huang2018memristor}.}
-    \label{fig:6b}
+    \label{fig:6d}
 \end{figure}
 
 \noindent The training process necessitates the utilisation of an external control unit, which introduces a greater degree of overhead than using the memristive crossbar alone. Furthermore, the STDP rule described above can be achieved by utilising memristors \cite{maranhao2021low}, and can be verified using SPICE models \cite{yakopcic2013generalized}. \\
 
-\noindent As illustrated in Figure \ref{fig:6b}, a memristor is situated between two neurons. The presynaptic and postsynaptic spikes will generate a voltage difference across the memristor, which will then cause a memristance update. Furthermore, the time interval between the presynaptic and postsynaptic spikes will result in varying changes in memristance. \\
+\noindent As illustrated in Figure \ref{fig:6d}, a memristor is situated between two neurons. The presynaptic and postsynaptic spikes will generate a voltage difference across the memristor, which will then cause a memristance update. Furthermore, the time interval between the presynaptic and postsynaptic spikes will result in varying changes in memristance. \\
 
 \noindent The majority of research into the emulation of plastic synapses relies on non-volatile memristors for long-term potentiation (LTP), with few researchers focusing on the use of volatile memristors to mimic short-term potentiation (STP) synapses. The significance of volatile memristors is further underscored by their role in neural information processing, including functions such as motion detection, speech recognition, and working memory \cite{ghanbari2017estimating}. \\
 
@@ -285,15 +265,15 @@ The discovery of spike-timing-dependent plasticity (STDP) mechanisms and the eme
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/c.png}
+    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/e.png}
     \caption[A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.]{A single layer of spiking neural network with RRAM synapses organized in crossbar architecture. Post-synaptic neuron connects with a pre-synaptic neuron with several RRAM synapses in parallel. Back-propagated spikes after dendritic processing modulate RRAM in-situ under STDP learning rule \cite{wu2018dendritic}.}
-    \label{fig:6c}
+    \label{fig:6e}
 \end{figure}
 
 
-\noindent As illustrated in Figure \ref{fig:6c}, a RRAM crossbar array is employed to establish synaptic connections between the two neuronal layers. The spiking neurons in the second and subsequent layers implement competitive learning through a winner-take-all shared bus mechanism, whereby the neuron that spikes first for an input pattern inhibits the remaining neurons in the same layer \cite{markram2012spike}.\\
+\noindent As illustrated in Figure \ref{fig:6e}, a RRAM crossbar array is employed to establish synaptic connections between the two neuronal layers. The spiking neurons in the second and subsequent layers implement competitive learning through a winner-take-all shared bus mechanism, whereby the neuron that spikes first for an input pattern inhibits the remaining neurons in the same layer \cite{markram2012spike}.\\
 
-\noindent A combination of STDP and WTA-based learning rules enables the synapses to be locally updated through the interaction of pre- and post-synaptic neuron spikes in Figure \ref{fig:6b}, thereby facilitating network learning in the form of fine-grained weight (or conductance) adaptation in the synapses. \\
+\noindent A combination of STDP and WTA-based learning rules enables the synapses to be locally updated through the interaction of pre- and post-synaptic neuron spikes in Figure \ref{fig:6d}, thereby facilitating network learning in the form of fine-grained weight (or conductance) adaptation in the synapses. \\
 
 \noindent The presented architectural configuration bears resemblance to existing memory architectures, wherein the devices are arranged in a dense two-dimensional array with the input and output neurons constituting the peripheral circuitry, laid out at a matching pitch with the memory array. This layout forms a repeatable motif that can be scaled to deeper SNN architectures.\\
 
@@ -311,14 +291,14 @@ The discovery of spike-timing-dependent plasticity (STDP) mechanisms and the eme
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/d.png}
+    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/f.png}
     \caption[A pair of spikes are applied across a synapse to create relative-timing dependent net potential.]{A pair of spikes are applied across a synapse to create relative-timing dependent net potential $V_{net}$, of which the over-threshold portion $V_{eff}$ may cause the RRAM resistance to switch \cite{wu2017enabling}.}
-    \label{fig:6d}
+    \label{fig:6f}
 \end{figure}
 
 \noindent In particular, RRAM devices exhibit characteristics that are analogous to those of biological synapses. Furthermore, RRAMs exhibit conductance levels comparable to synaptic strength (or weight), and their conductance can be modified by voltage pulses. Notably, RRAMs are capable of directly implementing spike-timing-dependent plasticity (STDP) through identical pair-wise spikes. \\
 
-\noindent As illustrated in Figure \ref{fig:6d}, the net potential $V_{net}$ created by a pre-synaptic spike and a late arriving post-synaptic spike, with $t > 0$, produces an over-threshold, $V_{th}^+$, portion $V_{eff}$, which then causes an increase in conductance in a typical RRAM. Conversely, a presynaptic spike and an earlier arriving post-synaptic spike with $t < 0$ produces $V_{eff}$ that crosses the negative threshold, $V_{th}^-$, and thus causes a decrease in the conductance. \\
+\noindent As illustrated in Figure \ref{fig:6f}, the net potential $V_{net}$ created by a pre-synaptic spike and a late arriving post-synaptic spike, with $t > 0$, produces an over-threshold, $V_{th}^+$, portion $V_{eff}$, which then causes an increase in conductance in a typical RRAM. Conversely, a presynaptic spike and an earlier arriving post-synaptic spike with $t < 0$ produces $V_{eff}$ that crosses the negative threshold, $V_{th}^-$, and thus causes a decrease in the conductance. \\
 
 \noindent A memristor with analogue resistance is an optimal choice for STDP learning. However, experimental studies indicate that the majority of nanoscale implementations of memristive RRAMs exhibit a stochastic process in their filament formation, as well as an abrupt conductance change once the filament is formed \cite{prakash2016multilevel}. The results demonstrate an abrupt transition from the high resistance state (HRS) to the low resistance state (LRS), as well as notable variations in the switching threshold voltages and HRS/LRS transitions, which tend to be stochastic in nature.\\
 
@@ -421,9 +401,9 @@ The approaches described in the preceding sections pertained to memristive neura
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=1\textwidth]{Chapter6/Figs/e.png}
+\includegraphics[width=1\textwidth]{Chapter6/Figs/g.png}
 \caption[Single sweeps of 53 resistance states of a $SiO_x$ device.]{Single sweeps of 53 resistance states of a $SiO_x$ device. Different states were obtained by incrementing maximum voltage by 0.05V. Every seventh state shares the same colour; this does not indicate any other relationship between such states \cite{nikolaos_barmpatsalos_2021_5762184}.}
-\label{fig:6e}
+\label{fig:6g}
 \end{figure}
 
 
@@ -509,9 +489,9 @@ I & = V_{ref}G\left ( \frac{V}{V_{ref}} \right )^{log_2 \gamma} \label{eq:6.33}
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=1\textwidth]{Chapter6/Figs/f.png}
+\includegraphics[width=1\textwidth]{Chapter6/Figs/h.png}
 \caption[I-V sweeps of a SiOx device are presented for two regions]{I-V sweeps of a SiOx device are presented for two regions: a) low-resistance region with average resistance ranging from 284.6 $\Omega$ to 1003 $\Omega$, and b) high-resistance region with average resistance ranging from 366.2 k$\Omega$ to 1.295 M$\Omega$. Only the voltage range from 0.0 V to 0.5 V was considered for all curves. The nonlinearity parameter was calculated by dividing the current at 0.5 V by the current at 0.25 V \cite{joksas2022nonideality}.}
-\label{fig:6f}
+\label{fig:6h}
 \end{figure}
 
 
@@ -519,7 +499,7 @@ I & = V_{ref}G\left ( \frac{V}{V_{ref}} \right )^{log_2 \gamma} \label{eq:6.33}
 
 \noindent The value of $V_{ref}$ from (\ref{eq:6.32}), was set to 0.25V, which is equivalent to half of the minimum switching voltage. In each case, the devices could be set to any conductance between $G_{off} = 1/R_{off}$ and $G_{on} = 1/R_{on}$. The states for the two groups were selected in such a way that the $G_{on}/G_{off}$ ratio for high-resistance devices would be slightly larger. This approach ensures that any potential higher error rate in this group can be attributed to nonlinearity and its variability, rather than being attributed to limited dynamic range.\\
 
-\noindent In order to guarantee more robust modelling, it was deemed necessary to take uncertainty regarding the degree of nonlinearity experienced by each device into account. Although there is a general tendency for high-resistance states to exhibit greater nonlinearity, the precise degree of nonlinearity at any given resistance state may be challenging to ascertain, as evidenced by the variability observed in the I-V curves depicted in the experimental data presented in Figure \ref{fig:6f}. \\
+\noindent In order to guarantee more robust modelling, it was deemed necessary to take uncertainty regarding the degree of nonlinearity experienced by each device into account. Although there is a general tendency for high-resistance states to exhibit greater nonlinearity, the precise degree of nonlinearity at any given resistance state may be challenging to ascertain, as evidenced by the variability observed in the I-V curves depicted in the experimental data presented in Figure \ref{fig:6h}. \\
 
 \noindent Consequently, for each device in either of the groups, the parameter $\gamma$ was drawn from a truncated normal distribution. This distribution was truncated for $\gamma$ values of less than 2, with the objective of ensuring realistic device behaviour and numerical stability of the simulations. The mean $m_\gamma$ and standard deviation $s_\gamma$, both of which refer to the underlying normal distribution prior to truncation, were used to characterise the distribution.\\
 
@@ -547,7 +527,7 @@ I = cV exp\left( \frac{2e}{k_BT} \sqrt{\frac{eV}{4\pi d\epsilon}} \right) \label
 
 \noindent In (\ref{eq:6.35}), the product $d\epsilon$ is indicative of the degree of nonlinearity. Given that this product appears in the denominator of an exponentiated square root, a smaller value of $d\epsilon$ corresponds to a more nonlinear I-V curve. In LRS, this product is significantly larger. Although this parameter algebraically (\ref{eq:6.35}) can approximate linear behaviour (i.e. ohmic conduction), the values of $d\epsilon$ are only plausible for the less conductive states proximate to and below $G_0$. \\
 
-\noindent For higher-resistance states, this is less discernible. The $d\epsilon$ values are considerably lower for all such states, yet the trend is not only plateaued but also more erratic. This unpredictability is indicative of the diverse range of colours observed in the curves presented in Figure \ref{fig:6f}. While the significant deviations from the trend line may limit the applicability of this approach in conventional modelling scenarios, the inherent uncertainty is precisely what is required to assess the potential of ex-situ training in addressing unknown behaviours. \\
+\noindent For higher-resistance states, this is less discernible. The $d\epsilon$ values are considerably lower for all such states, yet the trend is not only plateaued but also more erratic. This unpredictability is indicative of the diverse range of colours observed in the curves presented in Figure \ref{fig:6h}. While the significant deviations from the trend line may limit the applicability of this approach in conventional modelling scenarios, the inherent uncertainty is precisely what is required to assess the potential of ex-situ training in addressing unknown behaviours. \\
 
 \noindent The individual data points were integrated into a statistical model that would facilitate the generation of as many data points as required. In order to evaluate the efficacy of the proposed training method, two distinct resistance regions were considered. The low-resistance range was constructed by means of interpolation of the model parameters between the lowest resistance state and five times that resistance. The high-resistance range was constructed by interpolating the model parameters between the highest resistance state and one-fifth of that resistance, to ensure that the dynamic range remained consistent. \\
 
@@ -563,6 +543,62 @@ g\left( x, W_\pm \right) &= \frac{cx\cdot exp\left( \frac{2e}{kbT} \sqrt{\frac{e
 
 \section{Inference and Classification}
 
+In the context of spiking neural networks (SNNs), neurons facilitate the exchange of information through the emission of spikes. This phenomenon represents a neural network architecture predicated on individual spikes \cite{liu2014memristor}. The SNN architecture is therefore structurally analogous to the human brain. \\
+
+\noindent The signal in SNNs can utilise both pulse coding and rate coding, and permits multiplexing of information as frequency and amplitude. In certain forms of electronic SNNs, spikes exhibit a waveform shape that is analogous to that of biological spikes. However, in general electronic systems, spikes are represented in a far more simplified manner, typically by means of a square or Gaussian digital pulse. \\
+
+\noindent In SNN, the presence and timing of individual spikes are considered to be the means of communication and neural computation. The fundamental principle in the field of biology asserts that the greater the intensity of the input, the earlier the spike transmission occurs. Therefore, it is possible to design a network of spiking neurons with input neurons whose firing times are determined by an external stimulus \cite{serrano2013stdp}.
+
 \subsection[Simulation Configurations]{Simulation Configurations}
+
+In this section, a two-layer neural network is employed to illustrate the structure of SNN. As illustrated in Figure \ref{fig:6i}, within this configuration, the multilayer SNNs are constituted as fully connected feedforward networks, with all neurons situated between two adjacent layers exhibiting connectivity. It is evident that both the input neurons and the output neurons are characterised by multiple spikes, that is to say, spikes trains. \\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/i.png}
+    \caption[Abstract SNN representation for MNIST pattern recognition with input, hidden memristive
+    layers, and output layer.]{Abstract SNN representation for MNIST pattern recognition with input, hidden memristive
+    layers, and output layer.}
+    \label{fig:6i}
+\end{figure}
+
+\noindent Consider the Spike Response Model (SRM), where a neuron's membrane potential is determined by the cumulative effect of postsynaptic potentials induced by incoming spikes through synapses. These synapses modulate spike strength via assigned weights.\\
+
+\noindent Assume a neuron receives input through $N$ synapses. The $i^{\text{th}}$ synapse transmits $S_i$ spikes arriving at times $\mathcal{T}_i = \{t^1_i, t^2_i, \dots, t^{S_i}_i\}$. If $t_{\text{fr}}$ denotes the most recent output spike time, then the neuron's internal potential $u(t)$ is defined as:
+\begin{equation}
+    u(t) = \sum_{i=1}^{N} \sum_{s=1}^{S_i} w_i \cdot \varepsilon(t - t^g_i) + \eta(t - t_{\text{fr}})
+    \label{eq:6.38}
+\end{equation}
+where $w_i$ is the synaptic weight for the $i^{\text{th}}$ synapse, $\varepsilon(t)$ is the postsynaptic response function, $\eta(t)$ represents the refractory effect following a spike.\\
+
+\noindent The postsynaptic response function $\varepsilon(t)$ is typically modeled as:
+\begin{equation}
+    \varepsilon(t) =
+    \begin{cases}
+    \left(\frac{t}{\tau}\right) \cdot \exp\left(1 - \frac{t}{\tau}\right), & t > 0 \\
+    0, & t \leq 0
+    \end{cases}
+    \label{eq:6.39}
+\end{equation}
+
+\noindent Here, $\tau$ is the synaptic time constant that determines the shape of the postsynaptic potential. In multilayer SNNs, neurons in adjacent layers are connected via multiple synapses, each with its own transmission delay and weight. Let the network layers be indexed such that the output layer is Layer 1 and the input layer is Layer $L$. \\
+
+\noindent Suppose neuron $i$ in layer $l+1$ emits $F_i$ spikes, transmitted across $K$ synapses to postsynaptic neuron $j$ in layer $l$. Each $k^{\text{th}}$ synapse is characterized by a delay $d_k$ and a weight $w^k_{ij}$. The internal state $u_j(t)$ of neuron $j$ at time $t$ is given by:
+\begin{equation}
+    u_j(t) = \sum_{i=1}^{N_{l+1}} \sum_{f=1}^{F_i} \sum_{k=1}^{K} w^k_{ij} \cdot \varepsilon(t - t^f_i - d_k) + \eta(t - t^j_{\text{fr}})
+    \label{eq:6.40}
+\end{equation}
+where $N_{l+1}$ is the number of neurons in layer $l+1$, $t^f_i$ is the firing time of the $f^{\text{th}}$ spike from neuron $i$, $t^j_{\text{fr}}$ is the time of the last spike emitted by neuron $j$. This formulation captures both the timing and delay of spike transmission, aligning closely with biologically plausible neural dynamics.\\
+
+\noindent A two-layer memrisitive SNN (MSNN) was then designed to examine the impact of non-linear device properties on the MNIST handwritten dataset converted to a spike train.  The network was fed from the 28x28 image and trained on 60,000 samples with 10,000 samples used for testing. The network learns representative features in the input samples through updating the synaptic weights. \\
+
+\noindent The weight conductance values were initially generated using a uniform random distribution. To evaluate the performance of non-ideality-aware training on complex tasks, memrisitive convolutional spiking neural networks (MCSNN) were trained with the assumption that their convolutional layers would be implemented digitally. Their fully connected layers were trained using memristive crossbar arrays that suffer from high I-V nonlinearity. \\
+
+\noindent The MSNN model in Figure \ref{fig:6i} is fully connected and consists of a layer with 100 hidden neurons and LIF activation function, followed by another layer before the output layer with 10 neurons. The MSCNN architecture includes a convolutional layer with 12 output filters, a 5 × 5 kernel size, and an LIF activation function. This is followed by a pooling layer with a 2 × 2 pool size. \\
+
+\noindent The architecture then includes another convolutional layer with 64 output filters, a 5 × 5 kernel size, and an LIF activation function, followed by another pooling layer with a 2 × 2 pool size. Finally, the architecture includes a memristive fully connected layer with 10 output neurons and an LIF activation function. The cross entropy loss function from Torch \cite{eshraghian2023training} automatically generates a loss at the output and handles the softmax of the output layer.
+
+\subsection[Computation Performance]{Computation Performance}
+
 
 \section[Summary]{Summary}

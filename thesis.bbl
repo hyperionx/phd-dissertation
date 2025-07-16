@@ -123,6 +123,12 @@ Burnstock, G. (2004).
 \newblock Cotransmission.
 \newblock {\em Current opinion in pharmacology}, 4(1):47--52.
 
+\bibitem[Burr et~al., 2017]{burr2017neuromorphic}
+Burr, G.~W., Shelby, R.~M., Sebastian, A., Kim, S., Kim, S., Sidler, S.,
+  Virwani, K., Ishii, M., Narayanan, P., Fumarola, A., et~al. (2017).
+\newblock Neuromorphic computing using non-volatile memory.
+\newblock {\em Advances in Physics: X}, 2(1):89--124.
+
 \bibitem[Burr et~al., 2015]{burr2015experimental}
 Burr, G.~W., Shelby, R.~M., Sidler, S., Di~Nolfo, C., Jang, J., Boybat, I.,
   Shenoy, R.~S., Narayanan, P., Virwani, K., Giacometti, E.~U., et~al. (2015).
@@ -149,12 +155,6 @@ Campbell, K.~A., Drake, K.~T., and Barney~Smith, E.~H. (2016).
 \newblock Pulse shape and timing dependence on the spike-timing dependent
   plasticity response of ion-conducting memristors as synapses.
 \newblock {\em Frontiers in bioengineering and biotechnology}, 4:97.
-
-\bibitem[Cao et~al., 2015]{cao2015spiking}
-Cao, Y., Chen, Y., and Khosla, D. (2015).
-\newblock Spiking deep convolutional neural networks for energy-efficient
-  object recognition.
-\newblock {\em International Journal of Computer Vision}, 113:54--66.
 
 \bibitem[Ceolini et~al., 2020]{ceolini2020hand}
 Ceolini, E., Frenkel, C., Shrestha, S.~B., Taverni, G., Khacef, L., Payvand,
@@ -310,14 +310,6 @@ Di~Ventra, M., Pershin, Y.~V., and Chua, L.~O. (2009).
   meminductors.
 \newblock {\em Proceedings of the IEEE}, 97(10):1717--1724.
 
-\bibitem[Diehl et~al., 2015]{diehl2015fast}
-Diehl, P.~U., Neil, D., Binas, J., Cook, M., Liu, S.-C., and Pfeiffer, M.
-  (2015).
-\newblock Fast-classifying, high-accuracy spiking deep networks through weight
-  and threshold balancing.
-\newblock In {\em 2015 International joint conference on neural networks
-  (IJCNN)}, pages 1--8. ieee.
-
 \bibitem[DiMaria and Cartier, 1995]{dimaria1995mechanism}
 DiMaria, D. and Cartier, E. (1995).
 \newblock Mechanism for stress-induced leakage currents in thin silicon dioxide
@@ -355,12 +347,6 @@ El-Sayed, A.-M., Watkins, M.~B., Shluger, A.~L., and Afanas’ev, V.~V. (2013).
   silica from ab initio calculations.
 \newblock {\em Microelectronic engineering}, 109:68--71.
 
-\bibitem[Eliasmith et~al., 2012]{eliasmith2012large}
-Eliasmith, C., Stewart, T.~C., Choo, X., Bekolay, T., DeWolf, T., Tang, Y., and
-  Rasmussen, D. (2012).
-\newblock A large-scale model of the functioning brain.
-\newblock {\em science}, 338(6111):1202--1205.
-
 \bibitem[Eshraghian et~al., 2018]{eshraghian2018formulation}
 Eshraghian, J.~K., Baek, S., Kim, J.-H., Iannella, N., Cho, K., Goo, Y.~S., Iu,
   H.~H., Kang, S.-M., and Eshraghian, K. (2018).
@@ -385,12 +371,6 @@ Eshraghian, J.~K., Ward, M., Neftci, E.~O., Wang, X., Lenz, G., Dwivedi, G.,
   Bennamoun, M., Jeong, D.~S., and Lu, W.~D. (2023).
 \newblock Training spiking neural networks using lessons from deep learning.
 \newblock {\em Proceedings of the IEEE}.
-
-\bibitem[Esser et~al., 2015]{esser2015backpropagation}
-Esser, S.~K., Appuswamy, R., Merolla, P., Arthur, J.~V., and Modha, D.~S.
-  (2015).
-\newblock Backpropagation for energy-efficient neuromorphic computing.
-\newblock {\em Advances in neural information processing systems}, 28.
 
 \bibitem[Fang et~al., 2018]{fang2018improvement}
 Fang, Y., Yu, Z., Wang, Z., Zhang, T., Yang, Y., Cai, Y., and Huang, R. (2018).
@@ -551,17 +531,6 @@ Hebb, D. (2002).
 Hebb, D.~O. (2005).
 \newblock {\em The organization of behavior: A neuropsychological theory}.
 \newblock Psychology Press.
-
-\bibitem[Hinton et~al., 2006]{hinton2006fast}
-Hinton, G.~E., Osindero, S., and Teh, Y.-W. (2006).
-\newblock A fast learning algorithm for deep belief nets.
-\newblock {\em Neural computation}, 18(7):1527--1554.
-
-\bibitem[Hinton and Sejnowski, 1983]{hinton1983optimal}
-Hinton, G.~E. and Sejnowski, T.~J. (1983).
-\newblock Optimal perceptual inference.
-\newblock In {\em Proceedings of the IEEE conference on Computer Vision and
-  Pattern Recognition}, volume 448, pages 448--453. Citeseer.
 
 \bibitem[Hirose and Hirose, 1976]{hirose1976polarity}
 Hirose, Y. and Hirose, H. (1976).
@@ -965,6 +934,12 @@ Lin, C.-Y., Chen, J., Chen, P.-H., Chang, T.-C., Wu, Y., Eshraghian, J.~K.,
 \newblock Adaptive synaptic memory via lithium ion modulation in rram devices.
 \newblock {\em Small}, 16(42):2003964.
 
+\bibitem[Liu, 2014]{liu2014memristor}
+Liu, B. (2014).
+\newblock {\em Memristor-based analog neuromorphic computing engine design and
+  robust training scheme}.
+\newblock PhD thesis, University of Pittsburgh.
+
 \bibitem[Liu et~al., 2017]{liu2017rescuing}
 Liu, C., Hu, M., Strachan, J.~P., and Li, H. (2017).
 \newblock Rescuing memristor-based neuromorphic design with high defects.
@@ -1146,13 +1121,6 @@ Menke, T., Meuffels, P., Dittmann, R., Szot, K., and Waser, R. (2009).
 \newblock Separation of bulk and interface contributions to electroforming and
   resistive switching behavior of epitaxial fe-doped srtio 3.
 
-\bibitem[Merolla et~al., 2014]{merolla2014million}
-Merolla, P.~A., Arthur, J.~V., Alvarez-Icaza, R., Cassidy, A.~S., Sawada, J.,
-  Akopyan, F., Jackson, B.~L., Imam, N., Guo, C., Nakamura, Y., et~al. (2014).
-\newblock A million spiking-neuron integrated circuit with a scalable
-  communication network and interface.
-\newblock {\em Science}, 345(6197):668--673.
-
 \bibitem[Meyer et~al., 2005]{meyer2005oxygen}
 Meyer, R., Liedtke, R., and Waser, R. (2005).
 \newblock Oxygen vacancy migration and time-dependent leakage current behavior
@@ -1190,18 +1158,6 @@ Munde, M., Mehonic, A., Ng, W., Buckwell, M., Montesi, L., Bosman, M., Shluger,
   role of columnar microstructure.
 \newblock {\em Scientific reports}, 7(1):9274.
 
-\bibitem[Nair and Hinton, 2010]{nair2010rectified}
-Nair, V. and Hinton, G.~E. (2010).
-\newblock Rectified linear units improve restricted boltzmann machines.
-\newblock In {\em Proceedings of the 27th international conference on machine
-  learning (ICML-10)}, pages 807--814.
-
-\bibitem[Neftci et~al., 2014]{neftci2014event}
-Neftci, E., Das, S., Pedroni, B., Kreutz-Delgado, K., and Cauwenberghs, G.
-  (2014).
-\newblock Event-driven contrastive divergence for spiking neuromorphic systems.
-\newblock {\em Frontiers in neuroscience}, 7:272.
-
 \bibitem[Neftci et~al., 2019]{neftci2019surrogate}
 Neftci, E.~O., Mostafa, H., and Zenke, F. (2019).
 \newblock Surrogate gradient learning in spiking neural networks: Bringing the
@@ -1219,12 +1175,6 @@ Noble, D. (1962).
 \newblock A modification of the hodgkin—huxley equations applicable to
   purkinje fibre action and pacemaker potentials.
 \newblock {\em The Journal of physiology}, 160(2):317.
-
-\bibitem[O'Connor et~al., 2013]{o2013real}
-O'Connor, P., Neil, D., Liu, S.-C., Delbruck, T., and Pfeiffer, M. (2013).
-\newblock Real-time classification and sensor fusion with a spiking deep belief
-  network.
-\newblock {\em Frontiers in neuroscience}, 7:178.
 
 \bibitem[Orchard et~al., 2021]{orchard2021efficient}
 Orchard, G., Frady, E.~P., Rubin, D. B.~D., Sanborn, S., Shrestha, S.~B.,
@@ -1245,13 +1195,6 @@ Peng, C.-N., Wang, C.-W., Chan, T.-C., Chang, W.-Y., Wang, Y.-C., Tsai, H.-W.,
   observation of conductive bridge formation.
 \newblock {\em Nanoscale research letters}, 7:1--6.
 
-\bibitem[Perez-Carrasco et~al., 2010]{perez2010spike}
-Perez-Carrasco, J.-A., Serrano, C., Acha, B., Serrano-Gotarredona, T., and
-  Linares-Barranco, B. (2010).
-\newblock Spike-based convolutional network for real-time processing.
-\newblock In {\em 2010 20th International Conference on Pattern Recognition},
-  pages 3085--3088. IEEE.
-
 \bibitem[Pfeiffer and Pfeil, 2018]{pfeiffer2018deep}
 Pfeiffer, M. and Pfeil, T. (2018).
 \newblock Deep learning with spiking neurons: opportunities and challenges.
@@ -1268,16 +1211,18 @@ Polsky, A., Mel, B.~W., and Schiller, J. (2004).
 \newblock Computational subunits in thin dendrites of pyramidal cells.
 \newblock {\em Nature neuroscience}, 7(6):621--627.
 
-\bibitem[Poole et~al., 2014]{poole2014analyzing}
-Poole, B., Sohl-Dickstein, J., and Ganguli, S. (2014).
-\newblock Analyzing noise in autoencoders and deep networks.
-\newblock {\em arXiv preprint arXiv:1406.1831}.
-
 \bibitem[Prakash and Hwang, 2016]{prakash2016multilevel}
 Prakash, A. and Hwang, H. (2016).
 \newblock Multilevel cell storage and resistance variability in resistive
   random access memory.
 \newblock {\em Physical Sciences Reviews}, 1(6):20160010.
+
+\bibitem[Prezioso et~al., 2016]{prezioso2016self}
+Prezioso, M., Merrikh~Bayat, F., Hoskins, B., Likharev, K., and Strukov, D.
+  (2016).
+\newblock Self-adaptive spike-time-dependent plasticity of metal-oxide
+  memristors.
+\newblock {\em Scientific reports}, 6(1):1--6.
 
 \bibitem[Puglisi and Pavan, 2016]{puglisi2016guidelines}
 Puglisi, F.~M. and Pavan, P. (2016).
@@ -1428,13 +1373,6 @@ Stromatias, E. and Marsland, J.~S. (2015).
 \newblock In {\em 2015 International Joint Conference on Neural Networks
   (IJCNN)}, pages 1--7. IEEE.
 
-\bibitem[Stromatias et~al., 2015]{stromatias2015robustness}
-Stromatias, E., Neil, D., Pfeiffer, M., Galluppi, F., Furber, S.~B., and Liu,
-  S.-C. (2015).
-\newblock Robustness of spiking deep belief networks to noise and reduced bit
-  precision of neuro-inspired hardware platforms.
-\newblock {\em Frontiers in neuroscience}, 9:222.
-
 \bibitem[Strukov et~al., 2008]{strukov2008missing}
 Strukov, D.~B., Snider, G.~S., Stewart, D.~R., and Williams, R.~S. (2008).
 \newblock The missing memristor found.
@@ -1566,12 +1504,6 @@ Vieluf, S., El~Atrache, R., Cantley, S., Jackson, M., Clark, J., Sheehan, T.,
   Bosl, W.~J., Zhang, B., and Loddenkemper, T. (2022).
 \newblock Seizure-related differences in biosignal 24-h modulation patterns.
 \newblock {\em Scientific reports}, 12(1):1--9.
-
-\bibitem[Vincent et~al., 2008]{vincent2008extracting}
-Vincent, P., Larochelle, H., Bengio, Y., and Manzagol, P.-A. (2008).
-\newblock Extracting and composing robust features with denoising autoencoders.
-\newblock In {\em Proceedings of the 25th international conference on Machine
-  learning}, pages 1096--1103.
 
 \bibitem[Von~Neumann, 1993]{von1993first}
 Von~Neumann, J. (1993).
