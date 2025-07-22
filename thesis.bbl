@@ -304,6 +304,14 @@ Del~Valle, J., Salev, P., Kalcheim, Y., and Schuller, I.~K. (2020).
 \newblock A caloritronics-based mott neuristor.
 \newblock {\em Scientific reports}, 10(1):4292.
 
+\bibitem[Demira{\u{g}} et~al., 2021]{demiraug2021pcm}
+Demira{\u{g}}, Y., Moro, F., Dalgaty, T., Navarro, G., Frenkel, C., Indiveri,
+  G., Vianello, E., and Payvand, M. (2021).
+\newblock Pcm-trace: scalable synaptic eligibility traces with resistivity
+  drift of phase-change materials.
+\newblock In {\em 2021 IEEE International Symposium on Circuits and Systems
+  (ISCAS)}, pages 1--5. IEEE.
+
 \bibitem[Di~Ventra et~al., 2009]{di2009circuit}
 Di~Ventra, M., Pershin, Y.~V., and Chua, L.~O. (2009).
 \newblock Circuit elements with memory: memristors, memcapacitors, and
@@ -397,6 +405,14 @@ Frenkel, J. (1938).
   semi-conductors.
 \newblock {\em Physical Review}, 54(8):647.
 
+\bibitem[Friedmann et~al., 2016]{friedmann2016demonstrating}
+Friedmann, S., Schemmel, J., Gr{\"u}bl, A., Hartel, A., Hock, M., and Meier, K.
+  (2016).
+\newblock Demonstrating hybrid learning in a flexible neuromorphic hardware
+  system.
+\newblock {\em IEEE transactions on biomedical circuits and systems},
+  11(1):128--142.
+
 \bibitem[Fröhlich, 2016]{FROHLICH201647}
 Fröhlich, F. (2016).
 \newblock Chapter 4 - synaptic plasticity.
@@ -478,6 +494,16 @@ Govoreanu, B., Redolfi, A., Zhang, L., Adelmann, C., Popovici, M., Clima, S.,
   on/off-window resistive switching cell.
 \newblock In {\em 2013 IEEE International Electron Devices Meeting}, pages
   10--2. IEEE.
+
+\bibitem[Gramfort and H{\"a}m{\"a}l{\"a}inen, 2020]{Gramfort2020-jm}
+Gramfort, A. and H{\"a}m{\"a}l{\"a}inen, M.~S. (2020).
+\newblock ds000248.
+
+\bibitem[Gramfort et~al., 2014]{gramfort2014mne}
+Gramfort, A., Luessi, M., Larson, E., Engemann, D.~A., Strohmeier, D.,
+  Brodbeck, C., Parkkonen, L., and H{\"a}m{\"a}l{\"a}inen, M.~S. (2014).
+\newblock Mne software for processing meg and eeg data.
+\newblock {\em neuroimage}, 86:446--460.
 
 \bibitem[G{\"u}tig, 2014]{gutig2014spike}
 G{\"u}tig, R. (2014).
@@ -662,6 +688,14 @@ Jo, S.~H., Kim, K.-H., and Lu, W. (2009).
 \newblock Programmable resistance switching in nanoscale two-terminal devices.
 \newblock {\em Nano letters}, 9(1):496--500.
 
+\bibitem[John et~al., 2022]{john2022reconfigurable}
+John, R.~A., Demira{\u{g}}, Y., Shynkarenko, Y., Berezovska, Y., Ohannessian,
+  N., Payvand, M., Zeng, P., Bodnarchuk, M.~I., Krumeich, F., Kara, G., et~al.
+  (2022).
+\newblock Reconfigurable halide perovskite nanocrystal memristors for
+  neuromorphic computing.
+\newblock {\em Nature communications}, 13(1):2074.
+
 \bibitem[Johnston et~al., 1996]{johnston1996active}
 Johnston, D., Magee, J.~C., Colbert, C.~M., and Christie, B.~R. (1996).
 \newblock Active properties of neuronal dendrites.
@@ -691,6 +725,12 @@ Joksas, D., Wang, E., Barmpatsalos, N., Ng, W.~H., Kenyon, A.~J.,
 Jones, M.~C. (1993).
 \newblock Simple boundary correction for kernel density estimation.
 \newblock {\em Statistics and computing}, 3:135--146.
+
+\bibitem[Joshi et~al., 2025]{Joshi2025-sa}
+Joshi, A., Matharu, P.~S., Malviya, L., Kumar, M., and Jadhav, A. (2025).
+\newblock Advancing {EEG} based stress detection using spiking neural networks
+  and convolutional spiking neural networks.
+\newblock {\em Sci. Rep.}, 15(1):26267.
 
 \bibitem[Joshi et~al., 2020]{joshi2020accurate}
 Joshi, V., Le~Gallo, M., Haefeli, S., Boybat, I., Nandakumar, S.~R., Piveteau,
@@ -768,8 +808,8 @@ Kiani, F., Yin, J., Wang, Z., Yang, J.~J., and Xia, Q. (2021).
 \newblock A fully hardware-based memristive multilayer neural network.
 \newblock {\em Science advances}, 7(48):eabj4801.
 
-\bibitem[Kim et~al., 2021]{kim20214k}
-Kim, H., Mahmoodi, M., Nili, H., and Strukov, D.~B. (2021).
+\bibitem[Kim et~al., 2021a]{kim20214k}
+Kim, H., Mahmoodi, M., Nili, H., and Strukov, D.~B. (2021a).
 \newblock 4k-memristor analog-grade passive crossbar circuit.
 \newblock {\em Nature communications}, 12(1):5198.
 
@@ -779,6 +819,13 @@ Kim, K.~M., Yang, J.~J., Strachan, J.~P., Grafals, E.~M., Ge, N., Melendez,
 \newblock Voltage divider effect for the improvement of variability and
   endurance of taox memristor.
 \newblock {\em Scientific reports}, 6(1):20085.
+
+\bibitem[Kim et~al., 2021b]{kim2021spiking}
+Kim, T., Hu, S., Kim, J., Kwak, J.~Y., Park, J., Lee, S., Kim, I., Park, J.-K.,
+  and Jeong, Y. (2021b).
+\newblock Spiking neural network (snn) with memristor synapses having
+  non-linear weight update.
+\newblock {\em Frontiers in computational neuroscience}, 15:646125.
 
 \bibitem[Knight, 1972]{knight1972dynamics}
 Knight, B.~W. (1972).
@@ -971,6 +1018,12 @@ Loeffler, A., Zhu, R., Hochstetter, J., Diaz-Alvarez, A., Nakayama, T., Shine,
 \newblock Modularity and multitasking in neuro-memristive reservoir networks.
 \newblock {\em Neuromorphic Computing and Engineering}, 1(1):014003.
 
+\bibitem[Lutes et~al., 2024]{lutes2024convolutional}
+Lutes, N., Nadendla, V. S.~S., and Krishnamurthy, K. (2024).
+\newblock Convolutional spiking neural networks for intent detection based on
+  anticipatory brain potentials using electroencephalogram.
+\newblock {\em Scientific Reports}, 14(1):8850.
+
 \bibitem[Mabilleau and Sabokbar, 2008]{mabilleau2008vitro}
 Mabilleau, G. and Sabokbar, A. (2008).
 \newblock In vitro biological test methods to evaluate bioresorbability.
@@ -1015,6 +1068,11 @@ Mannion, D.~J. (2022).
 \newblock {\em Current transient phenomena in silicon oxide resistance
   switching oxides: characterisation and computational applications}.
 \newblock PhD thesis, UCL (University College London).
+
+\bibitem[Mannion et~al., 2020]{mannion2020memristor}
+Mannion, D.~J., Mehonic, A., Ng, W.~H., and Kenyon, A.~J. (2020).
+\newblock Memristor-based edge detection for spike encoded pixels.
+\newblock {\em Frontiers in neuroscience}, 13:1386.
 
 \bibitem[Mannion et~al., 2023]{mannion2023unipolar}
 Mannion, D.~J., Vu, V.~C., Ng, W.~H., Mehonic, A., and Kenyon, A.~J. (2023).
@@ -1144,6 +1202,13 @@ Moore, G.~E. (2006).
 \newblock Lithography and the future of moore's law.
 \newblock {\em IEEE Solid-State Circuits Society Newsletter}, 11(3):37--42.
 
+\bibitem[Morshed et~al., 2023]{morshed2023choose}
+Morshed, M.~G., Ganguly, S., and Ghosh, A.~W. (2023).
+\newblock Choose your tools carefully: a comparative evaluation of
+  deterministic vs. stochastic and binary vs. analog neuron models for
+  implementing emerging computing paradigms.
+\newblock {\em Frontiers in Nanotechnology}, 5:1146852.
+
 \bibitem[Mostafa, 2017]{mostafa2017supervised}
 Mostafa, H. (2017).
 \newblock Supervised learning based on temporal coding in spiking neural
@@ -1182,6 +1247,13 @@ Orchard, G., Frady, E.~P., Rubin, D. B.~D., Sanborn, S., Shrestha, S.~B.,
 \newblock Efficient neuromorphic signal processing with loihi 2.
 \newblock In {\em 2021 IEEE Workshop on Signal Processing Systems (SiPS)},
   pages 254--259. IEEE.
+
+\bibitem[Pehle et~al., 2022]{pehle2022brainscales}
+Pehle, C., Billaudelle, S., Cramer, B., Kaiser, J., Schreiber, K., Stradmann,
+  Y., Weis, J., Leibfried, A., M{\"u}ller, E., and Schemmel, J. (2022).
+\newblock The brainscales-2 accelerated neuromorphic system with hybrid
+  plasticity.
+\newblock {\em Frontiers in Neuroscience}, 16:795876.
 
 \bibitem[Pehle and Egholm~Pedersen, 2021]{pehle2021norse}
 Pehle, C.-G. and Egholm~Pedersen, J. (2021).
@@ -1360,6 +1432,12 @@ Stocks, N. (2001).
   stochastic resonance.
 \newblock {\em Physical Review E}, 63(4):041114.
 
+\bibitem[Stoffel and Tandale, 2024]{stoffel2024spiking}
+Stoffel, M. and Tandale, S.~B. (2024).
+\newblock Spiking neural networks for nonlinear regression of complex transient
+  signals on sustainable neuromorphic processors.
+\newblock {\em npj Unconventional Computing}, 1(1):2.
+
 \bibitem[Stone, 2019]{stone2019artificial}
 Stone, J.~V. (2019).
 \newblock {\em Artificial intelligence engines: a tutorial introduction to the
@@ -1509,6 +1587,14 @@ Vieluf, S., El~Atrache, R., Cantley, S., Jackson, M., Clark, J., Sheehan, T.,
 Von~Neumann, J. (1993).
 \newblock First draft of a report on the edvac.
 \newblock {\em IEEE Annals of the History of Computing}, 15(4):27--75.
+
+\bibitem[Vu et~al., 2024]{vu2024spiking}
+Vu, V.~C., Kenyon, A., Joksas, D., Mehonic, A., Mannion, D.~J., and Ng, W.~H.
+  (2024).
+\newblock Spiking neural networks with nonidealities from memristive silicon
+  oxide devices.
+\newblock In {\em 2024 IEEE 24th International Conference on Nanotechnology
+  (NANO)}, pages 46--50. IEEE.
 
 \bibitem[Wakiya et~al., 2006]{wakiya2006activation}
 Wakiya, N., Tajiri, N., Kiguchi, T., Mizutani, N., Cross, J.~S., and Shinozaki,

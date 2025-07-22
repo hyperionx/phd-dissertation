@@ -5,7 +5,7 @@
 
 \chapter{Homeostasis Optimisation}
 
-\section[Optimisation Overview]{Optimisation Overview}
+\section[Optimisation Motivations]{Optimisation Motivations}
 
 \subsection[Analogue Hardware Challenges]{Analogue Hardware Challenges}
 
@@ -267,10 +267,120 @@ One of the most common non-idealities observed in memristive devices is the phen
 
 \subsection{Architecture Modifications}
 
+% \noindent When weights \textit{W} are related to conductances \textit{G} in a monotonically increasing fashion (in this case, linear), regularisation can be employed to influence the magnitude of both weights and conductances. This provides a means of utilising regularisation as a high-level tool for controlling power consumption. It has been proposed that the \textit{L1} sparsification regulariser \cite{han2015learning} should be employed, as this has the potential to not only enhance training, for instance, by preventing overfitting, but also to promote lower conductance values. \\
+
+% \noindent In lieu of manually adjusting the mapping scheme, the network designer may elect to prioritize low power consumption to a greater or lesser extent. This may be determined by, for example, adjusting the regularisation factor in \textit{L1} regularisation and incorporated into the conventional hyperparameter tuning process  \cite{feurer2019hyperparameter}, which is typically performed before deploying SNNs in the real world.
+
+\noindent When weights \textit{W} are related to conductances \textit{G} monotonically (linearly in this case), regularization can influence both weights and conductances, providing a high-level tool for controlling power consumption. It has been proposed that the \textit{L1} sparsification regularizer \cite{han2015learning} should be employed, as it can both enhance training (e.g., by preventing overfitting) and promote lower conductance values. Instead of manually adjusting the mapping scheme, the network designer may prioritize low power consumption to varying degrees, for example, by adjusting the regularization factor in \textit{L1} regularization, which is incorporated into the conventional hyperparameter tuning process \cite{feurer2019hyperparameter} typically performed before SNN deployment.\\
+
+\noindent Other recent studies have explored strategies to mitigate memristor non-idealities in SNNs \cite{morshed2023choose}. Advanced STDP implementations improve robustness through adaptive learning rates and probabilistic weight updates \cite{burr2017neuromorphic, pehle2022brainscales}. Hybrid analogue-digital designs improve consistency of weight storage \cite{friedmann2016demonstrating}. A promising approach exploits the subthreshold conduction regime, where low-power current transients encode precise temporal information \cite{mannion2023unipolar}, benefiting spike-based tasks such as neuromorphic vision \cite{mannion2020memristor}. This behaviour could improve the biological fidelity of learning mechanisms such as eligibility traces and homeostasis \cite{demiraug2021pcm, john2022reconfigurable}. In addition, homeostasis-driven dropout dynamically modulates synaptic conductance to prevent overfitting and stabilise learning \cite{vu2024spiking}. This section investigates subthreshold silicon oxide memristors in SNNs and proposes an adaptive dropout strategy for neuromorphic computing.\\
+
+\begin{figure*}[!t]
+    \centerline{\includegraphics[width=0.95\textwidth]{Chapter7/Figs/a.png}}
+    \caption[Proposed Neuromorphic architecture with homeostasis dropout]{Proposed Neuromorphic architecture with homeostasis dropout. A fully connected spiking neural network featuring input, hidden, dropout and output layers of spiking neurons, with synaptic connections illustrated for one neuron in the input and hidden layers. A portion of the neural network implemented with an RRAM crossbar memory array and neuron columns and rows, incorporating a homeostasis dropout layer for broken or overactive devices (red).}
+    \label{fig:7a}
+\end{figure*}
+    
+
+\noindent The described homeostasis mechanism can be applied as a dropout regularization layer in spiking neural networks (SNNs) \cite{stoffel2024spiking}. The synapse's conductance adjusts according to the firing frequency of the presynaptic neuron by utilising a non-monotonic response to the input firing rate. At lower firing rates, the conductance is higher, while at higher frequencies, it decreases, promoting synaptic depression. This behavior enables the system to suppress the influence of overactive or faulty neurons by adapting the conductance individually for each synapse. The advantage of this approach lies in its simplicity, as it does not require the presynaptic neuron to produce pulses of opposite polarity nor access to the postsynaptic side, thereby simplifying circuit design and enhancing regularization in SNNs. \\
+
+\noindent In order to implement dropout regularization in spiking neural networks (SNNs), a homeostasis mechanism is employed that adjusts the synaptic conductance based on the input neuron’s firing rate \cite{kim2021spiking}. The synaptic conductance \( G \) is modeled as a function of the firing rate \( r_{\text{in}} \) of the presynaptic neuron. Specifically, the steady-state conductance \( G_{\text{steady}} \) is defined as a non-monotonic function of \( r_{\text{in}} \), where the conductance increases at lower firing rates and decreases when the firing rate surpasses a threshold, thereby inducing synaptic depression. The functional relationship between the firing rate and synaptic conductance is given by the following:
+\begin{equation}
+G_{\text{steady}} = \frac{G_{\text{max}}}{1 + \left(\frac{r_{\text{in}}}{r_{\text{threshold}}}\right)^n} \label{eq:7.1}
+\end{equation}
+
+
+\noindent Here, \( G_{\text{max}} \) represents the maximum conductance, \( r_{\text{threshold}} \) is the firing rate at which depression begins, and \( n \) controls the sharpness of the transition. This model allows for the suppression of synapses connected to neurons exhibiting high-frequency activity, effectively implementing a form of dropout. The output current \( I_{\text{out}} \) from the synapse is then determined by the product of the synaptic conductance \( G_{\text{steady}} \) and the input voltage \( V_{\text{in}} \):
+\begin{equation}
+I_{\text{out}} = G_{\text{steady}} \cdot V_{\text{in}} \label{eq:7.2}
+\end{equation}
+
+\noindent This dynamic adjustment of conductance provides a mechanism for selectively reducing the influence of overactive neurons during training, akin to traditional dropout in conventional neural networks. By modulating synaptic conductance based on firing rates, this approach ensures that only relevant connections are active, improving the network's robustness and preventing overfitting. \\
+
+\begin{figure*}[!t]
+    \centerline{\includegraphics[width=0.8\textwidth]{Chapter7/Figs/b.png}}
+    \caption[Feature maps at the second convolutional layer.]{Feature maps at the second convolutional layer. The plot demonstrates the suppression of simulated hyperactive neurons in a memristive spiking neural network for a convolutional layer with 16 hidden channels, at a threshold of 5 time steps.}
+    \label{fig:7b}
+\end{figure*}
+
+\noindent The homeostasis-dropout method utilizes the time-step mechanism in SNN by focusing on the outputs from a window of the latest selected time steps instead of averaging across all steps. By dynamically adjusting synaptic conductance based on firing rates, this approach identifies a time-local window of significant activity, enabling selective suppression of overactive neurons. This not only reduces computational costs by avoiding redundant evaluations but also enhances robustness and prevents overfitting by emphasizing the most relevant temporal features during training and inference.
+
 \section[Practical Applications]{Practical Applications}
 
-\subsection{Dropout improvement}
+\subsection{Dropout Improvement}
+
+
+\noindent A two-layer memristive Spiking Neural Network (MSNN) was designed to evaluate its performance on the MNIST dataset, which was converted into spike trains.The network, with a batch size of 64, was trained on 60,000 samples and tested on 10,000. The network contains 100 hidden neurons with Leaky Integrate-and-Fire (LIF) activation and a 10-neuron output layer.Synaptic weights were initialised randomly and updated during training over 1 epoch, with a learning rate of 5e-4 and 50 steps per epoch for 20 epochs.A homeostasis mechanism temporarily disables neurons with excessive spike activity to maintain stable dynamics.\\ 
+
+\noindent The enhanced model, Memristive Convolutional Spiking Neural Network (MCSNN), incorporates convolutional layers to extract more complex features. The MCSNN includes a first convolutional layer with 12 filters using a 5x5 kernel, followed by 2x2 pooling, and a second convolutional layer with 64 filters, also followed by 2x2 pooling. The final layer is a memristive fully connected layer with 10 output neurons.The MCSNN, like the MSNN, uses LIF activation and a digital implementation for compatibility with existing hardware.\\
+
+\noindent Both models are trained with the same hyperparameters, and the cross-entropy loss function from PyTorch is used for training, automatically managing softmax activation of the output layer.The architecture also incorporates kernel density estimation (KDE) to simulate the probabilistic nature of memristor failures and device-to-device variations, and most importantly to observe homeostasis.\\
+
+\begin{figure*}[!t]
+    \centerline{\includegraphics[width=0.6\textwidth]{Chapter7/Figs/c.png}}
+    \caption[Training loss curve for standard and memristive schemes when exposed to I-V nonlinearities]{Training loss curve for standard and memristive schemes when exposed to I-V nonlinearities. The loss curves are noisy due to the tracking of losses at every iteration, rather than averaging across multiple iterations.}
+    \label{fig:7c}
+\end{figure*}
+
+
+\noindent The training results demonstrate the impact of homeostasis dropout under simulated memristor failures and device-to-device variations at 50\%. Training curves for the MNIST dataset (Fig.\ref{fig:7c}) illustrate the differences between models with and without dropout, with dropout-enhanced models achieving lower loss and outperforming models with simulated faulty devices, particularly in convolutional architectures. \\
+
+\begin{figure*}[!t]
+    \centerline{\includegraphics[width=0.6\textwidth]{Chapter7/Figs/d.png}}
+    \caption[Training accuracy curve for standard and memristive schemes when exposed to I-V nonlinearities]{Training accuracy curve for standard and memristive schemes when exposed to I-V nonlinearities. Comparison of different spiking neural network performance when implemented with I-V nonlinearities from a single training run.}
+    \label{fig:7d}
+\end{figure*}
+    
+\noindent Figure\ref{fig:7d} compares accuracies between SNN and CSNN models, with dropout-improved versions reaching 80-90\%, while models with overactive neurons stabilized at ~60\% after 20 epochs. To address the high variability of non-idealities, which were nondeterministic, five networks were trained for each separate configuration. The results are summarised in table \ref{table:7a}, which demonstrates the efficacy of dropout in mitigating variability and improving performance in SNNs. \\
+
+\begin{table}[!t]
+    \caption{Model Accuracy for different SNN configurations}
+    \begin{center}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    Model Accuracy  & Homeostasis Dropout & Memristor Failures \\ \hline
+    Fully-Connected & $83.37 \pm 3.41 \%$  & $61.54 \pm 4.86 \%$ \\ \hline
+    Convolutional   & $91.14 \pm 2.36 \%$  & $65.21 \pm 5.19 \%$  \\ \hline
+    \end{tabular}
+    \label{table:7a}
+    \end{center}
+    \vspace*{-\baselineskip}
+\end{table}
+
+
+\noindent In SNN, the membrane potential determines the likelihood of spike emission. During training, the membrane potential is used to compute the loss by comparing the output spike train to the target. When the potential exceeds a threshold, a spike is generated, signaling the neuron to "fire". This is where the homeostasis mechanism applies, as it adjusts synaptic conductance based on the input firing rates. Since the homeostasis regulates spike dynamics instead of direct membrane potential calculation, it acts as a regularization mechanism, modulating synaptic activity. The non-monotonic conductance model mimics biological synaptic plasticity, balancing excitation and inhibition. This balance improves generalization by preventing overfitting, akin to traditional dropout in deep learning.\\
+
+\noindent The subthreshold regime enhances energy efficiency by minimizing current draw, a crucial advantage for edge AI applications. However, its inherently narrow resistance range compromises resilience to voltage noise, increasing susceptibility to errors in large-scale implementations. In complex SNNs, accumulated variations from device non-idealities—such as stochastic switching and drift—can compound over time, degrading overall performance. \\
+
+\begin{figure*}[!t]
+    \centerline{\includegraphics[width=0.6\textwidth]{Chapter7/Figs/e.png}}
+    \caption[Confusion matrix of convolutional homeostasis model.]{Confusion matrix for successfully learned MNIST features during validation of convolutional homeostasis model.}
+    \label{fig:7e}
+\end{figure*}
+
+\noindent While compensation strategies like adaptive learning rules or redundancy help mitigate these effects, they introduce computational overhead that may hinder real-time processing. Furthermore, fabrication inconsistencies can lead to deviations not fully captured by existing models, necessitating further optimization. Achieving both efficiency and robustness remains critical for scaling memristor-based neuromorphic systems in practical deployments.
+
 
 \subsection{Biosignal Processing}
 
+Biosignals such as Electroencephalogram (EEG) and magnetoencephalogram (MEG) signals carry complex, time-sensitive information about brain activity that traditional deep learning models often struggle to efficiently process. Spiking Neural Networks (SNNs), which encode data as discrete spikes, more closely resemble biological neural signaling and offer significant improvements in temporal precision and energy efficiency compared to conventional Artificial Neural Networks (ANNs).\\
+
+\noindent When augmented with convolutional layers, Convolutional SNNs (CSNNs) harness the spatial-temporal feature extraction power of CNNs while maintaining the sparse and event-driven nature of spiking neurons. CSNNs can achieve >99\% accuracy in detecting anticipatory EEG potentials—signaling user intent—in real-time applications such as braking systems, outperforming standard CNNs and other architectures \cite{lutes2024convolutional}. Similarly CSNNs applied to EEG-based stress detection achieve 98.7\% accuracy, highlighting their robustness and energy-conscious performance \cite{Joshi2025-sa}. \\
+
+\noindent Nevertheless, the implementation of large-scale, low-power SNNs on conventional hardware remains challenging. Memristive hardware has been identified as a potentially effective solution to this issue. The deployment of synaptic weights directly within the fabric of crossbar arrays enables efficient native in-memory computing. This combination of temporal fidelity through event-driven spiking dynamics, energy-efficient spatial feature extraction via convolutional architectures, and ultra-low-power, compact hardware realisation enabled by in-memory memristive technologies represents a significant advance in the field.\\
+
+\noindent Collectively, these characteristics position memristive CSNNs as a potent solution for real-time, on-device biosignal applications, rendering them particularly well-suited for portable, battery-sensitive settings such as brain-computer interfaces, stress monitoring, and ambulatory neurological diagnostics.\\
+
+\noindent To begin, EEG and MEG data were acquired at the MGH/HMS/MIT Athinoula A. Martinos Center for Biomedical Imaging using the Neuromag Vectorview system \cite{Gramfort2020-jm}. EEG recordings were obtained through a 60-channel electrode cap that was synchronized with the MEG system, allowing for simultaneous acquisition of electrophysiological signals from the scalp and magnetic field changes associated with neuronal activity. Structural MRI data for the subject were collected separately using a Siemens 1.5 T Sonata scanner with a magnetization-prepared rapid acquisition gradient-echo (MPRAGE) sequence, providing high-resolution anatomical images suitable for source localization and co-registration with EEG/MEG data.\\
+
+\noindent During the experiment, subjects were exposed to a sequence of stimuli consisting of visual and auditory inputs. Specifically, checkerboard patterns were displayed in either the left or right visual field, and tones were delivered to either the left or right ear. These stimuli were presented at regular intervals of 750 ms. Additionally, at unpredictable intervals, a smiley face appeared at the center of the screen, serving as a visual target to which the participant was instructed to respond by pressing a button with the right index finger as quickly as possible.\\
+
+\noindent Each type of stimulus and response was encoded using specific trigger codes: auditory left (LA = 1), auditory right (RA = 2), visual left (LV = 3), visual right (RV = 4), smiley face (smiley = 5), and button press (button = 32). These trigger events were embedded into the EEG/MEG recordings to enable precise epoching and event-related analysis.\\
+
+\noindent In order to preprocess this data using the MNE-Python library \cite{gramfort2014mne}, the raw EEG and MEG recordings are first loaded, then event triggers are extracted, which identifies the timestamps and codes of all stimulus and response events. The data is then subjected to band-pass filtering, a process that serves to remove noise and artefacts. The selection of appropriate low and high cut-off frequencies is typically undertaken at this stage (e.g., 1–40 Hz). Epochs are created around each event, specifying the time window relative to each stimulus onset (e.g., -0.2 to 0.5 seconds).\\
+
+\noindent Baseline correction is typically implemented within a pre-stimulus window (e.g., -0.2 to 0 s) with the objective of reducing drift and enhancing signal clarity. Furthermore, artifact rejection methods such as Independent Component Analysis (ICA) were employed to remove eye-blink or muscle-related artifacts. The preprocessed epochs can subsequently be utilised for further analysis, including event-related potential (ERP) averaging, time-frequency decomposition, and source localisation.\\
+
 \section[Summary]{Summary}
+
+In the future, SNNs could be adapted as spiking autoencoders, benefiting from their ability to efficiently encode and decode temporal and spatial patterns. This could lead to significant advancements in data compression and anomaly detection. Furthermore, SNNs hold promise in bio-signal processing applications, where their biologically inspired architecture can handle complex signals such as electroencephalograms (EEGs) or electromyograms (EMGs). Future studies should explore these applications, integrating SNNs with biosignal data or advanced sensors, and enhancing robustness against device non-idealities for real-time biosignal processing.\\
