@@ -111,131 +111,8 @@ Spike-based optimisation techniques seek to minimise the overall error of a netw
 
 \noindent Finally, function approximation methods approach the problem from a different angle. Rather than assuming a network of spiking neurons and attempting to identify rate approximations to these spiking neurons, they select an arbitrary nonlinearity for training the network, and then employ spiking neurons to approximate this nonlinearity.
 
-% \subsection[Derivative-based Methods]{Derivative-based Methods}
-
-% \noindent In 2010, a study pioneered the training of a spiking convolutional network \cite{perez2010spike}. A conventional convolutional neural network (CNN) was trained using the backpropagation algorithm with \textit{tanh} units. In order to transform this into a spiking network, the \textit{tanh} units were substituted with binary threshold units that incorporate a refractory period. \\
-
-% \noindent In particular, if the input to a neuron exceeds a specified threshold, it generates a spike, after which the neuron is unable to spike for a designated period. The refractory period causes the firing rates of the neurons to saturate. The authors posit that this emulates the corresponding \textit{sigmoid} functions, namely the \textit{tanh} function, used in the rate model. \\
-
-% \noindent However, they do not elucidate the precise mechanism through which the refractory period achieves this emulation. It may be presumed that the rationale is that the \textit{tanh} function is a saturating nonlinearity, and thus having the neuron firing rate saturate makes the firing rate curve more similar to the \textit{tanh} curve. \\
-
-% \noindent A more principled approach to the conversion of rate-based convolutional neural networks (CNNs) to spiking CNNs was adopted in 2015 \cite{cao2015spiking}. They exploited the fact that rectified linear units (ReLUs) perfectly model the rate of a non-leaky integrate-and-fire neuron (IF). As ReLUs are currently the standard for deep networks, this allows networks to be trained with the same rate-based ReLUs and then replaced with spiking IF neurons at runtime. \\
-
-% \noindent Additionally, the max-pooling layers utilized by the network were replaced with average pooling layers. Average pooling layers only entail the summation and scaling of inputs, thereby enabling them to function effectively with spiking neurons, in a manner that is biologically plausible. In contrast, max pooling lacks a clear spiking analogue. \\
-
-% \noindent The process of taking the maximum of the binary spikes occurring at a given point in time (i.e., outputting one if any of the inputs are spiking, and zero otherwise) is not equivalent to taking the maximum across spike rates, as performed by traditional CNNs. Moreover, even taking the maximum across spikes is not biologically plausible, since there is no clear neuron-level mechanism for taking the maximum across incoming signals. \\
-
-% \noindent The same study also removed biases from the network, on the grounds that they would be challenging to implement in a spiking network \cite{cao2015spiking}. However, it is not evident why biases would present a problem for spiking networks, particularly if targeting neuromorphic hardware (much of which supports biases). One advantage of removing biases is that it offers a somewhat more straightforward biological explanation, since the output of each neuron depends solely on the inputs from other neurons in the network. \\ 
-
-% \noindent In a similar approach to that employed previously, a novel method of normalisation for weight magnitudes was utilised \cite{diehl2015fast}. One pivotal design decision in spiking networks is the trade-off between the firing rates of the neurons and the requisite integration time for the network to reach a decision. \\
-
-% \noindent Higher firing rates facilitate the expeditious transmission of information, thereby enabling more rapid responses and enhanced accuracy. However, this increased speed comes at the cost of greater energy consumption. On certain neuromorphic platforms, there are imposed limits on the maximum allowable firing rates. An increase in integration time permits the accumulation of greater quantities of information, thereby enhancing accuracy. However, this approach also results in slower responses and an elevated number of spikes per example.\\
-
-% \noindent It is therefore necessary to achieve a balance between accuracy, response time and energy efficiency by properly tuning the firing rates and integration time. Given that ReLUs—and, by extension, IF neurons—are scale-invariant, the firing rates of neurons in spiking IF networks can be set at any arbitrary value. In order to alter the firing rate of a neuron while preserving the integrity of the network, it is necessary to offset the increase in firing rate with a corresponding decrease in all connection weights originating from that neuron. \\
-
-% \noindent The study present two techniques for normalising network weights, namely model-based and data-based normalisation \cite{diehl2015fast}. Both techniques are founded upon the principle that the input to any given neuron in a single timestep should not exceed the firing threshold of that neuron. Should this occur, it could result in the neuron being required to fire two spikes in the same timestep, which is not supported by the majority of neuromorphic hardware. \\
-
-% \noindent In other words, the objective of the normalization process is to guarantee that the instantaneous firing rates of all neurons never exceed the rate of the neuromorphic chip (simulation rate). In the model-based normalization technique, the maximum sum of positive input weights across all neurons in a layer is identified, and then all neuron inputs in the layer are normalized using this sum. \\
-
-% \noindent This guarantees that no neuron can receive an input greater than one (the firing threshold) in a single timestep. The authors discovered that this technique can result in weights that are smaller than necessary. This is because the maximum possible input to a neuron is often never encountered in real data, which in turn leads to longer-than-necessary integration times. \\
-
-% \noindent In contrast, data-based normalization is contingent upon the examples within the training data. This ensures that for any given training example, no neuron will receive an input greater than one (the firing threshold). The authors discovered that data-based normalization reduced the integration time required by the network to achieve the same level of accuracy as an unnormalized network with a higher firing threshold. This paper presented the most advanced results to date for spiking networks on the MNIST dataset, achieving a test-set error of 0.88\%. \\
-
-% \noindent In a study published in 2016 \cite{esser2015backpropagation}, the authors trained deep networks targeting the IBM TrueNorth neuromorphic chip \cite{merolla2014million}. In contrast to the other networks described herein, this network employs a basic binary threshold neuron, which generates a "spike" in response to a positive input at a given time step and remains quiescent otherwise. This can be considered to be equivalent to a rate-based binary threshold unit. \\
-
-% \noindent Furthermore, the network presents each image for a single timestep before resetting all neuron voltages and presenting the next image. As a result of these considerations, the network is classified as rate-based, rather than spiking.  The authors trained very large networks, comprising 8 million neurons, on a number of tasks, including CIFAR-10 and SVHN. The results are at the cutting edge of the field when compared to spiking networks. \\
-
-% \noindent However, a more pertinent comparison is with rate-based networks, where the sole innovation is the use of binary threshold units, which are not commonly employed in deep networks. The network is capable of running on neuromorphic hardware (TrueNorth), but utilises a considerable number of neurons even for relatively modest datasets such as CIFAR-10. Consequently, it would be challenging to scale up to larger datasets such as ImageNet. 
-
-% \subsection[Derivative-free Methods]{Derivative-free Methods}
-
-% \noindent Derivative-free, rate-based optimisation methods employ rate approximations for the spiking neural process, yet do not necessitate the derivative of the rate approximation. The entirety of the aforementioned methods are founded upon the utilisation of the Contrastive Divergence (CD) algorithm \cite{hinton2006fast} for the training of deep networks comprising stacked RBMs. \\
-
-% \noindent In a study published in 2013 \cite{o2013real}, a spiking network of LIF neurons using RBMs was developed. In order to train the network, the researchers employ the Siegert approximation to a noisy spiking LIF neuron as the rate neuron model. The Siegert approximation is an equation that describes the mean firing rate of an LIF neuron when presented with a number of input spike trains, where the spikes are distributed according to a Poisson process with a constant firing rate. \\
-
-% \noindent Subsequently, the output rates are normalised by the maximum firing rate (1/tref) in order to generate firing probabilities, and the hidden units are sampled from a binary distribution based on these probabilities. The authors employ this model to simulate the variability introduced by the use of spikes. \\
-
-% \noindent Consequently, spiking LIF neurons are introduced in place of the rate neurons, and the network is trained using Poisson input trains based on pixel intensities, resulting in an error rate of 5.91\% on MNIST. A study in 2015 \cite{stromatias2015robustness} further extend this work by demonstrating the method's resilience to reduced weight precision, achieving an error rate of 5.06\% on MNIST with 11-bit fixed point weights running on the SpiNNaker platform. \\
-
-% \noindent In a similar vein, a 2013 model was also developed spiking RBMs using LIF neurons \cite{neftci2014event}. Their approach entails fitting the mean firing rate of a noisy LIF neuron to a sigmoid curve and subsequently training using this sigmoid curve. This restricts the range of possible parameters for the LIF neuron, as they must permit the firing rate to be accurately approximated by a sigmoid function. However, it permits the RBMs to be trained with conventional sigmoid activation functions, thereby facilitating a more straightforward and efficient training process. \\
-
-% \noindent They put forth an online variant of CD for spiking networks, based on an STDP learning rule. For each training image, two phases are conducted. The initial phase occurs immediately upon presentation of the image, wherein connections are updated based on the data (stimulus). Subsequently, following a designated period of time, the recurrent connections become active, thereby driving the network towards its reconstruction distribution. \\
-
-% \noindent This has an effect that is similar to that of Gibbs sampling in the CD algorithm. During this period, the gating signal on the derivative is reversed, resulting in a negative impact on the weights based on the reconstruction. This constitutes one complete cycle of the algorithm, which is repeated for each training image over numerous iterations through the training data. This approach bears resemblance to CD, hence the authors have designated it as "event-based CD." Employing this technique, the researchers achieved an 8.1\% test-set error on MNIST in spiking neurons. 
-
-% \subsection[Function-approximation and Noise]{Function-approximation and Noise}
-
-% \noindent Approximation methods for functions diverge considerably from the previously discussed approaches. In contrast to the approach of utilising a single spiking neuron to represent each node in an ANN, function approximation methods employ multiple spiking neurons for each node. These spiking neurons are employed to approximate the nonlinear function (e.g., the sigmoid function) that is being computed by the node.\\
-
-% \noindent There is only one documented instance of this method being employed \cite{eliasmith2012large}. The approximation of the sigmoid function computed by each node is achieved through the use of three spiking LIF neurons. The parameters for each neuron are randomly assigned, with the most significant aspect being the uniform distribution of the random bias current. This enables each of the three neurons to target a distinct portion of the sigmoid curve, in addition to the bias current assigned to the node during the training process.\\
-
-% \noindent Once the random parameters have been set, a scalar weighting is calculated for each neuron, determining the extent to which it contributes to the sigmoid function. This is the standard method for function approximation, but applied to a limited number of neurons in order to approximate a sigmoid function. This method enables a spiking network to approximate a rate-based network in a highly general manner. \\
-
-% \noindent One disadvantage is that it requires a greater number of neurons than nodes in the network, which makes it more costly in terms of neural resources than the aforementioned methods. The efficacy of this approach is contingent upon the ability of the neurons to accurately represent the node function within the operational domain. Sigmoid functions can be readily represented with LIF neurons. However, ReLUs are considerably flatter and do not undergo squashing, necessitating a significantly larger range of output values for accurate representation. This renders them less compatible with this method. \\
-
-% \noindent The transmission of discrete, constant-amplitude spikes, as observed throughout much of the human central nervous system, represents a higher-variance method of information transmission than the simple transmission of a scalar value, such as a voltage. From a rate-based perspective, the increased variance can be conceptualised as 'noise' surrounding the firing rate, which can be considered the 'signal'. The firing rate is defined as the mean value of a spike train signal.\\
-
-% \noindent If a spike train is passed through a low-pass filter, the result can be viewed as an estimate of the mean with additional time-varying noise superimposed. The quantity of noise is contingent upon the filter employed; the elimination of a greater proportion of high frequencies will yield a superior estimate with diminished noise, yet if the fundamental firing rate signal is also time-varying, then its higher frequencies will also be removed. In a spiking network that is receiving a sequence of images and outputting a response for each in real-time, this results in a longer response time for each image. \\
-
-% \noindent It is observed that a considerable number of rate-based spiking neural networks do not take into account the variance caused by spikes. Amongst those that do, two distinct approaches have been identified. The first involves modelling the impact of spike noise on the mean neural firing rates, with these revised mean rates then being employed during the training process. The second approach entails incorporating stochastic elements into the model during training, with the objective of ensuring that the probability distribution of the training output rates reflects, to some extent, the variance resulting from the spikes employed during testing. \\
-
-% \noindent An exemplar of this initial approach is the utilisation of the Siegert model to account for the effects of incoming spikes on the LIF neuron firing rate \cite{o2013real}. This approach is predicated on the assumption that neuronal inputs are uncorrelated and that spikes are governed by a Poisson process. \\
-
-% \noindent The Siegert model then provides the mean firing rate of the LIF neuron, given the mean firing rates of all inputs and their respective connection weights. One disadvantage of this approach is that the Siegert equation is complex, containing an integral with no closed-form solution. The integrand of this integral contains both the exponential and error (erf) functions.\\
-
-% \noindent Computing this function on a GPU (or even a CPU) would be challenging and time-consuming in comparison to the functions typically employed in neural networks. Additionally, this approach necessitates the calculation of two linear functions of the input neuron rates, one to determine the overall input mean and the other to ascertain the variance. Consequently, it requires twice the number of matrix-vector operations as a network without the Siegert model. \\
-
-% \noindent The second approach, which involves incorporating stochastic elements into a model of spiking noise, has frequently been employed in a range of neural network contexts. However, this has not typically been done with the specific objective of running the final model in spiking neurons. \\
-
-% \noindent A foundational example is that of Boltzmann machines, which employ binary sampling on probabilistic units \cite{hinton1983optimal}. This enables units to communicate binary values with one another, which bears resemblance to spikes. However, if one considers each unit to be attempting to transmit its underlying firing probability (which is analogous to a firing rate), this represents a particularly severe form of noise. \\
-
-% \noindent Subsequent work significantly reduced the amount of noise by employing rectified linear activation functions with Gaussian noise on the neuron input \cite{nair2010rectified}. An additional illustration of the incorporation of stochastic elements into a model is the denoising autoencoder \cite{vincent2008extracting}. This approach entails the introduction of noise into the model inputs, followed by an attempt to reproduce the original, noise-free version of the input. \\
-
-% \noindent The addition of noise to model inputs has frequently been employed as a means of enhancing the model's capacity to handle a diverse range of inputs, effectively constituting a form of data augmentation. Other forms of data augmentation, such as translation, rotation, or deformation of images, can also be regarded as a structured form of noise on model inputs, distinct from Gaussian noise. \\
-
-% \noindent Nevertheless, the incorporation of noise into hidden units, whether at the input or output level, remains a relatively uncommon practice in the context of nonlinear networks \cite{poole2014analyzing}. Despite extensive research, there seems to be a dearth of examples where this approach has been employed to model the inherent variability associated with spikes, with the aim of translating a rate model into a spiking neuron framework.
 
 \section[Homeostasis Regularization]{Homeostasis Regularization}
-
-% \subsection[Neural-engine Framework]{Neural-engine Framework}
-
-% \noindent While it is possible to modify the mapping scheme in order to achieve specific behaviours, this is a highly detailed and complex approach that requires a fundamental understanding of the physics of memristors. Therefore, even when training is conducted externally, the network designer must consider not only the conventional training hyperparameters, such as learning rates or the number of epochs, but also the physical implementation of MNNs, as this will affect the network performance. \\
-
-% \noindent In order to make MNNs a feasible proposition in the real world, it may be necessary to adopt more high-level approaches that require minimal understanding of the hardware. This is similar to how the Compute Unified Device Architecture (CUDA) hides the complexity of graphics processing units (GPUs) behind high-level software abstractions \cite{el2008performance}.\\
-
-% \noindent The original Neural Engineering Framework is a theory that connects neural-level computations with higher-level algorithmic descriptions \cite{eliasmith2003neural}. Specifically, it describes how neurons can perform vector computations, which can then be built upon to create increasingly complex systems \cite{eliasmith2012large}. It has three main tenets: representation, how neurons represent a real-world value; transformation, how neurons compute (static) functions on represented values; and dynamics, how neurons can implement dynamical systems or functions. \\
-
-% \noindent The Neural Engineering Framework is a scheme that was founded upon the principle of population coding \cite{salinas1994vector}. In particular, it employs a methodology whereby linear least-squares techniques are utilised to identify linear decoders for a population of neurons. This concept can be succinctly encapsulated as nonlinear encoding, linear decoding. \\
-
-% \noindent The fundamental premise of the NEF is that a "population" of neurons can be conceptualised as a representation of a specific value. This could be either a value in the real world or a purely internal value. In the core NEF, each population represents a vector $\textbf{x}$, but this can be extended to representing things like scalar- and vector-fields, too.\\
-
-% \noindent Each neural population is equipped with a set of encoders, designated as \textbf{E}, which facilitate the mapping from the state space, a \textit{d}-dimensional representation of the values that the population can represent, to the neuron space, a \textit{n}-dimensional representation of neural activities. The mapping is nonlinear.
-% \begin{align}
-% a_{j}(\textbf{x}) = G_{j}\left( \alpha_{j}\sum_{i}^{} E_{ji}x_{i} +\beta_{j} \right) \label{eq:7.1} 
-% \end{align}
-
-% \noindent In this context, the vector value represented by \textbf{\textit{x}} denotes the encoding of the population, while $a_j$ signifies the activity of neuron \textit{j}, $G_j(\cdot)$ represents a rate-based neural nonlinearity that transforms input currents into firing rates. $E$ is a matrix of dimensions $n \times d$, comprising encoders, while $\alpha_j$ and $\beta_j$ are scalar gain and bias terms, respectively. It is common practice to model neurons in the NEF as LIF neurons. In such cases, $G_j(\cdot)$ is given by Equation \ref{eq:6.17} for all neurons.\\
-
-% \noindent In order to decode information from the population, it is necessary to identify a suitable linear decoder \textit{D}. When this is multiplied by the neural activities \textbf{\textit{a(x)}}, the resulting value \textbf{\textit{x}} represents the state-space value. In practice, the choice of decoder is typically based on the minimisation of the squared error $\left\| D \textbf{a} (\textbf{x})  - \textbf{x}\right\|^{2}_{2}$. \\
-
-% \noindent In an ideal scenario, the objective would be to minimise this across all possible values of \textbf{\textit{x}}. However, in practice, the space of \textbf{\textit{x}} is sampled at \textit{m} points, which are referred to as evaluation points. Given an $m \times d$ matrix of evaluation points, \textbf{\textit{X}}, and the corresponding neural activities at each evaluation point, \textbf{\textit{A}}, the least-squares optimal decoders can be found as follows:
-% \begin{align}
-% D = \left( A^\intercal A \right)^{-1} A^\intercal X \label{eq:7.2} 
-% \end{align}
-
-% \noindent In practice, some neurons may exhibit similar activity patterns, rendering this an ill-conditioned problem. Furthermore, it is common practice to impose a penalty on large decoders in order to mitigate the impact of variability in the spiking neurons on the decoded value. To address these issues, regularisation is typically employed. \\
-
-% \noindent Given that the number of neurons in the population n is typically much larger than the number of dimensions \textit{d} in the encoded vector \textbf{\textit{x}}, it follows that the neural population not only contains information about \textbf{\textit{x}}, but also about possible functions of \textbf{\textit{x}}. The decoding of a function \textit{f}(\textbf{\textit{x}}) from the population can be achieved by identifying decoders Df that minimise the squared error $\left\| D_f \textbf{a} (\textbf{x})  - \textbf{x}\right\|^{2}_{2}$.\\
-
-% \noindent This results in a similar least-squares optimisation problem as previously described, but with the matrix of evaluation points \textit{X} replaced by a matrix of targets \textit{Y}. This method can be used to decode arbitrary functions from the population. The accuracy with which a given function can be decoded depends on the characteristics of the function (e.g. higher frequency changes are more difficult to decode), the tuning curves of the neurons, and the relationship between these two factors. \\
-
-% \noindent One notable aspect of the encoding model is its rate-based structure. The decoders are identified through the utilisation of the rate response function of the neurons. This does not imply that NEF models employ traditional rate coding. Indeed, firing rates can vary with considerable rapidity, and one can construct models, for example, an oscillator, where neurons fire in rapid bursts, the timing of which is of consequence.\\
-
-% \noindent It is not possible for NEF networks to exploit synchronisation between neurons. Any correlations between neural firing will merely result in increased variability (noise) in the decoded output. Furthermore, NEF networks function equally well or better when rate-based neurons are used instead of spiking neurons. This indicates that these networks utilise a fundamentally rate code, albeit one that can change quickly. \\
-
-% \noindent A significant feature of NEF networks is the heterogeneity of neurons with regard to their encoders and biases, which results in differential responses to input stimuli. This heterogeneity enables neurons to not only encode different aspects of their input signals a capability that can also be demonstrated by noisy homogeneous neurons \cite{hunsberger2014competing}, but also to compute nonlinear transformations of these signals. \\
-
-% \noindent The precise nature of this heterogeneity has a substantial impact on both the signals that can be represented and the transformations that can be computed. It is not always the case that representation and transformation are mutually exclusive; for instance, a population of neurons that are all tuned to the sum of two inputs is unable to represent the individual signals, but is capable of computing a transformation such as the square of their sum. There has been limited examination of the types of heterogeneity that are most effective for computing specific functions.
 
 \subsection{Programming Variabilities}
 
@@ -263,13 +140,7 @@ One of the most common non-idealities observed in memristive devices is the phen
 
 \noindent Furthermore, device-to-device (D2D) variability, which arises from inaccuracies during device programming, was also taken into account. As discussed in the preceding chapter, during the mapping of weights onto conductances, one may ultimately arrive at values that differ from the desired outcome. \\
 
-\noindent Lognormal distribution is a commonly utilized approach to model these discrepancies. For instance, it has been demonstrated that resistance deviations adhere to this trend, with the relative (and consequently, the absolute) magnitude of the deviations being more pronounced in the high-resistance state (HRS) compared to the low-resistance state (LRS).
-
-\subsection{Architecture Modifications}
-
-% \noindent When weights \textit{W} are related to conductances \textit{G} in a monotonically increasing fashion (in this case, linear), regularisation can be employed to influence the magnitude of both weights and conductances. This provides a means of utilising regularisation as a high-level tool for controlling power consumption. It has been proposed that the \textit{L1} sparsification regulariser \cite{han2015learning} should be employed, as this has the potential to not only enhance training, for instance, by preventing overfitting, but also to promote lower conductance values. \\
-
-% \noindent In lieu of manually adjusting the mapping scheme, the network designer may elect to prioritize low power consumption to a greater or lesser extent. This may be determined by, for example, adjusting the regularisation factor in \textit{L1} regularisation and incorporated into the conventional hyperparameter tuning process  \cite{feurer2019hyperparameter}, which is typically performed before deploying SNNs in the real world.
+\noindent Lognormal distribution is a commonly utilized approach to model these discrepancies. For instance, it has been demonstrated that resistance deviations adhere to this trend, with the relative (and consequently, the absolute) magnitude of the deviations being more pronounced in the high-resistance state (HRS) compared to the low-resistance state (LRS).\\
 
 \noindent When weights \textit{W} are related to conductances \textit{G} monotonically (linearly in this case), regularization can influence both weights and conductances, providing a high-level tool for controlling power consumption. It has been proposed that the \textit{L1} sparsification regularizer \cite{han2015learning} should be employed, as it can both enhance training (e.g., by preventing overfitting) and promote lower conductance values. Instead of manually adjusting the mapping scheme, the network designer may prioritize low power consumption to varying degrees, for example, by adjusting the regularization factor in \textit{L1} regularization, which is incorporated into the conventional hyperparameter tuning process \cite{feurer2019hyperparameter} typically performed before SNN deployment.\\
 
@@ -304,8 +175,6 @@ I_{\text{out}} = G_{\text{steady}} \cdot V_{\text{in}} \label{eq:7.2}
 \end{figure*}
 
 \noindent The homeostasis-dropout method utilizes the time-step mechanism in SNN by focusing on the outputs from a window of the latest selected time steps instead of averaging across all steps. By dynamically adjusting synaptic conductance based on firing rates, this approach identifies a time-local window of significant activity, enabling selective suppression of overactive neurons. This not only reduces computational costs by avoiding redundant evaluations but also enhances robustness and prevents overfitting by emphasizing the most relevant temporal features during training and inference.
-
-\section[Practical Applications]{Practical Applications}
 
 \subsection{Dropout Improvement}
 
@@ -360,8 +229,9 @@ I_{\text{out}} = G_{\text{steady}} \cdot V_{\text{in}} \label{eq:7.2}
 
 \noindent While compensation strategies like adaptive learning rules or redundancy help mitigate these effects, they introduce computational overhead that may hinder real-time processing. Furthermore, fabrication inconsistencies can lead to deviations not fully captured by existing models, necessitating further optimization. Achieving both efficiency and robustness remains critical for scaling memristor-based neuromorphic systems in practical deployments.
 
+\section[Biosignal Processing]{Biosignal Processing}
 
-\subsection{Biosignal Processing}
+\subsection{Architecture Adaptation}
 
 Biosignals such as Electroencephalogram (EEG) and magnetoencephalogram (MEG) signals carry complex, time-sensitive information about brain activity that traditional deep learning models often struggle to efficiently process. Spiking Neural Networks (SNNs), which encode data as discrete spikes, more closely resemble biological neural signaling and offer significant improvements in temporal precision and energy efficiency compared to conventional Artificial Neural Networks (ANNs).\\
 
@@ -371,16 +241,73 @@ Biosignals such as Electroencephalogram (EEG) and magnetoencephalogram (MEG) sig
 
 \noindent Collectively, these characteristics position memristive CSNNs as a potent solution for real-time, on-device biosignal applications, rendering them particularly well-suited for portable, battery-sensitive settings such as brain-computer interfaces, stress monitoring, and ambulatory neurological diagnostics.\\
 
-\noindent To begin, EEG and MEG data were acquired at the MGH/HMS/MIT Athinoula A. Martinos Center for Biomedical Imaging using the Neuromag Vectorview system \cite{Gramfort2020-jm}. EEG recordings were obtained through a 60-channel electrode cap that was synchronized with the MEG system, allowing for simultaneous acquisition of electrophysiological signals from the scalp and magnetic field changes associated with neuronal activity. Structural MRI data for the subject were collected separately using a Siemens 1.5 T Sonata scanner with a magnetization-prepared rapid acquisition gradient-echo (MPRAGE) sequence, providing high-resolution anatomical images suitable for source localization and co-registration with EEG/MEG data.\\
+\noindent To begin, EEG and MEG obtained from the MGH/HMS/MIT Athinoula A. Martinos Center for Biomedical Imaging using the Neuromag Vectorview system \cite{Gramfort2020-jm}. EEG recordings were obtained through a 60-channel electrode cap that was synchronized with the MEG system, allowing for simultaneous acquisition of electrophysiological signals from the scalp and magnetic field changes associated with neuronal activity. \\
 
-\noindent During the experiment, subjects were exposed to a sequence of stimuli consisting of visual and auditory inputs. Specifically, checkerboard patterns were displayed in either the left or right visual field, and tones were delivered to either the left or right ear. These stimuli were presented at regular intervals of 750 ms. Additionally, at unpredictable intervals, a smiley face appeared at the center of the screen, serving as a visual target to which the participant was instructed to respond by pressing a button with the right index finger as quickly as possible.\\
+% \noindent Structural MRI data for the subject were collected separately using a Siemens 1.5 T Sonata scanner with a magnetization-prepared rapid acquisition gradient-echo (MPRAGE) sequence, providing high-resolution anatomical images suitable for source localization and co-registration with EEG/MEG data.\\
+
+\noindent During the experiment, subjects were exposed to a sequence of stimuli consisting of visual and auditory inputs. Specifically, checkerboard patterns were displayed in either the left or right visual field, and tones were delivered to either the left or right ear. These stimuli were presented at regular intervals of 750 ms. At unpredictable intervals, a smiley face appeared at the center of the screen, serving as a visual target to which the participant was instructed to respond by pressing a button with the right index finger as quickly as possible.\\
 
 \noindent Each type of stimulus and response was encoded using specific trigger codes: auditory left (LA = 1), auditory right (RA = 2), visual left (LV = 3), visual right (RV = 4), smiley face (smiley = 5), and button press (button = 32). These trigger events were embedded into the EEG/MEG recordings to enable precise epoching and event-related analysis.\\
 
 \noindent In order to preprocess this data using the MNE-Python library \cite{gramfort2014mne}, the raw EEG and MEG recordings are first loaded, then event triggers are extracted, which identifies the timestamps and codes of all stimulus and response events. The data is then subjected to band-pass filtering, a process that serves to remove noise and artefacts. The selection of appropriate low and high cut-off frequencies is typically undertaken at this stage (e.g., 1–40 Hz). Epochs are created around each event, specifying the time window relative to each stimulus onset (e.g., -0.2 to 0.5 seconds).\\
 
-\noindent Baseline correction is typically implemented within a pre-stimulus window (e.g., -0.2 to 0 s) with the objective of reducing drift and enhancing signal clarity. Furthermore, artifact rejection methods such as Independent Component Analysis (ICA) were employed to remove eye-blink or muscle-related artifacts. The preprocessed epochs can subsequently be utilised for further analysis, including event-related potential (ERP) averaging, time-frequency decomposition, and source localisation.\\
+\noindent Baseline correction is typically implemented within a pre-stimulus window (e.g., -0.2 to 0 s) with the objective of reducing drift and enhancing signal clarity. Furthermore, artifact rejection methods such as Independent Component Analysis (ICA) were employed to remove eye-blink or muscle-related artifacts. \\
+
+\noindent The preprocessed epochs can subsequently be utilised for further analysis, including event-related potential (ERP) averaging, time-frequency decomposition, and source localisation. All signals were z-score normalized per channel and resampled to a uniform temporal resolution. The preprocessed EEG segments were formatted as tensors of shape $[B,C,T,N]$, where $B=64$ denotes batch size, $C=1$ is the input channel, $T=376$ is timepoints, and $N=71$ is the number of EEG channels.\\
+
+\noindent The proposed hybrid Convolutional Spiking Neural Network (CSNN) architecture integrates the spatial pattern recognition strengths of Convolutional Neural Networks (CNNs) with the temporal sensitivity of Spiking Neural Networks (SNNs). In contrast to conventional recurrent models such as BiLSTMs \cite{malviya2022novel}, the CSNN does not incorporate sequential memory components. Instead, it employs event-driven temporal processing via spiking neurons, thereby reducing inference latency and energy consumption while maintaining temporal modelling fidelity. \\
+
+\noindent The model commences with phase-based or latency-based spike encoding of electroencephalographic (EEG) signals. Specifically, a threshold-based latency encoding scheme was employed, whereby spike latency is inversely proportional to signal amplitude within each designated window. The encoded spike trains are then passed to the first convolutional layer, which applies 2D spatial filters over the spatiotemporal EEG input. The output of each convolutional layer is governed by the spiking dynamics:
+\begin{equation} h_{ij}^{l} = \sigma \left( \sum _{k} w_{k}^{l} \cdot x_{(i+k)(j+k)} + b^{l} \right) \label{eq:7.3}
+\end{equation}
+
+\noindent Where $h_{ij}^{l}$ is the output at position $(i,j)$, $ w_{k}^{l}$ is the filter weight, and $\sigma$ is the activation function modeled for spiking dynamics \cite{tavanaei2019deep}. Each convolutional stage is followed by Leaky Integrate-and-Fire (LIF) spiking neurons, including optional homeostatic dropout layers, which regularize firing activity based on dynamic conductance principles inspired by oxide-based memristors.\\
+
+\noindent In order to capture hierarchical representations, a stack of multiple convolution + LIF blocks with max pooling is employed \cite{shrestha2018slayer}. The final spiking representation is flattened and subsequently passed to the fully connected layers. This is followed by another layer of LIF neuron output layers. The temporal dynamics are addressed through the utilisation of spiking recurrence across timesteps, employing a backpropagation-through-time (BPTT) approach with surrogate gradients. This training strategy ensures differentiability despite the binary nature of spike outputs by approximating the Heaviside step function using smooth activations.\\
+
+\subsection{Edge Evaluation}
+
+The MCSNN was trained using cross-entropy loss computed on the spike rate of the output neurons, averaged over time. Optimization was performed using the Adam optimizer with weight decay, and training was conducted over 20-50 epochs depending on convergence behavior. The model was evaluated using accuracy and loss on a held-out test set. To visualize learned representations, feature maps from the output LIF layer were extracted and projected into lower dimensions using PCA, t-SNE, and UMAP embeddings.\\
+
+\noindent These methods were used to embed high-dimensional spiking feature maps into two-dimensional spaces, enabling visualization of class-wise separation and classification decision boundaries using a logistic regression classifier. Performance was assessed through decision region plots and confusion matrices, each comprising four stimulus classes: auditory/left, auditory/right, visual/left, and visual/right.\\
+
+\begin{figure*}[!t]
+    \centerline{\includegraphics[width=0.95\textwidth]{Chapter7/Figs/f.png}}
+    \caption[Visualization of class separability in spiking feature representations using dimensionality reduction techniques.]{Visualization of class separability in spiking feature representations using dimensionality reduction techniques. Each subplot pair displays the output of a trained MCSNN on EEG dataset. Left panel (a-c): 2D embeddings obtained via (PCA / t-SNE / UMAP), colored by ground truth class and overlaid with the decision boundary of a logistic regression classifier.
+    Right panel (d-e): Corresponding confusion matrix showing the classifier's performance.}
+    \label{fig:7f}
+\end{figure*}
+
+\noindent The comparison of dimensionality reduction techniques—PCA, t-SNE, and UMAP—reveals distinct strengths and limitations when applied to feature representations extracted from the Memristive Convolutional Spiking Neural Network (MCSNN) trained on EEG data. Principal Component Analysis (PCA), a linear technique, provides a global view of the data structure and preserves large-variance directions but struggles to separate non-linearly distributed classes in this context. In contrast, t-distributed Stochastic Neighbor Embedding (t-SNE) excels at uncovering local structure, forming well-separated clusters that correspond closely to the EEG task classes; however, it may distort global relationships and is sensitive to hyperparameters like perplexity. \\
+
+\noindent Uniform Manifold Approximation and Projection (UMAP) offers a balance between local and global preservation, maintaining neighborhood integrity while forming more compact and interpretable clusters than PCA, and with greater computational efficiency and scalability than t-SNE. The confusion matrices and decision boundaries further highlight that both t-SNE and UMAP result in higher class separability compared to PCA, with UMAP offering more stable performance across different runs. Overall, UMAP appears to be the most effective technique for visualizing and classifying nonlinearly embedded EEG features in the spiking domain.\\
+
+\noindent Each 2D embedding revealed distinct class separability characteristics. PCA, a linear projection method, produced symmetric decision boundaries with slight overlap between the two auditory classes. This overlap translated to a total of four misclassifications, two for each auditory class, yielding an overall classification accuracy of 97.66\%. In contrast, t-SNE, which preserves local structure through nonlinear manifold learning, achieved the highest separation quality among the three methods. It generated clearly isolated clusters corresponding to each class, resulting in only two misclassifications and an accuracy of 98.44\%. UMAP, which balances local and global structural preservation, also achieved clear cluster formation but displayed some ambiguity at class boundaries, particularly for auditory/left, reducing its accuracy to 96.48\%.
+\begin{table}[ht]
+    \centering
+    \caption{Classification accuracy (\%) for each stimulus class using PCA, t-SNE, and UMAP embeddings followed by logistic regression.}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lccccc}
+    \toprule
+    \textbf{Method} & \textbf{Overall Accuracy} & \textbf{auditory/left} & \textbf{auditory/right} & \textbf{visual/left} & \textbf{visual/right} \\
+    \midrule
+    PCA  & 97.66 & 96.9 (62/64) & 96.9 (62/64) & 98.4 (63/64) & 100 (64/64) \\
+    t-SNE & 98.44 & 98.4 (63/64) & 98.4 (63/64) & 98.4 (63/64) & 100 (64/64) \\
+    UMAP & 96.48 & 90.6 (58/64) & 96.9 (62/64) & 98.4 (63/64) & 100 (64/64) \\
+    \bottomrule
+    \end{tabular}%
+    }
+    \label{table:7b}
+\end{table}
+
+\noindent The confusion matrices in Table \ref{table:7b} further quantify these outcomes. While all methods demonstrated excellent performance on visual/left and visual/right, t-SNE exhibited the fewest misclassifications across all classes. PCA and UMAP both struggled slightly with the auditory classes, particularly auditory/left, which UMAP misclassified six times. These patterns were also visible in the decision boundaries in Figure \ref{fig:7f}, where the UMAP decision region encroached into adjacent auditory clusters.\\
+
+\noindent In addition to classification accuracy, the dimensionality reduction techniques were compared based on their decision boundary characteristics, interpretability, and embedding stability. PCA yielded highly interpretable linear boundaries, although its linearity limited separation in nonlinearly structured data. t-SNE produced highly non-linear, class-specific embeddings with strong cluster compactness, though known to be sensitive to initialization and perplexity. UMAP offered a good compromise between global and local structure, yielding interpretable and stable results, albeit with minor classification degradation due to overlapping auditory representations.\\
+
+\noindent These results demonstrate that low-dimensional embeddings of MCSNN feature maps retain sufficient discriminative power for linear classification. Among the evaluated techniques, t-SNE provided the clearest separation of EEG stimulus categories, reflecting the network's ability to encode modality-specific structure in its spiking representations. Compared to traditional CNN or LSTM models, the proposed memristive CSNN achieves comparable or superior classification performance while eliminating the overhead of recurrent memory modules. \\
+
+\noindent The use of memristor-modeled spiking neurons offers biologically plausible dynamics, compatibility with silicon oxide-based neuromorphic circuits, and reduced power consumption suitable for real-time, edge-deployable EEG systems. This approach demonstrates one of the first successful applications of CSNNs for classifying EEG-based affective or cognitive states without resorting to computationally expensive sequential models.
 
 \section[Summary]{Summary}
 
-In the future, SNNs could be adapted as spiking autoencoders, benefiting from their ability to efficiently encode and decode temporal and spatial patterns. This could lead to significant advancements in data compression and anomaly detection. Furthermore, SNNs hold promise in bio-signal processing applications, where their biologically inspired architecture can handle complex signals such as electroencephalograms (EEGs) or electromyograms (EMGs). Future studies should explore these applications, integrating SNNs with biosignal data or advanced sensors, and enhancing robustness against device non-idealities for real-time biosignal processing.\\
+In the future, SNNs could be adapted as spiking autoencoders, benefiting from their ability to efficiently encode and decode temporal and spatial patterns. This could lead to significant advancements in data compression and anomaly detection. Furthermore, SNNs hold promise in bio-signal processing applications, where their biologically inspired architecture can handle complex signals such as electroencephalograms (EEGs) or electromyograms (EMGs). Future studies should explore these applications, integrating SNNs with biosignal devices or advanced sensors, and enhancing robustness against device non-idealities for real-time biosignal processing.\\

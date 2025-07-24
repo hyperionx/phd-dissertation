@@ -1045,6 +1045,12 @@ Malik, P. (2013).
 \newblock Governing big data: principles and practices.
 \newblock {\em IBM Journal of Research and Development}, 57(3/4):1--1.
 
+\bibitem[Malviya and Mal, 2022]{malviya2022novel}
+Malviya, L. and Mal, S. (2022).
+\newblock A novel technique for stress detection from eeg signal using hybrid
+  deep learning model.
+\newblock {\em Neural Computing and Applications}, 34(22):19819--19830.
+
 \bibitem[Manceau et~al., 2007a]{manceau2007current}
 Manceau, J.-P., Bruyere, S., Jeannot, S., Sylvestre, A., and Gonon, P. (2007a).
 \newblock Current instability, permittivity variation with frequency, and their
@@ -1385,6 +1391,11 @@ Shen, W., Kumar, S., and Kumar, S. (2021).
 \newblock Experimentally calibrated electro-thermal modeling of temperature
   dynamics in memristors.
 \newblock {\em Applied Physics Letters}, 118(10).
+
+\bibitem[Shrestha and Orchard, 2018]{shrestha2018slayer}
+Shrestha, S.~B. and Orchard, G. (2018).
+\newblock Slayer: Spike layer error reassignment in time.
+\newblock {\em Advances in neural information processing systems}, 31.
 
 \bibitem[Silverman, 2018]{silverman2018density}
 Silverman, B.~W. (2018).

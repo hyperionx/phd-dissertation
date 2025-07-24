@@ -81,12 +81,12 @@
 \contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{176}{subsection.7.1.2}%
 \contentsline {section}{\numberline {7.2}Homeostasis Regularization}{180}{section.7.2}%
 \contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{180}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Architecture Modifications}{182}{subsection.7.2.2}%
-\contentsline {section}{\numberline {7.3}Practical Applications}{185}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Dropout Improvement}{185}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Biosignal Processing}{187}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Summary}{190}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{191}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Thesis Review}{191}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Future Works}{191}{section.8.2}%
-\contentsline {chapter}{References}{193}{chapter*.88}%
+\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{184}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Biosignal Processing}{188}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{188}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{191}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Summary}{194}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{195}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Thesis Review}{195}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Future Works}{195}{section.8.2}%
+\contentsline {chapter}{References}{197}{chapter*.90}%
