@@ -30,12 +30,10 @@ The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 22 items.
 Reallocating 'field_info' (item size: 4) to 11930 items.
 Database file #1: References/references.bib
-Warning--entry type for "nikolaos_barmpatsalos_2021_5762184" isn't style-file defined
---line 4572 of file References/references.bib
 Reallocating 'str_pool' (item size: 1) to 130000 items.
 You've used 315 entries,
             1935 wiz_defined-function locations,
-            2090 strings with 70042 characters,
+            2091 strings with 70050 characters,
 and the built_in function-call counts, 148729 in all, are:
 = -- 14029
 > -- 8389
@@ -74,4 +72,3 @@ warning$ -- 0
 while$ -- 1122
 width$ -- 0
 write$ -- 4100
-(There was 1 warning)

@@ -7,6 +7,8 @@
 
 \section[Optimisation Motivations]{Optimisation Motivations}
 
+This section introduces the motivation for optimization in neuromorphic computing systems, with a specific focus on the challenges posed by analogue hardware implementations. Unlike digital systems, analogue memristive devices are inherently imprecise and subject to a variety of non-idealities, such as stuck states, limited dynamic range, and line resistance. The section outlines how these physical constraints impact computation accuracy and how algorithmic or circuit-level techniques can be leveraged to mitigate their effects.
+
 \subsection[Analogue Hardware Challenges]{Analogue Hardware Challenges}
 
 \noindent Novel computer hardware solutions that employ analogue devices still exhibit limited precision and unreliability. However, both physical and algorithmic techniques can be employed to mitigate these issues. In contrast to digital technology, the analogue approach inherently involves a degree of imprecision. \\
@@ -113,6 +115,8 @@ Spike-based optimisation techniques seek to minimise the overall error of a netw
 
 
 \section[Homeostasis Regularization]{Homeostasis Regularization}
+
+This section introduces homeostasis as a biologically inspired mechanism for regularization in SNNs. By dynamically adjusting synaptic strength based on neuronal firing activity, homeostasis stabilizes learning and mitigates the impact of faulty or overactive devices. The section explores how this mechanism can be modeled mathematically and implemented in hardware to improve robustness and energy efficiency.
 
 \subsection{Programming Variabilities}
 
@@ -231,6 +235,8 @@ I_{\text{out}} = G_{\text{steady}} \cdot V_{\text{in}} \label{eq:7.2}
 
 \section[Biosignal Processing]{Biosignal Processing}
 
+This section explores the applicability of memristive SNNs in processing time-sensitive biological signals such as EEG and MEG. Leveraging the event-driven and energy-efficient characteristics of SNNs, the section discusses their integration with convolutional layers to process spatiotemporal features in biosignals. The advantages over traditional deep learning models are highlighted, particularly in real-time, edge-computing applications.
+
 \subsection{Architecture Adaptation}
 
 Biosignals such as Electroencephalogram (EEG) and magnetoencephalogram (MEG) signals carry complex, time-sensitive information about brain activity that traditional deep learning models often struggle to efficiently process. Spiking Neural Networks (SNNs), which encode data as discrete spikes, more closely resemble biological neural signaling and offer significant improvements in temporal precision and energy efficiency compared to conventional Artificial Neural Networks (ANNs).\\
@@ -263,7 +269,7 @@ Biosignals such as Electroencephalogram (EEG) and magnetoencephalogram (MEG) sig
 
 \noindent Where $h_{ij}^{l}$ is the output at position $(i,j)$, $ w_{k}^{l}$ is the filter weight, and $\sigma$ is the activation function modeled for spiking dynamics \cite{tavanaei2019deep}. Each convolutional stage is followed by Leaky Integrate-and-Fire (LIF) spiking neurons, including optional homeostatic dropout layers, which regularize firing activity based on dynamic conductance principles inspired by oxide-based memristors.\\
 
-\noindent In order to capture hierarchical representations, a stack of multiple convolution + LIF blocks with max pooling is employed \cite{shrestha2018slayer}. The final spiking representation is flattened and subsequently passed to the fully connected layers. This is followed by another layer of LIF neuron output layers. The temporal dynamics are addressed through the utilisation of spiking recurrence across timesteps, employing a backpropagation-through-time (BPTT) approach with surrogate gradients. This training strategy ensures differentiability despite the binary nature of spike outputs by approximating the Heaviside step function using smooth activations.\\
+\noindent In order to capture hierarchical representations, a stack of multiple convolution + LIF blocks with max pooling is employed \cite{shrestha2018slayer}. The final spiking representation is flattened and subsequently passed to the fully connected layers. This is followed by another layer of LIF neuron output layers. The temporal dynamics are addressed through the utilisation of spiking recurrence across timesteps, employing a backpropagation-through-time (BPTT) approach with surrogate gradients. This training strategy ensures differentiability despite the binary nature of spike outputs by approximating the Heaviside step function using smooth activations.
 
 \subsection{Edge Evaluation}
 
@@ -271,16 +277,16 @@ The MCSNN was trained using cross-entropy loss computed on the spike rate of the
 
 \noindent These methods were used to embed high-dimensional spiking feature maps into two-dimensional spaces, enabling visualization of class-wise separation and classification decision boundaries using a logistic regression classifier. Performance was assessed through decision region plots and confusion matrices, each comprising four stimulus classes: auditory/left, auditory/right, visual/left, and visual/right.\\
 
-\begin{figure*}[!t]
+\noindent The comparison of dimensionality reduction techniques—PCA, t-SNE, and UMAP—reveals distinct strengths and limitations when applied to feature representations extracted from the Memristive Convolutional Spiking Neural Network (MCSNN) trained on EEG data. Principal Component Analysis (PCA), a linear technique, provides a global view of the data structure and preserves large-variance directions but struggles to separate non-linearly distributed classes in this context. In contrast, t-distributed Stochastic Neighbor Embedding (t-SNE) excels at uncovering local structure, forming well-separated clusters that correspond closely to the EEG task classes; however, it may distort global relationships and is sensitive to hyperparameters like perplexity. \\
+
+\noindent Uniform Manifold Approximation and Projection (UMAP) offers a balance between local and global preservation, maintaining neighborhood integrity while forming more compact and interpretable clusters than PCA, and with greater computational efficiency and scalability than t-SNE. The confusion matrices and decision boundaries further highlight that both t-SNE and UMAP result in higher class separability compared to PCA, with UMAP offering more stable performance across different runs. Overall, UMAP appears to be the most effective technique for visualizing and classifying nonlinearly embedded EEG features in the spiking domain.\\
+
+\begin{figure}[htbp!]
     \centerline{\includegraphics[width=0.95\textwidth]{Chapter7/Figs/f.png}}
     \caption[Visualization of class separability in spiking feature representations using dimensionality reduction techniques.]{Visualization of class separability in spiking feature representations using dimensionality reduction techniques. Each subplot pair displays the output of a trained MCSNN on EEG dataset. Left panel (a-c): 2D embeddings obtained via (PCA / t-SNE / UMAP), colored by ground truth class and overlaid with the decision boundary of a logistic regression classifier.
     Right panel (d-e): Corresponding confusion matrix showing the classifier's performance.}
     \label{fig:7f}
-\end{figure*}
-
-\noindent The comparison of dimensionality reduction techniques—PCA, t-SNE, and UMAP—reveals distinct strengths and limitations when applied to feature representations extracted from the Memristive Convolutional Spiking Neural Network (MCSNN) trained on EEG data. Principal Component Analysis (PCA), a linear technique, provides a global view of the data structure and preserves large-variance directions but struggles to separate non-linearly distributed classes in this context. In contrast, t-distributed Stochastic Neighbor Embedding (t-SNE) excels at uncovering local structure, forming well-separated clusters that correspond closely to the EEG task classes; however, it may distort global relationships and is sensitive to hyperparameters like perplexity. \\
-
-\noindent Uniform Manifold Approximation and Projection (UMAP) offers a balance between local and global preservation, maintaining neighborhood integrity while forming more compact and interpretable clusters than PCA, and with greater computational efficiency and scalability than t-SNE. The confusion matrices and decision boundaries further highlight that both t-SNE and UMAP result in higher class separability compared to PCA, with UMAP offering more stable performance across different runs. Overall, UMAP appears to be the most effective technique for visualizing and classifying nonlinearly embedded EEG features in the spiking domain.\\
+\end{figure}
 
 \noindent Each 2D embedding revealed distinct class separability characteristics. PCA, a linear projection method, produced symmetric decision boundaries with slight overlap between the two auditory classes. This overlap translated to a total of four misclassifications, two for each auditory class, yielding an overall classification accuracy of 97.66\%. In contrast, t-SNE, which preserves local structure through nonlinear manifold learning, achieved the highest separation quality among the three methods. It generated clearly isolated clusters corresponding to each class, resulting in only two misclassifications and an accuracy of 98.44\%. UMAP, which balances local and global structural preservation, also achieved clear cluster formation but displayed some ambiguity at class boundaries, particularly for auditory/left, reducing its accuracy to 96.48\%.
 \begin{table}[ht]
@@ -306,8 +312,20 @@ The MCSNN was trained using cross-entropy loss computed on the spike rate of the
 
 \noindent These results demonstrate that low-dimensional embeddings of MCSNN feature maps retain sufficient discriminative power for linear classification. Among the evaluated techniques, t-SNE provided the clearest separation of EEG stimulus categories, reflecting the network's ability to encode modality-specific structure in its spiking representations. Compared to traditional CNN or LSTM models, the proposed memristive CSNN achieves comparable or superior classification performance while eliminating the overhead of recurrent memory modules. \\
 
-\noindent The use of memristor-modeled spiking neurons offers biologically plausible dynamics, compatibility with silicon oxide-based neuromorphic circuits, and reduced power consumption suitable for real-time, edge-deployable EEG systems. This approach demonstrates one of the first successful applications of CSNNs for classifying EEG-based affective or cognitive states without resorting to computationally expensive sequential models.
+\noindent The use of memristor-modeled spiking neurons offers biologically plausible dynamics, compatibility with silicon oxide-based neuromorphic circuits, and reduced power consumption suitable for real-time, edge-deployable EEG systems. This approach demonstrates one of the first successful applications of CSNNs for classifying EEG-based affective or cognitive states without resorting to computationally expensive sequential models.\\
+
+\noindent In the future, SNNs could be adapted as spiking autoencoders, benefiting from their ability to efficiently encode and decode temporal and spatial patterns. This could lead to significant advancements in data compression and anomaly detection. Furthermore, SNNs hold promise in bio-signal processing applications, where their biologically inspired architecture can handle complex signals such as electroencephalograms (EEGs) or electromyograms (EMGs). Future studies should explore these applications, integrating SNNs with biosignal devices or advanced sensors, and enhancing robustness against device non-idealities for real-time biosignal processing.
 
 \section[Summary]{Summary}
 
-In the future, SNNs could be adapted as spiking autoencoders, benefiting from their ability to efficiently encode and decode temporal and spatial patterns. This could lead to significant advancements in data compression and anomaly detection. Furthermore, SNNs hold promise in bio-signal processing applications, where their biologically inspired architecture can handle complex signals such as electroencephalograms (EEGs) or electromyograms (EMGs). Future studies should explore these applications, integrating SNNs with biosignal devices or advanced sensors, and enhancing robustness against device non-idealities for real-time biosignal processing.\\
+\noindent This chapter has explored the design, optimisation, and practical deployment of spiking neural networks (SNNs) using memristive hardware, focusing specifically on the mitigation of device-level non-idealities and the application of these neuromorphic systems to biosignal processing tasks. Beginning with a detailed overview of optimisation challenges unique to analogue memristive circuits, the chapter motivated the necessity for specialised training methods and regularisation techniques that account for the stochastic and constrained nature of physical synapses. \\
+
+\noindent A critical review of existing optimisation algorithms was presented, contrasting early spike-based learning rules such as SpikeProp with more recent surrogate gradient-based approaches. The limitations of current training paradigms were discussed in light of their scalability, computational complexity, and compatibility with temporal data processing. Emphasis was placed on rate-based approximations and function approximation methods as practical alternatives to spike-level learning, especially in larger network architectures. \\
+
+\noindent To address the inherent variability and failure-proneness of memristive devices, the chapter introduced homeostasis-driven dropout regularisation, inspired by biological self-regulatory processes. A novel model was proposed wherein synaptic conductance dynamically decreases with high presynaptic firing rates, thereby suppressing overactive pathways and enhancing the generalisation capacity of the network. Simulation results demonstrated the effectiveness of this mechanism across both fully connected and convolutional SNN architectures, with accuracy improvements exceeding 20\% in the presence of up to 50\% device failure.\\
+
+\noindent The chapter then extended its scope to the application of memristive SNNs in biosignal classification, particularly focusing on electroencephalogram (EEG) data. A hybrid Convolutional Spiking Neural Network (CSNN) architecture was designed, integrating spatial convolutional filters with Leaky Integrate-and-Fire dynamics to process temporally encoded spike trains. The model was evaluated on real EEG data acquired from simultaneous MEG/EEG experiments, with preprocessing and spike encoding methods tailored for temporal fidelity and biological plausibility.\\
+
+\noindent Quantitative evaluation of the trained model using dimensionality reduction techniques such as PCA, t-SNE, and UMAP revealed robust class separability and high classification accuracy (up to 98.44\%), demonstrating the capability of memristive CSNNs to extract meaningful spatiotemporal features from complex biological signals. The UMAP-based projections offered a balance between global and local data structure, while t-SNE achieved the highest discriminative performance across stimulus categories. \\
+
+\noindent Collectively, this chapter demonstrates that memristive SNNs—when augmented with biologically inspired learning mechanisms and probabilistic models of hardware imperfections—can serve as resilient, energy-efficient alternatives to conventional neural networks. Their integration with dropout-based homeostasis, convolutional structures, and neuromorphic encoding strategies makes them particularly well-suited for real-time, edge-deployable applications in cognitive monitoring, brain-computer interfacing, and neuromorphic signal processing. These findings contribute a foundational framework for future exploration of large-scale, hardware-constrained spiking systems in dynamic, sensor-rich environments.\\

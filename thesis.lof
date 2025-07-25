@@ -65,16 +65,16 @@
 \contentsline {figure}{\numberline {6.5}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{149}{figure.caption.73}%
 \contentsline {figure}{\numberline {6.6}{\ignorespaces A pair of spikes are applied across a synapse to create relative-timing dependent net potential.}}{151}{figure.caption.74}%
 \contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{155}{figure.caption.75}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{159}{figure.caption.76}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{160}{figure.caption.76}%
 \contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{163}{figure.caption.77}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Training results for standard and memristive schemes when exposed to I-V nonlinearities.}}{166}{figure.caption.78}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Comparison of different SNN performance when implemented with I-V nonlinearities from a single training run.}}{167}{figure.caption.79}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{168}{figure.caption.81}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Training results for standard and memristive schemes when exposed to I-V nonlinearities.}}{167}{figure.caption.78}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Comparison of different SNN performance when implemented with I-V nonlinearities from a single training run.}}{168}{figure.caption.79}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{169}{figure.caption.81}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{183}{figure.caption.82}%
 \contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{184}{figure.caption.83}%
 \contentsline {figure}{\numberline {7.3}{\ignorespaces Training loss curve for standard and memristive schemes when exposed to I-V nonlinearities}}{186}{figure.caption.84}%
 \contentsline {figure}{\numberline {7.4}{\ignorespaces Training accuracy curve for standard and memristive schemes when exposed to I-V nonlinearities}}{187}{figure.caption.85}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrix of convolutional homeostasis model.}}{187}{figure.caption.87}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{192}{figure.caption.88}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrix of convolutional homeostasis model.}}{188}{figure.caption.87}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{193}{figure.caption.88}%
 \addvspace {10\p@ }

@@ -70,10 +70,10 @@
 \contentsline {subsection}{\numberline {6.2.1}Learning Rules}{142}{subsection.6.2.1}%
 \contentsline {subsection}{\numberline {6.2.2}Training Schemes}{148}{subsection.6.2.2}%
 \contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{154}{subsection.6.2.3}%
-\contentsline {subsection}{\numberline {6.2.4}Nonidealities Calibrations}{158}{subsection.6.2.4}%
-\contentsline {section}{\numberline {6.3}Inference and Classification}{162}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Simulation Configurations}{163}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Computation Performance}{166}{subsection.6.3.2}%
+\contentsline {section}{\numberline {6.3}Inference and Classification}{158}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{159}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{163}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Computation Performance}{166}{subsection.6.3.3}%
 \contentsline {section}{\numberline {6.4}Summary}{169}{section.6.4}%
 \contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{171}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Optimisation Motivations}{171}{section.7.1}%
@@ -81,12 +81,12 @@
 \contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{176}{subsection.7.1.2}%
 \contentsline {section}{\numberline {7.2}Homeostasis Regularization}{180}{section.7.2}%
 \contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{180}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{184}{subsection.7.2.2}%
-\contentsline {section}{\numberline {7.3}Biosignal Processing}{188}{section.7.3}%
+\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{185}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Biosignal Processing}{187}{section.7.3}%
 \contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{188}{subsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{191}{subsection.7.3.2}%
 \contentsline {section}{\numberline {7.4}Summary}{194}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{195}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Thesis Review}{195}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Future Works}{195}{section.8.2}%
-\contentsline {chapter}{References}{197}{chapter*.90}%
+\contentsline {chapter}{\numberline {8}Conclusion}{197}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Thesis Review}{197}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Future Works}{197}{section.8.2}%
+\contentsline {chapter}{References}{199}{chapter*.90}%
