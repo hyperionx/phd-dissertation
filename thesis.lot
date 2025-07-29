@@ -10,6 +10,6 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {6.1}{\ignorespaces Model Accuracy for different SNN configurations}}{167}{table.caption.80}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {7.1}{\ignorespaces Model Accuracy for different SNN configurations}}{186}{table.caption.86}%
-\contentsline {table}{\numberline {7.2}{\ignorespaces Classification accuracy (\%) for each stimulus class using PCA, t-SNE, and UMAP embeddings followed by logistic regression.}}{192}{table.caption.89}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces Model Accuracy for different SNN configurations}}{182}{table.caption.86}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Classification accuracy (\%) for each stimulus class using PCA, t-SNE, and UMAP embeddings followed by logistic regression.}}{188}{table.caption.89}%
 \addvspace {10\p@ }

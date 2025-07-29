@@ -71,10 +71,10 @@
 \contentsline {figure}{\numberline {6.11}{\ignorespaces Comparison of different SNN performance when implemented with I-V nonlinearities from a single training run.}}{168}{figure.caption.79}%
 \contentsline {figure}{\numberline {6.12}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{169}{figure.caption.81}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{183}{figure.caption.82}%
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{184}{figure.caption.83}%
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Training loss curve for standard and memristive schemes when exposed to I-V nonlinearities}}{186}{figure.caption.84}%
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Training accuracy curve for standard and memristive schemes when exposed to I-V nonlinearities}}{187}{figure.caption.85}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrix of convolutional homeostasis model.}}{188}{figure.caption.87}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{193}{figure.caption.88}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{178}{figure.caption.82}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{179}{figure.caption.83}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Training loss curve for standard and memristive schemes when exposed to I-V nonlinearities}}{180}{figure.caption.84}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Training accuracy curve for standard and memristive schemes when exposed to I-V nonlinearities}}{181}{figure.caption.85}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrix of convolutional homeostasis model.}}{183}{figure.caption.87}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{187}{figure.caption.88}%
 \addvspace {10\p@ }
