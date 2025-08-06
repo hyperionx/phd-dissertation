@@ -12,12 +12,12 @@
 \contentsline {section}{\numberline {2.2}Foundations of Neuromorphic Computing}{17}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Memristor Fundamentals}{18}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}In-memory Computing Paradigms}{23}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Encoding Plasticity in Memristors}{28}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.3}Encoding Plasticity in Memristors}{27}{subsection.2.2.3}%
 \contentsline {section}{\numberline {2.3}Architectures and System-Level Integration}{30}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Hierarchical Modular Architectures}{30}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}Hardware-Software Co-Design}{33}{subsection.2.3.2}%
 \contentsline {subsection}{\numberline {2.3.3}Experimental Validations Strategy}{35}{subsection.2.3.3}%
-\contentsline {section}{\numberline {2.4}Summary}{39}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Summary}{38}{section.2.4}%
 \contentsline {chapter}{\numberline {3}Fabrication and Characterisation Methodologies}{41}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Fabrication Procedure}{41}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Device Properties}{41}{subsection.3.1.1}%

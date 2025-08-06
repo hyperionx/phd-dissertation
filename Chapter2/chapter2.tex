@@ -50,7 +50,7 @@ In addition to the fundamental biological details that are pertinent to the subj
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.45\textwidth]{Chapter2/Figs/b.png}
+    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/b.png}
     \caption[Spiking dynamics of a neuron.]{The action potential and the underlying conductance and currents with respect to time \cite{squire2012fundamental}. It should be noted that the increased conductance for $Na^+$ (and its inward flow) is associated with the rising phase of the action potential, whereas the slower increase in conductance for $K^+$ (and its outward flow) is associated with repolarisation of the membrane and with afterhyperpolarisation. The reduction in $I_{Na}$ before the peak of the action potential (even though $G_{Na}$ is still high) is due to inactivation of the Na+ channels.}
     \label{fig:2b}
 \end{figure}
@@ -126,9 +126,16 @@ In addition to the fundamental biological details that are pertinent to the subj
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=1\textwidth]{Chapter2/Figs/c.png}
-    \caption[Hodgkin-Huxley neuron model.]{Hodgkin-Huxley neuron model. (a) An equivalent circuit for the HH models \cite{hodgkin1952quantitative}. (b) An equivalent circuit for memristive HH model \cite{chua2012hodgkin}. (c) An action potential waveform, which demonstrates the resting, threshold, and reset potentials. }
+    \caption[Hodgkin-Huxley neuron model.]{(a) An equivalent circuit for the Hodgkin-Huxley (HH) models \cite{hodgkin1952quantitative}. (b) An action potential waveform, which demonstrates the resting, threshold, and reset potentials \cite{chua2012hodgkin}.}
     \label{fig:2c}
 \end{figure}
+
+% \begin{figure}[htbp!] 
+%     \centering    
+%     \includegraphics[width=1\textwidth]{Chapter2/Figs/c.png}
+%     \caption[Hodgkin-Huxley neuron model.]{Hodgkin-Huxley neuron model. (a) An equivalent circuit for the HH models \cite{hodgkin1952quantitative}. (b) An equivalent circuit for memristive HH model \cite{chua2012hodgkin}. (c) An action potential waveform, which demonstrates the resting, threshold, and reset potentials. }
+%     \label{fig:2c}
+% \end{figure}
 
 \noindent A significant proportion of the most influential findings in computational neuroscience are based on mathematically detailed models of neuronal functioning. One of the most renowned of these is the Hodgkin-Huxley model of the squid giant axon \cite{hodgkin1952quantitative}. the Hodgkin–Huxley (HH) model is one of the most widely used, comprising a set of nonlinear differential equations that accurately approximate the electrical signals of neurons \cite{chua2012hodgkin}. \\
 
@@ -222,10 +229,17 @@ C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:2.7}
 
 \noindent A proportion of the current \textit{I(t)} flowing into \textit{C} results in an increase in the membrane potential \textit{V(t)}. The charge leakage occurs via resistor \textit{R}. When \textit{V(t)} reaches a threshold value, the neuron generates a spike. Following the generation of a spike, the membrane potential is reset to the reset value. \\
 
+% \begin{figure}[htbp!] 
+%     \centering    
+%     \includegraphics[width=0.8\textwidth]{Chapter2/Figs/d.png}
+%     \caption[The Leaky Integrate-and-Fire neuron model.]{The LIF neuron model. (a) Schematic diagram of the LIF electrical model. (b) Input current in the form of an alpha function, $\tau_{\alpha} = 0.1, I_0 = 1$ (c) The LIF model allows for the control of spiking behaviour through a comparison of membrane potential and threshold at each time step. Upon the triggering of a spike, a voltage-controlled switch discharges C for a duration corresponding to the refractory period $t_0$ \cite{tal1997computing}. (d) A simulation of constant firing frequency for DC current input in which $t_0$ is hidden. DC input current and output spikes are both shown. (e) A generalised LIF model with threshold control \cite{teeter2018generalized}. }
+%     \label{fig:2d}
+% \end{figure}
+
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter2/Figs/d.png}
-    \caption[The Leaky Integrate-and-Fire neuron model.]{The LIF neuron model. (a) Schematic diagram of the LIF electrical model. (b) Input current in the form of an alpha function, $\tau_{\alpha} = 0.1, I_0 = 1$ (c) The LIF model allows for the control of spiking behaviour through a comparison of membrane potential and threshold at each time step. Upon the triggering of a spike, a voltage-controlled switch discharges C for a duration corresponding to the refractory period $t_0$ \cite{tal1997computing}. (d) A simulation of constant firing frequency for DC current input in which $t_0$ is hidden. DC input current and output spikes are both shown. (e) A generalised LIF model with threshold control \cite{teeter2018generalized}. }
+    \includegraphics[width=1\textwidth]{Chapter2/Figs/d.png}
+    \caption[The Leaky Integrate-and-Fire neuron model.]{(a) Schematic diagram of the LIF electrical model. The LIF model allows for the control of spiking behaviour through a comparison of membrane potential and threshold at each time step. Upon the triggering of a spike, a voltage-controlled switch discharges C for a duration corresponding to the refractory period $t_0$ \cite{tal1997computing}. (b) Input current in the form of an alpha function \cite{teeter2018generalized}.}
     \label{fig:2d}
 \end{figure}
 
@@ -233,7 +247,9 @@ C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:2.7}
 
 \noindent The input synaptic current, \textit{I(t)}, can be described by a time-varying alpha function. However, alternative functions may be employed, including "Instantaneous Rise and Single Exponential Decay," "Biexponential Functions," "Sawtooth," and "Pulse Function." The alpha synaptic current is modeled by Equation \ref{eq:2.15}, and the resulting plot is shown in Figure \ref{fig:2b}(b). \\
 
-\noindent Nevertheless, Figure \ref{fig:2d}(a) lacks a circuit for resetting the system when the threshold is reached. In order to evaluate the inequality $V > V_{threshold}$, it is necessary to use an active circuit, such as a comparator. Upon reaching the threshold, the membrane potential must be reset in accordance with the illustration in Figure \ref{fig:2d}(d). Therefore, the LIF model's generalized version necessitates additional overhead, as illustrated in Figure \ref{fig:2d}(e). \\
+% \noindent Nevertheless, Figure \ref{fig:2d}(a) lacks a circuit for resetting the system when the threshold is reached. In order to evaluate the inequality $V > V_{threshold}$, it is necessary to use an active circuit, such as a comparator. Upon reaching the threshold, the membrane potential must be reset in accordance with the illustration in Figure \ref{fig:2d}(d). Therefore, the LIF model's generalized version necessitates additional overhead, as illustrated in Figure \ref{fig:2d}(e). \\
+
+
 
 % \noindent In the generalized LIF model, the reset behavior necessitates external control to pull down the membrane potential below the resting potential. This external control requires intricate, active circuits comprising MOS transistors, resistors, and even a silicon-controlled rectifier (SCR), which represents a significant drawback in a neuromorphic system due to its substantial power and area consumption. \\
 
