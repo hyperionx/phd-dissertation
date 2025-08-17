@@ -459,15 +459,16 @@ Where $\mu$ is a mobility parameter dependent on the device materials and struct
 
 \noindent As an illustrative example, synapses (which are implemented by resistive memory elements) function as both computational units and memory stores. Neuromorphic systems have been demonstrated to exhibit plasticity and the capacity for real-time, local learning through the utilisation of biologically plausible rules, such as the STDP (synaptic tagging with depolarisation-dependent plasticity) rule. \\
 
-\noindent Neuromorphic architectures can be broadly classified into two categories \cite{ceolini2020hand}. Digital neuromorphic systems are comprised of digital circuits which simulate the behaviour of neurons, i.e. their spiking. Notable examples of this include IBM's TrueNorth and Intel's Loihi. These chips implement large networks of spiking neurons with programmable connectivity and plasticity. Analog/Mixed-Signal Systems have been shown to exhibit a greater degree of similarity to the continuous dynamics of biological neurons and synapses. Memristive arrays frequently fall into this category, offering a physical substrate for analogue computation.\\
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/h.png}
+    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/h.png}
     \caption[The memristor-based crossbar architecture.]{The memristor-based crossbar architecture with a single memristor array and a constant-term circuit \cite{truong2014new}. The resistive components are located at the connections of the word and bit lines. When voltages $\mathbf{V}$ are applied to the word line, the resistive element at the junction of the $i^{th}$ word line and the $j^{th}$ bit line generates $V_i \times G_{i,j}$ units of current, assuming zero wire resistance, as per Ohm's law. The currents created by each individual element are then aggregated along the bit lines using Kirchhoff's current law.}
     \label{fig:2h}
 \end{figure}
-    
+
+
+\noindent Neuromorphic architectures can be broadly classified into two categories \cite{ceolini2020hand}. Digital neuromorphic systems are comprised of digital circuits which simulate the behaviour of neurons, i.e. their spiking. Notable examples of this include IBM's TrueNorth and Intel's Loihi. These chips implement large networks of spiking neurons with programmable connectivity and plasticity. Analog/Mixed-Signal Systems have been shown to exhibit a greater degree of similarity to the continuous dynamics of biological neurons and synapses. Memristive arrays frequently fall into this category, offering a physical substrate for analogue computation.\\
 
 \noindent A key architectural unit is the crossbar array, in which vertical and horizontal metal lines intersect at memristive devices. This structure supports efficient matrix-vector multiplication—the fundamental operation in neural networks. Let $V$ be a voltage vector applied to input rows, and $G$ be the conductance matrix of memristive elements. The output current vector $I$ on the columns is given by:
 \begin{align}
@@ -595,15 +596,17 @@ At the heart of memristive architectures lies the crossbar array, a grid of hori
 
 \noindent Nonetheless, practical implementations of crossbars encounter certain issues, including sneak paths and unintended current flows through unselected paths. Additionally, line resistance can diminish accuracy in large arrays, and variability and noise can compromise the reliability of analogue computations. To mitigate these, selector devices, resistive isolation, and adaptive calibration algorithms are used to maintain accuracy and scalability.\\
 
-\noindent The modular organisation of the neocortex has provided a useful model for the design of system-level neuromorphic architectures, which often adopt a hierarchical structure. Each module, also known as a "core", comprises an array of spiking neurons (for example, LIF neurons), a local synaptic crossbar array with plastic memristive elements, peripheral circuitry for spike generation, timing and routing, and optional local learning engines implementing STDP or Hebbian updating.\\
-
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/i.png}
+    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/i.png}
     \caption[The address-event representation.]{The address-event representation \cite{deiss1999pulse}. Self-timed neurons on the sending chip generate trains of action potentials. The neurons request control of the bus when they generate action potentials. They are selected to have their addresses encoded and transmitted by the multiplexing circuitry. The transmission of addresses between the sender and receiver chips occurs in a sequential manner, with each address being transferred successively. The temporal stream is processed by the receiver to produce trains of action potentials, which are subsequently transmitted to their appropriate postsynaptic targets. The relative timing of events is preserved over the address-event bus to the destination, provided that the source neurons do not generate action potentials that are excessively close in temporal proximity.}
     \label{fig:2i}
 \end{figure}
     
+
+\noindent The modular organisation of the neocortex has provided a useful model for the design of system-level neuromorphic architectures, which often adopt a hierarchical structure. Each module, also known as a "core", comprises an array of spiking neurons (for example, LIF neurons), a local synaptic crossbar array with plastic memristive elements, peripheral circuitry for spike generation, timing and routing, and optional local learning engines implementing STDP or Hebbian updating.\\
+
+
 \noindent Multiple such cores are connected via event-driven communication networks that mimic axonal signaling, typically using Address-Event Representation (AER) protocols. This allows the architecture to scale while preserving sparse, asynchronous activity similar to that found in biological systems (Figure \ref{fig:2i}). Each core processes and learns independently, while global integration arises through sparse spike-based communication.\\
 
 \noindent One example is the Neurogrid architecture \cite{khodagholy2015neurogrid}, where analog dendritic trees are combined with digital event processors. Memristive implementations extend this idea by replacing charge-based analog memory with conductance-based synapses. The equation governing this hybrid interface may resemble:

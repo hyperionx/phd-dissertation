@@ -7,7 +7,7 @@
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Conceptual symmetries of resistor, capacitor, inductor, and memristor}}{19}{figure.caption.15}%
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Typical I-V characteristic of a memristor}}{20}{figure.caption.16}%
 \contentsline {figure}{\numberline {2.7}{\ignorespaces The main RRAM types.}}{21}{figure.caption.17}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces The memristor-based crossbar architecture.}}{25}{figure.caption.18}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces The memristor-based crossbar architecture.}}{24}{figure.caption.18}%
 \contentsline {figure}{\numberline {2.9}{\ignorespaces The address-event representation.}}{31}{figure.caption.19}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Device Structure}}{42}{figure.caption.20}%
@@ -15,7 +15,7 @@
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Contact profilometer for thin film thickness measurements.}}{45}{figure.caption.22}%
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Two wire or Four wire (Kelvin) testing.}}{47}{figure.caption.23}%
 \contentsline {figure}{\numberline {3.5}{\ignorespaces Transimpedance amplifier circuit.}}{49}{figure.caption.24}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Experimental setup of spike train measurements.}}{50}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Experimental setup of spike train measurements.}}{51}{figure.caption.25}%
 \contentsline {figure}{\numberline {3.7}{\ignorespaces Initial Electroformation step for unipolar switching.}}{52}{figure.caption.26}%
 \contentsline {figure}{\numberline {3.8}{\ignorespaces Non-volatile switching behaviour for unipolar device under current compliance.}}{53}{figure.caption.27}%
 \contentsline {figure}{\numberline {3.9}{\ignorespaces Observation of Set and Reset process under the same sweep.}}{54}{figure.caption.28}%
@@ -27,12 +27,12 @@
 \contentsline {figure}{\numberline {3.15}{\ignorespaces Switching in bipolar devices across different electrode sizes.}}{59}{figure.caption.34}%
 \contentsline {figure}{\numberline {3.16}{\ignorespaces Multi-levels I-V characteristics in MIM devices.}}{60}{figure.caption.35}%
 \contentsline {figure}{\numberline {3.17}{\ignorespaces Gradual increase (left) and decrease (right) in conductivity for bipolar device.}}{61}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.18}{\ignorespaces Current-time plots showing transitions between resistive states.}}{61}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Current-time plots showing transitions between resistive states.}}{62}{figure.caption.37}%
 \contentsline {figure}{\numberline {3.19}{\ignorespaces Volatile activities observed under different constant current inputs.}}{62}{figure.caption.38}%
 \contentsline {figure}{\numberline {3.20}{\ignorespaces : Conductive regions for filamentary switching and interface switching.}}{64}{figure.caption.39}%
 \contentsline {figure}{\numberline {3.21}{\ignorespaces Energy-band diagrams showing different conduction mechanisms.}}{65}{figure.caption.40}%
 \contentsline {figure}{\numberline {3.22}{\ignorespaces Schematic of switching mechanism in SiOx devices.}}{72}{figure.caption.42}%
-\contentsline {figure}{\numberline {3.23}{\ignorespaces Schematic I-V curves.}}{75}{figure.caption.43}%
+\contentsline {figure}{\numberline {3.23}{\ignorespaces Schematic I-V curves.}}{76}{figure.caption.43}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Current transients illustration}}{80}{figure.caption.44}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Transient's peak identification}}{87}{figure.caption.45}%
