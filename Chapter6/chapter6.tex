@@ -9,36 +9,18 @@
 
 This section explores biorealistic computing, with a particular focus on Spiking Neural Networks (SNNs) and their implementation using memristive devices. The overarching aim is to emulate the energy-efficient and intricate processing capabilities of biological brains through electronic circuits, while simultaneously addressing the practical challenges posed by real-world device imperfections.\\
 
-% Traditional neuromorphic circuits consist of two main components: neurons and synapses \cite{mead1989analog}. Neurons are active devices that act as decision-making units. When the input threshold is surpassed, an acceptable condition is met, and a voltage spike is generated. Synapses are usually passive elements that connect neurons with each other. This is also where primary calculations of the inputs are performed, as well as a potential storage mechanism.\\
-
-
-% \noindent The neurons and synapses are linked to create a neural network, which is used in all modern machine learning methodologies. Rather than responding to continuous signals, these networks communicate information through spikes. Spike trains convey data in both the form and timing of the spike, making them ideal for implementing synaptic learning principles. It is worth noting that this method adheres to the typical framework within the field, however, it presents a highly simplified conception of the biological system.\\
-
 \noindent Traditional neuromorphic circuits typically comprise two primary components: neurons and synapses \cite{mead1989analog}. Neurons function as active decision-making units, generating a voltage spike when an input threshold is surpassed. Synapses, generally passive elements, connect neurons and perform initial input calculations, also serving as a potential storage mechanism. These components form neural networks, which are fundamental to modern machine learning. In contrast to continuous signals, these networks communicate via spikes, with spike trains conveying data through both the form and timing of the spike, making them ideal for implementing synaptic learning principles. This approach, while adhering to typical frameworks, offers a simplified conception of biological systems.\\
-
-% \noindent Modern artificial neural networks and neuro-computing architectures usually neglect the principles of neuroscience \cite{pfeiffer2018deep}. As a consequence, essential elements of the organic cerebral processing systems are either disregarded or overlooked. The aim of biorealistic approaches is to mimic the functions of computational cells using electronic devices. The creation of these circuits in CMOS was traditionally known as neuromorphic engineering, with backpropagating networks being a more direct influence from nature.
 
 \noindent Modern artificial neural networks and neuro-computing architectures frequently disregard neuroscience principles \cite{pfeiffer2018deep}. Consequently, essential elements of organic cerebral processing systems are either overlooked or neglected. Biorealistic approaches aim to mimic the functions of computational cells using electronic devices. The creation of these circuits in CMOS was traditionally known as neuromorphic engineering, with backpropagating networks drawing more direct inspiration from nature.
 
 \subsection[Brain-like Analogy]{Brain-like Analogy}
 
-% \noindent The human brain is capable of performing complex tasks, including the classification of unstructured data and the recognition of images. In the human brain, the transmission of excitatory and inhibitory postsynaptic potentials from presynaptic to postsynaptic neurons occurs via chemical and electrical signals at synapses, thereby modulating the strength of the synaptic connection. \\
-
-% \noindent The synaptic weight is precisely adjusted by the ionic flow through the neurons. In the context of neural networks, this mechanism can be simulated by memristors. There are numerous instances of memristors being utilised as synapses, thus establishing their potential for application as synapses in SNN. In this configuration, the memristor functions as a synapse between two CMOS neurons, with the neurons in question acting as pre- and post-synaptic neurons, respectively. \\
-
-% \noindent The input signal of presynaptic neurons was transmitted to postsynaptic neurons via the synapse. In the event of a presynaptic spike being triggered prior to a postsynaptic spike, it is observed that a positive voltage is applied to the memristor. Consequently, an increase in the synaptic weight is recorded, and this process is repeated in reverse \cite{chang2011short}.\\
-
 The human brain excels at complex tasks such as classifying unstructured data and recognizing images. Within the human brain, excitatory and inhibitory postsynaptic potentials are transmitted from presynaptic to postsynaptic neurons via chemical and electrical signals at synapses, thereby modulating synaptic connection strength. The synaptic weight is precisely adjusted by ionic flow through the neurons. \\
 
 \noindent In neural networks, memristors can simulate this mechanism. Numerous instances demonstrate memristors' utility as synapses, establishing their potential for application in SNNs. In this configuration, the memristor functions as a synapse between two CMOS neurons, acting as pre- and post-synaptic neurons, respectively. If a presynaptic spike triggers before a postsynaptic spike, a positive voltage is applied to the memristor, increasing synaptic weight, and this process reverses for the opposite timing \cite{chang2011short}. \\
 
-% \noindent In the domain of biology, the membrane plays a crucial role in maintaining the separation of inter-cell ions and enter-cell ions. It is postulated that, according to the electrochemical mechanism, the potential on the sides of the membrane is balanced. It is evident that when the excitatory and inhibitory postsynaptic potentials are reached, the signals transmitted through the dendrites of neurons are subject to disruption, thereby compromising the equilibrium that underlies the complex dynamics of neuronal activity. \\
-
-% \noindent The occurrence of neuronal firing is contingent upon the surpassing of a certain threshold potential. The emulation of these neuronal mechanisms, including the maintenance of balance of potential, the instantaneous mechanism, and the process of neurotransmission, is pivotal in the implementation of a biological plausible neuromorphic computing system.\\
-
 \noindent In biology, the membrane is crucial for separating inter-cell and intra-cell ions. It is postulated that, according to the electrochemical mechanism, the potential across the membrane is balanced. When excitatory and inhibitory postsynaptic potentials are reached, signals transmitted through neuronal dendrites are disrupted, compromising the equilibrium underlying neuronal activity. Neuronal firing depends on surpassing a certain threshold potential. Emulating these neuronal mechanisms, including potential balance, instantaneous mechanisms, and neurotransmission, is pivotal for implementing a biologically plausible neuromorphic computing system.\\
 
-% \noindent In the context of neural networks, the use of a memristor as a neuron does not necessitate continuous change in conductance; rather, it is sufficient for the memristor to exhibit accumulative behaviour. The application of competent pulses results in the firing of the neuron. These pulses have the capacity to modify the conductance state of the memristor.\\
 
 \begin{figure}[htbp!] 
     \centering    
@@ -49,20 +31,15 @@ The human brain excels at complex tasks such as classifying unstructured data an
 
 \noindent In neural networks, using a memristor as a neuron does not necessitate continuous conductance change; rather, it suffices for the memristor to exhibit accumulative behavior. Competent pulses result in neuron firing, and these pulses can modify the memristor's conductance state.\\
 
-% \noindent Neurons are characterised by a soma, which contains the nucleus, an axon, and a dendritic tree. The formation of a synapse occurs at the site of connection between the axon of one neuron and the dendrite/soma/axon of another. As illustrated in Figure \ref{fig:6a}, the biological neuron network with soma and synapse is demonstrated. Similarly, Figure \ref{fig:6b} presents an illustration of the SNN with three layers of neurons and two fully connected inter-layer meshes of memristors. \\
 
 \noindent Neurons are characterized by a soma (containing the nucleus), an axon, and a dendritic tree. A synapse forms at the connection site between one neuron's axon and another's dendrite/soma/axon. Figure \ref{fig:6a} illustrates the biological neuron network with soma and synapse. Similarly, Figure \ref{fig:6b} depicts an SNN with two fully connected inter-layer meshes of memristors.\\
 
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=0.7\textwidth]{Chapter6/Figs/b.png}
-    \caption[xample of Memristors and CMOS neuron circuits arrangement for achieving STDP learning.]{Example of Memristors and CMOS neuron circuits arrangement for achieving STDP learning: feed-forward neural system with 3 layers of neurons and two fully connecting synapse crossbars. \cite{saighi2015plasticity}.}
+    \caption[Example of Memristors and CMOS neuron circuits arrangement for achieving STDP learning.]{Example of Memristors and CMOS neuron circuits arrangement for achieving STDP learning: feed-forward neural system with 3 layers of neurons and two fully connecting synapse crossbars. \cite{saighi2015plasticity}.}
     \label{fig:6b}
 \end{figure}
-
-% \noindent  The fabrication of the neuron layers involves the use of CMOS devices, with the inter-layer meshes of memristors being constructed using nanowires positioned on a CMOS substrate. The representation of the neuron soma is depicted as a triangle, with the flat side corresponding to the input (dendrites) and the sharp side denoting the output (axon). Dark rectangles represent memristors, with each one corresponding to a synaptic junction. Each neuron exerts control over the voltage at its input and output nodes. \\
-
-% \noindent In this particular SNN circuit, the CMOS-based spiking neurons demonstrate a comparable functionality to conventional integrate-and-fire neurons, utilising the proposed spike shape and a specific spike back-propagation method \cite{prezioso2016self}. The total current of the receiving neuron is determined by Ohm's Law, which is expressed as the conductance of the connected synapses and the voltage drop across the synapses. The SNN training process necessitates the construction of an external circuit. Within this circuit, the input signals are prepared, and the output signal is measured.
 
 \noindent Fabrication of neuron layers involves CMOS devices, with inter-layer memristor meshes constructed using nanowires on a CMOS substrate \cite{saighi2015plasticity}. The neuron soma is depicted as a triangle, with the flat side representing input (dendrites) and the sharp side denoting output (axon). Dark rectangles represent memristors, each corresponding to a synaptic junction. Each neuron controls the voltage at its input and output nodes.\\
 
