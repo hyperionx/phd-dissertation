@@ -10,17 +10,7 @@
 
 \noindent Computational neuroscience employs a computational methodology to elucidate the mechanisms underlying brain function. This entails not only identifying the computations performed by the brain but also understanding the interactions between brain elements, such as neurons and synapses, that facilitate these computations.\\
 
-% \noindent The field of computational neuroscience has traditionally adopted a bottom-up approach, commencing with the study of individual neurons and subsequently examining how these can be integrated into progressively larger networks, ultimately leading to the emergence of meaningful behaviour. \\
-
-% \noindent In contrast, psychology and cognitive science have adopted a more top-down approach, commencing with the observation of animal behaviour and subsequently attempting to elucidate the brain mechanisms underlying these behaviours in terms of the higher-level functions of large brain areas. \\
-
-% \noindent This distinction has resulted in a historical focus on developing comprehensive mathematical models of individual neurons and small- to medium-sized networks in computational neuroscience. Recently, however, there has been a convergence with other fields, leading to the creation of neurally detailed models capable of reproducing organism-level behaviors. \\
-
 \noindent The brain is capable of performing a vast array of computations, with the fundamental units of the brain generally considered to be neurons and synapses. In the context of the nervous system, a synapse is defined as a structure that is capable of facilitating the transfer of an electrical or chemical signal from a presynaptic neuron to a postsynaptic neuron. \\
-
-% \noindent In the case of a chemical synapse, the occurrence of a spike in the presynaptic neuron will result in the stimulation of the release of a chemical substance known as a neurotransmitter. Subsequently, the neurotransmitter will migrate to bind with the receptors in the membrane of the postsynaptic neuron. \\
-
-% \noindent The effects of different neurotransmitters vary, exerting excitatory or inhibitory effects on the postsynaptic neurons. Many receptors contain different ion channels, which permit ions to flow between the inside and outside of the membrane, thereby generating an excitatory postsynaptic current (EPSC) or an inhibitory postsynaptic current (IPSC). \\
 
 \noindent This section provides a concise overview of the relevant biological details, in addition to the concepts and models from computational neuroscience that are employed or expanded upon in this study. These details provide invaluable preliminary information for accurately modelling the implementation of silicon oxide device-based neuromorphic hardware and bio-inspired computing. \\
 
@@ -30,18 +20,18 @@ In addition to the fundamental biological details that are pertinent to the subj
 
 \subsection[Neuron Anatomy and Electrophysiology]{Neuron Anatomy and Electrophysiology}
 
-\noindent  A neuron is a specialised biological cell that processes and transmits information through electrical and chemical signals \cite{mel1994information}. They represent only one of the numerous cell types within the brain, yet they are the most frequently discussed due to their status as the primary computational entities. Their fundamental function is relatively straightforward: neurons receive input from other neurons, and if that input is sufficiently stimulating, they will fire an action potential (also known as a spike), which propagates to other neurons.\\
+\noindent  A neuron is a specialised biological cell that processes and transmits information through electrical and chemical signals \cite{mel1994information}. Neurons represent only one of the numerous cell types within the brain, yet they are the most frequently discussed due to their status as the primary computational entities. Their fundamental function is relatively straightforward: neurons receive input from other neurons, and if that input is sufficiently stimulating, they will fire an action potential or voltage spike, which propagates to other neurons.\\
 
-\noindent Figure \ref{fig:2a} illustrates the basic structure of a neuron. Neurons can be subdivided into three principal parts: the dendrites, the cell body (soma), and the axon. Neurons receive input currents via their dendrites, which then transmit or channel this into the cell body, called the soma. When a neuron spikes, it sends current down its axon, which results in the release of neurotransmitter(s) at the synapses. These are connections from a neuron's axon to the dendrites of other neurons, and the neurotransmitter release causes dendritic input currents in these other connected neurons. \\
+\noindent Figure \ref{fig:2a} illustrates the basic structure of a neuron. Neurons can be subdivided into three principal parts: the dendrites, the cell body (soma), and the axon. Neurons receive input voltage via their dendrites, which then transmit or channel this into the cell body, called the soma. When a neuron spikes, it sends voltage down its axon, which results in the release of neurotransmitter(s) at the synapses. These are connections from a neuron's axon to the dendrites of other neurons, and the neurotransmitter release causes dendritic input voltage in these other connected neurons. \\
 
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=0.5\textwidth]{Chapter2/Figs/a.png}
-    \caption[Labeled diagram of the neuron.]{Labeled diagram of the neuron, nerve cell that is the main part of the nervous system. A neuron's dendrites include synapses that allow it to accept input from other neurons. The dendrites carry current to the soma, which is where electrical charge is integrated. If the neuron membrane gets sufficiently polarised, an action potential (also known as a spike) travels down the axon. This causes neurotransmitters to be released at synapses, resulting in currents in the dendrites of postsynaptic neurons.}
+    \caption[Labeled diagram of the neuron.]{Labeled diagram of the neuron, the nerve cell that is the main part of the nervous system. The gap between dendrites and axons are synapses that allow it to accept input from other neurons. The dendrites carry current to the soma, which is where electrical charge is integrated. If the neuron membrane gets sufficiently polarised, an action potential (also known as a spike) travels down the axon. This causes neurotransmitters to be released at synapses, resulting in voltage in the dendrites of postsynaptic neurons.}
     \label{fig:2a}
     \end{figure}
 
-\noindent From a computational perspective, the soma represents the integration point for all incoming currents from dendrites \cite{polsky2004computational}, marking the initiation of the action potential generation process (Figure \ref{fig:2b}). When a neuron is at rest, the soma exhibits a negative charge. This is referred to as the resting voltage and is maintained by ion pumps that regulate the concentration of ions (predominantly sodium, $Na^+$, potassium, $K^+$, and calcium, $Ca^{+2}$) within the cell. \\
+\noindent From a computational perspective, the soma represents the integration point for all incoming voltage from dendrites \cite{polsky2004computational}, marking the initiation of the action potential generation process (Figure \ref{fig:2b}). When a neuron is at rest, the soma exhibits a negative charge. This is referred to as the resting voltage and is maintained by ion pumps that regulate the concentration of ions (predominantly sodium, $Na^+$, potassium, $K^+$, and calcium, $Ca^{+2}$) within the cell. \\
 
 
 \noindent As the currents arrive from the dendrites, they initiate a process of depolarisation of the cell \cite{johnston1996active}. Once the voltage within the soma reaches a sufficient level, it initiates the opening of voltage-activated sodium channels, which permit the influx of sodium ions into the cell, further depolarising it. This process persists until the electrical gradient resulting from the accumulation of sodium ions reaches a point where it is no longer in equilibrium with the chemical gradient caused by the imbalance of sodium within and outside the cell. This leads to a notable increase in the neuron's positive charge, exceeding the resting voltage. \\
@@ -59,18 +49,6 @@ In addition to the fundamental biological details that are pertinent to the subj
 
 \noindent The rapid depolarisation associated with an action potential not only causes an increase in the somatic voltage potential, but also results in partial depolarisation of the axon segments situated in closer proximity to the soma. This results in the opening of sodium channels in that part of the axon, which in turn causes further depolarisation and the opening of sodium channels in the subsequent section of the axon. In this way, the somatic spike triggers a voltage wave that travels down the axon, eventually leading to the release of neurotransmitter(s) from synaptic vesicles situated near the ends of the axon. \\
 
-% \noindent Axons are responsible for transmitting long-range signals in the brain, and thus exhibit considerable variation in length, contingent on whether a given neuron is connected to neighbouring neurons or to neurons situated in a different brain region. To facilitate long-range transmission, axons are coated in myelin, a substance composed mainly of lipids and thus a good electrical insulator.\\
-
-% \noindent This enables the propagation of current down the axon. The high proportion of fat makes myelin white; bundles of axons are responsible for the "white matter" parts of the brain. In contrast, the "grey matter" is composed mainly of neuron dendrites, somas, and short-range axons.\\
-
-% \noindent Dendrites are thin processes that extend away from the soma to connect to the axons of other neurons \cite{johnston1996active}. They serve to transmit current from synapses with other neurons to the soma. Initially, it was thought that they only conducted current passively; however, research has demonstrated that they possess active conductance mechanisms that are analogous to those involved in spike generation and propagation down an axon.\\
-
-% \noindent Dendrites are also traditionally considered to act in a linear manner, whereby inputs from numerous synapses are accumulated over time and space. This remains a prevalent assumption in numerous computational models. However, recent studies have demonstrated that the summation of signals in dendrites is more intricate, exhibiting a combination of linear and nonlinear (sigmoidal) elements.\\
-
-% \noindent Neurons are connected to one another by synapses, which facilitate the connection between the axon of the presynaptic neuron and a dendrite of the postsynaptic neuron. Upon the occurrence of a spike in the presynaptic neuron, an electrical pulse is transmitted along the axon, reaching the presynaptic terminals of all synapses situated along its length. The synaptic vesicles, which are filled with neurotransmitter, are located at the terminals. \\
-
-% \noindent When an electrical pulse is generated, it causes the vesicles to release neurotransmitter into the synaptic cleft, which is the narrow space between the presynaptic terminal and the postsynaptic terminal. This neurotransmitter then activates receptors on the postsynaptic terminal, which open and permit the flow of current into the postsynaptic cell. The specific neurotransmitter utilized by the synapse is contingent upon the presynaptic neuron. \\
-
 \noindent It has been established that all synapses located along a neuron's axon are responsible for the release of a singular neurotransmitter or a combination of neurotransmitters. This phenomenon is commonly referred to as Dale's principle. At the time of its development, Dale's principle was based on the assumption that each neuron produced a single type of neurotransmitter. Nevertheless, evidence of cotransmission was only discovered subsequently \cite{burnstock2004cotransmission}. It was understood that neurotransmitters can only be either excitatory or inhibitory,in relation to different postsynaptic cells.
 
 \subsection[Spiking Neuron Dynamics]{Spiking Neuron Dynamics}
@@ -79,50 +57,6 @@ In addition to the fundamental biological details that are pertinent to the subj
 
 \noindent These models treat the neuron as a single electrical compartment, combining the dendrites, soma, and axon. In contrast, multi-compartmental models represent the neuron as comprising multiple electrical compartments, with equations that describe the influence of activity in one compartment on that of another. By modelling the spike separately from the rest of the neural dynamics, it is possible to separate time scales, thereby avoiding the need for additional computational resources to model the spike trajectory \cite{abbott1999lapicque}. \\
 
-% \noindent The number of compartments in a model can vary considerably, from a minimalistic two-compartment structure, typically comprising one for the dendrites and one for the soma, to a more elaborate configuration comprising thousands of compartments. \\
-
-% \noindent The number of compartments in a model is directly proportional to the amount of computing power required for simulation and the complexity of the resulting behaviour. For these reasons, models that seek to reproduce behaviour predominantly utilise either single-compartment neurons or simpler models that do not model the electrical activity of the neuron at all. \\
-
-% \noindent Single-compartmental neuron models can be classified according to two key dichotomies: firstly, the rate-based versus spike-based dichotomy; and secondly, the static versus dynamic dichotomy. The distinction between rate-based and spiking neuron models concerns the nature of the output: is it a continuous value, represented by a firing rate, or a discrete value, represented by a spike.\\
-
-% \noindent The distinction between static and dynamic models concerns the extent to which the model exhibits internal dynamics. In a static model, the output at a given point in time is independent of the neuron's past history and solely contingent on its instantaneous input. In contrast, a dynamic model allows for some degree of dependence on the neuron's past trajectory.\\
-
-% \noindent Dynamic neuron models possess a state, which is to say, internal variables that evolve over time and are not directly computable from the present input to the model. They are typically expressed using differential equations. In contrast, static models output a function of the current input only; thus, they do not require differential equations to express them. \\
-
-% \noindent It is important to note that the distinction between static and dynamic neurons does not necessarily refer to whether the neuron is being used as a static nonlinearity, evaluated at a single point in time on an input value, or as a dynamic nonlinearity, evaluated over a period of time on an input signal. \\
-
-% \noindent Static neurons can be evaluated dynamically by evaluating them independently at each successive point in time on the input value. In contrast, there is no general method for evaluating dynamic neurons statically, as their input at any given point in time is contingent upon their internal state, which is a dynamic process that evolves over time. \\
-
-% \noindent In some cases, it is possible to determine a firing rate response curve, also known as an I-F response curve or rate response function, for dynamic neuron models. This curve maps every constant value of the input current to a constant firing rate output. This can be determined analytically or empirically by applying a constant input current and measuring the rate of the output spikes, this can even be done in real neurons in vitro. \\
-
-% \noindent However, many neuron models will not output spikes at a constant rate, even for a constant input, due to changing internal dynamics. In such cases, the rate-response function only captures part of the model, and will be different depending on the state of the model and how it is measured or calculated. \\
-
-% \begin{table}[]
-% \caption{Neuron Model Dichotomies.}
-% \centering
-% \begin{tabular}{|c|c|c|}
-% \hline
-%                  & \textbf{Rate}                                                                  & \textbf{Spiking}                                             \\ \hline
-% \textbf{Static}  & Sigmoid Rate LIF                                                               & Poisson Spiking                                              \\ \hline
-% \textbf{Dynamic} & \begin{tabular}[c]{@{}c@{}}Adaptive Rate LIF\\ Sigmoid with State\end{tabular} & \begin{tabular}[c]{@{}c@{}}Hodgkin-Huxley\\ LIF\end{tabular} \\ \hline
-% \end{tabular}
-% \label{table:4a}
-% \end{table}
-
-% \noindent Table \ref{table:4a} illustrates the manner in which a small selection of neuron models align with these dichotomies. In the static rate category, the models in question take in a continuous value and output a continuous function of that value. This encompasses the majority of non-linearities employed in machine learning (such as sigmoids or rectified linear units), in addition to the analytic firing rate for the LIF neuron model. \\
-
-% \noindent In the static spiking category, models are characterised by the output of a discrete (binary) function of their continuous input. This category is primarily composed of Poisson-spiking neurons, which fire probabilistically based on their instantaneous firing rate. This implies that the probability of firing at a given time is independent of past firings. Furthermore, Poisson spiking can be applied to a dynamic rate model, whereby the probability of spiking is independent, but the spike rate is a dynamic process. \\
-
-% \noindent Dynamic rate models possess an internal state that influences their continuous output, in addition to the input. This encompasses the analytic LIF rate model with adaptation, which possesses an intrinsic adaptation parameter that increases when the neuron is active and discounts the firing rate. Furthermore, the category encompasses sigmoid neuron models that possess an underlying voltage that is dynamically correlated with the neuron inputs \cite{lillicrap2016random}. \\ 
-
-% \noindent The dynamic spiking category also includes the LIF neuron model, the Hodgkin-Huxley model, and more intricate multi-compartmental models. Within the category of spiking models, a distinction can be made between those that output instantaneous spikes (e.g., LIF) and those that output spikes that vary across time (e.g., Hodgkin-Huxley). Recently, another study have employed such models in the context of deep networks \cite{guerguiev2017towards}, subject to biological constraints. \\
-
-% \noindent Another potential distinction can be made between models that output stereotyped spikes, where the size of each spike is identical, and those that output variable-sized spikes. Models of cortical neurons that output instantaneous spikes (e.g., LIF) almost invariably output stereotyped spikes. This is due to the fact that spikes in cortical neurons are almost identical in terms of magnitude, duration, and shape.\\
-
-% \noindent It is widely believed that none of these factors carry information. Even among models that have spikes that vary across time (e.g., Hodgkin-Huxley), the spike magnitude, duration, and shape are quite consistent between spikes. Therefore, the majority of spiking cortical neuron models exhibit stereotyped spikes. \\
-
-% \noindent By modelling the spike separately from the rest of the neural dynamics, it is possible to separate time scales, thereby avoiding the need for additional computational resources to model the spike trajectory, which is characterised by stereotyped details of little interest \cite{abbott1999lapicque}. \\
-
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=1\textwidth]{Chapter2/Figs/c.png}
@@ -130,16 +64,9 @@ In addition to the fundamental biological details that are pertinent to the subj
     \label{fig:2c}
 \end{figure}
 
-% \begin{figure}[htbp!] 
-%     \centering    
-%     \includegraphics[width=1\textwidth]{Chapter2/Figs/c.png}
-%     \caption[Hodgkin-Huxley neuron model.]{Hodgkin-Huxley neuron model. (a) An equivalent circuit for the HH models \cite{hodgkin1952quantitative}. (b) An equivalent circuit for memristive HH model \cite{chua2012hodgkin}. (c) An action potential waveform, which demonstrates the resting, threshold, and reset potentials. }
-%     \label{fig:2c}
-% \end{figure}
-
 \noindent A significant proportion of the most influential findings in computational neuroscience are based on mathematically detailed models of neuronal functioning. One of the most renowned of these is the Hodgkin-Huxley model of the squid giant axon \cite{hodgkin1952quantitative}. the Hodgkin–Huxley (HH) model is one of the most widely used, comprising a set of nonlinear differential equations that accurately approximate the electrical signals of neurons \cite{chua2012hodgkin}. \\
 
-\noindent Figure \ref{fig:2c}(a) depicts the HH neural model, wherein the time-varying nonlinear conductor $R_{Na}(GNa)$ and $R_K(G_K)$ represent the sodium and potassium channels, respectively, while the linear conductor $R_L(G_L)$ simulates leak channels and $C$ models the membrane of a neuron. The equations of the HH model are presented below: 
+\noindent Figure \ref{fig:2c}(a) depicts the HH neural model, wherein the time-varying nonlinear resistor $R_{Na}(GNa)$ and $R_K(G_K)$ represent the sodium and potassium channels, respectively, while the linear resistor $R_L(G_L)$ simulates leak channels and $C$ models the capacitance membrane of a neuron. The equations of the HH model are presented below: 
 \begin{align}
     C \frac{dV_m(t)}{dt} = I_C(t) + \sum_{k}^{}I_k(t) \label{eq:2.1} 
 \end{align}
@@ -170,8 +97,6 @@ In addition to the fundamental biological details that are pertinent to the subj
 \noindent This is achieved by defining a threshold voltage, $V_{th}$, which is exceeded when the voltage passes this threshold, resulting in the neuron firing. This is a fundamental principle in neurophysiology: once the neuron voltage passes a threshold, the neuron begins firing a spike, and once this firing process begins, it is almost impossible to reverse. \\
 
 \noindent Once a neuron has fired a spike, the membrane voltage is reset to the resting potential, $V_{rest}$. This phenomenon can be attributed to physiological resetting procedures. Following the occurrence of a spike in a neuron, other ionic currents, typically potassium, are initiated, leading to a restoration of the membrane voltage towards the resting potential.\\
-
-% \noindent Some integrate-and-fire models may also incorporate an absolute refractory period, defined as a time interval during which the voltage is maintained at the resting potential $V_{rest}$ following a spike. In cortical neurons, post-spike potassium currents are sufficiently strong to prevent another spike from occurring for a considerable duration. This time interval is referred to as the absolute refractory period. The model accounts for this by holding the membrane voltage at $V_{rest}$ for a duration equal to the absolute refractory period. \\
 
 \noindent The leaky integrate-and-fire (LIF) model \cite{knight1972dynamics} incorporates an additional physiological factor: Neuron membranes are not perfect capacitors; rather, they slowly leak current over time, pulling the membrane voltage back to its resting potential. Therefore, the membrane is modelled as a capacitor and resistor in parallel, which allows for the neuron to exhibit a degree of "forgetting": in the absence of any input, the membrane voltage will return to its resting potential \cite{koch2004biophysics}. The LIF dynamics are captured by the following equation:
 
@@ -229,13 +154,6 @@ C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:2.7}
 
 \noindent A proportion of the current \textit{I(t)} flowing into \textit{C} results in an increase in the membrane potential \textit{V(t)}. The charge leakage occurs via resistor \textit{R}. When \textit{V(t)} reaches a threshold value, the neuron generates a spike. Following the generation of a spike, the membrane potential is reset to the reset value. \\
 
-% \begin{figure}[htbp!] 
-%     \centering    
-%     \includegraphics[width=0.8\textwidth]{Chapter2/Figs/d.png}
-%     \caption[The Leaky Integrate-and-Fire neuron model.]{The LIF neuron model. (a) Schematic diagram of the LIF electrical model. (b) Input current in the form of an alpha function, $\tau_{\alpha} = 0.1, I_0 = 1$ (c) The LIF model allows for the control of spiking behaviour through a comparison of membrane potential and threshold at each time step. Upon the triggering of a spike, a voltage-controlled switch discharges C for a duration corresponding to the refractory period $t_0$ \cite{tal1997computing}. (d) A simulation of constant firing frequency for DC current input in which $t_0$ is hidden. DC input current and output spikes are both shown. (e) A generalised LIF model with threshold control \cite{teeter2018generalized}. }
-%     \label{fig:2d}
-% \end{figure}
-
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=1\textwidth]{Chapter2/Figs/d.png}
@@ -245,31 +163,14 @@ C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:2.7}
 
 \noindent In the absence of \textit{I(t)}, the voltage across \textit{C} is eventually settled at $V_{rest}$, representing the cell's resting potential. During the refractory period $t_0$, a neuron is incapable of spiking. Figure \ref{fig:2d}(c,d) illustrates the LIF neuron dynamics for the case of a \textit{DC} input current and a zero rest and reset potential, $E_{reset} = E_{rest} = 0$ \cite{tal1997computing}. \\
 
-\noindent The input synaptic current, \textit{I(t)}, can be described by a time-varying alpha function. However, alternative functions may be employed, including "Instantaneous Rise and Single Exponential Decay," "Biexponential Functions," "Sawtooth," and "Pulse Function." The alpha synaptic current is modeled by Equation \ref{eq:2.15}, and the resulting plot is shown in Figure \ref{fig:2b}(b). \\
+\noindent The input synaptic current, \textit{I(t)}, can be described by a time-varying alpha function. However, alternative functions may be employed, including "Instantaneous Rise and Single Exponential Decay," "Biexponential Functions," "Sawtooth," and "Pulse Function." The alpha synaptic current is modeled by Equation \ref{eq:2.15}, and the resulting plot is shown in Figure \ref{fig:2d}(b). \\
 
-% \noindent Nevertheless, Figure \ref{fig:2d}(a) lacks a circuit for resetting the system when the threshold is reached. In order to evaluate the inequality $V > V_{threshold}$, it is necessary to use an active circuit, such as a comparator. Upon reaching the threshold, the membrane potential must be reset in accordance with the illustration in Figure \ref{fig:2d}(d). Therefore, the LIF model's generalized version necessitates additional overhead, as illustrated in Figure \ref{fig:2d}(e). \\
-
-
-
-% \noindent In the generalized LIF model, the reset behavior necessitates external control to pull down the membrane potential below the resting potential. This external control requires intricate, active circuits comprising MOS transistors, resistors, and even a silicon-controlled rectifier (SCR), which represents a significant drawback in a neuromorphic system due to its substantial power and area consumption. \\
-
-% \noindent In order to address the limitations of conventional neuron models, memristor technologies can be employed to emulate biological neurons with the objective of reducing energy consumption and increasing packing density. The HH model has been emulated by utilising two memristors in parallel with two capacitors, respectively mimicking two channels that are coupled to each other with a resistor. \\
-
-% \noindent Additionally, an input resistor and an output impedance comprising a resistor and a capacitor have been proposed \cite{pickett2013scalable}. The LIF neuron has been demonstrated using a diffusive/volatile memristor in parallel with a capacitor, and the neuron has been employed in a fully memristive neural network \cite{wang2018fully}. \\
-
-% \noindent Despite the existence of memristor-based neuron models, the lack of accessible experimental data and hardware for prototyping memristive circuits represents a significant obstacle. A significant number of state-of-the-art experimental demonstrations have relied on bespoke fabrication processes that cannot be reproduced using off-the-shelf memristors. \\
-
-% \noindent Furthermore, the limited choice of commercially available, low-cost, discretely packaged memristors, which are known to be highly sensitive and stochastic in behaviour, has compounded the issue. The challenge in developing hardware prototypes has made it difficult to perform experimental validation. \\
-
-% \noindent In addition to the acceleration of neural networks, the design of a solid-state brain that can harness the neural code has gained increasing attention as a means of processing vast quantities of sensory data without being constrained by the von Neumann bottleneck. The solid-state brain is structured in a manner that emulates the cerebral cortex, with neurons interconnected by a vast array of variable synapses. \\
-
-% \noindent It is hypothesised that neurons and synapses can be realised with memristors integrated with a complementary metal-oxide semiconductor (CMOS) process. However, the design of a large-scale solid-state brain remains elusive in neuromorphic computing due to the considerable overheads associated with mimicking the surface area of neural tissue, constrained power consumption, routing, and the massive parallelism of synaptic connections.
 
 \noindent It is evident that neurons manifest considerable heterogeneity with regard to their dynamics, morphology and connectivity. They can summarily be categorised as follows: Excitatory neurons are responsible for promoting activity in connected neurons. In contrast, inhibitory neurons are responsible for suppressing activity, a process that is crucial for stability and rhythm. Finally, interneurons connect local circuits, thereby enabling complex computations.
 
 \subsection[Synaptic Transmission and Plasticity]{Synaptic Transmission and Plasticity}
 
-Prior to model internal neural dynamics, it is essential to model the dynamics of the synapses that connect neurons to one another. Synapses exert a significant functional effect as a low-pass filter on the spikes that pass through them. A spike in the presynaptic neuron elicits an extended current pulse in the postsynaptic neuron. This pulse can be conceptualised as a low-pass filtered version of the presynaptic spike. \\
+Prior to modelling internal neural dynamics, it is essential to model the dynamics of the synapses that connect neurons to one another. Synapses exert a significant functional effect as a low-pass filter on the spikes that pass through them. A spike in the presynaptic neuron elicits an extended current pulse in the postsynaptic neuron. This pulse can be conceptualised as a low-pass filtered version of the presynaptic spike. \\
 
 \noindent The simplest model of a synapse is that of a first-order low-pass filter. The impulse response of a filter describes the manner in which the filter responds to an infinitesimally short input of unit integral, which is called an impulse. This idealised impulse is also a reasonable model of a spike, and thus the impulse response also describes what the postsynaptic current will look like in response to a presynaptic spike. The impulse response of the first-order low-pass filter is as follows:
 \begin{align}
@@ -281,49 +182,28 @@ h(t) = \frac{1}{\tau_s}e^{\frac{t}{\tau_s}} \label{eq:2.18}
 h(t) = \frac{1}{\tau_s^2}e^{\frac{t}{\tau_s}} \label{eq:2.19} 
 \end{align}
 
-\noindent It was determined that a second-order lowpass filter is a superior model for a synapse \cite{mainen1995reliability}. The impulse response of this filter is defined by (\ref{eq:2.19}). This function is referred to as the alpha function, and thus the model is designated as the alpha synapse model. Both of these models are based on the current generated by a spike in the postsynaptic neuron, which is a current-based synapse model.\\
-
-% \noindent Other current-based synapse models exist; a popular one is the double-exponential model, which is similar to the alpha synapse but with two time constants, thereby affording greater control over the rise and fall of the impulse response. Where The double-exponential model with both time constants set to the same value reduces to the alpha synapse. \\
-
-% \noindent Many of the other, more realistic synapse models are conductance-based, meaning that they model the conductance of the neural membrane at the synapse. The current flowing into the neuron is dependent on both the conductance and the voltage across the membrane. The latter undergoes a change as the synapse becomes active. \\
-
-% % \subsection[Neural Coding Schemes]{Neural Coding Schemes}
+\noindent It was determined that a second-order lowpass filter is a superior model for a synapse \cite{mainen1995reliability}. The impulse response of this filter is defined by (\ref{eq:2.19}). This function is referred to as the alpha function in the previous section, and thus the model is designated as the alpha synapse model. Both of these models are based on the current generated by a spike in the postsynaptic neuron, which is a current-based synapse model.\\
 
 \noindent One of the primary objectives of computational neuroscience is to ascertain the manner in which the brain represents—or encodes—information. To this end, researchers have put forth a multitude of potential coding schemes that neurons could utilise for information encoding. One key distinction between rate coding and temporal coding is the following dichotomy. \\
 
-\noindent In a rate code, the sole pertinent measure is the firing rate (i.e. the number of spikes) of a neuron over a given period of time. An exemple of a rate code is motor neurons in the peripheral nervous system. The contraction of a muscle is contingent upon the number of spikes per unit time; thus, only the rate of motor neuron spikes is significant \cite{gerstner1997neural}. In a temporal code, the time of individual spikes is also a factor. For example, in the early auditory system, precise spike timing facilitates the localisation of sounds \cite{chase2006spike}.\\
+\noindent In a rate code, the sole pertinent measure is the firing rate (i.e. the number of spikes) of a neuron over a given period of time. An example of a rate code is motor neurons in the peripheral nervous system. The contraction of a muscle is contingent upon the number of spikes per unit time; thus, only the rate of motor neuron spikes is significant \cite{gerstner1997neural}. In a temporal code, the time of individual spikes is also a factor. For example, in the early auditory system, precise spike timing facilitates the localisation of sounds \cite{chase2006spike}.\\
 
 \noindent The precise definitions of rate and temporal codes remain contentious, with differing interpretations presented by various authors \cite{dayan2005theoretical}. To illustrate, a neuron may discharge a number of spikes in rapid succession, followed by a period of quiescence. A second neuron may be observed to fire the same number of spikes, but in a more evenly distributed manner over a given period. \\
 
-% \noindent One possible interpretation is that both neurons have the same firing rate, but the first has all its spikes occurring near the beginning of the period, in which case the timing of the spikes is a significant factor. An alternative perspective posits that the instantaneous firing rate of the first neuron fluctuates over the period, whereas that of the second neuron remains constant. This suggests that it is the instantaneous firing rate, rather than the overall firing rate, that is of primary importance. \\
-
-% \noindent This highlights a limitation of solely examining the overall firing rate (i.e., the number of spikes) of a neuron over a given period. It is unclear which period should be considered. In real neurons, the period of time that is relevant for counting spikes depends on parameters such as the membrane time constant tau of the postsynaptic neuron. \\
-
-% \noindent For this reason, neuroscientists will often differentiate between rate and timing codes based on the frequency of alterations in the instantaneous firing rate. If the rate of firing exhibits rapid fluctuations, and if these fluctuations contain information about the stimulus (and are not simply spurious variation or "noise"), then the code is said to be temporal; otherwise, it is a rate code. \\
-
-% \noindent Once again, there is a lack of consensus regarding the minimum frequency of fluctuations in firing rates that must be observed to qualify as temporal codes. One possible definition is relative to the stimulus. The firing rate of neurons can be triggered to change rapidly in response to fast-changing stimuli, regardless of whether the code in use is rate or temporal. \\
-
-% \noindent If the temporal code is defined as having meaningful firing rate fluctuations at a faster time scale than changes in the stimulus, then it can be differentiated between codes that have fluctuations because they are using them for coding and those that simply have fluctuations triggered by the stimulus. According to this definition, neurons using a temporal code will have a fluctuating firing rate in response to a constant stimulus, whereas neurons using a rate code will have a non-fluctuating firing rate. \\
 
 \noindent Both rate codes and temporal codes describe the encoding properties of individual neurons. Additionally, one may inquire about the coding properties of a group (also known as a population) of neurons. The concept of population coding pertains to instances where a representation is distributed across numerous neurons within a population, such that the represented value cannot be decoded from the activities of a limited number of neurons.\\
 
 \noindent The simplest method of extrapolating the concept of rate or temporal coding to multiple neurons would be to have numerous neurons all implementing the same code. In other words, all neurons will exhibit a similar firing pattern when representing a given value, due to their comparable tuning properties. This results in a significant degree of redundancy between neurons. \\
 
-\noindent In contrast, population coding entails each neuron representing a distinct aspect of the represented value. To illustrate, if the objective is to represent head direction, there are neurons that represent a head that is fully turned to the left, others that represent a head that is fully turned to the right, and still others that represent a centred head. Additionally, there are neurons that represent values in between these three head directions. The direction in which a neuron is most active is referred to as its preferred direction. \\
+\noindent In contrast, population coding entails each neuron representing a distinct aspect of the represented value \cite{georgopoulos1982relations}. To illustrate, if the objective is to represent head direction, there are neurons that represent a head that is fully turned to the left, others that represent a head that is fully turned to the right, and still others that represent a centred head. Additionally, there are neurons that represent values in between these three head directions. The direction in which a neuron is most active is referred to as its preferred direction. \\
 
-% \noindent It should be noted that each neuron exhibits some degree of variance, whereby it will fire for head directions that are relatively close to its preferred direction. Conversely, the further the actual head direction is from a neuron's preferred direction, the less it will fire. By utilising the activities of all neurons in the population, it is possible to decode the head direction with a high degree of accuracy. \\
-
-% \noindent From a population perspective, it is possible to differentiate between codes that exploit synchrony between neurons and those that do not. This can be facilitated, for example, by coincidence detection, whereby a postsynaptic neuron will only fire if the spikes of two of its input neurons are coincident, that is to say, they fall within the same (small) temporal window. \\
-
-% \noindent This distinction between temporal and rate coding schemes is further exemplified by the fact that only temporal codes can take advantage of correlations between individual spikes of neurons. Rate coding schemes, on the other hand, can only take advantage of synchrony between neurons in terms of synchronised fluctuations of their instantaneous firing rates, since they lack the temporal precision to co-ordinate individual spikes.
-
-\noindent Synapses are therefore known to play a dual role in the nervous system. They facilitate communication between neurons and serve as the primary locus of learning and memory. The magnitude of this influence, or 'synaptic strength' \cite{bastos2022motor}, is determined by the relative strength of the connection between the presynaptic and postsynaptic neurons. This phenomenon is known as synaptic plasticity. \\
+\noindent Synapses are therefore known to play a dual role in the nervous system. They facilitate communication between neurons and serve as the primary locus of learning and memory. The magnitude of this influence, or 'synaptic strength' \cite{bastos2022motor}, is determined by the relative strength of the connection between the presynaptic and postsynaptic neurons. This is part of the property known as synaptic plasticity, with the ability to change these strengths. \\
 
 \noindent It is important to note that plasticity can be categorised into several distinct types. Short-Term Plasticity (STP): Transient changes that last from milliseconds to seconds. Long-Term Potentiation (LTP) and Long-Term Depression (LTD): The phenomenon of sustained increases or decreases in synaptic strength over time. \\
 
 \noindent The most significant model of synaptic plasticity is Hebbian learning, which can be succinctly summarised as follows: The hypothesis that neurons that fire together wire together has been proven to be accurate. A more precise, temporally-sensitive rule is Spike-Timing Dependent Plasticity (STDP) \cite{zheng2018learning}. \\
 
-\noindent Mathematical Models can capture the effect of precise spike timing on synaptic weight updates. If a presynaptic neuron fires before a postsynaptic neuron within a short window, the synapse is strengthened; if the order is reversed, the synapse weakens. A common representation for this is:
+\noindent Mathematical models can capture the effect of precise spike timing on synaptic weight updates. If a presynaptic neuron fires before a postsynaptic neuron within a short window, the synapse is strengthened; if the order is reversed, the synapse weakens. A common representation for this is:
 \begin{align}
 \Delta w = \left\{ \begin{array}{cl}
     A_+ \cdot e^{-\Delta t/\tau_+}, & \ \Delta t > 0 \\
@@ -396,26 +276,26 @@ Memristive devices, also known as memory resistors, are emerging as foundational
     
 \noindent From a visual standpoint, the pinched hysteresis loop, which is characteristic of the devices and dependent on frequency, distinguishes these memristor devices from other components \cite{chua2019resistance}, as shown in Figure \ref{fig:2f}. This loop represents a prevalent and inherent phenomenon in the natural world. It is evident that as the voltage input frequency increases, the loop undergoes a reduction in size. When the frequency approaches infinity, the memristor can be approximated as a resistor.\\
 
-\noindent Among the range of new non-volatile memory devices, the primary focus of this study is on memristor devices, including MRAM, PRAM, FeRAM, and RRAM \cite{wang2017memristors}. Resistive switching, a reversible phenomenon of two-terminal elements, characterises the devices. Through electrical signalling, they change resistance in a non-volatile manner, with the process driving the resistive switching defined by the device's materials \cite{mehonic2018silicon}. \\
+\noindent Among the range of new non-volatile memory devices, the primary focus of this study is on memristor devices, including Magnetoresistive Random-Access Memory (MRAM), Phase-change Random-Access Memory (PRAM), Ferroelectric Random-Access Memory (FeRAM), and Resistive Random-Access Memory (RRAM) \cite{wang2017memristors}. Resistive switching, a reversible phenomenon of two-terminal elements, characterises the devices. Through electrical signalling, they change resistance in a non-volatile manner, with the process driving the resistive switching defined by the device's materials \cite{mehonic2018silicon}. \\
 
-\noindent Resistive random-access memory (RRAM) is a device that uses resistance switching, where reversibility is attained through repeated application of appropriate stimuli, according to \cite{liu2010controllable}. Repeated application of suitable stimuli ensures reversibility. An RRAM cell comprises an insulating thin film (usually a metal oxide), sandwiched between two electrodes, within which resistance switching occurs. \\
+\noindent RRAM is a device that uses resistance switching, where reversibility is attained through repeated application of appropriate stimuli. It is a repeated cycling between two or more discreet resistance states according to \cite{liu2010controllable}. Repeated application of suitable stimuli ensures reversibility. An RRAM cell comprises an insulating thin film (usually a metal oxide), sandwiched between two electrodes, within which resistance switching occurs. \\
 
-\noindent The term "memristance" is favoured to express the general characteristics of these RRAM devices. The central hypothesis of this model is that memristance is a function of the total charge that has been passed through the device or that the integral of the applied voltage is consistent with certain experimental data. This can be used to toggle between different resistance levels. Although this ideal memristor model is often used in RRAM cells, it may not satisfy practical requirements. 
+\noindent The term "memristance" describes the core behavior of RRAM devices: their resistance depends on the total charge that has flowed through them, or equivalently, on the time-integral of the applied voltage. This property allows precise switching between resistance states. However, while the ideal memristor model captures this principle, it often fails to reflect the complexities of real RRAM devices.
 
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=0.7\textwidth]{Chapter2/Figs/g.png}
-    \caption[The main RRAM types.]{The main RRAM types, from left to right: electrochemical metallization memory (ECM), vacancy change memory (VCM), and thermochemical memory (TCM). \cite{goux2016electrochemical}}
+    \caption[The main RRAM types.]{The main RRAM types, from left to right: electrochemical metallization memory (ECM), valence change memory (VCM), and thermochemical memory (TCM). \cite{goux2016electrochemical}}
     \label{fig:2g}
 \end{figure} 
 
 \noindent Although all RRAM devices operate on a metal-insulator-metal (MIM) architecture, their categorisation and analysis remain challenging. RRAM devices are loosely classified into two types based on their functional mechanisms: oxide-RAM (OxRAM) and conductive bridge RAM (CBRAM) \cite{liu2015categorization}. \\
 
-\noindent However, the internal physical behaviour of RRAM devices greatly varies, making it difficult to obtain a unified picture of them. RRAM cells may be classified according to their switching mechanisms which are electrochemical metallisation (ECM), valence change mechanism (VCM), or thermochemical mechanism (TCM) \cite{goux2016electrochemical}. The operation of the device is explained by one of the mechanisms depicted in Figure \ref{fig:2g}. \\
+\noindent However, the internal physical behaviour of RRAM devices greatly varies, making it difficult to obtain a unified picture of them. RRAM cells may be classified according to their switching mechanisms which are electrochemical metallisation (ECM), valence change memory (VCM), or thermochemical memory (TCM) \cite{goux2016electrochemical}. The operation of the device is explained by one of the mechanisms depicted in Figure \ref{fig:2g}. \\
 
-\noindent In normal operation, the state of the memristor can be objectively designated as having high resistance in the "OFF" state and low resistance in the "ON" state, with a substantial difference in resistance levels. The shift from the high resistance state (HRS) to the low resistance state (LRS) is referred to as "Set," while the reverse is called "Reset." An electroforming step is generally necessary to convert the device from pristine to switchable, whereby the former tends to exhibit higher resistance. \\
+\noindent In normal operation, the state of the memristor can be objectively designated as having high resistance in the "OFF" state and low resistance in the "ON" state, with a substantial difference in resistance levels. The shift from the high resistance state (HRS) to the low resistance state (LRS) is referred to as "Set," while the reverse is called "Reset." An electroforming step is generally necessary to convert the device from pristine to switchable. The former tends to exhibit higher resistance. \\
 
-\noindent A hallmark of biorealistic learning is the ability to adjust synaptic strength continuously over time in response to neural activity. Analog (or gradual) switching in memristors is thus essential. Instead of binary ON/OFF transitions, these devices exhibit incremental conductance changes under controlled voltage pulse conditions. Consider a simplified state evolution model:
+\noindent A hallmark of biorealistic learning is the ability to adjust synaptic strength continuously over time in response to neural activity. Analog (or gradual) switching in memristors is thus essential while some schemese exist for binary synapses. Instead of binary ON/OFF transitions, these devices exhibit incremental conductance changes under controlled voltage pulse conditions. Consider a simplified state evolution model:
 \begin{align}
     \frac{dw}{dt} = \mu \cdot I(t) \label{eq:2.25}
 \end{align}
@@ -457,7 +337,7 @@ Where $\mu$ is a mobility parameter dependent on the device materials and struct
 
 \noindent The fundamental principle of neuromorphic computing is the translation of key neurobiological principles into hardware. Event-driven processing is a key feature of neuromorphic circuits, which, like biological neurons, only activate when necessary, thereby significantly reducing power consumption. \\
 
-\noindent As an illustrative example, synapses (which are implemented by resistive memory elements) function as both computational units and memory stores. Neuromorphic systems have been demonstrated to exhibit plasticity and the capacity for real-time, local learning through the utilisation of biologically plausible rules, such as the STDP (synaptic tagging with depolarisation-dependent plasticity) rule. \\
+\noindent As an illustrative example, synapses (which can be implemented by resistive memory elements) function as both computational units and memory stores. Neuromorphic systems have been demonstrated to exhibit plasticity and the capacity for real-time, local learning through the utilisation of biologically plausible rules, such as the STDP rule. \\
 
 
 \begin{figure}[htbp!] 
@@ -479,7 +359,7 @@ Where $\mu$ is a mobility parameter dependent on the device materials and struct
 
 \noindent Consider a resistive element with conductance $G$ (the reciprocal of resistance). If a voltage $V$ is supplied to it, the current $I$ flowing through it will be equal to $V \times G$. This indicates that conductance $G$ functions as a multiplicative factor, as per Ohm's law. For a circuit with several branches, each carrying a current $I_i$. At the intersection of these branches, the total current flowing through it will be $I = \sum_{i}^{} I_i$. This indicates that currents are combined together, as per Kirchhoff's current law. \\
 
-\noindent Once multiplication and addition are possible, higher-level operations may be performed using specialist circuits. For vector-matrix products, a resistive crossbar array can be used, which is a two-dimensional grid of conductive wires with resistive components at each intersection. A crossbar array's output currents are essentially the product of a voltage vector and a conductance matrix. Consider a vector-matrix product, $\mathbf{y} = \mathbf{x}^\intercal \mathbf{W}$. Where $\mathbf{x}$ can be translated to voltages $\mathbf{V} = k_V\mathbf{x}$, $\mathbf{W}$ to conductances $\mathbf{G} = k_G \mathbf{W}$, and generate outputs $\mathbf{y}$ from currents $\mathbf{I} = \mathbf{y} k_V k_G $, where $k_V$ and $k_G$ are positive constants. \\
+\noindent Once multiplication and addition are possible, higher-level operations may be performed using specialist circuits. For vector-matrix products, a resistive crossbar array can be used, which is a two-dimensional grid of conductive wires with resistive components at each intersection. A crossbar array's output currents are essentially the product of a voltage vector and a conductance matrix. Consider a vector-matrix product, $\mathbf{y} = \mathbf{x}^\intercal \mathbf{W}$, where $\mathbf{x}$ can be translated to voltages $\mathbf{V} = k_V\mathbf{x}$, $\mathbf{W}$ to conductances $\mathbf{G} = k_G \mathbf{W}$, and generate outputs $\mathbf{y}$ from currents $\mathbf{I} = \mathbf{y} k_V k_G $, where $k_V$ and $k_G$ are positive constants. \\
 
 
 \noindent Crossbars can compute products of voltage vectors and conductance matrices due to their structural design. This is because the structure controls which voltage-conductance pairs are multiplied and which consequent currents are combined together. These circuits have two sets of wires: word lines and bit lines. Voltages $\mathbf{V}$ are applied to the word lines, and currents $\mathbf{I}$ are measured along the bit lines. A resistive element located at the junction of the $i^{th}$ word line and the $j^{th}$ bit line has a conductance of $G_{i,j}$.\\
@@ -496,18 +376,6 @@ Where $\mu$ is a mobility parameter dependent on the device materials and struct
     
 \noindent The bit lines will then generate independent sets of currents, which may be represented as vectors $\mathbf{I}+$ and $\mathbf{I}-$. Vector-matrix products are linear, thus the result may be calculated by subtracting $\mathbf{I}-$ from $\mathbf{I}+$. In reality, the 'positive' and 'negative' bit lines are frequently arranged near to one another, which helps to mitigate the detrimental effects of line resistance, a significant non-ideality \cite{joksas2020committee}. \\
 
-% \noindent Unlike traditional artificial neural networks (ANNs), which use continuous-valued activations, SNNs operate using discrete spikes, more closely resembling biological neurons. In SNNs, information is encoded not in the magnitude of activation but in the timing and frequency of spikes—a paradigm known as temporal coding. \\
-
-% \noindent The dynamic state of a spiking neuron evolves according to differential equations such as those in the LIF model described in previous section. Networks of such neurons can perform complex computations, including pattern recognition, signal processing, and control tasks.\\
-
-% SNNs are particularly well-suited for implementation on neuromorphic hardware due to their:
-
-% Sparsity: Most neurons are inactive at any given time, reducing energy consumption.
-
-% Locality: Updates and communication occur between neighboring units, minimizing global data traffic.
-
-% Temporal Processing: Inherent ability to handle time-series data and asynchronous signals.
-
 \noindent The learning process in neuromorphic systems can be categorised into three distinct approaches: supervised learning, unsupervised learning, and reinforcement-based learning \cite{stone2019artificial}. Nevertheless, with respect to biorealistic implementation, unsupervised, local learning is most aligned with the biological model. \\
 
 \noindent Biorealistic learning draws upon the empirical laws of synaptic plasticity observed in biological systems. Central among these are Hebbian Learning \cite{kempter1999hebbian} which stated "Neurons that fire together wire together." This principle is often expressed in simplified form as:\\
@@ -517,7 +385,7 @@ Where $\mu$ is a mobility parameter dependent on the device materials and struct
 
 \noindent Where $\Delta w_{ij}$ is the change in synaptic weight between pre-synaptic neuron $i$ and post-synaptic neuron $j$, $x_i$ and $y_i$ are the activity levels of the respective neurons, $\eta$ is the learning rate. \\
 
-\noindent Hebbian learning is predicated on the premise that the strength of a synapse is enhanced by co-activity between pre- and post-synaptic neurons \cite{frenkel2019morphic}. Alternatively, STDP is atemporally-sensitive variant of Hebbian learning, a concept that has already been covered in the preceding section. Homeostatic plasticity is a global mechanism that ensures that overall neural activity remains within functional bounds. This is analogous to metabolic regulation in biology.\\
+\noindent Hebbian learning is predicated on the premise that the strength of a synapse is enhanced by co-activity between pre- and post-synaptic neurons \cite{frenkel2019morphic}. Alternatively, STDP is a temporally-sensitive variant of Hebbian learning, a concept that has already been covered in the preceding section. Homeostatic plasticity is a global mechanism that ensures that overall neural activity remains within functional bounds. This is analogous to metabolic regulation in biology.\\
 
 \noindent These mechanisms are often implemented using local circuit rules. For instance, in memristive implementations of STDP, pulse timing determines the net change in conductance of a memristor. The result is a physical device whose behavior embodies the learning rule itself. In digital systems, learning involves weight updates of the form:
 \begin{align}
@@ -557,7 +425,7 @@ As neuromorphic systems aspire to emulate biological intelligence, the implement
     C_m \frac{dV_m}{dt} = -\frac{V_m}{R_m} + \sum_{i} G_i(t) \cdot x_i(t) \label{eq:2.36}
 \end{align}
 
-\noindent Where $C_m$ and $R_m$ are are the membrane capacitance and leakage resistance respectively. When $V_m$ exceeds a threshold $V_th$, the neuron spikes and resets. Synaptic updates follow:
+\noindent Where $C_m$ and $R_m$ are are the membrane capacitance and leakage resistance, respectively. When $V_m$ exceeds a threshold $V_th$, the neuron spikes and resets. Synaptic updates follow:
 \begin{align}
     \Delta G_i(t) = f(\Delta t_i) \cdot Pulse_{pairing}(x_i(t), y(t)) \label{eq:2.37}
 \end{align}
@@ -566,7 +434,7 @@ As neuromorphic systems aspire to emulate biological intelligence, the implement
 
 \noindent An illustrative application of biorealistic learning is unsupervised pattern recognition. For instance, when exposed to MNIST digit images encoded as spiking input, memristive networks have been shown to learn digit prototypes using STDP.\\
 
-\noindent In such systems, Each input pixel is connected to neurons through memristive synapses. The input is converted to spike trains based on intensity. Competitive mechanisms such as winner-take-all inhibit multiple neurons from firing simultaneously. STDP strengthens synapses associated with active neurons and temporally correlated inputs. Over time, distinct neurons specialize in responding to specific digit patterns, emulating feature selectivity observed in biological cortical areas.\\
+\noindent In such systems, each input pixel is connected to neurons through memristive synapses. The input is converted to spike trains based on intensity. Competitive mechanisms such as winner-take-all inhibit multiple neurons from firing simultaneously. STDP strengthens synapses associated with active neurons and temporally correlated inputs. Over time, distinct neurons specialize in responding to specific digit patterns, emulating feature selectivity observed in biological cortical areas.\\
 
 \noindent Unbounded synaptic growth has the potential to destabilise learning. It is evident that biological systems utilise homeostatic mechanisms in order to maintain equilibrium between synapses and network stability. It is therefore imperative to acknowledge that analogous mechanisms are indispensable in memristive networks. \\
 
@@ -647,7 +515,7 @@ While memristive hardware presents novel capabilities for energy-efficient, biol
 
 \noindent The physical constraints of memristive arrays—such as array size, non-idealities, and fixed connectivity—call for efficient placement and routing algorithms to distribute large neural models across hardware. The key design constraints here are the fan-in/fan-out limits with physical wiring impose a restriction on the number of connections that can be established between neurons. The synaptic locality dictates that connections are most efficacious when mapped to nearby memory cells. Event congestion, characterised by the influx of spikes, can lead to the saturation of routers if not load-balanced.\\
 
-\noindent In order to optimise for these constraints, mapping tools employ graph partitioning and spatial locality heuristics. This ensures that neurons which interact frequently are co-located, synapses with high activity are placed on reliable memory cells, and event routing is sparse and non-overlapping. Memristive devices are inherently stochastic and are subject to issues such as cycle-to-cycle variability, device-to-device variation, drift and age-related degradation. The utilisation of software-based compensation algorithms has been identified as a means of mitigating these effects. \\
+\noindent In order to optimise for these constraints, mapping tools employ graph partitioning and spatial locality heuristics. This ensures that neurons which interact frequently are co-located, synapses with high activity are placed on reliable memory cells, and event routing is sparse and non-overlapping. Memristive devices are inherently stochastic and are subject to issues such as cycle-to-cycle variability, device-to-device variation, drift and age-related degradation. The utilisation of software-based compensation algorithms has been identified as a means of mitigating these effects, in contrast to being utilized in biology. \\
 
 \noindent Examples of such methods include the write-verify loop is a programming technique that involves the iterative modification of conductance parameters until a predetermined target is attained. Adaptive learning rates are a process which adjust update magnitude dynamically based on noise. Redundancy encoding involves the distribution of synaptic weights across multiple devices, a strategy that is employed to enhance robustness. Moreover, homeostatic plasticity—a biologically inspired process where neuron activity is stabilized—can be implemented as a system-level feedback mechanism:
 \begin{align}
@@ -660,7 +528,7 @@ While memristive hardware presents novel capabilities for energy-efficient, biol
 
 \noindent For instance, NeuroSim and MNSIM offer device-aware simulation of crossbar-based spiking neural networks (SNNs), CARLsim supports GPU-accelerated emulation of spiking networks with STDP, and XNOR-Nets simulate low-precision inference to match memristive behaviour. These pipelines facilitate the testing of novel learning rules, the evaluation of scalability, and the validation of functional accuracy prior to the commitment of resources to silicon implementation.\\
 
-\noindent To bridge the gap between algorithm design and hardware execution, domain-specific languages and toolchains have emerged such asNengo, A high-level API for building SNNs with hardware backends. PyNN, A Python interface supporting multiple simulators and hardware targets. Loihi's NxSDK: A low-level toolchain for configuring on-chip learning and routing. \\
+\noindent To bridge the gap between algorithm design and hardware execution, domain-specific languages and toolchains have emerged such a sNengo, a high-level API for building SNNs with hardware backends. PyNN, a Python interface supporting multiple simulators and hardware targets. Loihi's NxSDK: A low-level toolchain for configuring on-chip learning and routing. \\
 
 \noindent Memristive neuromorphic systems are starting to integrate with these ecosystems, allowing a complete workflow in the following steps Model specification, Learning rule assignment, Hardware mapping, Runtime adaptation. The future of biorealistic learning on memristive networks depends on such co-designed environments that abstract away hardware complexity while maintaining biological plausibility and computational efficiency.
 
@@ -670,48 +538,50 @@ Experimental validation is crucial to assessing the practical effectiveness of b
 
 \noindent In order to assess the robustness and efficiency of memristive neural networks (MNNs), it is customary to utilise a number of benchmark tasks. The tasks have been meticulously designed to evaluate various aspects of learning, generalisation, and computational efficiency. The primary categories of benchmarks comprise pattern recognition and classification tasks, the purpose of which is to evaluate the capability of a network to identify patterns in data. \\
 
-\noindent The MNIST dataset is a commonly cited example of a set of handwritten digits. It is frequently employed to evaluate the fundamental classification capabilities of neuromorphic systems. CIFAR-10/100 is employed for the classification of images in tasks intended to evaluate the performance of networks when dealing with more complex visual data. Memristive networks are utilised for speech recognition tasks, encompassing the identification of spoken words or phonemes, thus providing a test case for temporal pattern recognition.\\
+\noindent The MNIST dataset is a commonly cited example of a set of handwritten digits. It is frequently employed to evaluate the fundamental classification capabilities of neuromorphic systems. This is a collection of handwritten digits taken from US zip codes written on envelopes \cite{lecun1998gradient}. The images have been heavily preprocessed to ensure that each one contains exactly one centred digit in high-contrast greyscale, essentially black and white. Optical character recognition of handwritten digits is a challenging task. The first successful attempt at this problem marked a turning point in machine learning. Although the dataset is no longer considered challenging for state-of-the-art methods, it is still commonly used as a benchmark for new models and methods due to its relatively small size. This allows for efficient training even with slower methods such as online learning and spike-based methods. \\
+
+\noindent The CIFAR-10 and CIFAR-100 datasets comprise small images (32 × 32 pixels) from 10 or 100 categories, respectively \cite{krizhevsky2009learning}. All images in this dataset are in full colour and were taken from the Tiny Images Dataset \cite{torralba200880}. Although the dataset is the same size as the SVHN dataset, it is considerably more challenging. Human performance on CIFAR-10 has been estimated to be 94\% accurate \cite{karpathy2011lessons}. CIFAR-100 is even more challenging due to the increased diversity of object categories. Each category encompasses a wide range of visual features and has a larger variety of object poses. For instance, CIFAR-10 includes a category named 'dog', which comprises images of various dog breeds captured from different angles and with diverse appearances. CIFAR-100 poses an additional challenge as it contains more categories, making it less likely to guess the correct one by chance. Furthermore, many of the categories are similar, such as 'shrew' and 'mouse', and it is challenging to distinguish between them consistently using small images taken from various angles. CIFAR-10/100 is employed for the classification of images in tasks intended to evaluate the performance of networks when dealing with more complex visual data. Memristive networks are utilised for speech recognition tasks, encompassing the identification of spoken words or phonemes, thus providing a test case for temporal pattern recognition.\\
 
 \noindent The evaluation of the ability of memristive networks to store and recall information is facilitated by memory and learning tasks. Examples include sequence learning, which tests the system's ability to learn temporal sequences (e.g. speech or music recognition tasks), and working memory, which evaluates the system's ability to hold and manipulate information over time (a critical aspect of biorealistic learning). \\
 
 \noindent Furthermore, the tasks employed in reinforcement learning evaluate the capacity of a network to optimise actions in accordance with environmental feedback, thereby simulating the adaptive characteristics of biological learning processes. For instance, Atari games have been utilised to evaluate the efficacy of memristive networks in acquiring sophisticated decision-making methodologies from pixel-based inputs. \\
 
-\noindent Each of these benchmarks serves the purpose of evaluating various performance metrics, including accuracy, which is defined as the percentage of accurate predictions or classifications made by the network; speed of learning, which is defined as the network's capacity to rapidly adapt to novel activities or scenarios; and efficiency of energy, which is measured by the ratio of energy usage per job. In order to assess energy consumption, memristive systems are often compared with traditional digital hardware platforms.\\
+\noindent Each of these benchmarks serves the purpose of evaluating various performance metrics, including accuracy, which is defined as the percentage of accurate predictions or classifications made by the network; speed of learning, which is defined as the network's capacity to rapidly adapt to novel activities or scenarios; and energy efficiency, which is measured by the ratio of energy usage per job. In order to assess energy consumption, memristive systems are often compared with traditional digital hardware platforms.\\
 
 \noindent Empirical studies involving memristive systems typically explore how memristive devices can be utilized to implement spiking neural networks (SNNs), leveraging both the computational power of memristive crossbar arrays and the temporal dynamics of biological neural models. In studies evaluating pattern recognition tasks (such as MNIST classification), memristive networks have demonstrated competitive results when compared to conventional deep learning algorithms. \\
 
 \noindent One example comes from the use of crossbar arrays with spike-timing-dependent plasticity (STDP) learning rules. A study using a 4-layer SNN on memristive hardware showed up to 97\% accuracy.  This result was achieved with an energy consumption reduction of up to 30\% compared to a traditional GPU-based deep learning model for similar accuracy. \\
 
-\noindent In memory tasks, such as sequence learning and working memory, memristive systems excel in their ability to emulate biological learning processes. A study utilizing a memristive recurrent neural network (RNN) for sequence prediction demonstrated that:
+\noindent In memory tasks, such as sequence learning and working memory, memristive systems excel in their ability to emulate biological learning processes. A study utilizing a memristive recurrent neural network (RNN) \cite{wang2018fully} for sequence prediction demonstrated that:
 \begin{align}
     E = \frac{1}{N} \sum_{i=1}^{N} \left| y_i - \hat{y}_i  \right| \label{eq:2.44}
 \end{align}
 
-\noindent Where $E$ is the error, $y_i$ is the true output, and $\hat{y}_i$ is the predicted output.  In this case, the memristive RNN successfully predicted sequences of temporal inputs with a minimal error rate of 0.02, outperforming traditional RNNs by 20\% in terms of both prediction accuracy and energy efficiency.\\
+\noindent where $E$ is the error, $y_i$ is the true output, and $\hat{y}_i$ is the predicted output. The memristive RNN successfully predicted sequences of temporal inputs that outperform traditional RNNs by 20\% in terms of both prediction accuracy and energy efficiency.\\
 
-\noindent Memristive networks also show promise in reinforcement learning tasks. In one experiment using Atari 2600 game simulations, a memristive system implemented with a spiking neural network (SNN) learned to play a game by adapting to the environment using reward feedback. The memristive SNN employed a biologically inspired reward-modulated plasticity rule:
+\noindent Memristive networks also show promise in reinforcement learning tasks. In one experiment using Atari 2600 game simulations \cite{bohnstingl2019reinforcement}, a memristive system implemented with a spiking neural network (SNN) learned to play a game by adapting to the environment using reward feedback. The memristive SNN employed a biologically inspired reward-modulated plasticity rule:
 \begin{align}
     \Delta w_{ij} = \eta \cdot \left( r_i - \alpha \cdot w_{ij} \right) \label{eq:2.45}
 \end{align}
 
-\noindent Where $\eta$ is the learning rate, $r_i$ is the reward, $\alpha$ is the decay factor, and $w_{ij}$ represents the weight between neurons $i$ and $j$. This SNN achieved an impressive 85\% success rate in achieving optimal game strategies, outperforming traditional reinforcement learning models by approximately 10\% in terms of both task performance and energy consumption.\\
+\noindent where $\eta$ is the learning rate, $r_i$ is the reward, $\alpha$ is the decay factor, and $w_{ij}$ represents the weight between neurons $i$ and $j$. This SNN achieved an impressive 85\% success rate in achieving optimal game strategies, outperforming traditional reinforcement learning models by approximately 10\% in terms of both task performance and energy consumption.\\
 
-\noindent One of the main advantages of memristive systems is their energy efficiency. Compared to traditional von Neumann architectures, memristive devices excel at massively parallel computation with low energy cost. When implementing algorithms such as STDP, memristive networks require significantly fewer energy resources. For example, a memristive chip consuming 1 watt can perform tasks that would require 100 watts on a conventional CPU or GPU. \\
+\noindent One of the main advantages of memristive systems is their energy efficiency. Compared to traditional von Neumann architectures, memristive devices excel at massively parallel computation with low energy cost. When implementing algorithms such as STDP, memristive networks require significantly fewer energy resources. For example, a memristive chip consuming 1 watt can perform tasks that would require 100 watts on a conventional CPU or GPU \cite{prezioso2015training}. \\
 
-\noindent Moreover, the non-volatility of memristive devices allows for permanent synaptic weight storage, which is particularly useful for neuromorphic systems that operate continuously and in real-time. This feature reduces the need for frequent memory refresh operations, making memristive systems inherently more power-efficient.\\
+\noindent Moreover, memristive devices allows for permanent synaptic weight storage, which is particularly useful for neuromorphic systems that operate continuously and in real-time. This feature reduces the need for frequent memory refresh operations, making memristive systems inherently more power-efficient.\\
 
-\noindent Despite these advantages, there are inherent challenges in scaling memristive networks. Memristive devices suffer from device-to-device variations, where the conductance change may differ between identical devices due to manufacturing differences. These discrepancies must be handled via calibration techniques or redundancy. \\
+\noindent Despite these advantages, there are inherent challenges in scaling memristive networks. Memristive devices suffer from device-to-device variations, where the conductance change may differ between identical devices under the same stimulation conditions due to manufacturing differences. These discrepancies must be handled via calibration techniques or redundancy. \\
 
 \noindent As the number of memristive devices on a chip increases, the risk of crosstalk (interference between adjacent devices) also increases. To mitigate this, advanced routing and encoding strategies must be employed to isolate signal paths and minimize errors. Memristive devices generally offer lower precision compared to traditional digital circuits. To handle this, techniques like quantization, error correction, and approximate computing can be utilized to maintain system performance within acceptable bounds.\\
 
 \noindent As research progresses, experimental validations are likely to evolve to explore more complex real-world tasks. In the field of brain emulation, significant progress has been made in recent years, with research focusing on the development of large-scale networks that emulate the complex functions of the human brain. These networks utilise memristive chips, which have emerged as a key component in the modelling of higher-order cognitive processes, such as reasoning, decision-making, and emotional responses. The future direction of this research is expected to involve the creation of more sophisticated networks that can model these cognitive functions more accurately and effectively, paving the way for new applications in fields such as artificial intelligence and neuroscience. \\
 
-\noindent The integration of neuroprosthetics with memristive systems into wearable neural interfaces has the potential to augment or restore sensory or motor functions in humans. The integration of synthetic biology in future studies may explore the convergence of memristive networks and synthetic biology, where biological neurons and memristive devices coexist in hybrid systems for the purpose of enhancing learning capabilities. The long-term potential of memristive neuromorphic systems lies in their ability to mirror biological computation, offering vast improvements in energy efficiency, processing power, and scalability.
+\noindent The integration of neuroprosthetics with memristive systems into wearable neural interfaces has the potential to augment or restore sensory or motor functions in humans. The integration of synthetic biology in future studies may explore the convergence of memristive networks and synthetic biology, where biological neurons and memristive devices coexist in hybrid systems enhance learning capabilities. The long-term potential of memristive neuromorphic systems lies in their ability to mirror biological computation, offering vast improvements in energy efficiency, processing power, and scalability.
 
 \section[Summary]{Summary}
 
 \noindent Memristive networks are a state-of-the-art approach to creating systems with the capacity for biorealistic learning and adaptive behaviour. Memristive devices have been shown to possess a unique capacity for modelling synaptic plasticity, thereby facilitating the development of mimetic computational processes that emulate those observed in biological systems. The potential applications of these systems are extensive, ranging from robotics and AI to neuroprosthetics and brain-computer interfaces.\\
 
-\noindent As research continues to address the challenges of device performance, scalability, learning algorithms, and integration with biological systems, the full potential of memristive networks is becoming more apparent. Nevertheless, it is imperative that these advancements are accompanied by a meticulous examination of the ethical and societal ramifications of these technologies.\\
+\noindent As research continues to address the challenges of device performance, scalability, learning algorithms, and integration with biological systems, the full potential of memristive networks is becoming more apparent. Nevertheless, it is imperative that these advancements are accompanied by a meticulous examination of the ethical and societal ramifications of these technologies. This is outside the scope of this study.\\
 
 \noindent In the coming years, it is anticipated that a paradigm shift will occur in the manner by which machines learn and interact with the world. This revolution will be spearheaded by memristive networks. The development of biorealistic learning on memristive networks has the potential to create more intelligent, adaptive, and energy-efficient systems, with the capacity to transform fields as diverse as robotics, AI, neuroscience, and medicine.

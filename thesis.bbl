@@ -100,6 +100,11 @@ Bill, J. and Legenstein, R. (2014).
   stdp in spiking neural networks.
 \newblock {\em Frontiers in neuroscience}, 8:412.
 
+\bibitem[Bohnstingl et~al., 2019]{bohnstingl2019reinforcement}
+Bohnstingl, T., Tuma, T., Pantazi, A., and Eleftheriou, E. (2019).
+\newblock Reinforcement learning with memristive networks.
+\newblock {\em Scientific Reports}, 9(1):6818.
+
 \bibitem[Bohte et~al., 2002]{bohte2002error}
 Bohte, S.~M., Kok, J.~N., and La~Poutre, H. (2002).
 \newblock Error-backpropagation in temporally encoded networks of spiking
@@ -450,6 +455,12 @@ Ge, N., Zhang, M., Zhang, L., Yang, J.~J., Li, Z., and Williams, R.~S. (2014).
 \newblock Electrode-material dependent switching in taox memristors.
 \newblock {\em Semiconductor Science and Technology}, 29(10):104003.
 
+\bibitem[Georgopoulos et~al., 1982]{georgopoulos1982relations}
+Georgopoulos, A.~P., Kalaska, J.~F., Caminiti, R., and Massey, J.~T. (1982).
+\newblock On the relations between the direction of two-dimensional arm
+  movements and cell discharge in primate motor cortex.
+\newblock {\em Journal of Neuroscience}, 2(11):1527--1537.
+
 \bibitem[Gerstner et~al., 2014]{gerstner2014neuronal}
 Gerstner, W., Kistler, W.~M., Naud, R., and Paninski, L. (2014).
 \newblock {\em Neuronal dynamics: From single neurons to networks and models of
@@ -765,6 +776,12 @@ Kappel, D., Nessler, B., and Maass, W. (2014).
   hidden markov model learning.
 \newblock {\em PLoS computational biology}, 10(3):e1003511.
 
+\bibitem[Karpathy, 2011]{karpathy2011lessons}
+Karpathy, A. (2011).
+\newblock Lessons learned from manually classifying cifar-10.
+\newblock {\em Published online at http://karpathy. github.
+  io/2011/04/27/manually-classifying-cifar10}.
+
 \bibitem[Kempter et~al., 1999]{kempter1999hebbian}
 Kempter, R., Gerstner, W., and Van~Hemmen, J.~L. (1999).
 \newblock Hebbian learning and spiking neurons.
@@ -844,6 +861,10 @@ Kozicki, M.~N., Mitkova, M., and Valov, I. (2016).
 \newblock {\em Resistive switching: from fundamentals of nanoionic redox
   processes to memristive device applications}, pages 483--514.
 
+\bibitem[Krizhevsky et~al., 2009]{krizhevsky2009learning}
+Krizhevsky, A., Hinton, G., et~al. (2009).
+\newblock Learning multiple layers of features from tiny images.
+
 \bibitem[Krizhevsky et~al., 2012]{krizhevsky2012imagenet}
 Krizhevsky, A., Sutskever, I., and Hinton, G.~E. (2012).
 \newblock Imagenet classification with deep convolutional neural networks.
@@ -889,6 +910,11 @@ Lapique, L. (1907).
 \newblock Researches quantatives sur l'excitation electrique des nerfs traitee
   comme une polarization.
 \newblock {\em Journal of Physiology, Pathology and Genetics}, 9:620--635.
+
+\bibitem[LeCun et~al., 1998]{lecun1998gradient}
+LeCun, Y., Bottou, L., Bengio, Y., and Haffner, P. (1998).
+\newblock Gradient-based learning applied to document recognition.
+\newblock {\em Proceedings of the IEEE}, 86(11):2278--2324.
 
 \bibitem[Lee et~al., 2019]{lee2019charge}
 Lee, J., Schell, W., Zhu, X., Kioupakis, E., and Lu, W.~D. (2019).
@@ -1295,6 +1321,13 @@ Prakash, A. and Hwang, H. (2016).
   random access memory.
 \newblock {\em Physical Sciences Reviews}, 1(6):20160010.
 
+\bibitem[Prezioso et~al., 2015]{prezioso2015training}
+Prezioso, M., Merrikh-Bayat, F., Hoskins, B., Adam, G.~C., Likharev, K.~K., and
+  Strukov, D.~B. (2015).
+\newblock Training and operation of an integrated neuromorphic network based on
+  metal-oxide memristors.
+\newblock {\em Nature}, 521(7550):61--64.
+
 \bibitem[Prezioso et~al., 2016]{prezioso2016self}
 Prezioso, M., Merrikh~Bayat, F., Hoskins, B., Likharev, K., and Strukov, D.
   (2016).
@@ -1518,6 +1551,13 @@ Teeter, C., Iyer, R., Menon, V., Gouwens, N., Feng, D., Berg, J., Szafer, A.,
 Tien, N.-W. and Kerschensteiner, D. (2018).
 \newblock Homeostatic plasticity in neural development.
 \newblock {\em Neural development}, 13(1):1--7.
+
+\bibitem[Torralba et~al., 2008]{torralba200880}
+Torralba, A., Fergus, R., and Freeman, W.~T. (2008).
+\newblock 80 million tiny images: A large data set for nonparametric object and
+  scene recognition.
+\newblock {\em IEEE transactions on pattern analysis and machine intelligence},
+  30(11):1958--1970.
 
 \bibitem[Toyoizumi et~al., 2004]{toyoizumi2004spike}
 Toyoizumi, T., Pfister, J.-P., Aihara, K., and Gerstner, W. (2004).

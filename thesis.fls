@@ -1,6 +1,6 @@
-PWD c:\Users\User\git\PhD-Dissertation
+PWD c:\Users\User\git\phd-dissertation
 INPUT C:\Users\User\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\User\git\PhD-Dissertation\thesis.tex
+INPUT c:\Users\User\git\phd-dissertation\thesis.tex
 OUTPUT thesis.log
 INPUT .\Classes\PhDThesisPSnPDF.cls
 INPUT Classes\PhDThesisPSnPDF.cls
