@@ -569,12 +569,6 @@ Hebb, D.~O. (2005).
 \newblock {\em The organization of behavior: A neuropsychological theory}.
 \newblock Psychology Press.
 
-\bibitem[Hirose and Hirose, 1976]{hirose1976polarity}
-Hirose, Y. and Hirose, H. (1976).
-\newblock Polarity-dependent memory switching and behavior of ag dendrite in
-  ag-photodoped amorphous as2s3 films.
-\newblock {\em Journal of Applied Physics}, 47(6):2767--2772.
-
 \bibitem[Hochstetter et~al., 2021]{hochstetter2021avalanches}
 Hochstetter, J., Zhu, R., Loeffler, A., Diaz-Alvarez, A., Nakayama, T., and
   Kuncic, Z. (2021).
@@ -864,6 +858,7 @@ Kozicki, M.~N., Mitkova, M., and Valov, I. (2016).
 \bibitem[Krizhevsky et~al., 2009]{krizhevsky2009learning}
 Krizhevsky, A., Hinton, G., et~al. (2009).
 \newblock Learning multiple layers of features from tiny images.
+\newblock {\em Technical Report, University of Toronto}.
 
 \bibitem[Krizhevsky et~al., 2012]{krizhevsky2012imagenet}
 Krizhevsky, A., Sutskever, I., and Hinton, G.~E. (2012).
