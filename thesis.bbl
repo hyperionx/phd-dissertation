@@ -1183,6 +1183,11 @@ Mehonic, A., Joksas, D., Ng, W.~H., Buckwell, M., and Kenyon, A.~J. (2019).
 \newblock Simulation of inference accuracy using realistic rram devices.
 \newblock {\em Frontiers in neuroscience}, 13:593.
 
+\bibitem[Mehonic and Kenyon, 2016]{mehonic2016silicon}
+Mehonic, A. and Kenyon, A.~J. (2016).
+\newblock Silicon oxide resistive random access memory devices.
+\newblock {\em Microelectronic Engineering}, 178:98--103.
+
 \bibitem[Mehonic et~al., 2017]{mehonic2017intrinsic}
 Mehonic, A., Munde, M.~S., Ng, W., Buckwell, M., Montesi, L., Bosman, M.,
   Shluger, A., and Kenyon, A. (2017).
@@ -1718,6 +1723,12 @@ Warren, W., Fleetwood, D., Schwank, J., Shaneyfelt, M., Draper, B., Winokur,
   2//si structures.
 \newblock {\em IEEE Transactions on Nuclear Science}, 44(6):1789--1798.
 
+\bibitem[Waser and Aono, 2007]{waser2007redox}
+Waser, R. and Aono, M. (2007).
+\newblock Redox-based resistive switching memories – nanoionic mechanisms,
+  prospects, and challenges.
+\newblock {\em Nature Materials}, 6(11):833--840.
+
 \bibitem[Waser et~al., 1990a]{waser1990dcI}
 Waser, R., Baiatu, T., and H{\"a}rdtl, K.-H. (1990a).
 \newblock Dc electrical degradation of perovskite-type titanates: I, ceramics.
@@ -1728,6 +1739,12 @@ Waser, R., Baiatu, T., and H{\"a}rdtl, K.-H. (1990b).
 \newblock Dc electrical degradation of perovskite-type titanates: Ii, single
   crystals.
 \newblock {\em Journal of the American Ceramic Society}, 73(6):1654--1662.
+
+\bibitem[Waser et~al., 2009]{waser2009redox}
+Waser, R., Dittmann, R., Staikov, G., and Szot, K. (2009).
+\newblock Redox-based resistive switching memories--nanoionic mechanisms,
+  prospects, and challenges.
+\newblock {\em Advanced materials}, 21(25-26):2632--2663.
 
 \bibitem[Wei et~al., 2008]{wei2008highly}
 Wei, Z., Kanzawa, Y., Arita, K., Katoh, Y., Kawai, K., Muraoka, S., Mitani, S.,
