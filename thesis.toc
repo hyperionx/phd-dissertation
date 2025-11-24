@@ -26,13 +26,14 @@
 \contentsline {section}{\numberline {3.2}Electrical characteristics}{51}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Unipolar Switching Mode}{52}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Bipolar Switching Mode}{57}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Alternative Operating Modes}{61}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.3}Alternative Operating Modes}{60}{subsection.3.2.3}%
 \contentsline {section}{\numberline {3.3}Resistive Switching in Silicon Oxide}{64}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Conduction Mechanisms}{65}{subsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.1.1}Fowler-Nordheim Tunnelling}{68}{subsubsection.3.3.1.1}%
-\contentsline {subsubsection}{\numberline {3.3.1.2}Poole-Frenkel Hopping}{69}{subsubsection.3.3.1.2}%
-\contentsline {subsubsection}{\numberline {3.3.1.3}Thermionic Emission}{70}{subsubsection.3.3.1.3}%
-\contentsline {subsubsection}{\numberline {3.3.1.4}Trap Assisted Tunnelling}{72}{subsubsection.3.3.1.4}%
+\contentsline {subsubsection}{\numberline {3.3.1.1}Direct Tunnelling}{65}{subsubsection.3.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.2}Fowler-Nordheim Tunnelling}{68}{subsubsection.3.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.3.1.3}Poole-Frenkel Hopping}{69}{subsubsection.3.3.1.3}%
+\contentsline {subsubsection}{\numberline {3.3.1.4}Thermionic Emission}{70}{subsubsection.3.3.1.4}%
+\contentsline {subsubsection}{\numberline {3.3.1.5}Trap Assisted Tunnelling}{72}{subsubsection.3.3.1.5}%
 \contentsline {subsection}{\numberline {3.3.2}Switching Model Analysis}{72}{subsection.3.3.2}%
 \contentsline {section}{\numberline {3.4}Summary}{76}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Current Transients in Memristive Devices}{81}{chapter.4}%
