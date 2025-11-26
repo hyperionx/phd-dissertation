@@ -655,6 +655,11 @@ Indiveri, G. (2021).
 \newblock Introducing ‘neuromorphic computing and engineering’.
 \newblock {\em Neuromorphic Computing and Engineering}, 1(1):010401.
 
+\bibitem[Izhikevich, 2003]{izhikevich2003simple}
+Izhikevich, E.~M. (2003).
+\newblock Simple model of spiking neurons.
+\newblock {\em IEEE Transactions on neural networks}, 14(6):1569--1572.
+
 \bibitem[Jain and Raghunathan, 2019]{jain2019cxdnn}
 Jain, S. and Raghunathan, A. (2019).
 \newblock Cxdnn: Hardware-software compensation methods for deep neural
