@@ -74,19 +74,19 @@
 \contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{164}{subsection.6.3.1}%
 \contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{168}{subsection.6.3.2}%
 \contentsline {subsection}{\numberline {6.3.3}Computation Performance}{171}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Summary}{174}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{177}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Optimisation Motivations}{177}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Analogue Hardware Challenges}{177}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{179}{subsection.7.1.2}%
-\contentsline {section}{\numberline {7.2}Homeostasis Regularization}{181}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{182}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{185}{subsection.7.2.2}%
-\contentsline {section}{\numberline {7.3}Biosignal Processing}{188}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{189}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{191}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Summary}{194}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{197}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Thesis Review}{197}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Future Works}{199}{section.8.2}%
-\contentsline {chapter}{References}{203}{chapter*.91}%
+\contentsline {section}{\numberline {6.4}Summary}{176}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{179}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Optimisation Motivations}{179}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Analogue Hardware Challenges}{179}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{181}{subsection.7.1.2}%
+\contentsline {section}{\numberline {7.2}Homeostasis Regularization}{183}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{184}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{187}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Biosignal Processing}{190}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{191}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{193}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Summary}{196}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{199}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Thesis Review}{199}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Future Works}{201}{section.8.2}%
+\contentsline {chapter}{References}{205}{chapter*.92}%

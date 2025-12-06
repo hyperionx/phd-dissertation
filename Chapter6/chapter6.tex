@@ -382,7 +382,6 @@ a^{t+1} &= a^t - \frac{a^t}{\tau_{syn}} + \sum_{n}\delta\left( t - t_i^n \right)
 
 \noindent The intricate dynamics of the MIF neuronal network are now accounted for in the MSNN, which is unrolled in time such that gradient descent can optimize the memristive synapses as a function of the MIF evolution. The discrete-time solution can be illustrated as a directed, acyclic graph, where time flows in one direction. To train a network, a loss function is calculated using the membrane potential \textit{v} of the output layer at each step. It should be noted that the adjoint method \cite{chen2018neural} is normally not adopted, as an intermediate state is required to calculate the loss and guide the training process for each time step. The focus is on the spiking output at all time steps, rather than just the final system state, making BPTT a more optimal choice.\\
 
-
 \noindent The predicted MIF neuron is expected to spike most frequently by aiming to increase the membrane potential across time steps, while the incorrect target should be suppressed. Given that membrane dynamics are continuous, it is possible to train a fully analogue MSNN, as has become the norm in training deep SNNs via error backpropagation \cite{neftci2019surrogate}. The BPTT algorithm employs iterative application of the chain rule from the output back to the leaf nodes to determine the optimal update direction for the network \cite{eshraghian2023training}, with previous demonstrations treating w as the device conductance. This approach offers a more biorealistic representation and can be fully integrated using RRAM crossbars.
 
 \subsection[Conductance Mapping]{Conductance Mapping}
@@ -390,11 +389,9 @@ a^{t+1} &= a^t - \frac{a^t}{\tau_{syn}} + \sum_{n}\delta\left( t - t_i^n \right)
 
 \noindent The approaches described in the preceding sections pertained to memristive neural networks (MNNs) trained through conventional methodologies without considering non-idealities. The primary challenge lies in the discrepancy between conventional SNNs and MNNs. The former's synapses typically exhibit consistent, often linear, responses. In contrast, MNNs utilize memristor-implemented synapses, which can become fixed in a particular state, exhibit varying responses over time due to retention or random telegraph noise (RTN), and even produce nonlinear outputs (I-V nonlinearity).\\
 
-
 \noindent A substantial proportion of the literature addressing memristor nonidealities focuses on hardware-level modifications. These may entail: modifications to the device structure \cite{fang2018improvement}; additional circuitry \cite{ambrogio2018equivalent, li2018analogue}; programming and mapping schemes \cite{xia2017stuck}; and in-situ retraining \cite{chen2017accelerator, jain2019cxdnn, wang2020ssm, li2019build}. However, these techniques may have drawbacks. For example, pulse-width modulation \cite{amirsoleimani2020memory} may minimize I-V nonlinearities at the cost of increased clock cycles \cite{cai2019fully}. Furthermore, hardware-level changes are often technology-specific, hindering broad applicability.\\
 
 \noindent As an alternative, techniques that do not interfere with hardware, such as committee machines (CMs), may be employed. These improve MNN performance by combining them and require only the average of crossbar array outputs \cite{joksas2020committee}. Additionally, modifications to ex situ training have been previously proposed. Common approaches include adjusting the loss function \cite{zhu2020statistical} or introducing noise into synaptic weights \cite{he2019noise} or conductances that implement those weights \cite{joshi2020accurate}, thereby enhancing MNN resilience to non-idealities. It is evident that ex situ training represents a promising methodology for enhancing MNN feasibility.\\
-
 
 \noindent However, previous approaches have considered only a limited number of non-idealities. For example, injecting noise into conductances is insufficient in many situations, as the effect of non-idealities like I-V nonlinearity cannot be represented solely by weight disturbance. Furthermore, conventional weight implementations do not map naturally to resistive crossbar arrays, while training validation schemes are not well suited to the often stochastic nature of MNNs. This research focuses on enhancing the efficacy of \textit{ex-situ} training of memristive SNNs, while also evaluating this approach's resilience. To this end, data from a  $SiO_x$  memristive device is employed, complemented by insights from existing literature.\\
 
@@ -418,7 +415,6 @@ y_j = f\left( \sum_{i=1}^{M} x_i, w_{ij} \right) \label{eq:6.24}
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} g \left( x_i, w_{ij} \right) \right) \label{eq:6.25}
 \end{align}
-
 
 \noindent To account for memristor non-ohmic behavior, Function \textit{g} must be modified to reflect the specific characteristics of the mapping scheme between weights and conductances, as well as the non-ohmic device behavior model, which typically depends on the device type employed \cite{joksas2022nonideality}.\\
 
@@ -580,30 +576,36 @@ with $\beta$ controlling steepness. During forward passes, real spiking behavior
 
 \subsection[Computation Performance]{Computation Performance}
 
-
-As Figure \ref{fig:6j} illustrates, the training curves for MSNNs exposed to I-V nonlinearities (blue) closely track the test curves (orange), both stabilizing at a loss value of approximately 20. This indicates that the non-ideality-aware training strategy successfully enables the network to learn, even in the presence of device imperfections, without significant overfitting to the training data.\\
-
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/j.png}
-    \caption[Training results for standard and memristive schemes when exposed to I-V nonlinearities.]{Training results for standard and memristive schemes when exposed to I-V nonlinearities.}
+    \includegraphics[width=0.9\textwidth]{Chapter6/Figs/j.png}
+    \caption[Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions]{Test Loss Comparison (left) and Test Accuracy Comparison (right) for a fully-connected Spiking Neural Network (SNN) model under two conditions: Ideal Conductance (blue) and Memristive Conductance (orange).}
     \label{fig:6j}
 \end{figure}
 
-\noindent However, a notable difference emerges when comparing these to the ideal SNN configurations (red/green). The ideal models consistently achieve significantly lower loss values, around 10, and reach their global minimum much faster—at approximately 100 iterations compared to 400 for the memristive training. This disparity underscores a fundamental challenge: while memristors offer incredible advantages for on-chip learning, their inherent non-idealities introduce a "cost" in terms of learning efficiency and achievable performance ceiling. \\
+% As Figure \ref{fig:6j} illustrates, the training curves for MSNNs exposed to I-V nonlinearities (blue) closely track the test curves (orange), both stabilizing at a loss value of approximately 20. This indicates that the non-ideality-aware training strategy successfully enables the network to learn, even in the presence of device imperfections, without significant overfitting to the training data.\\
 
-\noindent The increased loss and slower convergence in the memristive models suggest that the training algorithm must work harder to navigate a more complex and irregular error landscape introduced by the non-linear and variable device characteristics. Essentially, the noise and non-linearity from the memristors make it a bumpier road to the optimal solution, requiring more steps and resulting in a less perfect final state.\\
+\noindent As Figure \ref{fig:6j} (left) The Ideal Conductance model (blue line) demonstrates a significantly faster and more effective convergence, with the loss rapidly decreasing from over 20 to approximately 5 within the first few iterations, before fluctuating between 3 and 5 for the remainder of the training. In contrast, the Memristive Conductance model (orange line) exhibits a much higher and slower-decaying loss. It starts at a loss of nearly 30 and only gradually decreases to around 12 after 18 iterations. The distinct separation between the two curves highlights that the non-ideal effects of the memristive devices—which include factors like non-linear conductance updates—result in a higher loss during training compared to the idealized model. This necessitates non-ideality-aware training to mitigate performance degradation.\\
 
-\noindent Figure \ref{fig:6k} presents a direct comparison of SNN and CSNN model accuracies from a single training run, while Table \ref{table:6a} quantifies these across multiple runs due to the stochastic nature of the non-idealities. Both ideal SNN (red) and CSNN (green) models exhibited rapid convergence, consistently achieving accuracies exceeding 90\% (91.73\% for SNN, 93.42\% for CSNN). This demonstrates their robust performance under ideal conditions on the MNIST dataset.\\
+
+\noindent Figure \ref{fig:6j} (right) compares the Accuracy of the two models across training Iterations. The Ideal Conductance model (blue line) achieves rapid and high accuracy. The accuracy quickly rises to over 80\% and consistently stabilizes at a high level, fluctuating around 85\% to 90\%. The Memristive Conductance model (orange line) demonstrates slower convergence and significantly lower overall accuracy. It starts below 20\% and gradually improves, but its accuracy remains noticeably lower than the ideal model, reaching approximately 80\% after 18 iterations. The lower accuracy of the memristive model directly reflects the impact of device non-idealities on the network's ability to learn representative features and correctly classify inputs. Despite the degradation, the model is shown to retain a high degree of accuracy (around 80\%), supporting the observation that SNNs possess a degree of tolerance for device non-linearity. This is consistent with the finding that fully-connected memristive SNNs (MSNNs) achieved an accuracy of $79.54\pm3.86\%$ in the study. \\
+
+% \noindent However, a notable difference emerges when comparing these to the ideal SNN configurations (red/green). The ideal models consistently achieve significantly lower loss values, around 10, and reach their global minimum much faster—at approximately 100 iterations compared to 400 for the memristive training. This disparity underscores a fundamental challenge: while memristors offer incredible advantages for on-chip learning, their inherent non-idealities introduce a "cost" in terms of learning efficiency and achievable performance ceiling. \\
+
+% \noindent The increased loss and slower convergence in the memristive models suggest that the training algorithm must work harder to navigate a more complex and irregular error landscape introduced by the non-linear and variable device characteristics. Essentially, the noise and non-linearity from the memristors make it a bumpier road to the optimal solution, requiring more steps and resulting in a less perfect final state.\\
+
+% \noindent Figure \ref{fig:6k} presents a direct comparison of SNN and CSNN model accuracies from a single training run, while Table \ref{table:6a} quantifies these across multiple runs due to the stochastic nature of the non-idealities. Both ideal SNN (red) and CSNN (green) models exhibited rapid convergence, consistently achieving accuracies exceeding 90\% (91.73\% for SNN, 93.42\% for CSNN). This demonstrates their robust performance under ideal conditions on the MNIST dataset.\\
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/k.png}
-    \caption[Comparison of different SNN performance when implemented with I-V nonlinearities from a single training run.]{Comparison of different SNN performance when implemented with I-V nonlinearities from a single training run.}
+    \includegraphics[width=0.9\textwidth]{Chapter6/Figs/k.png}
+    \caption[Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions]{Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions: Ideal Conductance (blue) and Memristive Conductance (orange).}
     \label{fig:6k}
 \end{figure}
 
-\noindent When subjected to non-ideality-aware training, both architectures experienced a performance drop, as expected. The memristive convolutional SNN (MCSNN, blue) achieved accuracies exceeding 85\% (81.21\% average), while the fully connected MSNN (orange) settled above 79\% (79.54\% average). Although both are viable, the MCSNN consistently outperformed the MSNN in the presence of non-idealities, and the MSNN generally required more epochs to learn its convolutional counterpart.\\
+\noindent Figure \ref{fig:6k} (left) compares the Loss of the two convolutional SNN models across training iterations. The Ideal Conductance model (blue line), which represents perfect synaptic behavior, shows rapid convergence with the loss quickly decreasing from over 20 to approximately 5 within the first few iterations. The loss then stabilizes around a low value, fluctuating between 3 and 5. Conversely, the Memristive Conductance model (orange line) demonstrates a significantly higher and more gradually decreasing loss. The loss starts at a high value (nearly 30) and slowly drops to approximately 12 after 18 iterations. The substantial difference in the loss curves indicates that the non-ideal effects present in the memristive implementation, such as I-V nonlinearities, impede the network's ability to minimize the loss function as effectively as the ideal scheme.\\
+
+\noindent Figure \ref{fig:6k} (right) compares the Accuracy of the two convolutional SNN models across training iterations. The Ideal Conductance model (blue line) achieves rapid and robust performance, with accuracy quickly rising to over 80\% within the initial iterations and stabilizing at a high level, fluctuating around 85\% to 90\%. This model successfully converges and demonstrates high performance. The Memristive Conductance model (orange line) exhibits slower convergence and significantly lower overall accuracy. While it shows an increasing trend, its accuracy remains substantially lower than the ideal model, reaching approximately 80\% after 18 iterations. The higher variability and lower baseline accuracy in the memristive model directly result from the degradation of performance due to device non-idealities. Despite the performance degradation caused by non-ideality-aware training, the memristive convolutional SNN model (MCSNN) is shown to retain a high degree of accuracy (achieving $\sim 80\%$), which is consistent with the study's finding that SNNs possess a degree of tolerance for device non-linearity while maintaining high classification accuracy.\\
 
 \begin{table}[!t]
     \caption{Model Accuracy for different SNN configurations}
@@ -619,18 +621,29 @@ As Figure \ref{fig:6j} illustrates, the training curves for MSNNs exposed to I-V
     \vspace*{-\baselineskip}
 \end{table}
 
+\noindent When subjected to non-ideality-aware training, both architectures experienced a performance drop, as expected (Table \ref{table:6a}). The memristive convolutional SNN achieved accuracies exceeding 85\% (81.21\% average), while the fully connected MSNN settled above 79\% (79.54\% average). Although both are viable, the MCSNN consistently outperformed the MSNN in the presence of non-idealities, and the MSNN generally required more epochs to learn its convolutional counterpart.\\
+
+\begin{figure}[htbp!] 
+    \centering    
+    \includegraphics[width=0.9\textwidth]{Chapter6/Figs/l.png}
+    \caption[Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model.]{Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model. These matrices are utilized to evaluate the performance of the networks by visualizing the classification results and identifying misclassifications across ten classes (0 through 9).}
+    \label{fig:6l}
+\end{figure}
+
+\noindent The confusion matrix for the Fully Connected Model (Figure \ref{fig:6l} left) demonstrates effective classification performance, as indicated by the high concentration of correct predictions along the main diagonal. The off-diagonal values represent misclassifications. Notable performance across all classes is evident, with the majority of true labels being correctly predicted (e.g., 109 instances of class 0, 115 instances of class 1, etc.). However, some misclassification tendencies are discernible. For instance, the number of false negatives for classes like '9' (predicted as '8' in 12 instances) and '4' (predicted as '9' in 13 instances) suggests specific areas of confusion. The overall clarity of the diagonal confirms that the fully connected SNN architecture successfully learned discriminative features for a majority of the input samples.\\
+
+\noindent The confusion matrix for the Convolutional Model (Figure \ref{fig:6l} right) exhibits classification performance that is generally superior to the fully connected model, as evidenced by higher values along the main diagonal, suggesting better precision and recall for individual classes. For example, the model correctly identifies 116 instances of class 0 and 137 instances of class 1, representing a marginally higher rate of correct classification for these classes compared to the fully connected counterpart. Similar to the fully connected model, the convolutional model also shows specific points of confusion, such as misclassifying some instances of class '9' as '8' (in 12 instances) and class '4' as '9' (in 13 instances). The robust performance of the Convolutional SNN (CSNN) is attributed to its ability to extract complex spatial hierarchies of features from the input data, a capability inherent to convolutional layers, which ultimately leads to enhanced classification accuracy. The comparison between the two matrices visually confirms the expected performance advantage of the more architecturally complex convolutional network.\\
+
 \noindent This suggests that the inherent structure of convolutional layers - with their weight sharing and local connectivity - provides a degree of resilience against device variability and non-linearity. Convolutional filters, by extracting local features across different parts of an image using shared weights, might inherently average out or become less sensitive to the localized imperfections of individual memristors compared to a fully connected layer where each weight is distinct and its error directly impacts a specific connection. This structural advantage allows CSNNs to maintain a higher accuracy when implemented with imperfect devices.\\
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/l.png}
+    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/m.png}
     \caption[Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.]{Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}
-    \label{fig:6l}
+    \label{fig:6m}
 \end{figure}
 
-\noindent Figure \ref{fig:6l} further emphasizes the impact of memristive non-idealities, showing a consistent deterioration in performance for both standard and spiking CNN models under identical training setups. This reinforces the finding that integrating real-world device characteristics, even with non-ideality-aware training, introduces a tangible performance overhead.\\
-
-\noindent The  results demonstrate that, even with significant I-V nonlinearities, SNNs can retain high classification accuracy when trained with an awareness of these imperfections. However, the remaining performance gap between ideal and memristive implementations highlights the ongoing challenge. Accurately modeling all non-idealities for ex-situ training remains a complex task. \\
+\noindent Figure \ref{fig:6m} further emphasizes the impact of memristive non-idealities, showing a consistent deterioration in performance for both standard and spiking CNN models under identical training setups. This reinforces the finding that integrating real-world device characteristics, even with non-ideality-aware training, introduces a tangible performance overhead. The  results demonstrate that, even with significant I-V nonlinearities, SNNs can retain high classification accuracy when trained with an awareness of these imperfections. However, the remaining performance gap between ideal and memristive implementations highlights the ongoing challenge. Accurately modeling all non-idealities for ex-situ training remains a complex task. \\
 
 \noindent In practice, the variability and range of non-idealities in fabricated devices can be far greater than what is captured by simplified statistical models. For instance, while nonlinearity was modeled as being drawn from a truncated normal distribution, the exact mean and standard deviation can vary considerably across different device batches, making a truly universal model difficult to achieve. Furthermore, this study primarily focused on I-V nonlinearity; other issues like stuck-at-faults, read noise, or retention loss could further degrade performance if not accounted for during training or mitigated by the underlying hardware architecture.\\
 
