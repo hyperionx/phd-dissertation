@@ -74,8 +74,8 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{186}{figure.caption.84}%
 \contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{187}{figure.caption.85}%
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Training loss curve for standard and memristive schemes when exposed to I-V nonlinearities}}{188}{figure.caption.86}%
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Training accuracy curve for standard and memristive schemes when exposed to I-V nonlinearities}}{189}{figure.caption.87}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrix of convolutional homeostasis model.}}{191}{figure.caption.89}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{195}{figure.caption.90}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Fully-Connected Spiking Neural Network (SNN) model with and without Homeostasis Dropout.}}{188}{figure.caption.86}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Convolutional Spiking Neural Network (CSNN) model withand without Homeostasis Dropout.}}{189}{figure.caption.87}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrices of convolutional homeostasis model that illustrate the classification performance of a Spiking Neural Network (SNN) under two Simulated Memristor Failures and Homeostasis Dropout Enhancements.}}{191}{figure.caption.89}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{196}{figure.caption.90}%
 \addvspace {10\p@ }
