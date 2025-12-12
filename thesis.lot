@@ -1,15 +1,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Curve fitting results for the conduction mechanism analysis.}}{73}{table.caption.42}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Curve fitting results for the conduction mechanism analysis.}}{72}{table.caption.42}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Comparison of the modified device stacks.}}{114}{table.caption.57}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Model parameter values.}}{125}{table.caption.62}%
-\contentsline {table}{\numberline {5.3}{\ignorespaces Extemded model parameter values.}}{132}{table.caption.67}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Comparison of the modified device stacks.}}{112}{table.caption.57}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Model parameter values.}}{123}{table.caption.62}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Extemded model parameter values.}}{130}{table.caption.67}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Model Accuracy for different SNN configurations}}{173}{table.caption.81}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Model Accuracy for different SNN configurations}}{171}{table.caption.81}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {7.1}{\ignorespaces Model Accuracy for different SNN configurations}}{190}{table.caption.88}%
-\contentsline {table}{\numberline {7.2}{\ignorespaces Classification accuracy (\%) for each stimulus class using PCA, t-SNE, and UMAP embeddings followed by logistic regression.}}{197}{table.caption.91}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces Model Accuracy for different SNN configurations}}{188}{table.caption.88}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Classification accuracy (\%) for each stimulus class using PCA, t-SNE, and UMAP embeddings followed by logistic regression.}}{195}{table.caption.91}%
 \addvspace {10\p@ }
