@@ -54,39 +54,40 @@
 \contentsline {section}{\numberline {5.1}Optically Active Device}{111}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Modified Device Stack}{111}{subsection.5.1.1}%
 \contentsline {subsection}{\numberline {5.1.2}Conductance Variation Mechanisms}{113}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Empirical Model Fitting}{117}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Fitting Metrics}{117}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Circuit Compatible Implementation}{119}{subsection.5.2.2}%
-\contentsline {section}{\numberline {5.3}Composite Empirical Formulation}{123}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Parameter Fitting}{123}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Physical Model Derivation}{128}{subsection.5.3.2}%
-\contentsline {section}{\numberline {5.4}Summary}{130}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Biorealistic Computing}{135}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Spiking Deep Networks}{135}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Brain-like Analogy}{136}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Spiking Paradigm}{138}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}Memristive Frameworks}{142}{subsection.6.1.3}%
-\contentsline {section}{\numberline {6.2}Nonidealities Simulation}{145}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Learning Rules}{146}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{152}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{157}{subsection.6.2.3}%
-\contentsline {section}{\numberline {6.3}Inference and Classification}{161}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{162}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{166}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}Computation Performance}{169}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Summary}{174}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{177}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Optimisation Motivations}{177}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Analogue Hardware Challenges}{177}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{179}{subsection.7.1.2}%
-\contentsline {section}{\numberline {7.2}Homeostasis Regularization}{181}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{182}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{185}{subsection.7.2.2}%
-\contentsline {section}{\numberline {7.3}Biosignal Processing}{190}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{190}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{193}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Summary}{196}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{199}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Thesis Review}{199}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Future Works}{201}{section.8.2}%
-\contentsline {chapter}{References}{205}{chapter*.92}%
+\contentsline {section}{\numberline {5.2}XPS Physical Verification}{117}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}X-ray Photoelectron Spectroscopy Principles}{117}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}ITO Reduction Spectroscopic Validation}{120}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Circuit Compatible Implementation}{126}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Fitting Metrics}{126}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Composite Empirical Formulation}{132}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Physical Model Derivation}{137}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Summary}{139}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Biorealistic Computing}{145}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Spiking Deep Networks}{145}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Brain-like Analogy}{146}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Spiking Paradigm}{148}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Memristive Frameworks}{152}{subsection.6.1.3}%
+\contentsline {section}{\numberline {6.2}Nonidealities Simulation}{155}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Learning Rules}{156}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{162}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{167}{subsection.6.2.3}%
+\contentsline {section}{\numberline {6.3}Inference and Classification}{171}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{172}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{176}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Computation Performance}{179}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Summary}{184}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{187}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Optimisation Motivations}{187}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Analogue Hardware Challenges}{187}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{189}{subsection.7.1.2}%
+\contentsline {section}{\numberline {7.2}Homeostasis Regularization}{191}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{192}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{195}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Biosignal Processing}{200}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{200}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{203}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Summary}{206}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{209}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Thesis Review}{209}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Future Works}{211}{section.8.2}%
+\contentsline {chapter}{References}{215}{chapter*.98}%

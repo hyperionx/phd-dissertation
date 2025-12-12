@@ -342,6 +342,11 @@ Duan, Q., Jing, Z., Zou, X., Wang, Y., Yang, K., Zhang, T., Wu, S., Huang, R.,
   monolithically integrated memristive neural networks.
 \newblock {\em Nature communications}, 11(1):3399.
 
+\bibitem[Einstein, 1905]{einstein1905generation}
+Einstein, A. (1905).
+\newblock {\"U}ber einem heuristics standpunkt zur produktion und
+  transformation des lichts.
+
 \bibitem[El~Kamel et~al., 2006]{el2006space}
 El~Kamel, F., Gonon, P., Ort{\'e}ga, L., Jomni, F., and Yangui, B. (2006).
 \newblock Space charge limited transient currents and oxygen vacancy mobility
@@ -384,6 +389,12 @@ Eshraghian, J.~K., Ward, M., Neftci, E.~O., Wang, X., Lenz, G., Dwivedi, G.,
   Bennamoun, M., Jeong, D.~S., and Lu, W.~D. (2023).
 \newblock Training spiking neural networks using lessons from deep learning.
 \newblock {\em Proceedings of the IEEE}.
+
+\bibitem[Fadley, 2010]{fadley2010x}
+Fadley, C.~S. (2010).
+\newblock X-ray photoelectron spectroscopy: Progress and perspectives.
+\newblock {\em Journal of Electron Spectroscopy and Related Phenomena},
+  178:2--32.
 
 \bibitem[Fang et~al., 2018]{fang2018improvement}
 Fang, Y., Yu, Z., Wang, Z., Zhang, T., Yang, Y., Cai, Y., and Huang, R. (2018).
@@ -454,6 +465,11 @@ Gaol, D., Zhang, G.~L., Yin, X., Li, B., Schlichtmann, U., and Zhuo, C. (2021).
 Ge, N., Zhang, M., Zhang, L., Yang, J.~J., Li, Z., and Williams, R.~S. (2014).
 \newblock Electrode-material dependent switching in taox memristors.
 \newblock {\em Semiconductor Science and Technology}, 29(10):104003.
+
+\bibitem[Geng et~al., 2002]{geng2002xps}
+Geng, S., Zhang, S., and Onishi, H. (2002).
+\newblock Xps applications in thin films research.
+\newblock {\em Materials Technology}, 17(4):234--240.
 
 \bibitem[Georgopoulos et~al., 1982]{georgopoulos1982relations}
 Georgopoulos, A.~P., Kalaska, J.~F., Caminiti, R., and Massey, J.~T. (1982).
@@ -568,6 +584,11 @@ Hebb, D. (2002).
 Hebb, D.~O. (2005).
 \newblock {\em The organization of behavior: A neuropsychological theory}.
 \newblock Psychology Press.
+
+\bibitem[Hertz, 1887]{hertz1887ueber}
+Hertz, H. (1887).
+\newblock On the influence of ultraviolet light on electrical discharge.
+\newblock {\em Annals of Physics}, 267(8):983--1000.
 
 \bibitem[Hochstetter et~al., 2021]{hochstetter2021avalanches}
 Hochstetter, J., Zhu, R., Loeffler, A., Diaz-Alvarez, A., Nakayama, T., and
@@ -1130,6 +1151,11 @@ Marder, E. and Goaillard, J.-M. (2006).
   function.
 \newblock {\em Nature Reviews Neuroscience}, 7(7):563--574.
 
+\bibitem[Margaritondo, 1988]{margaritondo1988100}
+Margaritondo, G. (1988).
+\newblock 100 years of photoemission.
+\newblock {\em Physics Today}, 41(4):66--72.
+
 \bibitem[Markram et~al., 2012]{markram2012spike}
 Markram, H., Gerstner, W., and Sj{\"o}str{\"o}m, P.~J. (2012).
 \newblock Spike-timing-dependent plasticity: a comprehensive overview.
@@ -1278,12 +1304,24 @@ Noble, D. (1962).
   purkinje fibre action and pacemaker potentials.
 \newblock {\em The Journal of physiology}, 160(2):317.
 
+\bibitem[Nordling et~al., 1957]{nordling1957precision}
+Nordling, C., Sokolowski, E., and Siegbahn, K. (1957).
+\newblock Precision method for obtaining absolute values of atomic binding
+  energies.
+\newblock {\em Physical Review}, 105(5):1676.
+
 \bibitem[Orchard et~al., 2021]{orchard2021efficient}
 Orchard, G., Frady, E.~P., Rubin, D. B.~D., Sanborn, S., Shrestha, S.~B.,
   Sommer, F.~T., and Davies, M. (2021).
 \newblock Efficient neuromorphic signal processing with loihi 2.
 \newblock In {\em 2021 IEEE Workshop on Signal Processing Systems (SiPS)},
   pages 254--259. IEEE.
+
+\bibitem[Oswald, 2006]{oswald2006x}
+Oswald, S. (2006).
+\newblock X-ray photoelectron spectroscopy in analysis of surfaces.
+\newblock {\em Encyclopedia of Analytical Chemistry: Applications, Theory and
+  Instrumentation}.
 
 \bibitem[Pehle et~al., 2022]{pehle2022brainscales}
 Pehle, C., Billaudelle, S., Cramer, B., Kaiser, J., Schreiber, K., Stradmann,
@@ -1362,6 +1400,12 @@ Rasch, M.~J., Moreda, D., Gokmen, T., Le~Gallo, M., Carta, F., Goldberg, C.,
   inference on analog crossbar arrays.
 \newblock In {\em 2021 IEEE 3rd international conference on artificial
   intelligence circuits and systems (AICAS)}, pages 1--4. IEEE.
+
+\bibitem[Regonini, 2008]{regonini2008anodised}
+Regonini, D. (2008).
+\newblock {\em Anodised TiO2 nanotubes: synthesis, growth mechanism and thermal
+  stability}.
+\newblock PhD thesis, University of Bath Bath, UK.
 
 \bibitem[Saha and Krupanidhi, 2001]{saha2001transient}
 Saha, S. and Krupanidhi, S. (2001).
