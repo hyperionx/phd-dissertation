@@ -35,7 +35,7 @@
 \contentsline {subsubsection}{\numberline {3.3.1.4}Thermionic Emission}{69}{subsubsection.3.3.1.4}%
 \contentsline {subsubsection}{\numberline {3.3.1.5}Trap Assisted Tunnelling}{71}{subsubsection.3.3.1.5}%
 \contentsline {subsection}{\numberline {3.3.2}Switching Model Analysis}{72}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Summary}{77}{section.3.4}%
+\contentsline {section}{\numberline {3.4}Summary}{79}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Current Transients in Memristive Devices}{81}{chapter.4}%
 \contentsline {section}{\numberline {4.1}The Subthreshold Regime}{81}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Fundamental Properties}{81}{subsection.4.1.1}%
