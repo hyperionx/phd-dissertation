@@ -5,13 +5,13 @@
 \chapter{Current Transients in Memristive Devices}
 
 
-\section[The Subthreshold Regime]{The Subthreshold Regime}
+\section[Theoretical Background of Current Transients]{Theoretical Background of Current Transients}
 
 This thesis initially characterizes silicon-based memristors as fundamental components for memristive systems. This chapter investigates "current transients", a phenomenon largely unexplored in neuromorphic computing. Current transients manifest as dynamic conductance changes—exhibiting both potentiation and depression—in defective capacitors responding to step potentials. These rich dynamics offer significant potential for computational devices. \\
 
 \noindent The chapter begins by reviewing the literature on current transients. It then details the experimental procedures and strategies developed to characterize them. These investigations clarify the underlying physical models, facilitating the development of integrative memristive systems based on silicon oxide.
 
-\subsection[Fundamental Properties]{Fundamental Properties}
+\subsection[Transient Characteristics and Volatility]{Transient Characteristics and Volatility}
 
 Ideally, capacitive decay and dielectric relaxation govern a capacitor's response to a step voltage. When a constant voltage is applied, the current declines to a steady leakage value—zero in an ideal device. However, prolonged voltage stress or elevated temperatures can degrade the oxide, reducing its resistance and causing the current to rise \cite{ghibaudo1999emerging}. One specific form of this degradation is the "current transient", which creates a characteristic peak on a current-time graph (Figure \ref{fig:4a}) as the current swiftly rises to a maximum and then gradually decays. Surprisingly, unlike permanent oxide degradation, this resistance change is volatile. \\
 
@@ -30,7 +30,7 @@ Ideally, capacitive decay and dielectric relaxation govern a capacitor's respons
 
 \noindent Current transients characterized by a distinct peak and subsequent decay under constant voltage stress have been reported in a wide range of materials, implying that they are a generic phenomenon in MIM devices. These transients deviate from typical resistance switching behaviors in silicon oxide devices; they are analog and volatile, contrasting with the non-volatile binary switching observed in standard operation. Understanding the source and features of these specific current transients is significant because they may have ramifications for a variety of research areas studying metal-oxide structures, such as transistor gates or the comparatively emerging subject of resistive switching memory.
 
-\subsection[Current Models]{Current Models}
+\subsection[Space Charge Limited Current Models]{Space Charge Limited Current Models}
 
 The Space Charge Limited Current (SCLC) hypothesis remains the most prominent model for explaining current transients. Originally developed to describe space charge in a perfect insulator \cite{many1962theory}, it has been adapted to account for charged oxygen vacancies \cite{zafar1998oxygen}. Under an applied bias, an ionic current flows alongside the electronic current, driven by the drift of charged species—typically oxygen vacancies. The metal electrode blocks these ions, causing accumulation at the interface. This accumulation creates an opposing internal electric field (Coulombic repulsion) that impedes further migration, causing the ionic current to decay. Consequently, early research attributed transient behaviors to space charge accumulation within a trap-free insulator, establishing the SCLC model. \\
 
@@ -64,13 +64,13 @@ L &= -2L \left[ ln \left( 1 - \frac{\mu V t}{2L^2} \right) \right]_0^{\tau} \lab
 
 \noindent After the field at the anode has been determined, it is now possible to calculate the time it takes for the front of the space charge to reach the anode. Assuming that the space charge's velocity is given by $\mu E(x,t)$, and the field is constant between the charge front and the anode, it can be assumed that the field experienced by the front of the space charge is equal to the field at the anode, $E(x,t) = E_a(t)$. \\
 
-\noindent Equation (\ref{eq:4.12}) is critical for extracting transport parameters. It allows calculation of mobility, which, combined with the Einstein-Nernst relation, yields the activation energy for defect migration. This framework characterizes transport dynamics in current transients. Literature cites laser-induced transient acceleration as evidence of increased mobility \cite{li2015visible} or charge transitions \cite{lee2019charge}. However, relying on this model requires ensuring its validity, which presents challenges.
+\noindent Equation (\ref{eq:4.12}) is critical for extracting transport parameters. It allows calculation of mobility, which, combined with the Einstein-Nernst relation, yields the activation energy for defect migration. This framework characterizes transport dynamics in current transients. Literature cites laser-induced transient acceleration as evidence of increased mobility \cite{li2015visible} or charge transitions \cite{lee2019charge}. However, relying on this model requires ensuring its validity, which presents challenges. \\
 
 \noindent The widespread adoption of the SCLC model is largely due to the utility of Equation (\ref{eq:4.12}) in extracting fundamental transport parameters. It offers a direct method to calculate the mobility of the migrating space charge. By combining this mobility with the Einstein-Nernst relation, researchers can determine the activation energy required for the migration of specific defects, such as oxygen vacancies, distinct from the activation energy of the bulk material's electronic conductivity. Consequently, this framework has been extensively used to characterize the transport dynamics of various defects observed in current transients. \\
 
 \noindent According to literature, the changes in the transient that occur due to laser illumination are evidence of accelerated mobility \cite{li2015visible} or charge transitions within the defect \cite{lee2019charge}. However, if researchers intend to use this model to derive mobilities and secondary observations based on changes in mobility, the model's validity must be ensured. This is where problems may arise.
 
-\subsection[Alternate Models]{Alternate Models}
+\subsection[Alternative Transport Mechanisms]{Alternative Transport Mechanisms}
 
 SCLC is not the sole model explaining these transients. While SCLC attributes the transient to substantial ionic current, alternative theories suggest ionic currents are negligible, attributing the transient to variations in bulk and interface electronic conductivity \cite{meyer2005oxygen}. Simulations of vacancy, electron, and hole redistribution within a Barium Strontium Titanate (BST) oxide layer, bounded by Schottky contacts at $BST-Pt$ interfaces, support this conclusion. These simulations employed a finite difference method to model particle redistribution driven by drift and diffusion. 
 \begin{align}
@@ -88,20 +88,20 @@ SCLC is not the sole model explaining these transients. While SCLC attributes th
 
 \noindent A subsequent publication \cite{el2007ionic}, however, favored an electronic explanation based on shallow electronic traps. This theory posits that transient currents arise not from ionic displacement, but from the time-dependent filling and emptying of shallow trap states near the conduction band edge, modulating free carrier concentration and electronic conductivity. While the ionic versus electronic debate remains unresolved, the literature increasingly favors electronic conduction modulated by vacancy movement. Retrospectively, the SCLC model has proven useful but lacks full validation. While higher temperatures and voltages accelerate the transient as predicted, and peak time versus reciprocal voltage plots are linear in certain regimes, the original SCLC model warrants closer scrutiny.\\
 
-\noindent Consider the thickness dependence of peak time in Equation (\ref{eq:2.12}). Since this phenomenon results from vacancies traversing the oxide, peak time should be proportional to the square of the device thickness, $L$. Although no research has specifically investigated this, published data allows for a preliminary assessment. Published data \cite{manceau2007current} suggests peak timing is independent of device thickness. Studies examining oxide thicknesses of 900\r{A}, 450\r{A}, and 200\r{A} show no increase in peak time, despite predictions that the 450\r{A} and 900\r{A} devices should exhibit peak times 6 and 20 times greater, respectively, than the 200\r{A} device. Instead, thickness appears to affect peak height rather than timing. Thinner samples exhibit broader, more dispersed peaks, while thicker samples show more pronounced peaks. This discrepancy between the SCLC equation and experimental evidence raises concerns about the model's applicability, though it is not the only issue.\\
-
 \begin{figure}[htbp!] 
     \centering    
     \includegraphics[width=0.7\textwidth]{Chapter4/Figs/b.png}
     \caption[Transient's peak identification]{Transients are plotted for BaSrTiO3 (BST) devices \cite{boikov2002near}. The peak at lower temperatures is significantly wider than at higher temperature.}
     \label{fig:4b}
 \end{figure}
+
+\noindent Consider the thickness dependence of peak time in Equation (\ref{eq:2.12}). Since this phenomenon results from vacancies traversing the oxide, peak time should be proportional to the square of the device thickness, $L$. Although no research has specifically investigated this, published data allows for a preliminary assessment. Published data \cite{manceau2007current} suggests peak timing is independent of device thickness. Studies examining oxide thicknesses of 900\r{A}, 450\r{A}, and 200\r{A} show no increase in peak time, despite predictions that the 450\r{A} and 900\r{A} devices should exhibit peak times 6 and 20 times greater, respectively, than the 200\r{A} device. Instead, thickness appears to affect peak height rather than timing. Thinner samples exhibit broader, more dispersed peaks, while thicker samples show more pronounced peaks. This discrepancy between the SCLC equation and experimental evidence raises concerns about the model's applicability, though it is not the only issue.\\
     
 \noindent More concerning is the predicted linear relationship between peak time and reciprocal voltage, often used as the primary indicator of SCLC behavior (\ref{eq:2.12}). Many papers claiming linearity rely on few data points. Furthermore, these plots depend on measuring peak times—a difficult process, as shown in Figure \ref{fig:4b}, where shallow curves obscure the peaks. This introduces significant uncertainty for shallower transients, making peak time selection subjective. Moreover, some studies show linearity only within specific regions, while others observe exponential behavior. Although these inconsistencies require further study, they warrant skepticism in applying SCLC theory to current transients.\\
 
 \noindent Verifying these models is critical, as they are used to determine material properties such as mobility values and activation energies directly from SCLC equations. Further studies have investigated the precise nature of defects and their transport mechanisms to ensure extracted parameters accurately represent material properties. These findings have significant implications, particularly for the nascent field of defect engineering.
 
-\section[Current Transients Tuning]{Current Transients Tuning}
+\section[Device Preparation and Conditioning]{Device Preparation and Conditioning}
 
 The device studied in this thesis has a metal-insulator-metal structure as illustrated in Figure \ref{fig:4c} and was originally developed for binary resistance switching applications \cite{mehonic2017intrinsic}. The bottom metal contact is a molybdenum film of 280 nm thickness deposited via magnetron sputtering. The insulator layer is a slightly sub-stochiometric and amorphous layer of silicon oxide with a thickness of 35 nm, deposited via RF magnetron sputtering. The top metal contact is a 115 nm thick gold film deposited via e-beam evaporation through a contact mask. The shape of the top contact is a square of $200 \times 200 \mu m$ defining the active area of the device. To improve adhesion of the gold contact, a 3 nm layer of titanium was deposited prior to the gold evaporation. This also serves as a gettering layer to seed the oxide layer with oxygen vacancies.
 
@@ -112,7 +112,7 @@ The device studied in this thesis has a metal-insulator-metal structure as illus
     \label{fig:4c}
 \end{figure}
 
-\subsection[Device Stressing]{Device Stressing}
+\subsection[Defect Engineering via Current Stress]{Defect Engineering via Current Stress}
 
 \noindent Current transients were once attributed to oxide imperfections, implying such devices were inherently faulty. However, the field of defect engineering now allows for the controlled fabrication of oxide defects. Electroforming—the application of a strong electric field to induce a partial, reversible breakdown in a Metal-Insulator-Metal (MIM) device—is a common technique in memristor and ReRAM research and is also used for the silicon oxide devices in this thesis.\\
 
@@ -139,7 +139,7 @@ The device studied in this thesis has a metal-insulator-metal structure as illus
 
 \noindent After stressing, the device requires a relaxation period to equilibrate before exhibiting a current transient. Stressing causes charged defects, likely oxygen vacancies, to drift from their equilibrium positions, creating a polarized state. During relaxation, these low-mobility defects diffuse back to a stable, thermal equilibrium. Applying a positive potential to the top contact can accelerate this recovery, but a rest period of approximately 24 hours is still typically required due to the defects' restricted mobility at room temperature. Once relaxed, the device exhibits current transients. This delay confirms that stressing generates new defects and drifts existing ones, which must settle into a specific configuration to produce the transient.
 
-\subsection[Induced Transient]{Induced Transient}
+\subsection[Polarity Dependence of Induced Transients]{Polarity Dependence of Induced Transients}
 
 The established method allows for the gradual induction of current transients. While previous studies attributed the suppression of transients in thinner devices to masking by higher current densities \cite{el2007ionic}, the total number of oxide defects provides a more compelling explanation for transient prominence. Assuming a constant defect concentration during growth, thicker devices inherently contain more defects. Furthermore, aggressive stressing generates additional defects. Consequently, the total defect count, rather than device conductance, serves as a better predictor of transient amplitude. \\
 
@@ -149,15 +149,13 @@ The established method allows for the gradual induction of current transients. W
 
 \noindent Positive current stress, involving electron injection into the molybdenum contact, induces visibly different defects. Instead of discrete holes, the entire contact surface roughens. These defects, reproducible across devices, indicate excessive stress and were absent in the devices studied in this thesis.
 
-\section[Transient Neuromorphic Behaviours]{Transient Neuromorphic Behaviours}
+\section[Neuromorphic Plasticity in the Subthreshold Regime]{Neuromorphic Plasticity in the Subthreshold Regime}
 
 Defining current transients is difficult due to their elusive nature, frequent misidentification as faults, and low occurrence rate in device batches. This scarcity stems from the challenge of fabricating devices that reliably exhibit the phenomenon. Detailed characterization necessitates gradually inducing the effect to correlate it with specific changes in device attributes. Existing analysis remains limited, as published research relies on the sporadic appearance of transients. Consequently, establishing a reliable method to induce transients is essential for a comprehensive understanding of this phenomenon.
 
-\subsection[Combined Potentiation and Depression]{Combined Potentiation and Depression}
+\subsection[Unipolar Bidirectional Plasticity]{Unipolar Bidirectional Plasticity}
 
-Current transients enable analog potentiation and depression under the same voltage polarity and amplitude. Potentiation increases synaptic conductivity, while depression decreases it. These changes can be long-term (LTP/LTD) or short-term (STP/STD). \\
-
-\noindent While memristors and ReRAM devices often replicate these behaviors, they typically require opposite polarities for potentiation and depression \cite{jo2010nanoscale}. This requirement complicates neuron circuits. Single-rail operation, common in digital electronics, is preferable. Although some devices, such as complementary \cite{khan2020comparison} or unipolar ReRAM \cite{mehonic2012electrically}, operate with a single polarity, they often exhibit binary rather than analog switching.\\
+Current transients enable analog potentiation and depression under the same voltage polarity and amplitude. Potentiation increases synaptic conductivity, while depression decreases it. These changes can be long-term (LTP/LTD) or short-term (STP/STD). While memristors and ReRAM devices often replicate these behaviors, they typically require opposite polarities for potentiation and depression \cite{jo2010nanoscale}. This requirement complicates neuron circuits. Single-rail operation, common in digital electronics, is preferable. Although some devices, such as complementary \cite{khan2020comparison} or unipolar ReRAM \cite{mehonic2012electrically}, operate with a single polarity, they often exhibit binary rather than analog switching.\\
 
 \noindent Applying a negative step potential to the top gold electrode demonstrates the device's potentiation and depression (Figure \ref{fig:4e}). Rapid potentiation occurs within seconds, followed by a slower depression phase that eventually reduces conductance below the initial level over tens of minutes.\\
 
@@ -194,7 +192,7 @@ Current transients enable analog potentiation and depression under the same volt
 
 \noindent The subthreshold regime offers high resistance ($\sim 10 M\Omega$), significantly reducing current consumption compared to typical resistance switching devices ($1 k\Omega - 100 k\Omega$). However, this high resistance increases sensitivity to noise and voltage fluctuations. Furthermore, the voltage dependence of depression (Figure \ref{fig:4e}) limits the operating range, as depression is minimal below -1 V.
 
-\subsection[Transient Tunability]{Transient Tunability}
+\subsection[Dynamic Synaptic Tuning]{Dynamic Synaptic Tuning}
 
 Selecting between potentiation and depression is critical for neuromorphic circuit design. Regulating pulse magnitude offers an adaptable control mechanism. As shown in Figure \ref{fig:4e}, lower voltages (e.g., -1 V) induce potentiation but not depression, consistent with low-voltage spike trains.\\
 
@@ -242,7 +240,7 @@ Selecting between potentiation and depression is critical for neuromorphic circu
     
 \noindent Figure \ref{fig:4k} plots device current for spike trains with varying inter-spike periods. The device settles into a steady-state conductance where spike-induced changes balance the device's relaxation dynamics. As anticipated, steady-state conductance depends on pulse frequency; higher frequencies decrease conductivity. This frequency-dependent resistance adjustment suggests potential utility in neuromorphic applications.
 
-\subsection[Homeostasis Applications]{Homeostasis Applications}
+\subsection[Implementation of Homeostatic Mechanisms]{Implementation of Homeostatic Mechanisms}
 
 \noindent This study illustrates the potential of distinctive memristive behaviors in innovative computing architectures. A key application is the adjustment of synaptic weight based on firing frequency, mimicking biological homeostasis \cite{tien2018homeostatic}. In biology, homeostasis maintains optimal operating conditions, such as body temperature regulation \cite{turrigiano1999homeostatic}. In spiking neural networks, homeostasis regulates spiking activity, reducing power consumption from unnecessary events and preventing faulty neurons from inducing chaotic, high-activity states that could destabilize the network \cite{marder2006variability}. \\
 
@@ -261,7 +259,7 @@ Selecting between potentiation and depression is critical for neuromorphic circu
 
 \noindent Reversibility is fundamental to homeostasis. While this device demonstrates homeostatic habituation, limitations exist; specifically, maintaining a constant conductance value during the transient state is challenging. Electroforming the device, like a standard memristor, would enable precise analog weight adjustment. Physical implementation of homeostasis may require connecting the transient device in series with a programmable one. Since both devices share identical architectures and manufacturing processes—differing only in electrical stressing methods—they can be integrated on a single wafer.
 
-\subsection[Physical Implications]{Physical Implications}
+\subsection[Mechanistic Analysis of Conductance Modulation]{Mechanistic Analysis of Conductance Modulation}
 
 
 \noindent Early theories attributed the transient to an ionic current superimposed on an electronic current \cite{many1962theory, lampert1970current}. This ionic current results from the field-driven drift of space charge, typically assumed to be charged oxygen vacancies \cite{saha2001transient}. However, conductance variations appear to stem from two simultaneous modulations. An ionic current could only explain this if the space charge drifted at a constant velocity indefinitely. A more robust explanation posits that the transient is an electronic current modulated by changes in device conductance \cite{meyer2005oxygen}. Electronic conductance in MIM devices can change via multiple simultaneous mechanisms. Literature generally favors electronic over ionic explanations \cite{wakiya2006activation, el2007ionic}. \\
