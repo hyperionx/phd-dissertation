@@ -796,12 +796,6 @@ Kappel, D., Nessler, B., and Maass, W. (2014).
   hidden markov model learning.
 \newblock {\em PLoS computational biology}, 10(3):e1003511.
 
-\bibitem[Karpathy, 2011]{karpathy2011lessons}
-Karpathy, A. (2011).
-\newblock Lessons learned from manually classifying cifar-10.
-\newblock {\em Published online at http://karpathy. github.
-  io/2011/04/27/manually-classifying-cifar10}.
-
 \bibitem[Kempter et~al., 1999]{kempter1999hebbian}
 Kempter, R., Gerstner, W., and Van~Hemmen, J.~L. (1999).
 \newblock Hebbian learning and spiking neurons.
@@ -1600,13 +1594,6 @@ Teeter, C., Iyer, R., Menon, V., Gouwens, N., Feng, D., Berg, J., Szafer, A.,
 Tien, N.-W. and Kerschensteiner, D. (2018).
 \newblock Homeostatic plasticity in neural development.
 \newblock {\em Neural development}, 13(1):1--7.
-
-\bibitem[Torralba et~al., 2008]{torralba200880}
-Torralba, A., Fergus, R., and Freeman, W.~T. (2008).
-\newblock 80 million tiny images: A large data set for nonparametric object and
-  scene recognition.
-\newblock {\em IEEE transactions on pattern analysis and machine intelligence},
-  30(11):1958--1970.
 
 \bibitem[Toyoizumi et~al., 2004]{toyoizumi2004spike}
 Toyoizumi, T., Pfister, J.-P., Aihara, K., and Gerstner, W. (2004).
