@@ -57,7 +57,7 @@ Demonstrating the devices' capability to exhibit distinct and stable state-depen
 
 \noindent Current magnitude is the primary metric, providing information about oxide layer conductivity and interface barrier heights. The challenge lies in minimizing measurement equipment artifacts, such as probe contact resistance. Connecting device electrodes precedes current measurement. Options include wire bonding inside a chip carrier or direct probing with micromanipulators. Direct probing with tungsten probes was adopted due to the devices' design and susceptibility to wire bonding damage. Small, exposed electrode pads and thin oxide layers make the devices vulnerable to mechanical stress. The probe tip requires careful lowering to prevent damage. A low voltage test signal confirms contact.\\
 
-\noindent Monitoring the current for a spike determines contact. Initially, the current oscillates around 0 amps. Upon contact, the applied voltage causes a detectable current matching the polarity. Gentle probe lowering and low test voltage prevent sample damage. Wire bonding offers advantages over probing: it avoids sample damage, maintains electrical connection positions between experiments, does not affect contact during temperature measurements, and reduces risk during characterisation. However, the bonding process risks damaging the component. Ultrasonic pulses melt gold or aluminium wire to the contact under pressure. This pressure can compress internal layers, causing shorts between metal contacts and damaging the device. 
+\noindent Monitoring the current for a spike determines contact. Initially, the current oscillates around 0 amps. Upon contact, the applied voltage causes a detectable current matching the polarity. Gentle probe lowering and low test voltage prevent sample damage. Wire bonding offers advantages over probing: it avoids sample damage, maintains electrical connection positions between experiments, does not affect contact during temperature measurements, and reduces risk during characterisation. However, the bonding process risks damaging the component. Ultrasonic pulses melt gold or aluminium wire to the contact under pressure. This pressure can compress internal layers, causing shorts between metal contacts and damaging the device. \\
 
 \begin{figure}[htbp!] 
     \centering    
@@ -195,7 +195,7 @@ Demonstrating the devices' capability to exhibit distinct and stable state-depen
 
 \subsection[Alternative Operating Modes]{Alternative Operating Modes}
 
-Reliable switching occurs under specific conditions. LRS current does not scale with contact area, indicating filamentary transport. However, some devices exhibit gradual and multi-level switching. Parallel conductive filaments produce multiple, independent switching channels, yielding gradual I-V behaviour. \\
+Reliable switching occurs under specific conditions. LRS current does not scale with contact area, indicating filamentary transport. However, some devices exhibit gradual and multi-level switching. Parallel conductive filaments produce multiple, independent switching channels, yielding gradual I-V behaviour. Figure \ref{fig:3p} illustrates multilevel switching. Initial transition to LRS can be followed by a stable transition to a lower LRS. Both LRS states are stable. 3V and 5V sweeps generated the primary and secondary LRS, respectively. \\
 
 
 \begin{figure}[htbp!] 
@@ -205,7 +205,6 @@ Reliable switching occurs under specific conditions. LRS current does not scale 
     \label{fig:3p}
 \end{figure}
 
-\noindent Figure \ref{fig:3p} illustrates multilevel switching. Initial transition to LRS can be followed by a stable transition to a lower LRS. Both LRS states are stable. 3V and 5V sweeps generated the primary and secondary LRS, respectively. \\
 
 \begin{figure}[htbp!] 
     \centering    
@@ -322,34 +321,24 @@ Reliable switching occurs under specific conditions. LRS current does not scale 
 
 \subsubsection[Thermionic Emission]{Thermionic Emission}
 
-\noindent The Schottky diode model explains thermionic emission. Metal-insulator junctions provide low forward voltage drop and rapid switching. \\
+\noindent The Schottky diode model explains thermionic emission. Metal-insulator junctions provide low forward voltage drop and rapid switching.  Equation (\ref{eq:3.14}) describes thermally induced current. The effective Richardson constant $A^{**}$ quantifies electrical properties. \\
 
 \begin{align}
     J &= A^{**}T^2exp \left[ -\frac{q(\phi _{B} - \sqrt{qE_i/4\pi \varepsilon _i} )}{kT} \right] \label{eq:3.14} \\
-    J &\propto exp \left[ \frac{q}{Kt} \left( a\sqrt{V} - \phi _{B} \right) \right] \label{eq:3.15}
-\end{align}
-
-\noindent Equation (\ref{eq:3.14}) describes thermally induced current. The effective Richardson constant $A^{**}$ quantifies electrical properties. \\
-
-\begin{align}
-    A^{**} = \frac{4\pi q m^* k^2}{h^3} \label{eq:3.16}
-\end{align}
-
-\begin{align}
-    a = \sqrt{\frac{q}{4\pi \varepsilon _i d}} \label{eq:3.17}
+    J &\propto exp \left[ \frac{q}{Kt} \left( a\sqrt{V} - \phi _{B} \right) \right] \label{eq:3.15} \\
+    A^{**} &= \frac{4\pi q m^* k^2}{h^3} \label{eq:3.16} \\
+    a &= \sqrt{\frac{q}{4\pi \varepsilon _i d}} \label{eq:3.17}
 \end{align}
 
 \noindent Thermally excited carriers flow over a potential barrier. In these devices, electrons inject from the metal cathode into the oxide. Thermal energy must exceed the work function. Contact between n-type semiconductor and metal forms a Schottky barrier. Electron flow equilibrates Fermi levels, creating a depletion region and potential barrier. Forward bias reduces the barrier, enhancing thermionic emission. Reverse bias increases the barrier, limiting current to tunnelling thermal electrons until breakdown. Ohmic contacts allow bidirectional flow via tunnelling. High dopant concentration reduces depletion width. Metal evaporation and diffusion can achieve the necessary doping \cite{sze2021physics}.
 
 \subsubsection[Trap Assisted Tunnelling]{Trap Assisted Tunnelling}
 
-\noindent Defects facilitate multi-step tunnelling. Traps divide the energy barrier, increasing tunnelling probability. \\
+\noindent Defects facilitate multi-step tunnelling. Traps divide the energy barrier, increasing tunnelling probability. Trap-assisted tunnelling can be elastic or inelastic. Equation (\ref{eq:3.18}) relates current density to trap barrier height $\phi_t$.
 
 \begin{align}
     J \propto exp \left[ -\frac{8\pi\sqrt{2qm^*}}{3\hslash E} \phi_t^{\frac{3}{2}} \right] \label{eq:3.18}
 \end{align}
-
-\noindent Trap-assisted tunnelling can be elastic or inelastic. Equation (\ref{eq:3.18}) relates current density to trap barrier height $\phi_t$.
 
 \subsection[Identification of Dominant Mechanisms]{Identification of Dominant Mechanisms}
 
