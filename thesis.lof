@@ -39,52 +39,52 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Current transients illustration}}{82}{figure.caption.48}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Transient's peak identification}}{88}{figure.caption.49}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Current Transient Device Structure}}{90}{figure.caption.50}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Response of devices to different magnitudes of stressing currents.}}{92}{figure.caption.51}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces The voltage dependence of the current transient in the subthreshold regime.}}{95}{figure.caption.52}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Repeatability of current transients in the sub-threshold range.}}{96}{figure.caption.53}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Device response to a spike train.}}{97}{figure.caption.54}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Dependence of potentiation and depression on the amplitude of applied voltage pulses.}}{99}{figure.caption.55}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Depression selection using spike trains of greater amplitudes.}}{99}{figure.caption.56}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Device current dependence on stressing magnitudes.}}{100}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Device suitable for trains of voltage spikes with varying inter-spike time periods.}}{101}{figure.caption.58}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Response of the device to different frequency of spike pulses}}{102}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Current Transient Device Structure}}{89}{figure.caption.50}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Response of devices to different magnitudes of stressing currents.}}{91}{figure.caption.51}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces The voltage dependence of the current transient in the subthreshold regime.}}{94}{figure.caption.52}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Repeatability of current transients in the sub-threshold range.}}{95}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Device response to a spike train.}}{96}{figure.caption.54}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Dependence of potentiation and depression on the amplitude of applied voltage pulses.}}{98}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Depression selection using spike trains of greater amplitudes.}}{98}{figure.caption.56}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Device current dependence on stressing magnitudes.}}{99}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Device suitable for trains of voltage spikes with varying inter-spike time periods.}}{100}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Response of the device to different frequency of spike pulses}}{101}{figure.caption.59}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Stressing responses of ITO top contacted device.}}{114}{figure.caption.61}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces The current-time response for a device with a conductive ITO top electrode.}}{118}{figure.caption.62}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces instabilities of potentiation and depression on the amplitude of applied voltage pulses.}}{118}{figure.caption.63}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Schematic representation of an XPS system.}}{120}{figure.caption.64}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Survey spectra collected during depth profile.}}{123}{figure.caption.65}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Additional core level spectra collected during depth profile.}}{124}{figure.caption.66}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Core level spectra collected during depth profile.}}{126}{figure.caption.67}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Quantification of O $1s$ chemical states collected during depth profile.}}{127}{figure.caption.68}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile.}}{128}{figure.caption.69}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Empirical SPICE Model diagram.}}{131}{figure.caption.70}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Fitting performance of the SPICE model.}}{135}{figure.caption.72}%
-\contentsline {figure}{\numberline {5.12}{\ignorespaces Fitting of the model's meta-parameters.}}{137}{figure.caption.73}%
-\contentsline {figure}{\numberline {5.13}{\ignorespaces The improvement of SPICE fit at higher voltages.}}{138}{figure.caption.74}%
-\contentsline {figure}{\numberline {5.14}{\ignorespaces The extended SPICE Model diagram.}}{139}{figure.caption.75}%
-\contentsline {figure}{\numberline {5.15}{\ignorespaces Fitting of the extended model's meta-parameters.}}{142}{figure.caption.77}%
-\contentsline {figure}{\numberline {5.16}{\ignorespaces Simulated current transient response under repeated voltage pulses using the extended SPICE model.}}{143}{figure.caption.78}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Stressing responses of ITO top contacted device.}}{112}{figure.caption.61}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces The current-time response for a device with a conductive ITO top electrode.}}{116}{figure.caption.62}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces instabilities of potentiation and depression on the amplitude of applied voltage pulses.}}{116}{figure.caption.63}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Schematic representation of an XPS system.}}{118}{figure.caption.64}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Survey spectra collected during depth profile.}}{121}{figure.caption.65}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Additional core level spectra collected during depth profile.}}{122}{figure.caption.66}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Core level spectra collected during depth profile.}}{124}{figure.caption.67}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Quantification of O $1s$ chemical states collected during depth profile.}}{125}{figure.caption.68}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile.}}{126}{figure.caption.69}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Empirical SPICE Model diagram.}}{129}{figure.caption.70}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Fitting performance of the SPICE model.}}{133}{figure.caption.72}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Fitting of the model's meta-parameters.}}{135}{figure.caption.73}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces The improvement of SPICE fit at higher voltages.}}{136}{figure.caption.74}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces The extended SPICE Model diagram.}}{137}{figure.caption.75}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Fitting of the extended model's meta-parameters.}}{140}{figure.caption.77}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Simulated current transient response under repeated voltage pulses using the extended SPICE model.}}{141}{figure.caption.78}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials are transmitted between neurons via chemical and electrical signaling at synapses.}}{148}{figure.caption.79}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Example of Memristors and CMOS neuron circuits arrangement for achieving STDP learning.}}{149}{figure.caption.80}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{152}{figure.caption.81}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{159}{figure.caption.82}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{161}{figure.caption.83}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{165}{figure.caption.84}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{170}{figure.caption.85}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{175}{figure.caption.86}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{178}{figure.caption.87}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{181}{figure.caption.88}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions}}{182}{figure.caption.89}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model.}}{184}{figure.caption.91}%
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{185}{figure.caption.92}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials are transmitted between neurons via chemical and electrical signaling at synapses.}}{146}{figure.caption.79}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Example of Memristors and CMOS neuron circuits arrangement for achieving STDP learning.}}{147}{figure.caption.80}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{150}{figure.caption.81}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{157}{figure.caption.82}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{159}{figure.caption.83}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{163}{figure.caption.84}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{168}{figure.caption.85}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{173}{figure.caption.86}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{176}{figure.caption.87}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{179}{figure.caption.88}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions}}{180}{figure.caption.89}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model.}}{182}{figure.caption.91}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{183}{figure.caption.92}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{196}{figure.caption.93}%
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{197}{figure.caption.94}%
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Fully-Connected Spiking Neural Network (SNN) model with and without Homeostasis Dropout.}}{198}{figure.caption.95}%
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Convolutional Spiking Neural Network (CSNN) model withand without Homeostasis Dropout.}}{199}{figure.caption.96}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrices of convolutional homeostasis model that illustrate the classification performance of a Spiking Neural Network (SNN) under two Simulated Memristor Failures and Homeostasis Dropout Enhancements.}}{201}{figure.caption.98}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{206}{figure.caption.99}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{194}{figure.caption.93}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{195}{figure.caption.94}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Fully-Connected Spiking Neural Network (SNN) model with and without Homeostasis Dropout.}}{196}{figure.caption.95}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Convolutional Spiking Neural Network (CSNN) model withand without Homeostasis Dropout.}}{197}{figure.caption.96}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrices of convolutional homeostasis model that illustrate the classification performance of a Spiking Neural Network (SNN) under two Simulated Memristor Failures and Homeostasis Dropout Enhancements.}}{199}{figure.caption.98}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{204}{figure.caption.99}%
 \addvspace {10\p@ }
