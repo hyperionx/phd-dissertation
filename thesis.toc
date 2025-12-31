@@ -43,13 +43,13 @@
 \contentsline {subsection}{\numberline {4.1.3}Alternate Models}{85}{subsection.4.1.3}%
 \contentsline {section}{\numberline {4.2}Current Transients Tuning}{88}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Device Stressing}{88}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Induced Transient}{92}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Transient Neuromorphic Behaviours}{93}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Combined Potentiation and Depression}{93}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Transient Tunability}{97}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.2.2}Induced Transient}{91}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Transient Neuromorphic Behaviours}{92}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Combined Potentiation and Depression}{92}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Transient Tunability}{96}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}Homeostasis Applications}{100}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Physical Implications}{103}{subsection.4.3.4}%
-\contentsline {section}{\numberline {4.4}Summary}{108}{section.4.4}%
+\contentsline {subsection}{\numberline {4.3.4}Physical Implications}{102}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Summary}{107}{section.4.4}%
 \contentsline {chapter}{\numberline {5}Neuromorphic Modelling Framework}{111}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Optically Active Device}{111}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Modified Device Stack}{111}{subsection.5.1.1}%
