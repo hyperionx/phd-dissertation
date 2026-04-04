@@ -42,11 +42,11 @@
 \contentsline {subsection}{\numberline {4.1.2}Space Charge Limited Current Models}{57}{subsection.4.1.2}%
 \contentsline {subsection}{\numberline {4.1.3}Alternative Transport Mechanisms}{59}{subsection.4.1.3}%
 \contentsline {section}{\numberline {4.2}Device Preparation and Conditioning}{62}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Defect Engineering via Current Stress}{62}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.1}Defect Engineering via Current Stress}{63}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Polarity Dependence of Induced Transients}{65}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Neuromorphic Plasticity in the Subthreshold Regime}{66}{section.4.3}%
+\contentsline {section}{\numberline {4.3}Neuromorphic Plasticity in the Subthreshold Regime}{65}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Unipolar Bidirectional Plasticity}{66}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Dynamic Synaptic Tuning}{69}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.2}Dynamic Synaptic Tuning}{68}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}Implementation of Homeostatic Mechanisms}{71}{subsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.3.4}Mechanistic Analysis of Conductance Modulation}{73}{subsection.4.3.4}%
 \contentsline {section}{\numberline {4.4}Summary}{76}{section.4.4}%
