@@ -229,15 +229,8 @@ Chen, P.-Y., Peng, X., and Yu, S. (2017b).
 \newblock In {\em 2017 IEEE International Electron Devices Meeting (IEDM)},
   pages 6--1. IEEE.
 
-\bibitem[Chen et~al., 2018a]{chen2018neurosim}
-Chen, P.-Y., Peng, X., and Yu, S. (2018a).
-\newblock Neurosim: A circuit-level macro model for benchmarking neuro-inspired
-  architectures in online learning.
-\newblock {\em IEEE Transactions on Computer-Aided Design of Integrated
-  Circuits and Systems}, 37(12):3067--3080.
-
-\bibitem[Chen et~al., 2018b]{chen2018neural}
-Chen, R.~T., Rubanova, Y., Bettencourt, J., and Duvenaud, D.~K. (2018b).
+\bibitem[Chen et~al., 2018]{chen2018neural}
+Chen, R.~T., Rubanova, Y., Bettencourt, J., and Duvenaud, D.~K. (2018).
 \newblock Neural ordinary differential equations.
 \newblock {\em Advances in neural information processing systems}, 31.
 
@@ -334,13 +327,6 @@ Du, C. (2017).
 \newblock {\em Metal Oxide Memristors with Internal Dynamics for Neuromorphic
   Applications}.
 \newblock PhD thesis, The University of Michigan, US.
-
-\bibitem[Duan et~al., 2020]{duan2020spiking}
-Duan, Q., Jing, Z., Zou, X., Wang, Y., Yang, K., Zhang, T., Wu, S., Huang, R.,
-  and Yang, Y. (2020).
-\newblock Spiking neurons with spatiotemporal dynamics and gain modulation for
-  monolithically integrated memristive neural networks.
-\newblock {\em Nature communications}, 11(1):3399.
 
 \bibitem[Einstein, 1905]{einstein1905generation}
 Einstein, A. (1905).
@@ -633,12 +619,6 @@ Huang, C., Li, K., Tu, G., and Wang, W. (2003).
   reduction in 0.3 m hydrochloric acid.
 \newblock {\em Electrochimica Acta}, 48(24):3599--3605.
 
-\bibitem[Huang et~al., 2022]{huang2022neuropack}
-Huang, J., Stathopoulos, S., Serb, A., and Prodromakis, T. (2022).
-\newblock Neuropack: An algorithm-level python-based simulator for
-  memristor-empowered neuro-inspired computing.
-\newblock {\em Frontiers in Nanotechnology}, 4:851856.
-
 \bibitem[Huang et~al., 2021]{huang2021method}
 Huang, L., Diao, J., Teng, S., Li, Z., Wang, W., Liu, S., Li, M., and Liu, H.
   (2021).
@@ -903,12 +883,6 @@ Lagarias, J.~C., Reeds, J.~A., Wright, M.~H., and Wright, P.~E. (1998).
 \newblock Convergence properties of the nelder--mead simplex method in low
   dimensions.
 \newblock {\em SIAM Journal on optimization}, 9(1):112--147.
-
-\bibitem[Lammie et~al., 2022]{lammie2022memtorch}
-Lammie, C., Xiang, W., Linares-Barranco, B., and Azghadi, M.~R. (2022).
-\newblock Memtorch: An open-source simulation framework for memristive deep
-  learning systems.
-\newblock {\em Neurocomputing}, 485:124--133.
 
 \bibitem[Lampert and Schilling, 1970]{lampert1970current}
 Lampert, M.~A. and Schilling, R.~B. (1970).
@@ -1243,12 +1217,6 @@ Meyer, R., Liedtke, R., and Waser, R. (2005).
   of ba0. 3sr0. 7tio3 thin films.
 \newblock {\em Applied Physics Letters}, 86(11).
 
-\bibitem[Molter and Nugent, 2016]{molter2016generalized}
-Molter, T.~W. and Nugent, M.~A. (2016).
-\newblock The generalized metastable switch memristor model.
-\newblock In {\em CNNA 2016; 15th International workshop on cellular nanoscale
-  networks and their applications}, pages 1--2. VDE.
-
 \bibitem[Moon et~al., 2019]{moon2019rram}
 Moon, K., Lim, S., Park, J., Sung, C., Oh, S., Woo, J., Lee, J., and Hwang, H.
   (2019).
@@ -1400,14 +1368,6 @@ Querlioz, D., Zhao, W., Dollfus, P., Klein, J.-O., Bichler, O., and Gamrat, C.
   the unsupervised and supervised learning approaches.
 \newblock In {\em Proceedings of the 2012 IEEE/ACM International Symposium on
   Nanoscale Architectures}, pages 203--210.
-
-\bibitem[Rasch et~al., 2021]{rasch2021flexible}
-Rasch, M.~J., Moreda, D., Gokmen, T., Le~Gallo, M., Carta, F., Goldberg, C.,
-  El~Maghraoui, K., Sebastian, A., and Narayanan, V. (2021).
-\newblock A flexible and fast pytorch toolkit for simulating training and
-  inference on analog crossbar arrays.
-\newblock In {\em 2021 IEEE 3rd international conference on artificial
-  intelligence circuits and systems (AICAS)}, pages 1--4. IEEE.
 
 \bibitem[Regonini, 2008]{regonini2008anodised}
 Regonini, D. (2008).

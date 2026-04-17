@@ -68,23 +68,23 @@
 \contentsline {figure}{\numberline {5.16}{\ignorespaces Simulated current transient response under repeated voltage pulses using the extended SPICE model.}}{109}{figure.caption.78}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials generated via chemical and electrical signaling at synapses.}}{113}{figure.caption.79}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Hybrid memristor-CMOS architecture for STDP learning.}}{114}{figure.caption.80}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{117}{figure.caption.81}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{124}{figure.caption.82}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{126}{figure.caption.83}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{130}{figure.caption.84}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{135}{figure.caption.85}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{140}{figure.caption.86}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{143}{figure.caption.87}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{146}{figure.caption.88}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions}}{147}{figure.caption.89}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model.}}{149}{figure.caption.91}%
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{150}{figure.caption.92}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Hybrid memristor-CMOS architecture for STDP learning.}}{113}{figure.caption.80}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{116}{figure.caption.81}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{120}{figure.caption.82}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{122}{figure.caption.83}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{125}{figure.caption.84}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{131}{figure.caption.85}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{135}{figure.caption.86}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{139}{figure.caption.87}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{142}{figure.caption.88}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions}}{143}{figure.caption.89}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model.}}{145}{figure.caption.91}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{146}{figure.caption.92}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{160}{figure.caption.93}%
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{161}{figure.caption.94}%
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Fully-Connected Spiking Neural Network (SNN) model with and without Homeostasis Dropout.}}{162}{figure.caption.95}%
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Convolutional Spiking Neural Network (CSNN) model withand without Homeostasis Dropout.}}{163}{figure.caption.96}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrices of convolutional homeostasis model that illustrate the classification performance of a Spiking Neural Network (SNN) under two Simulated Memristor Failures and Homeostasis Dropout Enhancements.}}{165}{figure.caption.98}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{170}{figure.caption.99}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{156}{figure.caption.93}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{157}{figure.caption.94}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Fully-Connected Spiking Neural Network (SNN) model with and without Homeostasis Dropout.}}{158}{figure.caption.95}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Convolutional Spiking Neural Network (CSNN) model withand without Homeostasis Dropout.}}{159}{figure.caption.96}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrices of convolutional homeostasis model that illustrate the classification performance of a Spiking Neural Network (SNN) under two Simulated Memristor Failures and Homeostasis Dropout Enhancements.}}{161}{figure.caption.98}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{166}{figure.caption.99}%
 \addvspace {10\p@ }

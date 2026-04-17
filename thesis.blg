@@ -28,47 +28,47 @@ A level-1 auxiliary file: Chapter8/chapter8.aux
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 22 items.
-Reallocating 'field_info' (item size: 4) to 12370 items.
+Reallocating 'field_info' (item size: 4) to 12238 items.
 Database file #1: References/references.bib
 Reallocating 'str_pool' (item size: 1) to 130000 items.
-You've used 335 entries,
+You've used 329 entries,
             1935 wiz_defined-function locations,
-            2193 strings with 73400 characters,
-and the built_in function-call counts, 156805 in all, are:
-= -- 14841
-> -- 8713
-< -- 140
-+ -- 3181
-- -- 3101
-* -- 14669
-:= -- 27548
-add.period$ -- 1028
-call.type$ -- 335
-change.case$ -- 3182
-chr.to.int$ -- 321
-cite$ -- 335
-duplicate$ -- 5032
-empty$ -- 9688
-format.name$ -- 3544
-if$ -- 29888
-int.to.chr$ -- 15
+            2168 strings with 71996 characters,
+and the built_in function-call counts, 153764 in all, are:
+= -- 14552
+> -- 8540
+< -- 137
++ -- 3114
+- -- 3039
+* -- 14391
+:= -- 27024
+add.period$ -- 1008
+call.type$ -- 329
+change.case$ -- 3121
+chr.to.int$ -- 316
+cite$ -- 329
+duplicate$ -- 4930
+empty$ -- 9500
+format.name$ -- 3474
+if$ -- 29297
+int.to.chr$ -- 14
 int.to.str$ -- 0
-missing$ -- 336
-newline$ -- 1674
-num.names$ -- 1007
-pop$ -- 2684
+missing$ -- 330
+newline$ -- 1644
+num.names$ -- 989
+pop$ -- 2626
 preamble$ -- 1
-purify$ -- 3197
+purify$ -- 3136
 quote$ -- 0
-skip$ -- 3769
+skip$ -- 3699
 stack$ -- 0
-substring$ -- 10399
-swap$ -- 598
-text.length$ -- 40
+substring$ -- 10205
+swap$ -- 582
+text.length$ -- 38
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1988
+type$ -- 1952
 warning$ -- 0
-while$ -- 1194
+while$ -- 1170
 width$ -- 0
-write$ -- 4357
+write$ -- 4277
