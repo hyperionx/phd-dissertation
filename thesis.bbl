@@ -858,6 +858,12 @@ Kim, T., Hu, S., Kim, J., Kwak, J.~Y., Park, J., Lee, S., Kim, I., Park, J.-K.,
   non-linear weight update.
 \newblock {\em Frontiers in computational neuroscience}, 15:646125.
 
+\bibitem[Kline and Berardi, 2005]{kline2005revisiting}
+Kline, D.~M. and Berardi, V.~L. (2005).
+\newblock Revisiting squared-error and cross-entropy functions for training
+  neural network classifiers.
+\newblock {\em Neural Computing \& Applications}, 14:310--318.
+
 \bibitem[Knight, 1972]{knight1972dynamics}
 Knight, B.~W. (1972).
 \newblock Dynamics of encoding in a population of neurons.
@@ -1312,6 +1318,12 @@ Oswald, S. (2006).
 \newblock {\em Encyclopedia of Analytical Chemistry: Applications, Theory and
   Instrumentation}.
 
+\bibitem[Pal and Singh, 2010]{pal2010handwritten}
+Pal, A. and Singh, D. (2010).
+\newblock Handwritten english character recognition using neural network.
+\newblock {\em International Journal of Computer Science \& Communication},
+  1(2):141--144.
+
 \bibitem[Pehle et~al., 2022]{pehle2022brainscales}
 Pehle, C., Billaudelle, S., Cramer, B., Kaiser, J., Schreiber, K., Stradmann,
   Y., Weis, J., Leibfried, A., M{\"u}ller, E., and Schemmel, J. (2022).
@@ -1346,6 +1358,13 @@ Pi, S., Li, C., Jiang, H., Xia, W., Xin, H., Yang, J.~J., and Xia, Q. (2019).
 Polsky, A., Mel, B.~W., and Schiller, J. (2004).
 \newblock Computational subunits in thin dendrites of pyramidal cells.
 \newblock {\em Nature neuroscience}, 7(6):621--627.
+
+\bibitem[Pomerat et~al., 2019]{pomerat2019neural}
+Pomerat, J., Segev, A., and Datta, R. (2019).
+\newblock On neural network activation functions and optimizers in relation to
+  polynomial regression.
+\newblock In {\em 2019 IEEE International Conference on Big Data (Big Data)},
+  pages 6183--6185. IEEE.
 
 \bibitem[Prakash and Hwang, 2016]{prakash2016multilevel}
 Prakash, A. and Hwang, H. (2016).
@@ -1395,6 +1414,11 @@ Regonini, D. (2008).
 \newblock {\em Anodised TiO2 nanotubes: synthesis, growth mechanism and thermal
   stability}.
 \newblock PhD thesis, University of Bath Bath, UK.
+
+\bibitem[Rumelhart et~al., 1986]{rumelhart1986learning}
+Rumelhart, D.~E., Hinton, G.~E., and Williams, R.~J. (1986).
+\newblock Learning representations by back-propagating errors.
+\newblock {\em nature}, 323(6088):533--536.
 
 \bibitem[Saha and Krupanidhi, 2001]{saha2001transient}
 Saha, S. and Krupanidhi, S. (2001).
@@ -1945,11 +1969,23 @@ Zamarre{\~n}o-Ramos, C., Camu{\~n}as-Mesa, L.~A., P{\'e}rez-Carrasco, J.~A.,
   building a self-learning visual cortex.
 \newblock {\em Frontiers in neuroscience}, 5:26.
 
+\bibitem[Zbontar et~al., 2016]{zbontar2016stereo}
+Zbontar, J., LeCun, Y., et~al. (2016).
+\newblock Stereo matching by training a convolutional neural network to compare
+  image patches.
+\newblock {\em J. Mach. Learn. Res.}, 17(1):2287--2318.
+
 \bibitem[Zha and Li, 2017]{zha2017imec}
 Zha, Y. and Li, J. (2017).
 \newblock Imec: A fully morphable in-memory computing fabric enabled by
   resistive crossbar.
 \newblock {\em IEEE Computer Architecture Letters}, 16(2):123--126.
+
+\bibitem[Zhang et~al., 2018]{zhang2018efficient}
+Zhang, H., Weng, T.-W., Chen, P.-Y., Hsieh, C.-J., and Daniel, L. (2018).
+\newblock Efficient neural network robustness certification with general
+  activation functions.
+\newblock {\em Advances in neural information processing systems}, 31.
 
 \bibitem[Zhang et~al., 2017]{zhang2017emulating}
 Zhang, X., Liu, S., Zhao, X., Wu, F., Wu, Q., Wang, W., Cao, R., Fang, Y., Lv,

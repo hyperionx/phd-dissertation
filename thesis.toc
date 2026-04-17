@@ -64,18 +64,19 @@
 \contentsline {section}{\numberline {5.4}Summary}{109}{section.5.4}%
 \contentsline {chapter}{\numberline {6}Biorealistic Computing}{111}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Spiking Deep Networks}{111}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Brain-like Analogy}{112}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Spiking Paradigm}{114}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}Memristive Frameworks}{118}{subsection.6.1.3}%
-\contentsline {section}{\numberline {6.2}Nonidealities Simulation}{121}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Learning Rules}{122}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{128}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{133}{subsection.6.2.3}%
-\contentsline {section}{\numberline {6.3}Inference and Classification}{137}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{138}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{142}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}Computation Performance}{145}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Summary}{150}{section.6.4}%
+\contentsline {subsection}{\numberline {6.1.1}Conventional Artificial Neural Networks}{111}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Brain-like Analogy}{112}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Spiking Paradigm}{114}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Memristive Frameworks}{119}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Nonidealities Simulation}{123}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Learning Rules}{123}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{129}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{134}{subsection.6.2.3}%
+\contentsline {section}{\numberline {6.3}Inference and Classification}{138}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{139}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{143}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Computation Performance}{146}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Summary}{151}{section.6.4}%
 \contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{153}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Optimisation Motivations}{153}{section.7.1}%
 \contentsline {subsection}{\numberline {7.1.1}Analogue Hardware Challenges}{153}{subsection.7.1.1}%

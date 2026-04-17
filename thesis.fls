@@ -930,6 +930,8 @@ OUTPUT Chapter6\chapter6.aux
 INPUT .\Chapter6\chapter6.tex
 INPUT .\Chapter6\chapter6.tex
 INPUT Chapter6\chapter6.tex
+INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
+INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
 INPUT .\Chapter6\Figs\a.png
 INPUT .\Chapter6\Figs\a.png
 INPUT .\Chapter6\Figs\a.png
@@ -975,8 +977,6 @@ INPUT .\Chapter6\Figs\f.png
 INPUT .\Chapter6\Figs\f.png
 INPUT .\Chapter6\Figs\f.png
 INPUT .\Chapter6\Figs\f.png
-INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
-INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
 INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmbi8t.tfm
 INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmbi8t.vf
 INPUT C:\Users\User\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmbi8r.tfm
