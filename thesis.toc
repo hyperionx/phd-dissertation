@@ -70,11 +70,11 @@
 \contentsline {subsection}{\numberline {6.1.4}Memristive Frameworks}{116}{subsection.6.1.4}%
 \contentsline {section}{\numberline {6.2}Nonidealities Simulation}{118}{section.6.2}%
 \contentsline {subsection}{\numberline {6.2.1}Learning Rules}{118}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{124}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{129}{subsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.2.2}Training Schemes}{125}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Conductance Mapping}{130}{subsection.6.2.3}%
 \contentsline {section}{\numberline {6.3}Inference and Classification}{134}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{134}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{138}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.1}Nonidealities Calibrations}{135}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Simulation Configurations}{139}{subsection.6.3.2}%
 \contentsline {subsection}{\numberline {6.3.3}Computation Performance}{142}{subsection.6.3.3}%
 \contentsline {section}{\numberline {6.4}Summary}{147}{section.6.4}%
 \contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{149}{chapter.7}%

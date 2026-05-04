@@ -69,12 +69,12 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials generated via chemical and electrical signaling at synapses.}}{113}{figure.caption.79}%
 \contentsline {figure}{\numberline {6.2}{\ignorespaces Hybrid memristor-CMOS architecture for STDP learning.}}{113}{figure.caption.80}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{116}{figure.caption.81}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{115}{figure.caption.81}%
 \contentsline {figure}{\numberline {6.4}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{120}{figure.caption.82}%
 \contentsline {figure}{\numberline {6.5}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{122}{figure.caption.83}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{125}{figure.caption.84}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces A single layer of spiking neural network with RRAM synapses organized in crossbar architecture.}}{126}{figure.caption.84}%
 \contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{131}{figure.caption.85}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{135}{figure.caption.86}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{136}{figure.caption.86}%
 \contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{139}{figure.caption.87}%
 \contentsline {figure}{\numberline {6.10}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{142}{figure.caption.88}%
 \contentsline {figure}{\numberline {6.11}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions}}{143}{figure.caption.89}%
