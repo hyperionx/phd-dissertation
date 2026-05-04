@@ -11,7 +11,7 @@ This section explores biorealistic computing, focusing on implementing Spiking N
 
 \noindent Unlike conventional artificial neural networks that rely on continuous, high-precision activations and often ignore underlying neuroscience principles \cite{pfeiffer2018deep, tavanaei2019deep}, neuromorphic architectures communicate via discrete voltage spikes. These systems use electronic devices to faithfully mimic biological cells, with neurons acting as active decision-making units and synapses storing information \cite{mead1989analog}. By encoding data through both spike rate and precise timing, SNNs naturally support biologically plausible learning, drawing far more direct inspiration from nature than traditional machine learning frameworks.
 
-\subsection[Conventional Artificial Neural Networks]{Conventional Artificial Neural Networks}
+\subsection[From Conventional ANNs to Brain-Inspired Analogies]{From Conventional ANNs to Brain-Inspired Analogies}
 
 Before exploring brain-inspired computing, we must first understand how conventional Artificial Neural Networks (ANNs) work. ANNs organize artificial neurons into distinct layers: an input layer, one or more hidden layers, and an output layer \cite{stone2019artificial}. In standard designs, like the Multilayer Perceptron (MLP), information flows sequentially from one layer to the next.\\
 
@@ -20,8 +20,6 @@ Before exploring brain-inspired computing, we must first understand how conventi
 \noindent The non-linear activation function gives the network the flexibility to model complex real-world data \cite{pomerat2019neural}. Modern deep learning often uses the Rectified Linear Unit (ReLU) activation function \cite{zhang2018efficient}. ReLU prevents signals from fading out as they pass through many layers, allowing developers to train much deeper networks successfully. To learn, ANNs undergo supervised training to minimize errors \cite{kline2005revisiting}. The backpropagation algorithm acts as the engine for this learning \cite{rumelhart1986learning}. It calculates exactly how much each weight contributed to the final error by working backward from the output layer to the input layer.\\
 
 \noindent Using these calculations, optimization algorithms like Stochastic Gradient Descent (SGD) tweak the weights to reduce the error. By processing small batches of data over many cycles, SGD helps the network learn general features and accurately classify new data. While conventional ANNs are powerful, their massive energy requirements and memory bottlenecks have pushed researchers to look for more efficient, biologically inspired computing methods.
-
-\subsection[Brain-like Analogy]{Brain-like Analogy}
 
 The human brain processes information through vast networks of neurons. A biological neuron has three main parts: dendrites that receive signals, a soma (cell body) that integrates them, and an axon that transmits them. Neurons connect at tiny junctions called synapses, where the transmitting axon meets the receiving dendrite. \\
 
@@ -47,7 +45,7 @@ The human brain processes information through vast networks of neurons. A biolog
 
 \noindent In these circuits, CMOS neurons mimic biological behavior \cite{prezioso2016self}. The total current reaching a receiving neuron equals the sum of the currents passing through its connected memristors. If this accumulated current crosses a set threshold, the CMOS neuron fires a spike. This hardware setup enables networks to learn much like a biological brain. For example, if a transmitting neuron fires right before a receiving neuron, the overlapping pulses increase the memristor's conductance, strengthening the artificial synapse. If the firing order reverses, the conductance decreases. This mechanism allows the hardware to adapt and learn continuously without relying on external memory.
 
-\subsection[Spiking Paradigm]{Spiking Paradigm}
+\subsection[The Spiking Computation Paradigm and Memristive Integration]{The Spiking Computation Paradigm and Memristive Integration}
 
 Deep neural networks (DNNs) have transformed artificial intelligence, mastering tasks from image recognition \cite{krizhevsky2012imagenet} to natural language processing. However, these networks rely on "rate-based" neurons. They communicate using continuous numbers (like decimals) that represent an average firing rate, ignoring the precise timing of individual impulses. Translating these continuous models into discrete, event-driven spiking networks presents a major research challenge.\\
 
@@ -98,8 +96,6 @@ Deep neural networks (DNNs) have transformed artificial intelligence, mastering 
 
 \noindent However, because it averages data over time, rate-coding destroys the precise timing of individual spikes—a critical feature in biological processing \cite{chase2006spike}. Alternatively, temporal coding schemes like Time-to-First-Spike (TTFS) or Inter-Spike Interval (ISI) encode information directly into the exact timing of the spikes, preserving this rich temporal structure \cite{gerstner2014neuronal}.
 
-\subsection[Memristive Frameworks]{Memristive Frameworks}
-
 \noindent Spiking Neural Networks (SNNs) adapt traditional deep learning by enforcing biological constraints, such as discrete communication and local learning rules. These constraints fundamentally change how networks compute, drastically improving speed and efficiency \cite{tavanaei2019deep, wang2020supervised}. Neuromorphic hardware—circuits built to mimic the nervous system—significantly reduces energy consumption \cite{wunderlich2019demonstrating}. Instead of using power-hungry, high-precision numbers, these systems encode information in the precise timing and frequency of voltage spikes \cite{zhou2020towards}.\\
 
 \noindent While the backpropagation algorithm successfully trains traditional deep networks \cite{werbos1990backpropagation}, it fails in SNNs because discrete spikes lack the smooth mathematical derivatives required for gradient calculations. Researchers solve this using "surrogate gradients." They use actual spikes during forward processing but swap in a smooth mathematical approximation during the backward learning phase \cite{neftci2019surrogate}. Specialized software packages now support these SNNs \cite{hazan2018bindsnet}, leveraging GPUs to accelerate training significantly \cite{pehle2021norse}.\\
@@ -117,29 +113,23 @@ Deep neural networks (DNNs) have transformed artificial intelligence, mastering 
 
 \section[Nonidealities Simulation]{Nonidealities Simulation}
 
-\noindent Neuromorphic modelling involves the computational simulation of artificial systems that emulate biological neural networks, aiming to understand and predict their behavior when physically implemented in electronic hardware. The term "neuromorphic" originated in the late 1980s to describe digital and analogue hardware organized in a more brain-like manner than traditional computer hardware \cite{mead1990neuromorphic}. A fundamental concept in neuromorphic systems is parallel distributed processing. Neuromorphic systems arrange computations at the neural level, emphasizing rapid communication between neural processing units. This contrasts with other parallel distributed systems, such as graphics processing units (GPUs), which are typically optimized for independent parallel computations with limited inter-unit communication.
+\noindent Neuromorphic modeling computationally simulates artificial systems that emulate biological neural networks to predict their physical hardware behavior. Coined in the late 1980s \cite{mead1990neuromorphic}, "neuromorphic" describes hardware organized structurally like the brain. A foundational concept is parallel distributed processing. These systems arrange computations at the neural level to emphasize rapid inter-unit communication, contrasting with conventional graphics processing units (GPUs) optimized for independent parallel computations with minimal communication.
 
-\subsection[Learning Rules]{Learning Rules}
+\subsection[Local Plasticity and Neuromorphic Learning Rules]{Local Plasticity and Neuromorphic Learning Rules}
 
+\noindent Synapses undergo structural and functional changes via synaptic plasticity. In neural systems, spike timing determines synaptic strength, forming the basis for learning and memory. Two principal forms of synaptic plasticity exist: long-term plasticity (LTP) \cite{bear1994synaptic} and short-term plasticity (STP) \cite{zucker2002short}. Synapses can strengthen or weaken, retaining memory over extended periods (Long-Term Facilitation (LTF) or Long-Term Depression (LTD)). More transient changes are Short-Term Facilitation (STF) or Short-Term Depression (STD). While standard deep neural network (DNN) training mimics LTP by optimizing a unified weight matrix through error backpropagation, actual neurobiological learning rules differ significantly.\\
 
-\noindent Synapses are capable of structural and functional changes, a process known as synaptic plasticity. In neuronal systems, synaptic strength changes according to the occurrence of spikes in presynaptic or postsynaptic neurons. Memory can be conceptualized as a vast neural network, with synaptic weight being a fundamental determinant of learning and memory processes.\\
-
-
-\noindent Two principal forms of synaptic plasticity have been identified: long-term plasticity (LTP) \cite{bear1994synaptic} and short-term plasticity (STP) \cite{zucker2002short}. Synapses may strengthen or weaken, and exhibit memory retention over relatively long times (Long-Term Facilitation (LTF) or Long-Term Depression (LTD), respectively). Changes occurring within a relatively short time are referred to as Short-Term Facilitation (STF) or Short-Term Depression (STD).\\
-
-\noindent The concept of synaptic long-term potentiation (LTP) has been incorporated into deep neural network (DNN) training, involving the concatenation of all synapse weights into a large multi-dimensional matrix to identify the optimal weight matrix through error backpropagation. However, neuroscience mechanisms and learning rules are not identical.\\
-
-\noindent One of the most celebrated learning rules in neuroscience is the Hebbian rule \cite{hebb2002organization}, concisely summarized as: neurons that 'fire together, wire together' \cite{shatz1992developing}. The Hebbian rule can be interpreted as a rate model defined by the neuron spiking rate. It is a local rule requiring simultaneous neuron activity \cite{gerstner2014neuronal}. The general model for this local rule can be defined as follows:
+\noindent The Hebbian rule \cite{hebb2002organization}, famously summarized as "neurons that fire together, wire together" \cite{shatz1992developing}, relies on simultaneous neuron activity \cite{gerstner2014neuronal}. It defines a localized rate model:
 \begin{align}
 \frac{dw_{ij}}{dt} = F\left( w_{ij},M,v^{prev}_j,v^{post}_i \right) \label{eq:6.4} 
 \end{align}
 
-\noindent Where $w_{ij}$ is the synaptic weight, $M$ is the effect of the neuromodulator (a chemical signal, such as dopamine, that regulates or gates synaptic plasticity), $v^{prev}_j$ is the presynaptic neuron firing rate, and $v^{post}_i$ is the postsynaptic neuron firing rate. A Taylor expansion of equation \ref{eq:6.4} with respect to the rate is:
+\noindent Here, $w_{ij}$ is the synaptic weight, $M$ represents a neuromodulator (e.g., dopamine gating synaptic plasticity), $v^{prev}_j$ is the presynaptic firing rate, and $v^{post}_i$ is the postsynaptic firing rate. A Taylor expansion of Equation \ref{eq:6.4} with respect to the rate yields:
 \begin{align}
 \frac{dw_{ij}}{dt} = a_0({w_{ij},M}) + a_1({w_{ij},M})^{prev}v^{prev}_j + a_1({w_{ij},M})^{post}v^{post}_i + a_2({w_{ij},M})^{corr}v^{prev}_jv^{post}_i + ... \label{eq:6.5} 
 \end{align}
 
-\noindent In the absence of a spike at either the presynaptic or postsynaptic neuron, the effect of background weight decay or drift is represented by the zeroth-order term $a_0$. The expansion coefficients quantify the specific contribution or scaling factor of each firing condition to the overall rate of synaptic weight change. When spikes occur solely at the presynaptic neuron, $a^{prev}_1$ is the first-order expansion coefficient capturing this isolated activity. Similarly, when spikes occur exclusively at the postsynaptic neuron, $a^{post}_1$ is the corresponding expansion coefficient. Finally, when spikes occur at both the presynaptic and postsynaptic neurons, the second-order expansion coefficient $a^{corr}_2$ dictates the strength and direction of the true Hebbian correlation (the effect of simultaneous firing). Additional higher-order terms for $v^{prev}_j$ and $v^{post}_i$ are represented by the ellipsis. All coefficients are contingent upon the current synaptic weight $w_{ij}$ and the neuromodulator \textit{M}. Depending on varying parameters and conditions, the Hebbian rule can manifest as LTF or LTD, signifying that it is a set of learning rules rather than a single fixed rule.\\
+\noindent The zeroth-order term $a_0$ represents background weight decay absent any spikes. The first-order coefficients $a^{prev}_1$ and $a^{post}_1$ scale the contributions of isolated presynaptic and postsynaptic activity, respectively. The second-order coefficient $a^{corr}_2$ dictates the true Hebbian correlation derived from simultaneous firing. The ellipsis represents higher-order terms. All coefficients depend on the current synaptic weight $w_{ij}$ and neuromodulator $M$. Depending on these variables, the Hebbian rule induces either LTF or LTD, functioning as a flexible framework rather than a rigid rule.\\
 
 \begin{figure}[htbp!] 
 \centering    
@@ -148,40 +138,38 @@ Deep neural networks (DNNs) have transformed artificial intelligence, mastering 
 \label{fig:6d}
 \end{figure}
 
-\noindent Another prevalent learning rule is spike-timing-dependent plasticity (STDP). The STDP process entails an increase or decrease in synaptic weight contingent on the time interval between pre- and postsynaptic spikes. The total weight change from neuron \textit{j} to neuron \textit{i} is defined as follows:
+\noindent Spike-timing-dependent plasticity (STDP) adjusts synaptic weights based on the precise time interval between pre- and postsynaptic spikes. Equation \ref{eq:6.6} defines the total weight change from neuron $j$ to neuron $i$:
 \begin{align}
 \Delta w_{ij} = \sum_{n}^{}\sum_{f}^{} W\left( t_i^n - t_j^f \right)\label{eq:6.6} 
 \end{align}
 
-\noindent In this context, the term $t_i^n$ denotes the spike times of postsynaptic neuron \textit{i}, while $t_j^f$ indicates the spike time of presynaptic neuron \textit{j}. The variables \textit{n} and \textit{f} are used to count the pre- and postsynaptic spikes, respectively. The term \textit{W(x)} refers to the learning window of the STDP function. Numerous variations of STDP exist, with one of the most common types being the pair-based variant, defined as follows:
+\noindent Here, $t_i^n$ denotes the $n$-th postsynaptic spike time, and $t_j^f$ denotes the $f$-th presynaptic spike time. $W(x)$ defines the STDP learning window. The prevalent pair-based STDP variant dictates:
 \begin{align}
 W_+ (x) &= \left\{ A_+(w)e^{-\left| \Delta t \right| / \tau_+} \right\}  \quad \forall  t_{post} \in t_{prev} < t_{post} \label{eq:6.7} \\
 W_- (x) &= \left\{ A_-(w)e^{-\left| \Delta t \right| / \tau_-} \right\}  \quad \forall  t_{prev} \in t_{post} < t_{prev} \label{eq:6.8}
 \end{align}
 
-\noindent Where $\left| \Delta t \right| = \left| t_{post} - t_{prev} \right|$. The time of the postsynaptic spike is designated as $t_{post}$, while the time of the presynaptic spike is designated as $t_{prev}$. In most cases, $A_+(w)$ is positive, $A_-(w)$ is negative, and these values may be dependent on the current synaptic weight. $W_+ (x)$ is associated with long-term facilitation (LTF), while $W_- (x)$ is associated with long-term depression (LTD). \\
+\noindent where $\Delta t = t_{post} - t_{prev}$. The amplitude parameters $A_+(w) > 0$ and $A_-(w) < 0$ determine the magnitude of LTF and LTD, respectively, and often depend on the current weight. \\
 
-\noindent By introducing $S_j = \sum_{f}^{} \delta\left( t - t_j^f \right) $ and $S_i = \sum_{n}^{} \delta\left( t - t_i^n \right) $,  where $S_j$ represents the spike train of the presynaptic neuron and $S_i$ represents the spike train of the postsynaptic neuron, the pair-based STDP rule, as presented in previous equations, can be implemented by:
+\noindent By expressing the presynaptic and postsynaptic spike trains as $S_j = \sum_{f} \delta( t - t_j^f )$ and $S_i = \sum_{n} \delta( t - t_i^n )$, respectively, the pair-based STDP rule reformulates as:
 \begin{align}
 \frac{dx_j}{dt} &= \sum_{f}^{}\delta\left( t - t_j^f \right) - \frac{x_j}{\tau_+} = S_j(t) - - \frac{x_j}{\tau_+} \label{eq:6.9} \\
 \frac{dy_i}{dt} &= \sum_{n}^{}\delta\left( t - t_i^n \right) - \frac{y_j}{\tau_-} = S_i(t) - \frac{y_j}{\tau_-} \label{eq:6.10} 
 \end{align}
 
-\noindent Here, the notation $t_j^f$ represents the spike time of the presynaptic neuron, while $t_i^n$ denotes the spike times of the postsynaptic neuron. The variables $x_j$ and $y_i$ can be interpreted as a trace that each pre- and postsynaptic spike leaves, and respectively correspond to the $e^{-\left| \Delta t \right| / \tau_+} $ and $e^{-\left| \Delta t \right| / \tau_-}$ terms to give:
+\noindent The variables $x_j$ and $y_i$ act as biochemical traces left by pre- and postsynaptic spikes, corresponding to the exponential decay terms $e^{-|\Delta t| / \tau_+}$ and $e^{-|\Delta t| / \tau_-}$, yielding:
 \begin{align}
 \frac{dw_{ij}}{dt} = A_+ w_{ij}x_i(t)S_i(t) + A_-w_{ij}y_i(t)S_j(t) \label{eq:6.11} 
 \end{align}
 
-\noindent Where the first term on the right-hand side denotes the pre-before-post effect, while the second term indicates the post-before-pre effect. For independent Poisson inputs, STDP models are related to rate models \cite{gerstner2014neuronal}. One may define the STDP model as a rate model as follows:
+\noindent The right-hand terms denote the pre-before-post and post-before-pre effects, respectively. For independent Poisson inputs, STDP aligns directly with rate models \cite{gerstner2014neuronal}:
 \begin{align}
 \frac{dw_{ij}}{dt} = \int_{0}^{+\infty } W(-s)\epsilon(s)ds\cdot v_{j}^{prev} + \int_{-\infty }^{+\infty } W(s)ds \cdot v_j^{prev}v_i^{post} \label{eq:6.12}
 \end{align}
 
-\noindent The first term on the right-hand side is defined by the integral over the 'causal' part of the learning window, also known as the 'pre-before-post' relation. This integral is represented by the function $\int_{0}^{+\infty } W(-s)\epsilon(s)ds$, where \textit{W} is the weighting function and $\epsilon (s)$ describes the time course of a Postsynaptic Potential (PSP) for $s > 0$. A comparison of Equation \ref{eq:6.5} with Equation \ref{eq:6.12} reveals that there are two terms defining coefficients $a_1(w_{ij},M)^{prev}$ and $a_2(wij,M)^{corr}$, while the remaining terms are all zero. \\
+\noindent The first term integrates the causal "pre-before-post" learning window, where $W$ is the weighting function and $\epsilon(s)$ defines the postsynaptic potential time course for $s > 0$. Comparing Equations \ref{eq:6.5} and \ref{eq:6.12} shows that STDP defines the $a_1^{prev}$ and $a_2^{corr}$ coefficients, nullifying the rest. Non-volatile memristors natively emulate LTP synapses by retaining updated memristance states. Arranged in an $m \times n$ crossbar array, these devices perform physical analog vector-matrix multiplication. Input row voltages scale by each memristor's conductance (Ohm's law), and the resulting currents accumulate along the columns (Kirchhoff's current law).\\
 
-\noindent Non-volatile memristors can operate as long-term potentiation (LTP) synapses, as their memristance will not alter after each update. In a fully connected neural network, the number of synapses between two layers is given by \textit{m · n}, where \textit{m} is the number of neurons in the previous layer and \textit{n} is the number of neurons in the next layer. Non-volatile memristors have been employed in crossbar arrays to perform analog vector-matrix multiplication. By applying input voltage vectors along the rows, each memristor scales the voltage by its conductance (acting as multiplication via Ohm's law). The resulting currents then naturally accumulate along the columns, performing the summation operation as dictated by Kirchhoff's current law.\\
-
-\noindent Gradient backpropagation (a global optimization algorithm that minimizes output errors by calculating and propagating the error gradient backward through the network layers to update synaptic weights) and STDP are distinct learning mechanisms. Gradient backpropagation is widely adopted in deep neural networks (DNNs), whereas STDP is prevalent in spiking neural networks (SNNs). Both can be implemented using memristors. For gradient backpropagation \cite{hasan2017chip}, memristive crossbar arrays can be employed for both training and inference in neural networks \cite{ankit2019puma}.\\
+\noindent Gradient backpropagation—a global optimization algorithm updating weights via backward error propagation—dominates DNNs, while STDP dominates SNNs. Memristive crossbars support both training and inference paradigms \cite{hasan2017chip, ankit2019puma}.\\
 
 \begin{figure}[htbp!] 
     \centering    
@@ -190,25 +178,21 @@ W_- (x) &= \left\{ A_-(w)e^{-\left| \Delta t \right| / \tau_-} \right\}  \quad \
     \label{fig:6e}
 \end{figure}
 
+\noindent Backpropagation requires complex external digital circuitry to calculate gradients and sequence update pulses, introducing substantial overhead. Conversely, STDP naturally maps to memristor physics \cite{maranhao2021low, yakopcic2013generalized}. Figure \ref{fig:6e} illustrates a memristor connecting two neurons. Pre- and postsynaptic spikes generate a precise voltage difference across the device, updating its memristance strictly based on the spike timing interval.\\
 
-\noindent The training process necessitates an external control unit (typically digital circuitry responsible for calculating error gradients, managing forward and backward passes, and generating the precise voltage pulses needed to update the memristor states), which introduces greater overhead than using the memristive crossbar alone. The STDP rule described above can be achieved using memristors \cite{maranhao2021low} and verified using SPICE models \cite{yakopcic2013generalized}. As illustrated in Figure \ref{fig:6e}, a memristor is situated between two neurons. Presynaptic and postsynaptic spikes generate a voltage difference across the memristor, causing a memristance update. The time interval between spikes results in varying memristance changes.\\
-
-\noindent The majority of research into the emulation of plastic synapses relies on non-volatile memristors for long-term potentiation (LTP), with few researchers focusing on the use of volatile memristors to mimic short-term plasticity (STP) synapses. The significance of volatile memristors is further underscored by their role in neural information processing, including functions such as motion detection, speech recognition, and working memory \cite{ghanbari2017estimating}. \\
-
-\noindent In contrast to long-term plasticity (LTP), short-term plasticity (STP) is dependent on the spiking activity of the presynaptic neuron. Let us define the fraction $P_{release}$ as the amount of neurotransmitter released by the presynaptic neuron. It can then be shown that the synaptic weight is directly related to $P_{release}$, and that both short-term facilitation (STF) and short-term depression (STD) can be modelled with the dynamics of $P_{release}$. STF can be defined as:
+\noindent While most research focuses on non-volatile memristors for LTP, volatile memristors effectively emulate short-term plasticity (STP), which governs critical functions like motion detection, speech recognition, and working memory \cite{ghanbari2017estimating}. Unlike LTP, STP depends heavily on presynaptic spiking activity. Defining $P_{release}$ as the fraction of neurotransmitter released allows us to model both STF and STD directly through its dynamics:
 \begin{align}
 \frac{dP_{release}}{dt} = \frac{P_{release} - P_0}{\tau_F} + f_F(1 - P_{release})\sum_{f}\delta\left( t- t^f \right) \label{eq:6.13}
 \end{align}
 
-
-\noindent Where $t^f$ is the time for each presynaptic spike, $P_0$ is the resting value of $P_{release}$, $\tau_F$ is a time constant governing the recovery process, and $f_F$ controls the facilitation degree. Similarly, STD can be defined as the following with $D$ denotes for depression:
+\noindent Here, $t^f$ is the presynaptic spike time, $P_0$ is the resting value, $\tau_F$ governs the recovery timescale, and $f_F$ controls facilitation. Similarly, STD is defined as:
 \begin{align}
 \frac{dP_{release}}{dt} = \frac{P_{release} - P_0}{\tau_D} + f_D(1 - P_{release})\sum_{f}\delta\left( t- t^f \right) \label{eq:6.14}
 \end{align}
 
-\noindent The transient nature of volatile memristors allows them to emulate STF or STD, as memristance change is retained only briefly. STF and STD measurement is typically conducted using Paired-Pulse Facilitation (PPF) and Paired-Pulse Depression (PPD). The PPF and PPD index is defined as  $\frac{A_2}{A_1}$, where $A_1$  and $A_2$ are the absolute amplitudes of the excitatory postsynaptic current (EPSC) or inhibitory postsynaptic current (IPSC) resulting from two successive presynaptic spikes. This index evaluates PPF or PPD strength. In 2018, a novel volatile memristor was proposed, and its PPF and PPD indexes were subsequently measured \cite{sun2018synaptic}. This two-terminal single-layered molybdenum disulfide $(MoS_2)$ device achieves conductance change through Joule heating.\\
+\noindent Volatile memristors naturally emulate STF and STD by retaining conductance changes only briefly. Paired-Pulse Facilitation (PPF) and Paired-Pulse Depression (PPD) metrics measure these effects. The index $\frac{A_2}{A_1}$ computes PPF/PPD strength, where $A_1$ and $A_2$ are absolute amplitudes of the excitatory (EPSC) or inhibitory postsynaptic currents (IPSC) from successive spikes. For instance, a single-layered molybdenum disulfide ($MoS_2$) memristor leverages Joule heating to achieve this volatile conductance modulation \cite{sun2018synaptic}.\\
 
-\noindent An alternative approach is to train the SNN using the supervised spike-rate-dependent plasticity (SRDP) learning rule. This is more hardware-compatible than backpropagation (BP) and overcomes the low accuracy of unsupervised SRDP, which only considers local optimization and ignores global errors \cite{pfeiffer2018deep}. The supervised SRDP rule can be described as follows:
+\noindent Alternatively, the supervised spike-rate-dependent plasticity (SRDP) rule trains SNNs with high hardware compatibility. Supervised SRDP overcomes the accuracy limitations of unsupervised methods by incorporating global error signals \cite{pfeiffer2018deep}:
 \begin{align}
 \Delta_{ij} &= \begin{cases}
 +1 & \text{ if } f_{r_j} < f_{t_j} \text{ \& } f_{s_i} > \text{ threshold }\\ 
@@ -217,31 +201,21 @@ W_- (x) &= \left\{ A_-(w)e^{-\left| \Delta t \right| / \tau_-} \right\}  \quad \
 \end{cases} \label{eq:6.15}
 \end{align}
 
-\noindent In this context, $f_s$ and $f_r$ represent the output frequencies of the sensory and relay neurons, respectively. $f_t$ denotes the teaching frequency, while threshold refers to the threshold of the output frequencies of the sensory neurons. The symbol $\Delta_{ij}$ represents the discrete synaptic weight update command, indicating the specific sequence of voltage pulses applied to the positive or negative synapses connecting the $i_{th}$ sensory neuron and the $j_{th}$ relay neuron. It effectively determines the direction and degree of plasticity required to align the relay neuron's output with the teaching frequency. \\
+\noindent Here, $f_s$, $f_r$, and $f_t$ represent the output frequencies of the sensory, relay, and teaching neurons, respectively. The discrete update command $\Delta_{ij}$ dictates the voltage pulses applied to the synapses connecting the $i$-th sensory and $j$-th relay neurons.\\
 
-\noindent The learning rule dictates these discrete updates by evaluating the relay neuron's output frequency against the teaching frequency. If a relay neuron is firing slower than desired ($f_{r_j} < f_{t_j}$), the network must strengthen pathways from active sensory neurons and weaken pathways from inactive ones. Thus, if the sensory neuron is highly active ($f_{s_i} > \text{threshold}$), the network increases the synaptic weight ($\Delta_{ij} = +1$). Conversely, if the sensory neuron is insufficiently active ($f_{s_i} < \text{threshold}$), the weight is decreased ($\Delta_{ij} = -1$). \\
+\noindent The rule evaluates the relay neuron's output against the teaching frequency. If the relay neuron fires too slowly ($f_{r_j} < f_{t_j}$), the network strengthens pathways from highly active sensory neurons ($f_{s_i} > \text{threshold}$) via $\Delta_{ij} = +1$. It weakens pathways from insufficiently active neurons ($f_{s_i} < \text{threshold}$) via $\Delta_{ij} = -1$. If the relay neuron fires too fast ($f_{r_j} > f_{t_j}$), it has incorrectly learned alternative features; the network aggressively erases these features by decreasing the weight ($\Delta_{ij} = -2$).\\
 
-\noindent Furthermore, if the relay neuron fires faster than the teaching frequency ($f_{r_j} > f_{t_j}$), it signifies the neuron has incorrectly learned features of an alternative class ($f_{t_j} = 0$) or is over-expressing features ($f_{t_j} > 0$). To correct this, the network must aggressively erase these features by strongly decreasing the synaptic weight ($\Delta_{ij} = -2$). \\
-
-\noindent To physically implement these updates, a differential memristor pair is used for each synapse. This is necessary because individual memristors can only possess positive conductance. Therefore, a $\Delta_{ij} = +1$ command applies a voltage pulse to the 'negative' half of the differential pair to effectively increase the overall synaptic weight, whereas a $\Delta_{ij} = -1$ (or $-2$) command applies pulses to the 'positive' half to decrease the effective weight.\\
-
-\noindent While the SRDP rule governs these local, discrete weight updates at individual synapses, a global metric is required to evaluate overall training progress. To quantify this training effort, a global loss function has been devised based on the normalized discrepancy between the actual output frequencies and the target teaching frequencies. For a single training sample $k$, the error $l_k$ across all $j$ relay neurons is defined as:
+\noindent Because physical memristors strictly possess positive conductance, hardware implementations use differential pairs to encode signed weights. A $\Delta_{ij} = +1$ command pulses the 'negative' memristor to increase the effective weight, while a $-1$ or $-2$ command pulses the 'positive' memristor to decrease it. A global loss function evaluates overall training progress by measuring the normalized discrepancy between actual and target frequencies. For a single training sample $k$, the error $l_k$ across all $j$ relay neurons is:
 \begin{align}
 l_k &= \frac{\sum_{j}\left( f_{r,j} - f_{t,j} \right)^2}{\sum_{j}\left( f_{t,j} \right)^2} \label{eq:6.16}\\
 Loss &= \frac{1}{N}\sum_{k=1}^{N}l_k \label{eq:6.17}
 \end{align}
 
-\noindent In this context, $f_{r,j}$ signifies the actual output frequency of the $j_{th}$ relay neuron for the given sample $k$, while $f_{t,j}$ represents the corresponding teaching frequency. The individual sample error $l_k$ is computed and then averaged over all $N$ samples in the training set to determine the total $Loss$ (Equation \ref{eq:6.17}). The supervised training program continuously applies the SRDP updates and monitors this global $Loss$, terminating the process once the error falls below a sufficiently low threshold.
+\noindent Here, $f_{r,j}$ and $f_{t,j}$ represent the actual and target output frequencies for the $j$-th relay neuron. The system computes the individual error $l_k$ and averages it across all $N$ training samples to determine the total $Loss$. The algorithm continually applies local SRDP updates and terminates once the $Loss$ falls below a set threshold.
 
-\subsection[Training Schemes]{Training Schemes}
+\subsection[Memristive Array Architectures and Continuous-Time Dynamics]{Memristive Array Architectures and Continuous-Time Dynamics}
 
-\noindent The discovery of spike-timing-dependent plasticity (STDP) mechanisms and the emergence of nanoscale non-volatile memory (NVM) devices have opened a new avenue towards realizing brain-inspired computing over the past decade \cite{zamarreno2011spike}. Prior research suggests that STDP can train spiking neural networks (SNNs) with resistive random-access memory (RRAM) synapses in-situ, without trading off their parallelism \cite{querlioz2012bioinspired}. Furthermore, these devices have demonstrated low energy consumption for state transitions and a highly compact layout footprint \cite{yu2011electronic}.\\
-
-
-\noindent A multi-layer Spiking Deep Convolutional Neural Network (SDCNN) architecture has been proposed \cite{kheradpisheh2018stdp}. In this model, the input layer encodes real-valued inputs into spatiotemporal spike patterns, which are then processed by subsequent convolutional layers using STDP-based unsupervised learning to extract features.\\
-
-
-\noindent As illustrated in Figure \ref{fig:6f}, an RRAM crossbar array establishes synaptic connections between two neuronal layers. Spiking neurons in the second and subsequent layers implement competitive learning through a winner-take-all (WTA) shared bus mechanism, whereby the neuron that spikes first for an input pattern inhibits the remaining neurons in the same layer \cite{markram2012spike}. A combination of STDP and WTA-based learning rules enables synapses to be locally updated through the interaction of pre- and post-synaptic neuron spikes (Figure \ref{fig:6e}), facilitating network learning through fine-grained weight (or conductance) adaptation in the synapses.\\
+\noindent Nanoscale non-volatile memory (NVM) devices and STDP mechanisms enable highly parallel, brain-inspired computing \cite{zamarreno2011spike, querlioz2012bioinspired}. Resistive random-access memory (RRAM) synapses offer particularly low state-transition energy and a compact physical footprint \cite{yu2011electronic}. A multi-layer Spiking Deep Convolutional Neural Network (SDCNN) encodes real-valued inputs into spatiotemporal spike patterns \cite{kheradpisheh2018stdp}. Subsequent convolutional layers extract features using STDP-based unsupervised learning. Figure \ref{fig:6f} illustrates an RRAM crossbar array connecting two neuronal layers. Spiking neurons implement competitive learning via a winner-take-all (WTA) shared bus mechanism, where the first neuron to spike inhibits all others in the layer \cite{markram2012spike}. STDP and WTA learning rules combine to update synapses locally based on pre- and post-synaptic spike interactions, adapting weights natively in hardware.\\
 
 \begin{figure}[htbp!] 
     \centering    
@@ -250,29 +224,17 @@ Loss &= \frac{1}{N}\sum_{k=1}^{N}l_k \label{eq:6.17}
     \label{fig:6f}
 \end{figure}
 
-\noindent The presented architectural configuration resembles existing memory architectures, where devices are arranged in a dense two-dimensional array with input and output neurons forming peripheral circuitry, laid out at a matching pitch with the memory array. This layout forms a repeatable motif scalable to deeper SNN architectures. Extending to larger 3D IC architectures using through-silicon-vias (TSVs) represents a natural pathway for further scaling to very high integration density and network complexity. Because TSVs provide a massive number of direct, vertical physical connections between stacked layers, this scaling can be achieved without the encoding, arbitration, and routing overhead associated with asynchronous, time-multiplexed communication protocols like address-event representation (AER) \cite{jo2009programmable}, which are typically required to route spikes over long distances in planar 2D layouts.\\
+\noindent This dense 2D array architecture mimics standard memory layouts and forms a repeatable motif that scales to deeper SNNs. Through-silicon-vias (TSVs) extend this scaling to 3D integrated circuits. Because TSVs provide massive direct vertical connectivity between stacked layers, this high-density integration avoids the routing and encoding overhead of asynchronous address-event representation (AER) protocols \cite{jo2009programmable}.\\
 
+\noindent While analog-like weights optimize STDP learning \cite{gaba2013stochastic}, most practical small RRAM devices \cite{soni2011stochastic} exhibit abrupt, digital-like switching between resistance states \cite{yu2012switching}. This limits stable synaptic resolution to a single bit \cite{suri2013bio}. Device switching probabilities also depend heavily on applied voltage and pulse duration \cite{li2014stochastic}. To circumvent binary resolution, developers utilize compound memristive synapses consisting of multiple parallel bistable devices \cite{bill2014compound}. By probabilistically switching a fraction of these components, the aggregated conductance emulates a continuous, analog weight on a macroscopic scale.\\
 
-\noindent Non-volatile analog-like weights are desirable for effective STDP learning \cite{gaba2013stochastic}. However, most practical \cite{soni2011stochastic}, small-sized RRAM devices exhibit abrupt switching behavior—a sudden, digital-like transition between discrete high and low resistance states rather than a continuous, gradual change in conductance \cite{yu2012switching}. This abruptness limits stable synaptic resolution to 1-bit (or binary, bistable) \cite{suri2013bio}.  Furthermore, device switching probability and times typically depend on the applied voltage and pulse duration \cite{li2014stochastic}. To circumvent this limitation of binary resolution, a compound memristive synapse comprising multiple bistable devices in parallel was previously proposed \cite{bill2014compound}. In this architecture, the overall synaptic weight is determined by the aggregate sum of the conductances of the individual binary components. By selectively or probabilistically switching a fraction of these parallel devices, the compound synapse achieves multiple discrete conductance levels, effectively emulating a continuous, analog-like weight on a macroscopic scale.\\
+\noindent Theoretical studies confirm that STDP enables unsupervised local learning by implementing Bayesian expectation-maximization \cite{nessler2013bayesian} and hidden Markov models \cite{kappel2014stdp}. Nonlinear STDP windows ensure computational stability and efficiency \cite{sprekeler2007slowness, toyoizumi2004spike}. Nanoscale memristors like phase-change memory (PCM) \cite{kang2015emulation}, RRAM \cite{mandal2014novel}, and spin-torque-transfer RAM (STT-RAM) \cite{sengupta2015spin} naturally exhibit STDP-like switching characteristics \cite{krzysteczko2012memristive, li2013ultrafast}. They provide sub-pico-Joule switching energy, full CMOS compatibility, and a dense $4F^2$ footprint (where $F$ is the feature size) \cite{chen2016review}.\\
 
+\noindent RRAMs directly implement STDP through overlapping pairwise spikes. A presynaptic spike followed by a postsynaptic spike generates a net potential $V_{net}$ exceeding the positive threshold $V_{th}^+$, thereby increasing conductance. Conversely, an earlier postsynaptic spike creates a potential crossing the negative threshold $V_{th}^-$, decreasing conductance. While analog resistance optimizes STDP, experimental RRAMs suffer from stochastic filament formation. This causes abrupt transitions between the high resistance state (HRS) and low resistance state (LRS) and introduces significant variations in switching threshold voltages \cite{prakash2016multilevel}.\\
 
-\noindent Theoretical studies have demonstrated that the STDP learning rule facilitates unsupervised local learning in spiking neural networks through implementing a Bayesian expectation-maximisation algorithm \cite{nessler2013bayesian} and hidden Markov models \cite{kappel2014stdp}. Furthermore, a nonlinear STDP learning function, such as an exponentially shaped window observed in biological neural systems \cite{toyoizumi2004spike}, is essential for ensuring the stability and efficiency of the computing process \cite{sprekeler2007slowness}.\\
+\noindent This intrinsic stochasticity severely limits stable synaptic resolution. To scale MSNN complexity, researchers apply gradient descent directly to the nonlinear state evolution of memristive components \cite{zhou2022memristive}. The memristive integrate-and-fire (MIF) neuron model achieves distinct depolarization, hyperpolarization, and repolarization phases using minimal circuit elements. Because STDP lacks a global credit assignment mechanism, applying it to deep networks is difficult. MSNNs solve this by interconnecting dynamic MIF neurons with memristive synapses and training them via gradient descent \cite{neftci2019surrogate}. The analog spiking characteristics of MIF neurons circumvent non-differentiable activations, enabling efficient gradient-based optimization.\\
 
-
-\noindent As previously stated, emerging memristive nanoscale devices are being considered as a means of enabling the realization of large-scale neuromorphic hardware. Nanoscale implementations of memristors \cite{krzysteczko2012memristive}, including phase-change memory (PCM) \cite{kang2015emulation}, resistive random-access memory (RRAM) \cite{mandal2014novel}, and spin-torque-transfer random-access memory (STT-RAM) \cite{sengupta2015spin}, have been demonstrated to exhibit switching characteristics analogous to those observed in spike-timing-dependent plasticity (STDP) \cite{li2013ultrafast}. Furthermore, these devices offer the highly desired advantages of a small silicon area of $4F^2$ (\textit{F} is the feature size of the semiconductor fabrication process) \cite{chen2016review}, ultra-energy-efficient operation of sub-pico-Joule per switching event, CMOS compatibility, and dense crossbar (or crosspoint) arrays and 3D integration.\\
-
-\noindent In particular, RRAM devices exhibit characteristics that are analogous to those of biological synapses. Furthermore, RRAMs exhibit conductance levels comparable to synaptic strength (or weight), and their conductance can be modified by voltage pulses. Notably, RRAMs are capable of directly implementing spike-timing-dependent plasticity (STDP) through identical pair-wise spikes, the net potential $V_{net}$ created by a pre-synaptic spike and a late arriving post-synaptic spike, with $t > 0$, produces an over-threshold, $V_{th}^+$, portion $V_{eff}$, which then causes an increase in conductance in a typical RRAM. Conversely, a presynaptic spike and an earlier arriving post-synaptic spike with $t < 0$ produces $V_{eff}$ that crosses the negative threshold, $V_{th}^-$, and thus causes a decrease in the conductance. \\
-
-
-\noindent A memristor with analogue resistance is an optimal choice for STDP learning. However, experimental studies indicate that most nanoscale implementations of memristive RRAMs exhibit a stochastic process in their filament formation, typically resulting in an abrupt transition between the high resistance state (HRS) and low resistance state (LRS), alongside notable variations in switching threshold voltages \cite{prakash2016multilevel}.\\
-
-
-\noindent The intrinsic stochastic switching in RRAM therefore limits stable synaptic resolution to 1 bit, or bistable behavior. To enable STDP-based learning in SNN hardware, a solution for non-linear, especially exponential, STDP learning functions with binary RRAMs is highly desirable. One proposed approach to scale up the complexity of learnable tasks in fully MSNNs is by directly applying gradient descent to the nonlinear state evolution of memristive neurons and synapses \cite{zhou2022memristive}. Modelling of both neurons and synapses in biological neural networks employs memristors. The memristive integrate-and-fire (MIF) neuron model has been devised to achieve distinct depolarisation, hyperpolarisation, and repolarisation voltage phases with a minimal set of circuit elements.\\
-
-\noindent However, STDP is a local learning rule that lacks a mechanism for credit assignment across multiple layers, limiting its direct application to deep networks. To overcome this, memristive synapses can serve as interconnects between layers, enabling the development of dynamic memristive neurons. These neurons, when trained with gradient descent, can achieve significantly higher accuracy on data-driven tasks than previously reported for MSNNs \cite{neftci2019surrogate}. The analog spiking characteristics of the MIF neuron model, for instance, circumvent the non-differentiability of spike-based activations, making gradient-based learning possible.\\
-
-
-\noindent To account for the hardware implementation of a fully memristive spiking neural network (MSNN), it is necessary to consider the MIF neuron's voltage response, which must drive the memristive synapses. The synaptic conductances are correspondingly weighted by this response. This can be fully integrated into a crossbar according to the following equation:
+\noindent To implement a fully memristive SNN physically, the MIF neuron's voltage response must drive the memristive synapses. This maps perfectly to a crossbar array:
 \begin{align}
 \begin{matrix}
 & \textbf{G} & \\
@@ -312,39 +274,31 @@ I_{m}
 \end{align}
 
 
-\noindent where \textbf{\textit{I}} is the output current vector, \textbf{\textit{V}} is the input voltage vector, and \textbf{\textit{G}} is the conductance matrix of the crossbar.
+\noindent Here, \textbf{\textit{I}} is the output current vector, \textbf{\textit{V}} is the input voltage vector, and \textbf{\textit{G}} is the conductance matrix.
 \begin{align}
 I_n = \sum_{i=1}^{m} v_i \cdot w_{n,i} \label{eq:6.19}
 \end{align}
 
-\noindent The output current vector is generated via bitline current summation, as illustrated in equation (\ref{eq:6.19}), and is directly driven into the input of the subsequent MIF neuron layer. Resistive loading may result in the attenuation of the output current in subsequent stages \cite{wang2020high}; however, this can be accounted for through the utilisation of a scaling factor or the implementation of a buffer \cite{wang2022low}.
+\noindent The output current vector $\textbf{I}$ accumulates along the bitlines and drives the next MIF neuron layer. Buffers or scaling factors effectively mitigate resistive loading attenuation \cite{wang2020high, wang2022low}.
 \begin{align}
 \tau_{syn} \frac{dI}{dt} &= a - I \label{eq:6.20} \\
 \tau_{syn}\frac{da}{dt} &= W_i \cdot\sum_{n}\delta\left( t - t_i^n \right) \label{eq:6.21}
 \end{align}
 
-\noindent A considerable number of neural coding studies portray spike trains as a superposition of time-shifted Dirac delta pulses, represented by $\sum_{n}\delta\left( t - t_i^n \right)$, where $\delta$ is the Dirac delta function, $t$ represents continuous time, and $t_i^n$ denotes the precise timing of the $n_{th}$ spike emitted by the $i_{th}$ neuron. Consequently, this model of spikes is one idealisation. The spike train is employed to modulate a time-continuous alpha input current \textit{I}, which has been modelled by the differential equation (\ref{eq:6.20}) presented in order to ensure compatibility with real, physical systems. \\
-
-\noindent In this series of equations (\ref{eq:6.21}), \textit{a} represents an internal state variable, which often corresponds to physical quantities such as the concentration of oxygen vacancies or the length of filaments in resistive switching materials, $\tau_{syn}$ is a time constant that determines the shape of the alpha current, and $W_i$ is the synaptic weight between a presynaptic neuron \textit{i} and its associated postsynaptic neuron. An alpha current (or alpha waveform) refers to a mathematically modeled synaptic current that rises rapidly to a peak and then decays exponentially, closely approximating the time course of neurotransmitter-induced postsynaptic currents in biology. It is widely accepted that such continuous alpha waveforms accurately represent the behavior of biological neurons in the sensory periphery. Unlike typical neurons that communicate via discrete, all-or-nothing spikes, these peripheral sensory receptors (such as photoreceptors in the retina) often encode information using continuous, analog voltage variations known as graded potentials, which the smooth alpha function naturally emulates \cite{eshraghian2018formulation}.
+\noindent Neural coding models often idealize spike trains as sums of time-shifted Dirac delta pulses, $\sum_{n}\delta\left( t - t_i^n \right)$, where $\delta$ is the Dirac delta function and $t_i^n$ denotes the $n$-th spike of the $i$-th neuron. To align with physical systems, this discrete spike train modulates a continuous alpha input current $I$ via Equations \ref{eq:6.20} and \ref{eq:6.21}. Here, $a$ represents an internal state variable (e.g., filament length), $\tau_{syn}$ dictates the alpha current shape, and $W_i$ is the synaptic weight. This continuous alpha waveform accurately approximates biological graded potentials in the sensory periphery, effectively translating discrete spikes into analog physical dynamics \cite{eshraghian2018formulation}.
 \begin{align}
 I^{t+1} &=  I^t + \frac{a^t - I^t}{\tau_{syn}} \label{eq:6.22} \\
 a^{t+1} &= a^t - \frac{a^t}{\tau_{syn}} + \sum_{n}\delta\left( t - t_i^n \right)\label{eq:6.23}
 \end{align}
 
 
-\noindent To train a network of MIF neurons and synapses using gradient descent, the continuous differential equations governing the circuit dynamics must be recast into a discrete-time form (Equations \ref{eq:6.22} and \ref{eq:6.23}). This transformation allows the memristive state evolution to be captured within a computational graph that unfolds over time, closely resembling the structure of a recurrent neural network (RNN). While standard SPICE-like circuit simulators typically employ implicit or complex differential equation solvers, such as the backward Euler or fourth-order Runge-Kutta (RK4) methods, these approaches are often incompatible with efficient gradient-based learning. Instead, to ensure compatibility with the backpropagation through time (BPTT) algorithm, which calculates gradients by unrolling the network over sequential time steps, the differential equations are solved using the forward Euler method. This provides a clear, explicit computation of the subsequent time step based solely on present-time dynamics, enabling seamless integration with the BPTT framework.\\
+\noindent To train this network via gradient descent, the continuous dynamics are discretized (Equations \ref{eq:6.22} and \ref{eq:6.23}). This unfolds the memristive state in a computational graph similar to a recurrent neural network (RNN). Standard SPICE simulators use complex solvers like backward Euler, but ensuring compatibility with backpropagation through time (BPTT) requires the forward Euler method to compute the next time step explicitly. The unrolled MSNN allows gradient descent to optimize memristive synapses against MIF evolution. A loss function evaluates the output layer's continuous membrane potential $v$ at each time step. SNN training requires retaining intermediate states to guide the learning process accurately, making BPTT the optimal choice over memory-efficient alternatives like the continuous-time adjoint sensitivity method \cite{chen2018neural}.\\
 
-\noindent The intricate dynamics of the MIF neuronal network are now accounted for in the MSNN, which is unrolled in time such that gradient descent can optimize the memristive synapses as a function of the MIF evolution. The discrete-time solution can be illustrated as a directed, acyclic graph, where time flows in one direction. To train a network, a loss function is calculated using the membrane potential \textit{v} of the output layer at each step. This membrane potential represents the internal continuous voltage state of the neuron, which accumulates incoming signals over time and dictates whether a spike is generated, making it crucial for evaluating the network's performance at any given moment. It should be noted that the continuous-time adjoint sensitivity method \cite{chen2018neural}, a highly memory-efficient technique used in Neural Ordinary Differential Equations that computes gradients by solving an augmented ODE backwards from a final loss without storing intermediate states, is normally not adopted here. Because SNN training inherently requires evaluating the loss and spiking activity at every intermediate discrete time step to properly guide the learning process, those intermediate states must be explicitly retained. The focus on the continuous sequence of spiking outputs across all time steps, rather than just a single final system state, makes BPTT the more optimal and practical choice.\\
+\noindent During supervised learning, the algorithm maximizes the target neuron's spike frequency while suppressing incorrect outputs. Error backpropagation applies directly to the continuous membrane voltages \cite{neftci2019surrogate}. BPTT iteratively applies the chain rule backward through time and layers to calculate synaptic gradients \cite{eshraghian2023training}. Treating mathematical weights $w$ as physical conductances maps these updates directly to the RRAM crossbars, providing a highly biorealistic model for hardware-accelerated learning.
 
-\noindent During supervised learning, the training objective is to maximize the spike frequency of the target output MIF neuron by increasing its membrane potential over time, while actively suppressing the activity of incorrect output neurons. Because the underlying membrane dynamics are evaluated as continuous variables, error backpropagation can be applied directly to these voltage states—a technique that has become the standard for training deep SNNs \cite{neftci2019surrogate}. Specifically, the BPTT algorithm iteratively applies the chain rule backward through both the network layers and the discrete time steps to calculate the precise gradient for every synapse \cite{eshraghian2023training}. By explicitly treating the mathematical synaptic weights ($w$) as the physical conductance values of the memristors, these calculated gradient updates map directly to the hardware. Ultimately, this approach provides a highly biorealistic computational model that can be seamlessly integrated into dense RRAM crossbar arrays for efficient, hardware-accelerated learning.
+\subsection[Hardware-Aware Conductance Mapping]{Hardware-Aware Conductance Mapping}
 
-\subsection[Conductance Mapping]{Conductance Mapping}
-
-\noindent The preceding section detailed the mathematical optimization of memristive spiking neural networks (MSNNs) assuming ideal components. However, physically mapping these calculated weights onto memristor crossbars introduces significant practical challenges. While standard SNNs assume consistent, linear synaptic responses, physical memristors exhibit profound non-idealities, including stuck-at faults, random telegraph noise (RTN), and highly nonlinear current-voltage (I-V) characteristics.\\
-
-\noindent To combat these non-idealities, much of the literature focuses on hardware-level modifications, such as adding compensation circuitry \cite{ambrogio2018equivalent, li2018analogue}, altering device structures \cite{fang2018improvement}, or employing complex programming schemes \cite{xia2017stuck, chen2017accelerator, jain2019cxdnn, wang2020ssm, li2019build}. While effective, these solutions are often technology-specific and can introduce severe overhead, such as increased clock cycles from pulse-width modulation \cite{amirsoleimani2020memory, cai2019fully}. Alternatively, algorithmic, hardware-agnostic approaches like committee machines (CMs) neutralize stochastic noise by averaging outputs across parallel ensembles \cite{joksas2020committee}. Similarly, ex-situ training techniques attempt to build resilience by modifying the loss function \cite{zhu2020statistical} or injecting noise into synaptic weights or conductances \cite{he2019noise, joshi2020accurate}.\\
-
-\noindent Despite their promise, simple noise injection cannot adequately model complex behaviors like I-V nonlinearity. To develop a more robust ex-situ training methodology, this research embeds empirical device characteristics directly into the training loop. This is grounded using physical data from a $SiO_x$ memristive device.\\
+\noindent Mathematical optimization of MSNNs typically assumes ideal components. Physically mapping weights onto memristor crossbars introduces challenges because physical memristors exhibit stuck-at faults, random telegraph noise (RTN), and highly nonlinear current-voltage (I-V) characteristics. To mitigate non-idealities, hardware modifications like compensation circuitry \cite{ambrogio2018equivalent, li2018analogue} or complex programming schemes \cite{xia2017stuck, chen2017accelerator, jain2019cxdnn, wang2020ssm, li2019build} introduce significant overhead \cite{amirsoleimani2020memory, cai2019fully}. Alternatively, hardware-agnostic algorithmic solutions, such as committee machines (CMs), neutralize noise by averaging outputs across parallel ensembles \cite{joksas2020committee}. Ex-situ training techniques also build resilience by modifying loss functions \cite{zhu2020statistical} or injecting noise \cite{he2019noise, joshi2020accurate}. Simple noise injection fails to model complex I-V nonlinearity adequately. To develop a robust ex-situ methodology, this research embeds empirical characteristics from a physical $SiO_x$ memristor directly into the training loop.\\
 
 \begin{figure}[htbp!] 
 \centering    
@@ -353,48 +307,46 @@ a^{t+1} &= a^t - \frac{a^t}{\tau_{syn}} + \sum_{n}\delta\left( t - t_i^n \right)
 \label{fig:6g}
 \end{figure}
 
-\noindent The modeled $SiO_x$ device features a 35 nm amorphous silicon oxide switching layer sandwiched between a 280 nm $Mo$ bottom electrode and a 115 nm $Au$ top electrode, with a 3 nm $Ti$ wetting layer. Following electroforming and initial cyclic stress tests to verify stable switching and confirm the absence of hard breakdown, positive voltage sweeps (incrementing from 0.5V by 0.05V) generated a diverse array of resistance states spanning multiple orders of magnitude.\\
-
-\noindent Integrating these real-world characteristics requires modifying how the network calculates activations. Most ex-situ training literature assumes a perfectly linear relationship between inputs ($x_i$) and synaptic weights ($w_{ij}$) at the individual device level, with nonlinearities introduced only at the activation function level:
+\noindent The modeled $SiO_x$ device features a 35 nm amorphous silicon oxide layer between a 280 nm $Mo$ bottom electrode and a 115 nm $Au$ top electrode, with a 3 nm $Ti$ wetting layer. After electroforming and initial cyclic stress tests, positive voltage sweeps generated diverse resistance states spanning multiple orders of magnitude. Integrating these characteristics requires modifying network activation calculations. Standard ex-situ training assumes a perfectly linear relationship between inputs ($x_i$) and weights ($w_{ij}$):
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} x_i, w_{ij} \right) \label{eq:6.24}
 \end{align}
 
-\noindent Where the outputs, $y_j \in \textbf{y} \in \mathbb{R}^{1 \times N}$, are computed using inputs $x_i \in \textbf{x} \in \mathbb{R}^{1 \times M}$, weights $w_{ij} \in \textbf{w} \in \mathbb{R}^{M \times N}$, and a nonlinear activation function $f$. Because non-Ohmic behavior occurs at the individual device level, this simple linear product must be replaced by a nonlinear function, $g$, that encapsulates the device's specific characteristics \cite{joksas2022nonideality}:
+\noindent Because non-Ohmic behavior occurs individually per device, a nonlinear function $g$ replaces this linear product to encapsulate specific hardware characteristics \cite{joksas2022nonideality}:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} g \left( x_i, w_{ij} \right) \right) \label{eq:6.25}
 \end{align}
 
-\noindent Beyond capturing I-V nonlinearity, the function $g$ must also reflect the mapping scheme used to translate mathematical weights into physical conductances. During crossbar operation, network inputs ($x$) and outputs ($y$) are mapped to physical voltages ($V$) and total currents ($I$) using scaling factors $k_V$ and $k_I$. A conductance scaling factor, $k_G$, similarly translates mathematical weights to the hardware's available conductance range $[G_{min}, G_{max}]$:
+\noindent Function $g$ must also reflect the mapping from mathematical weights to physical conductances. Scaling factors $k_V$ and $k_I$ map network inputs and outputs to physical voltages and currents, while $k_G$ maps weights to the hardware's available conductance range $[G_{min}, G_{max}]$:
 \begin{align}
 V &= k_V x \label{eq:6.26} \\
 y &= \frac{I}{k_I} = \frac{I}{k_V k_G} \label{eq:6.27} \\
 k_G &= \frac{G_{max} - G_{min}}{max |\mathbf{W}|} = \frac{G_{on} - G_{off}}{max |\mathbf{W}|}\label{eq:6.28}
 \end{align}
 
-\noindent Because physical conductances are strictly non-negative, standard architectures cannot directly encode negative weights. This is resolved using a differential pair architecture, where a mathematical weight is represented by the difference between two conductances, $G_+$ and $G_-$, located on "positive" and "negative" bitlines, respectively. An intuitive mapping scheme assigns these conductances symmetrically around the device's average conductance ($G_{avg}$):
+\noindent Because conductances are non-negative, standard architectures use differential pairs to encode signed weights. A weight represents the difference between conductances $G_+$ and $G_-$ on positive and negative bitlines. An intuitive scheme assigns these symmetrically around the average conductance ($G_{avg}$):
 \begin{align}
 G\pm &= G_{avg} \pm \frac{k_G w}{2} \label{eq:6.29} \\
 G_{avg} &= \frac{G_{off} + G_{on}}{2} \label{eq:6.30}
 \end{align}
 
-\noindent Because an infinite number of conductance pairs can yield the same effective difference \cite{kim20214k}, this ambiguity can be exploited to achieve secondary design objectives. For instance, a scheme can minimize static power consumption by ensuring that at least one device in every pair remains in its highly resistive OFF state ($G_{off}$):
+\noindent Because infinite pairs yield the same difference \cite{kim20214k}, this ambiguity can minimize static power by keeping at least one device in its high-resistance OFF state ($G_{off}$):
 \begin{align}
 G_+ &= G_{off} + max\left\{ 0, k_GW \right\} \label{eq:6.31} \\
 G_- &= G_{off} - min\left\{ 0, k_GW \right\} \label{eq:6.32}
 \end{align}
 
-\noindent An alternative, more flexible approach utilizes 'double weights' \cite{kendall2020training}. Instead of mapping a single signed weight to two conductances, the network independently trains two distinct sets of strictly non-negative weights, $W^+_{ij} \in \mathbf{W}_+ \in \mathbb{R}^{M \times N}_{\ge 0}$ and $W^-_{ij} \in \mathbf{W}_- \in \mathbb{R}^{M \times N}_{\ge 0}$. The network's activation function is updated to naturally compute the difference between these dual pathways:
+\noindent An alternative 'double weights' approach trains two distinct sets of non-negative weights, $W^+$ and $W^-$, independently \cite{kendall2020training}. The activation function computes their difference naturally:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} g\left( x_i,W_{i,j}^+ \right) - g\left( x_i,W_{i,j}^- \right) \right) \label{eq:6.33}
 \end{align}
 
-\noindent Because both $W^+$ and $W^-$ are non-negative, they map linearly and directly to physical conductances $G_+$ and $G_-$, eliminating mapping gaps and simplification errors:
+\noindent These non-negative weights map linearly to physical conductances $G_+$ and $G_-$, avoiding mapping gaps:
 \begin{align}
 G_{\pm} = k_GW_{\pm} + G_{off} \label{eq:6.34}
 \end{align}
 
-\noindent The primary advantage of the double-weight formulation is that it exposes the physical conductances directly to the training algorithm. If certain non-idealities, such as programming deviations \cite{kim2016voltage}, are more pronounced at specific conductance ranges, the gradient descent process can organically learn to select optimal conductance pairs that minimize these negative effects, maximizing overall network robustness without requiring manual mapping interventions.
+\noindent Double-weight formulation exposes physical conductances directly to the training algorithm. If non-idealities like programming deviations \cite{kim2016voltage} dominate specific conductance ranges, gradient descent naturally selects optimal pairs to minimize these negative effects, maximizing network robustness.
 
 \section{Inference and Classification}
 
