@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.26)  4 MAY 2026 19:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.26)  4 MAY 2026 19:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2536,12 +2536,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 226--227
 
  []
 
-
+[124]
 Underfull \hbox (badness 10000) in paragraph at lines 238--239
 
  []
 
-[124]
+
 Underfull \hbox (badness 10000) in paragraph at lines 241--242
 
  []
@@ -2561,22 +2561,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 253--254
 
  []
 
-
+[125]
 Underfull \hbox (badness 10000) in paragraph at lines 256--257
 
  []
 
-[125]
+
 Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
-
+[126 <./Chapter6/Figs/f.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 262--263
 
  []
 
-[126 <./Chapter6/Figs/f.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 264--265
 
  []
@@ -2591,102 +2591,92 @@ Underfull \hbox (badness 10000) in paragraph at lines 270--271
 
  []
 
-
+[127]
 Underfull \hbox (badness 10000) in paragraph at lines 272--273
 
  []
 
-[127]
+[128]
 Underfull \hbox (badness 10000) in paragraph at lines 326--327
 
  []
 
-[128]
+
 Underfull \hbox (badness 10000) in paragraph at lines 335--336
 
  []
 
-
+[129]
 Underfull \hbox (badness 10000) in paragraph at lines 337--338
 
  []
 
-[129]
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
 [130]
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 350--351
+Underfull \hbox (badness 10000) in paragraph at lines 347--348
 
  []
 
 <Chapter6/Figs/g.png, id=2320, 809.27344pt x 474.27188pt>
 File: Chapter6/Figs/g.png Graphic file (type png)
 <use Chapter6/Figs/g.png>
-Package pdftex.def Info: Chapter6/Figs/g.png  used on input line 354.
+Package pdftex.def Info: Chapter6/Figs/g.png  used on input line 351.
 (pdftex.def)             Requested size: 437.46112pt x 256.37799pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 360--361
+Underfull \hbox (badness 10000) in paragraph at lines 356--357
 
  []
 
-[131]
-Underfull \hbox (badness 10000) in paragraph at lines 373--374
-
- []
-
-[132 <./Chapter6/Figs/g.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 376--377
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 386--387
-
- []
-
-[133]
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 403--404
+[131] [132 <./Chapter6/Figs/g.png>] [133]
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
 
  []
 
 [134]
-Underfull \hbox (badness 10000) in paragraph at lines 421--422
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 
  []
 
-[135]
-Underfull \hbox (badness 10000) in paragraph at lines 438--439
-
- []
-
-<Chapter6/Figs/h.png, id=2386, 1408.26125pt x 543.02875pt>
+<Chapter6/Figs/h.png, id=2379, 1408.26125pt x 543.02875pt>
 File: Chapter6/Figs/h.png Graphic file (type png)
 <use Chapter6/Figs/h.png>
-Package pdftex.def Info: Chapter6/Figs/h.png  used on input line 442.
+Package pdftex.def Info: Chapter6/Figs/h.png  used on input line 423.
 (pdftex.def)             Requested size: 437.46112pt x 168.68517pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 447--448
+Underfull \hbox (badness 10000) in paragraph at lines 428--429
 
  []
 
-[136 <./Chapter6/Figs/h.png (PNG copy)>]
+[135 <./Chapter6/Figs/h.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 430--431
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--433
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 439--440
+
+ []
+
+[136]
+Underfull \hbox (badness 10000) in paragraph at lines 446--447
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 449--450
 
  []
@@ -2697,148 +2687,153 @@ Underfull \hbox (badness 10000) in paragraph at lines 451--452
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 458--459
+Underfull \hbox (badness 10000) in paragraph at lines 453--454
 
  []
 
 [137]
-Underfull \hbox (badness 10000) in paragraph at lines 465--466
+Underfull \hbox (badness 10000) in paragraph at lines 456--457
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 468--469
+Underfull \hbox (badness 10000) in paragraph at lines 458--459
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 470--471
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 472--473
-
- []
-
-[138]
-Underfull \hbox (badness 10000) in paragraph at lines 475--476
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 477--478
-
- []
-
-<Chapter6/Figs/i.png, id=2432, 365.86688pt x 236.38312pt>
+<Chapter6/Figs/i.png, id=2425, 365.86688pt x 236.38312pt>
 File: Chapter6/Figs/i.png Graphic file (type png)
 <use Chapter6/Figs/i.png>
-Package pdftex.def Info: Chapter6/Figs/i.png  used on input line 494.
+Package pdftex.def Info: Chapter6/Figs/i.png  used on input line 475.
 (pdftex.def)             Requested size: 328.09584pt x 211.98898pt.
-[139]
-Underfull \hbox (badness 10000) in paragraph at lines 500--501
+[138]
+Underfull \hbox (badness 10000) in paragraph at lines 481--482
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 503--504
+Underfull \hbox (badness 10000) in paragraph at lines 484--485
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 505--506
+Underfull \hbox (badness 10000) in paragraph at lines 486--487
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 507--508
+Underfull \hbox (badness 10000) in paragraph at lines 488--489
 
  []
 
-[140 <./Chapter6/Figs/i.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 509--510
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 511--512
+[139 <./Chapter6/Figs/i.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 490--491
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 513--514
+Underfull \hbox (badness 10000) in paragraph at lines 492--493
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 515--516
+Underfull \hbox (badness 10000) in paragraph at lines 494--495
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 496--497
+
+ []
+
+[140]
+Underfull \hbox (badness 10000) in paragraph at lines 501--503
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 504--505
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--507
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 508--509
+
+ []
+
+<Chapter6/Figs/j.png, id=2446, 895.09406pt x 444.15938pt>
+File: Chapter6/Figs/j.png Graphic file (type png)
+<use Chapter6/Figs/j.png>
+Package pdftex.def Info: Chapter6/Figs/j.png  used on input line 516.
+(pdftex.def)             Requested size: 393.71233pt x 195.36972pt.
 [141]
-Underfull \hbox (badness 10000) in paragraph at lines 520--522
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 523--524
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 525--526
+Underfull \hbox (badness 10000) in paragraph at lines 526--527
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 527--528
-
- []
-
-<Chapter6/Figs/j.png, id=2453, 895.09406pt x 444.15938pt>
-File: Chapter6/Figs/j.png Graphic file (type png)
-<use Chapter6/Figs/j.png>
-Package pdftex.def Info: Chapter6/Figs/j.png  used on input line 535.
-(pdftex.def)             Requested size: 393.71233pt x 195.36972pt.
-[142]
-Underfull \hbox (badness 10000) in paragraph at lines 542--543
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 545--546
-
- []
-
-[143 <./Chapter6/Figs/j.png>]
-<Chapter6/Figs/k.png, id=2467, 895.09406pt x 444.15938pt>
+[142 <./Chapter6/Figs/j.png>]
+<Chapter6/Figs/k.png, id=2459, 895.09406pt x 444.15938pt>
 File: Chapter6/Figs/k.png Graphic file (type png)
 <use Chapter6/Figs/k.png>
-Package pdftex.def Info: Chapter6/Figs/k.png  used on input line 555.
+Package pdftex.def Info: Chapter6/Figs/k.png  used on input line 536.
 (pdftex.def)             Requested size: 393.71233pt x 195.36972pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 560--561
+Underfull \hbox (badness 10000) in paragraph at lines 541--542
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 562--563
+Underfull \hbox (badness 10000) in paragraph at lines 543--544
 
  []
 
-[144 <./Chapter6/Figs/k.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 578--579
+[143 <./Chapter6/Figs/k.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 559--560
 
  []
 
-<Chapter6/Figs/l.png, id=2476, 696.201pt x 323.40825pt>
+<Chapter6/Figs/l.png, id=2469, 696.201pt x 323.40825pt>
 File: Chapter6/Figs/l.png Graphic file (type png)
 <use Chapter6/Figs/l.png>
-Package pdftex.def Info: Chapter6/Figs/l.png  used on input line 582.
+Package pdftex.def Info: Chapter6/Figs/l.png  used on input line 563.
 (pdftex.def)             Requested size: 393.71233pt x 182.89377pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--588
+Underfull \hbox (badness 10000) in paragraph at lines 568--569
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 570--571
+
+ []
+
+[144]
+Underfull \hbox (badness 10000) in paragraph at lines 572--573
+
+ []
+
+<Chapter6/Figs/m.png, id=2476, 394.47375pt x 222.07968pt>
+File: Chapter6/Figs/m.png Graphic file (type png)
+<use Chapter6/Figs/m.png>
+Package pdftex.def Info: Chapter6/Figs/m.png  used on input line 576.
+(pdftex.def)             Requested size: 306.22144pt x 172.3946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 581--582
+
+ []
+
+[145 <./Chapter6/Figs/l.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 583--584
 
  []
 
@@ -2847,55 +2842,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 589--590
 
  []
 
-[145]
+[146 <./Chapter6/Figs/m.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 591--592
 
  []
 
-<Chapter6/Figs/m.png, id=2483, 394.47375pt x 222.07968pt>
-File: Chapter6/Figs/m.png Graphic file (type png)
-<use Chapter6/Figs/m.png>
-Package pdftex.def Info: Chapter6/Figs/m.png  used on input line 595.
-(pdftex.def)             Requested size: 306.22144pt x 172.3946pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 600--601
-
- []
-
-[146 <./Chapter6/Figs/l.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 602--603
+Underfull \hbox (badness 10000) in paragraph at lines 593--594
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 608--609
+Underfull \hbox (badness 10000) in paragraph at lines 595--596
 
  []
 
-[147 <./Chapter6/Figs/m.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 610--611
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 612--613
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 614--615
-
- []
-
-) [148] [149]
+) [147] [148]
 \openout2 = `Chapter7/chapter7.aux'.
 
- (Chapter7/chapter7.tex [150
-
-
-
-
-]
+ (Chapter7/chapter7.tex
 Chapter 7.
 
 Underfull \hbox (badness 10000) in paragraph at lines 14--15
@@ -2907,7 +2872,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 16--17
 
  []
 
-[151]
+[149
+
+
+
+
+]
 Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
@@ -2927,7 +2897,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
 
-[152]
+[150]
 Underfull \hbox (badness 10000) in paragraph at lines 32--33
 
  []
@@ -2942,7 +2912,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 44--45
 
  []
 
-[153]
+[151]
 Underfull \hbox (badness 10000) in paragraph at lines 48--49
 
  []
@@ -2962,7 +2932,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 57--58
 
  []
 
-[154]
+[152]
 Underfull \hbox (badness 10000) in paragraph at lines 59--60
 
  []
@@ -2977,7 +2947,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 73--74
 
  []
 
-[155]
+[153]
 Underfull \hbox (badness 10000) in paragraph at lines 76--77
 
  []
@@ -2992,7 +2962,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 88--90
 
  []
 
-[156]
+[154]
 Underfull \hbox (badness 10000) in paragraph at lines 97--99
 
  []
@@ -3002,7 +2972,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 101--102
 
  []
 
-<Chapter7/Figs/a.png, id=2608, 548.0475pt x 278.84175pt>
+<Chapter7/Figs/a.png, id=2596, 548.0475pt x 278.84175pt>
 File: Chapter7/Figs/a.png Graphic file (type png)
 <use Chapter7/Figs/a.png>
 Package pdftex.def Info: Chapter7/Figs/a.png  used on input line 104.
@@ -3012,13 +2982,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--112
 
  []
 
-[157]
+[155]
 Underfull \hbox (badness 10000) in paragraph at lines 125--126
 
  []
 
-[158 <./Chapter7/Figs/a.png>]
-<Chapter7/Figs/b.png, id=2635, 714.7503pt x 354.123pt>
+[156 <./Chapter7/Figs/a.png>]
+<Chapter7/Figs/b.png, id=2624, 714.7503pt x 354.123pt>
 File: Chapter7/Figs/b.png Graphic file (type png)
 <use Chapter7/Figs/b.png>
 Package pdftex.def Info: Chapter7/Figs/b.png  used on input line 128.
@@ -3028,12 +2998,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 139--140
 
  []
 
-[159 <./Chapter7/Figs/b.png>]
+[157 <./Chapter7/Figs/b.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 141--142
 
  []
 
-<Chapter7/Figs/c.png, id=2642, 895.09406pt x 444.15938pt>
+<Chapter7/Figs/c.png, id=2631, 895.09406pt x 444.15938pt>
 File: Chapter7/Figs/c.png Graphic file (type png)
 <use Chapter7/Figs/c.png>
 Package pdftex.def Info: Chapter7/Figs/c.png  used on input line 144.
@@ -3043,12 +3013,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 152--153
 
  []
 
-[160 <./Chapter7/Figs/c.png>]
+[158 <./Chapter7/Figs/c.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 154--155
 
  []
 
-<Chapter7/Figs/d.png, id=2650, 895.09406pt x 444.15938pt>
+<Chapter7/Figs/d.png, id=2639, 895.09406pt x 444.15938pt>
 File: Chapter7/Figs/d.png Graphic file (type png)
 <use Chapter7/Figs/d.png>
 Package pdftex.def Info: Chapter7/Figs/d.png  used on input line 157.
@@ -3058,12 +3028,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 164--165
 
  []
 
-[161 <./Chapter7/Figs/d.png>]
+[159 <./Chapter7/Figs/d.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 166--167
 
  []
 
-<Chapter7/Figs/e.png, id=2659, 763.434pt x 366.387pt>
+<Chapter7/Figs/e.png, id=2647, 763.434pt x 366.387pt>
 File: Chapter7/Figs/e.png Graphic file (type png)
 <use Chapter7/Figs/e.png>
 Package pdftex.def Info: Chapter7/Figs/e.png  used on input line 184.
@@ -3078,7 +3048,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 191--192
 
  []
 
-[162]
+[160]
 Underfull \hbox (badness 10000) in paragraph at lines 193--194
 
  []
@@ -3088,7 +3058,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 195--196
 
  []
 
-[163 <./Chapter7/Figs/e.png>]
+[161 <./Chapter7/Figs/e.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 205--206
 
  []
@@ -3098,7 +3068,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 208--209
 
  []
 
-[164]
+[162]
 Underfull \hbox (badness 10000) in paragraph at lines 211--212
 
  []
@@ -3118,7 +3088,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 220--221
 
  []
 
-[165]
+[163]
 Underfull \hbox (badness 10000) in paragraph at lines 223--224
 
  []
@@ -3133,7 +3103,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 236--237
 
  []
 
-[166]
+[164]
 Underfull \hbox (badness 10000) in paragraph at lines 238--239
 
  []
@@ -3148,7 +3118,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 242--243
 
  []
 
-<Chapter7/Figs/f.png, id=2699, 898.776pt x 1115.148pt>
+<Chapter7/Figs/f.png, id=2688, 898.776pt x 1115.148pt>
 File: Chapter7/Figs/f.png Graphic file (type png)
 <use Chapter7/Figs/f.png>
 Package pdftex.def Info: Chapter7/Figs/f.png  used on input line 245.
@@ -3158,7 +3128,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 251--252
 
  []
 
-[167] [168 <./Chapter7/Figs/f.png>]
+[165] [166 <./Chapter7/Figs/f.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 253--254
 
  []
@@ -3168,7 +3138,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 273--274
 
  []
 
-[169]
+[167]
 Underfull \hbox (badness 10000) in paragraph at lines 280--281
 
  []
@@ -3183,7 +3153,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 285--286
 
  []
 
-[170]
+[168]
 Underfull \hbox (badness 10000) in paragraph at lines 287--288
 
  []
@@ -3193,10 +3163,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 289--145
 
  []
 
-[171]
+[169]
 \openout2 = `Chapter8/chapter8.aux'.
 
- (Chapter8/chapter8.tex [172
+ (Chapter8/chapter8.tex [170
 
 
 
@@ -3218,7 +3188,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-[173]
+[171]
 Underfull \hbox (badness 10000) in paragraph at lines 16--17
 
  []
@@ -3233,7 +3203,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 20--21
 
  []
 
-[174]
+[172]
 Underfull \hbox (badness 10000) in paragraph at lines 22--23
 
  []
@@ -3248,7 +3218,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--31
 
  []
 
-[175]
+[173]
 Underfull \hbox (badness 10000) in paragraph at lines 32--33
 
  []
@@ -3258,13 +3228,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--146
 
  []
 
-[176] [177] [178
+[174] [175] [176
 
 
 
-] (thesis.bbl [179
+] (thesis.bbl [177
 
-] [180] [181] [182] [183] [184] [185] [186] [187] [188] [189] [190] [191] [192] [193] [194] [195] [196] [197] [198] [199] [200] [201]) [202] (thesis.ind) (thesis.aux (Declaration/declaration.aux) (Abstract/abstract.aux) (Impact/impact.aux) (Acknowledgement/acknowledgement.aux) (Chapter1/chapter1.aux) (Chapter2/chapter2.aux) (Chapter3/chapter3.aux) (Chapter4/chapter4.aux) (Chapter5/chapter5.aux) (Chapter6/chapter6.aux) (Chapter7/chapter7.aux) (Chapter8/chapter8.aux))
+] [178] [179] [180] [181] [182] [183] [184] [185] [186] [187] [188] [189] [190] [191] [192] [193] [194] [195] [196] [197] [198] [199]) [200] (thesis.ind) (thesis.aux (Declaration/declaration.aux) (Abstract/abstract.aux) (Impact/impact.aux) (Acknowledgement/acknowledgement.aux) (Chapter1/chapter1.aux) (Chapter2/chapter2.aux) (Chapter3/chapter3.aux) (Chapter4/chapter4.aux) (Chapter5/chapter5.aux) (Chapter6/chapter6.aux) (Chapter7/chapter7.aux) (Chapter8/chapter8.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -3273,17 +3243,17 @@ Package rerunfilecheck Info: File `thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 566D114072CDC68A1460A55762BD9CA5;19915.
  ) 
 Here is how much of TeX's memory you used:
- 24568 strings out of 474486
- 476173 string characters out of 5744227
- 1945542 words of memory out of 5000000
+ 24552 strings out of 474486
+ 476037 string characters out of 5744227
+ 1943542 words of memory out of 5000000
  45110 multiletter control sequences out of 15000+600000
- 635045 words of font info for 354 fonts, out of 8000000 for 9000
+ 633464 words of font info for 345 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  125i,20n,121p,1537b,1738s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/rsfs/rsfs10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on thesis.pdf (222 pages, 83050048 bytes).
+Output written on thesis.pdf (220 pages, 83044420 bytes).
 PDF statistics:
- 3110 PDF objects out of 3580 (max. 8388607)
- 883 named destinations out of 1000 (max. 500000)
- 74856 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 3098 PDF objects out of 3580 (max. 8388607)
+ 881 named destinations out of 1000 (max. 500000)
+ 72808 words of extra memory for PDF output out of 74296 (max. 10000000)
 

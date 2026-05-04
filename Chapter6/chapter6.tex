@@ -340,14 +340,11 @@ a^{t+1} &= a^t - \frac{a^t}{\tau_{syn}} + \sum_{n}\delta\left( t - t_i^n \right)
 
 \subsection[Conductance Mapping]{Conductance Mapping}
 
+\noindent The preceding section detailed the mathematical optimization of memristive spiking neural networks (MSNNs) assuming ideal components. However, physically mapping these calculated weights onto memristor crossbars introduces significant practical challenges. While standard SNNs assume consistent, linear synaptic responses, physical memristors exhibit profound non-idealities, including stuck-at faults, random telegraph noise (RTN), and highly nonlinear current-voltage (I-V) characteristics.\\
 
-\noindent The approaches described in the preceding sections pertained to memristive neural networks (MNNs) trained through conventional methodologies without considering non-idealities. The primary challenge lies in the discrepancy between conventional SNNs and MNNs. The former's synapses typically exhibit consistent, often linear, responses. In contrast, MNNs utilize memristor-implemented synapses, which can become fixed in a particular state, exhibit varying responses over time due to retention or random telegraph noise (RTN), and even produce nonlinear outputs (I-V nonlinearity).\\
+\noindent To combat these non-idealities, much of the literature focuses on hardware-level modifications, such as adding compensation circuitry \cite{ambrogio2018equivalent, li2018analogue}, altering device structures \cite{fang2018improvement}, or employing complex programming schemes \cite{xia2017stuck, chen2017accelerator, jain2019cxdnn, wang2020ssm, li2019build}. While effective, these solutions are often technology-specific and can introduce severe overhead, such as increased clock cycles from pulse-width modulation \cite{amirsoleimani2020memory, cai2019fully}. Alternatively, algorithmic, hardware-agnostic approaches like committee machines (CMs) neutralize stochastic noise by averaging outputs across parallel ensembles \cite{joksas2020committee}. Similarly, ex-situ training techniques attempt to build resilience by modifying the loss function \cite{zhu2020statistical} or injecting noise into synaptic weights or conductances \cite{he2019noise, joshi2020accurate}.\\
 
-\noindent A substantial proportion of the literature addressing memristor nonidealities focuses on hardware-level modifications. These may entail: modifications to the device structure \cite{fang2018improvement}; additional circuitry \cite{ambrogio2018equivalent, li2018analogue}; programming and mapping schemes \cite{xia2017stuck}; and in-situ retraining \cite{chen2017accelerator, jain2019cxdnn, wang2020ssm, li2019build}. However, these techniques may have drawbacks. For example, pulse-width modulation \cite{amirsoleimani2020memory} may minimize I-V nonlinearities at the cost of increased clock cycles \cite{cai2019fully}. Furthermore, hardware-level changes are often technology-specific, hindering broad applicability.\\
-
-\noindent As an alternative, techniques that do not interfere with hardware, such as committee machines (CMs), may be employed. These improve MNN performance by combining them and require only the average of crossbar array outputs \cite{joksas2020committee}. Additionally, modifications to ex situ training have been previously proposed. Common approaches include adjusting the loss function \cite{zhu2020statistical} or introducing noise into synaptic weights \cite{he2019noise} or conductances that implement those weights \cite{joshi2020accurate}, thereby enhancing MNN resilience to non-idealities. It is evident that ex situ training represents a promising methodology for enhancing MNN feasibility.\\
-
-\noindent However, previous approaches have considered only a limited number of non-idealities. For example, injecting noise into conductances is insufficient in many situations, as the effect of non-idealities like I-V nonlinearity cannot be represented solely by weight disturbance. Furthermore, conventional weight implementations do not map naturally to resistive crossbar arrays, while training validation schemes are not well suited to the often stochastic nature of MNNs. This research focuses on enhancing the efficacy of \textit{ex-situ} training of memristive SNNs, while also evaluating this approach's resilience. To this end, data from a  $SiO_x$  memristive device is employed, complemented by insights from existing literature.\\
+\noindent Despite their promise, simple noise injection cannot adequately model complex behaviors like I-V nonlinearity. To develop a more robust ex-situ training methodology, this research embeds empirical device characteristics directly into the training loop. This is grounded using physical data from a $SiO_x$ memristive device.\\
 
 \begin{figure}[htbp!] 
 \centering    
@@ -356,64 +353,48 @@ a^{t+1} &= a^t - \frac{a^t}{\tau_{syn}} + \sum_{n}\delta\left( t - t_i^n \right)
 \label{fig:6g}
 \end{figure}
 
+\noindent The modeled $SiO_x$ device features a 35 nm amorphous silicon oxide switching layer sandwiched between a 280 nm $Mo$ bottom electrode and a 115 nm $Au$ top electrode, with a 3 nm $Ti$ wetting layer. Following electroforming and initial cyclic stress tests to verify stable switching and confirm the absence of hard breakdown, positive voltage sweeps (incrementing from 0.5V by 0.05V) generated a diverse array of resistance states spanning multiple orders of magnitude.\\
 
-\noindent The $SiO_x$ resistive random-access memory (RRAM) device comprised a $1 \mu m Si/SiO_2$  switching layer positioned between a 100nm $Mo$ bottom electrode and a 100nm $Au$ top electrode. Furthermore, a 5nm $Ti$ wetting layer was incorporated between the $SiO_x$ and $Au$ electrodes. Following electroforming and additional validation procedures, positive sweeps were conducted on the $SiO_x$ device, commencing from 0.5V and increasing by 0.05V in each run, thereby generating resistance states that spanned multiple orders of magnitude.\\
-
-\noindent Most existing literature on ex-situ training of MNNs assumes a linear relationship between inputs and outputs at the individual device level, with nonlinearities introduced only at the activation function level. Specifically, outputs are assumed to be a function of the product of an applied input vector and a weight matrix:
+\noindent Integrating these real-world characteristics requires modifying how the network calculates activations. Most ex-situ training literature assumes a perfectly linear relationship between inputs ($x_i$) and synaptic weights ($w_{ij}$) at the individual device level, with nonlinearities introduced only at the activation function level:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} x_i, w_{ij} \right) \label{eq:6.24}
 \end{align}
 
-
-\noindent Where the outputs, $y_j \in \textbf{y} \in \mathbb{R}^{1 \times N}$ is calculated using the inputs $x_i \in \textbf{x} \in \mathbb{R}^{1 \times M}$, weights $w_{ij} \in \textbf{w} \in \mathbb{R}^{M \times N}$, and a nonlinear activation function $f$. Non-Ohmic behaviour manifests itself in individual devices only, therefore these nonlinear effects can be separated from the other devices. To take I-V nonlinearities into account in ex-situ MNN training, the products in (\ref{eq:6.24}) can be replaced with a nonlinear function to give:
+\noindent Where the outputs, $y_j \in \textbf{y} \in \mathbb{R}^{1 \times N}$, are computed using inputs $x_i \in \textbf{x} \in \mathbb{R}^{1 \times M}$, weights $w_{ij} \in \textbf{w} \in \mathbb{R}^{M \times N}$, and a nonlinear activation function $f$. Because non-Ohmic behavior occurs at the individual device level, this simple linear product must be replaced by a nonlinear function, $g$, that encapsulates the device's specific characteristics \cite{joksas2022nonideality}:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} g \left( x_i, w_{ij} \right) \right) \label{eq:6.25}
 \end{align}
 
-\noindent To account for memristor non-ohmic behavior, Function \textit{g} must be modified to reflect the specific characteristics of the mapping scheme between weights and conductances, as well as the non-ohmic device behavior model, which typically depends on the device type employed \cite{joksas2022nonideality}.\\
-
-
-\noindent The mapping scheme relating weights and conductances is a crucial aspect in designing memristive neural networks. In typical artificial neural networks, synaptic weights can assume any real value. Conversely, conductances are constrained to be non-negative. To address this discrepancy, a neural network architecture was devised where twice the number of weights are trained, but each is constrained to be non-negative. This enables the association of weights with individual device conductances, creating a more natural mapping and facilitating adaptation to non-idealities. Additionally, it allows for more precise control over power consumption.\\
-
-\noindent The aforementioned mappings are performed in an identical manner in the specific instance of fully connected synaptic layers in artificial neural networks, provided that conventional weight implementation methodologies are utilised. Both the inputs, designated as $x \in \mathbf{x}$, and the outputs, represented by $y \in \mathbf{y}$, are mapped onto voltages \textit{V} and total output currents \textit{I}, using the scaling factors $k_V$ and $k_I$, where $k_G$ is the conductance scaling factor:
+\noindent Beyond capturing I-V nonlinearity, the function $g$ must also reflect the mapping scheme used to translate mathematical weights into physical conductances. During crossbar operation, network inputs ($x$) and outputs ($y$) are mapped to physical voltages ($V$) and total currents ($I$) using scaling factors $k_V$ and $k_I$. A conductance scaling factor, $k_G$, similarly translates mathematical weights to the hardware's available conductance range $[G_{min}, G_{max}]$:
 \begin{align}
 V &= k_V x \label{eq:6.26} \\
 y &= \frac{I}{k_I} = \frac{I}{k_V k_G} \label{eq:6.27} \\
 k_G &= \frac{G_{max} - G_{min}}{max |\mathbf{W}|} = \frac{G_{on} - G_{off}}{max |\mathbf{W}|}\label{eq:6.28}
 \end{align}
 
-
-\noindent  Irrespective of the scheme employed, a minimum of two conductances are required to encode both positive and negative weights. Conductances $G_+$ and $G_-$ are introduced into the "positive" and "negative" bit lines of the differential pair architecture, respectively. The proportionality of each weight is determined by the difference $G_+ - G_-$, with $k_G$ serving as the constant of proportionality. This enables the encoding of any real number within a finite range. In a typical differential pair implementation, $G_{min} = G_{off}$ and $G_{max} = G_{on}$. In an alternate proportional mapping scheme, $G_{min} = 0$ and $G_{max} = G_{on}$ to give $k_G = \frac{g_{on}}{max |\mathbf{W}|}$.\\
-
-\noindent The issues associated with proportional mapping schemes, such as unimplementable regions, are not the only obstacles. Conventional differential pair realization also presents design challenges. For example, infinite conductance combinations will produce the same difference \cite{kim20214k}, i.e., the same effective conductance. This implies an arbitrary choice may be necessary for mapping weights to conductances. To illustrate, consider encoding weights $W \in \mathbf{W}$. In this case, pairs of conductances $G_+$ and $G_-$ may be picked symmetrically around the average value:
+\noindent Because physical conductances are strictly non-negative, standard architectures cannot directly encode negative weights. This is resolved using a differential pair architecture, where a mathematical weight is represented by the difference between two conductances, $G_+$ and $G_-$, located on "positive" and "negative" bitlines, respectively. An intuitive mapping scheme assigns these conductances symmetrically around the device's average conductance ($G_{avg}$):
 \begin{align}
 G\pm &= G_{avg} \pm \frac{k_G w}{2} \label{eq:6.29} \\
 G_{avg} &= \frac{G_{off} + G_{on}}{2} \label{eq:6.30}
 \end{align}
 
-
-\noindent While multiple mapping schemes may yield the same conductance difference, some may prove more advantageous. The scheme in (\ref{eq:6.26}) can be beneficial in certain scenarios, as it typically reduces the number of conductances near $G_{off}$ and $G_{on}$, which are often more challenging to achieve. However, mapping scheme selection can be explicitly linked to specific objectives.\\
-
-\noindent The differential pair architecture can mitigate the effects of stuck devices. For instance, if $G_+$ is stuck in an undesirable state, $G_-$ can be adjusted to minimize negative effects. An alternative approach is to employ a simpler scheme that optimizes a specific metric, such as power consumption. This is illustrated in the simulations in this chapter, where conventional weights are used. In these simulations, a scheme minimizing power consumption is employed by ensuring at least one of ${G_+, G_-}$ is set to $G_{off}$:
+\noindent Because an infinite number of conductance pairs can yield the same effective difference \cite{kim20214k}, this ambiguity can be exploited to achieve secondary design objectives. For instance, a scheme can minimize static power consumption by ensuring that at least one device in every pair remains in its highly resistive OFF state ($G_{off}$):
 \begin{align}
 G_+ &= G_{off} + max\left\{ 0, k_GW \right\} \label{eq:6.31} \\
 G_- &= G_{off} - min\left\{ 0, k_GW \right\} \label{eq:6.32}
 \end{align}
 
-\noindent An alternative approach is to utilise two sets of non-negative weights, $W^+_{ij} \in \mathbf{W}_+ \in \mathbb{R}^{M \times N}_{\ge 0}$ and $W^-_{ij} \in \mathbf{W}_+ \in \mathbb{R}^{M \times N}_{\ge 0}$, which are collectively referred to as double weights \cite{kendall2020training}. This method entails mapping each weight onto a single conductance in the aforementioned "positive" and "negative" bit lines, respectively. \\
-
-\noindent Despite the nonnegativity of each weight, the differential pair architecture allows for encoding the negative contribution of the $i_{th}$ input on the $j_{th}$ output through the introduction of a subtraction operation in hardware. Only the nonlinearity-aware node function in (\ref{eq:6.25}) requires adjustment to give:
+\noindent An alternative, more flexible approach utilizes 'double weights' \cite{kendall2020training}. Instead of mapping a single signed weight to two conductances, the network independently trains two distinct sets of strictly non-negative weights, $W^+_{ij} \in \mathbf{W}_+ \in \mathbb{R}^{M \times N}_{\ge 0}$ and $W^-_{ij} \in \mathbf{W}_- \in \mathbb{R}^{M \times N}_{\ge 0}$. The network's activation function is updated to naturally compute the difference between these dual pathways:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} g\left( x_i,W_{i,j}^+ \right) - g\left( x_i,W_{i,j}^- \right) \right) \label{eq:6.33}
 \end{align}
 
-\noindent As all weights in $\mathbf{W} := [W_+, W_-]$ are non-negative, they can be related to the corresponding conductances in the same way: $W_{\pm} \in [0, max(\mathbf{W})]$ can be linearly mapped onto $G_{\pm} \in [G_{off}, G_{on}]$, thus avoiding the introduction of weight gaps:
+\noindent Because both $W^+$ and $W^-$ are non-negative, they map linearly and directly to physical conductances $G_+$ and $G_-$, eliminating mapping gaps and simplification errors:
 \begin{align}
 G_{\pm} = k_GW_{\pm} + G_{off} \label{eq:6.34}
 \end{align}
 
-
-\noindent The initial benefit of utilizing double weights is that conductances are more directly exposed to the training algorithm, enabling selection of combinations that achieve optimal performance (e.g., loss and robustness). To illustrate, if specific non-idealities manifest more at lower conductance values (e.g., programming deviations \cite{kim2016voltage}), training may select pairs at higher values while maintaining the same $G_+$ and $G_-$ difference, minimizing negative non-ideality effects without explicit specification of conductance pairs.
+\noindent The primary advantage of the double-weight formulation is that it exposes the physical conductances directly to the training algorithm. If certain non-idealities, such as programming deviations \cite{kim2016voltage}, are more pronounced at specific conductance ranges, the gradient descent process can organically learn to select optimal conductance pairs that minimize these negative effects, maximizing overall network robustness without requiring manual mapping interventions.
 
 \section{Inference and Classification}
 
