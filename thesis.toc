@@ -76,17 +76,17 @@
 \contentsline {subsection}{\numberline {6.3.3}Computation Performance}{135}{subsection.6.3.3}%
 \contentsline {section}{\numberline {6.4}Summary}{139}{section.6.4}%
 \contentsline {chapter}{\numberline {7}Homeostasis Optimisation}{141}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Optimisation Motivations}{141}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Analogue Hardware Challenges}{141}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}Optimisation Approaches}{143}{subsection.7.1.2}%
-\contentsline {section}{\numberline {7.2}Homeostasis Regularization}{145}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Programming Variabilities}{146}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Dropout Improvement}{149}{subsection.7.2.2}%
-\contentsline {section}{\numberline {7.3}Biosignal Processing}{154}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Architecture Adaptation}{154}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Edge Evaluation}{157}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Summary}{160}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{163}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Thesis Review}{163}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Future Works}{165}{section.8.2}%
-\contentsline {chapter}{References}{169}{chapter*.101}%
+\contentsline {section}{\numberline {7.1}Challenges in Analogue Optimisation}{141}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Memristor Non-Idealities and Constraints}{141}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Existing Neuromorphic Training Algorithms}{143}{subsection.7.1.2}%
+\contentsline {section}{\numberline {7.2}Homeostasis-Driven Regularization}{145}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Variability Modelling and Dropout Mechanism}{145}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Validation of Homeostatic Dropout}{148}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Application to Biosignal Processing}{151}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Memristive CSNN Architecture}{152}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Classification Performance and Resilience}{153}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Summary}{156}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{159}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Thesis Review}{159}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Future Works}{161}{section.8.2}%
+\contentsline {chapter}{References}{165}{chapter*.101}%
