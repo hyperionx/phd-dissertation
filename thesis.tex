@@ -128,6 +128,8 @@
 
 \listoftables
 
+\include{Nomenclature/nomenclature}
+
 % \printnomenclature[space] space can be set as 2em between symbol and description
 %\printnomenclature[3em]
 
@@ -158,9 +160,10 @@
 % Bibliography style previews: http://nodonn.tipido.net/bibstyle.php
 % Reference styles: http://sites.stat.psu.edu/~surajit/present/bib.htm
 
-\bibliographystyle{apalike}
-% \bibliographystyle{unsrt} % Use for unsorted references  
-%\bibliographystyle{plainnat} % use this to have URLs listed in References
+\bibliographystyle{unsrtnat} % Order references by first appearance (natbib-compatible)
+% \bibliographystyle{apalike} % Alphabetical author-year
+% \bibliographystyle{unsrt}    % Unsorted (non-natbib)
+% \bibliographystyle{plainnat} % Use this to have URLs listed in References
 \cleardoublepage
 \bibliography{References/references} % Path to your References.bib file
 
@@ -177,12 +180,7 @@
 
 % ********************************** Appendices ********************************
 
-\begin{appendices} % Using appendices environment for more functunality
-
-% \include{Appendix1/appendix1}
-% \include{Appendix2/appendix2}
-
-\end{appendices}
+% Appendices are temporarily excluded.
 
 % *************************************** Index ********************************
 \printthesisindex % If index is present

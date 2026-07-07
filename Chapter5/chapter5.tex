@@ -2,18 +2,19 @@
 %*******************************************************************************
 %****************************** Fifth Chapter **********************************
 %*******************************************************************************
-\chapter{Neuromorphic Modelling Framework}
+\chapter{A Compact Model of the Dual-Phase Transient}\label{ch:model}
 
-\section[Empirical Modelling Framework]{Empirical Modelling Framework}
+\noindent This chapter turns the current transient characterised in Chapter~\ref{ch:transients} into a compact, circuit-level primitive that the later spiking-network chapters can simulate. The two transient phases are first decoupled experimentally. Substituting the inert gold top electrode with indium tin oxide (\abbrevdef{ITO}) removes the slow conductance decay while leaving the fast rise intact, which localises the decay to the top metal--insulator interface. X-ray photoelectron spectroscopy (\abbrev{XPS}) then identifies it with proton-driven electrochemical reduction of the \abbrev{ITO} contact. With the mechanism fixed, an empirical \abbrev{SPICE} model of the gold-contacted device is extended with a dispersive trap cascade that reproduces the sigmoidal rise and with explicit leakage (relaxation) elements. Applied to the \abbrev{ITO} devices, the same framework exposes the bare trap-discharge time constant $\tau_{leak}$ directly. The result is a semi-physical model whose single coefficient set generalises across the operating range. The electrode substitution exposes its retention $\tau_{leak}$ for direct measurement, supplying the slow synaptic dynamics that the reward-modulated learning of Chapter~\ref{ch:learning} uses as its eligibility trace. \\
 
+\noindent The empirical \abbrev{SPICE} model that this chapter extends comes from earlier co-authored work on a single gold-contacted device \cite{mannion2023compact}, detailed in Section~\ref{sec:5p-model}. The indium-tin-oxide devices were fabricated within the UCL Electronic Materials and Devices group, where the spectroscopic ellipsometry of the pristine \abbrev{ITO} contact was also performed; the author interpreted the resulting optical constants here. The \abbrev{XPS} depth profiling was performed by collaborators at the University of Oxford. The author interpreted it, designed and carried out the electrode-substitution experiment, developed the dispersive trap-cascade-plus-leakage extension reported here, and fitted the \abbrev{ITO} relaxations from which the eligibility-trace retention $\tau_{leak}$ is obtained.
 
-This chapter introduces a comprehensive modelling framework for resistance switching devices that exhibit both analog potentiation and conductance depression under a single voltage polarity, driven entirely by electrical stimuli without reliance on optical activity. The model specifically explores the subthreshold regime with current transients, offering a pathway to simplify neuromorphic circuit designs. By developing an empirical SPICE model validated against experimental data, this work provides crucial parameters for simulations, facilitating applications such as defect mobility estimation and advanced neuromorphic circuit functions. \\
+\section[Electrode Substitution and the Two Phases]{Electrode Substitution and the Two Phases}\label{sec:5p1}
 
-\noindent A key enhancement over previous models is the integration of diodes to emulate Schottky-like contacts, alongside the incorporation of relaxation dynamics when step potentials are removed or the device is grounded. This modeling effort directly advances energy-efficient and biologically inspired neuromorphic hardware by providing a robust tool to understand and predict the complex, purely electrical device behaviors essential for event-driven computing and synaptic emulation.
+\noindent This section establishes experimentally that the transient is a composite of two distinct processes. Substituting the top electrode isolates the slow decay to the top interface, and the proton-drift hypothesis it motivates is then set out and, in the following section, tested spectroscopically.
 
-\subsection[Modified Device Stack]{Modified Device Stack}
+\subsection[Top-Electrode Substitution with ITO]{Top-Electrode Substitution with ITO}
 
-The characterization of a set of devices featuring indium tin oxide (ITO) top contact instead of gold, revealed unique stress responses. The bottom contact and silicon oxide (SiOx) layer remained the same as previous devices. When subjected to electrical stress, the ITO-contacted device exhibited a response markedly different from the gold-titanium contacted device. Instead of a gradual and smooth increase in conductance, a more erratic and chaotic response was observed. Aluminium-contacted devices, in contrast, consistently failed to demonstrate current transients following the application of stress. Any increase in conductance induced by constant current stress in these devices also proved more volatile, with the devices returning to a high resistance state within a couple of hours.\\
+Devices with an indium tin oxide (\abbrev{ITO}) top contact in place of gold showed distinctive stress responses. The bottom contact and silicon oxide (SiOx) layer were unchanged from previous devices. Under electrical stress, the \abbrev{ITO}-contacted device behaved markedly differently from the gold--titanium device. Rather than a smooth, gradual rise in conductance, the response was erratic and chaotic. Aluminium-contacted devices, by contrast, consistently showed no current transients after stress. Any stress-induced conductance increase was more volatile, decaying back to a high-resistance state within a couple of hours.\\
 
 \begin{table}[ht]
     \caption{Comparison of the modified device stacks.}
@@ -22,387 +23,451 @@ The characterization of a set of devices featuring indium tin oxide (ITO) top co
     \hline
     \multicolumn{2}{|c|}{Original Stack}              & \multicolumn{2}{c|}{Modified Stack}              \\ \hline
     \multicolumn{1}{|c|}{Layer} & Film Thickness (nm) & \multicolumn{1}{c|}{Layer} & Film Thickness (nm) \\ \hline
-    \multicolumn{1}{|c|}{Au}    & 110                 & \multicolumn{1}{c|}{ITO}   & 30                  \\ \hline
+    \multicolumn{1}{|c|}{Au}    & 110                 & \multicolumn{1}{c|}{\abbrev{ITO}}   & 50                  \\ \hline
     \multicolumn{1}{|c|}{Ti}    & 3                   & \multicolumn{1}{c|}{Ti}    & 3                   \\ \hline
-    \multicolumn{1}{|c|}{SiOx}  & 35                  & \multicolumn{1}{c|}{SiOx}  & 20                  \\ \hline
+    \multicolumn{1}{|c|}{SiOx}  & 35                  & \multicolumn{1}{c|}{SiOx}  & 25                  \\ \hline
     \multicolumn{1}{|c|}{Mo}    & 280                 & \multicolumn{1}{c|}{Mo}    & 150                 \\ \hline
     \end{tabular}
     \label{table:5a}
 \end{table}
 
-\noindent The ITO-contacted devices, however, did exhibit partial current transients. A typical transient observed in these devices, as plotted in Figure \ref{fig:5a}, showed an initial increase in conductance. However, it did not then reduce; instead, the device displayed chaotic spiking-like behavior. Prolonged observation of this behavior would typically lead to the device switching to a low resistance state.\\
+\noindent The \abbrev{ITO}-contacted devices did, however, show partial current transients. A typical transient (Figure \ref{fig:5a}) began with an increase in conductance but did not then decay. Instead the device displayed chaotic, spiking-like behaviour, and prolonged observation typically ended in a switch to a low-resistance state.\\
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/a.png}
-    \caption[Electrical stress response of an ITO-contacted device.]{Electrical stress response of a device with an ITO top contact. The device voltage was recorded under a constant current stress of $-0.5\mu A$, the maximum applicable current before instability. Compared to the smooth transitions observed in gold-contacted devices, the ITO device exhibits a markedly erratic and volatile response.}
+    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/ito_stress_response.png}
+    \caption[Electrical stress response of an ITO-contacted device.]{Electrical stress response of \abbrev{ITO}-contacted devices under a constant-current stress of $-0.5\,\mu$A. Individual device-voltage traces (grey) are shown with their mean across 21 devices (teal). Unlike the smooth transitions of gold-contacted devices, the \abbrev{ITO} devices respond far more erratically.}
     \label{fig:5a}
     \end{figure}
 
-\noindent The observation of a partial current transient in ITO-contacted devices; specifically, the presence of the initial conductance increase without the subsequent slow decay is a significant finding. By decoupling these two phases, it clearly demonstrates that the full transient is a composite phenomenon resulting from at least two distinct, simultaneous physical changes rather than a single continuous process. This evidence supports the hypothesis that the top metal-insulator interface plays a crucial role in governing the decay phase of these transients. The notion that alterations to specific interfaces can selectively influence transient characteristics is further supported by findings in tantalum oxide-based devices, where an $Al_2O_3$ buffer layer deposited between the tantalum oxide bulk and titanium nitride electrodes significantly altered the prominence of the transient compared to devices without the buffer \cite{tuller2011point}.\\
+\noindent Because \abbrev{ITO} is transparent across the visible range, replacing the opaque gold contact with \abbrev{ITO} also makes the active oxide optically accessible. This adds a means of modulating the device that the gold-contacted stack lacks. A preliminary illumination experiment confirms the devices are photoactive. Figure \ref{fig:5b} shows current--voltage sweeps of a representative device from a batch of 25 nominally identical \abbrev{ITO} samples, measured in the dark and under illumination. Under light the current rises by roughly an order of magnitude across most of the range, reaching the largest enhancements ($\sim$15--45$\times$) near 14--16\,V. This enhancement is consistent with photo-excitation of carriers from the same sub-stoichiometric-oxide defect states that mediate dark conduction, and it points to a route towards optically gated memristive synapses.\\
 
-
-\noindent Specifically, the gradual decline in conductance of the transients is exclusive to the gold-contacted devices, suggesting that it is either the characteristics of the metal-insulator interface, or the disparate responses to stressing at this interface that determine whether the decaying behavior is manifested. Conversely, the initial increase in conduction is observed in both ITO and gold-contacted devices, implying that this behavior is less affected by the top metal-insulator interface and may instead be attributed to changes within the bulk oxide layer or at the bottom metal-insulator interface. The disappearance of the slower conductance decay with the change in top electrode thus provides valuable insight into the physical model describing the current change, reinforcing the idea of distinct two underlying mechanisms.
-
-\subsection[Conductance Variation Mechanisms]{Conductance Variation Mechanisms}
-
-\noindent Ascertaining the precise location within the device stack responsible for the observed reduction in conductance is the initial step in understanding these mechanisms. The absence of decay concurrently with the alteration of the top electrode strongly suggests that the causal factor for the conductance decay is situated at the interface between the top electrode and the amorphous silicon dioxide. Given the slow dynamics of this change, a drift of some mobile defect is plausibly responsible.\\
-
-
-\noindent Silicon dioxide films are well-established as susceptible to the influence of alkali mobile ions, such as positively charged sodium and lithium ions \cite{snow1965ion, yon1966sodium}. The drift of these mobile charges can significantly affect potential drops at metal-oxide interfaces and modulate barrier heights upon accumulation. Nevertheless, attributing the observed positive space charge to alkali metals is highly improbable. Not only is there no evidence to suggest that the fabricated samples contain any significant concentration of alkali metal ions, which typically only occur as environmental contaminants, but their migration also generally requires temperatures exceeding $100^\circ C$ \cite{deal1974current}. Since all current transients presented in this work were observed at room temperature, an alternative candidate for the mobile space charge is necessary—one that is both naturally present in the oxide and mobile under ambient conditions.\\
-
-\noindent It is worth noting that modelling of the temperature within $TaO_x$ devices has indicated the potential for localized temperature increases of up to $100^\circ C$ in the immediate vicinity of the conductive filament due to Joule heating at applied voltages of -0.7V to -1.8V \cite{shen2021experimentally}. If comparable localized heating effects were present during the current transient, these elevated temperatures could potentially facilitate the migration of alkali metal defects strictly within those confined regions.\\
-
-\noindent The proton \cite{hofstein1967proton} emerges as a more likely candidate for a positive ion mobile at room temperature. Ionized hydrogen in silicon dioxide films has been repeatedly observed to be both stable \cite{vanheusden1998chemical}. Protons have been demonstrated to influence the electronic properties of capacitor devices where they are trapped within the oxide \cite{vanheusden1999non}, and their long-term stability has been shown through multiple cycles of migration between device electrodes \cite{warren1997protonic}. These ions are commonly assumed to be introduced as hydrogen during oxide growth \cite{vanheusden1998thermally}, with their concentration increasing through annealing in an atmosphere at temperatures above $200^\circ C$ \cite{lifshitz1989detection}. Their presence can also be introduced electronically via the electrolysis of water within the device and through radiation \cite{winokur1977field}. Crucially, their migration has been shown to occur repeatedly at room temperature \cite{hofstein1967proton}.\\
-
-\noindent The question then arises as to why the accumulation of protons occurs exclusively in gold-contacted devices, but not in ITO. Given that gold is an inert metal and is unlikely to be reduced by protons, their accumulation at the gold interface is expected. In contrast, substantial evidence indicates that ITO would be reduced in the presence of protons. Although ITO contacts are often considered inert in certain electrochemistry scenarios, their reduction is, in fact, heavily dependent on the pH of the electrolyte. For instance, electrode reduction has been observed numerous times in acidic electrolytes \cite{ciocci2021differentiating, senthilkumar2008electrochemical}.\\
-
-\noindent The reduction of ITO by protons has been demonstrated in both electrochemical experiments at room temperature \cite{wang2003optical} and in instances where ITO has been exposed to a hydrogen plasma \cite{banerjee1987degradation}. One study found that applying negative voltages to an ITO electrode immersed in hydrochloric acid led to the formation of metallic-appearing spherical structures at the grain boundaries of the ITO film \cite{huang2003electrochemical}. Characterization with Energy Dispersive X-ray Spectroscopy (EDS) \cite{huang2003electrochemical} and X-ray Diffraction (XRD) \cite{liu2015important} revealed these spherical regions were depleted of oxygen or exhibited only peaks of indium and tin, providing compelling evidence of their metallic nature. Similar spherical structures were observed in ITO films exposed to a hydrogen plasma, with Auger spectroscopy again showing lower oxygen concentrations in these regions \cite{banerjee1987degradation}.\\
-
-\noindent The reduction of ITO by protons may provide a compelling explanation for the absence of space charge accumulation in ITO-contacted devices. Instead of accumulating, the protons reduce the ITO, producing water as a byproduct, which would not contribute to a positive space charge. Furthermore, the reduction of the electrode may also elucidate the more erratic current-time response observed in ITO devices, as the electrode structure undergoes substantial alterations.\\
-
-\noindent The potential for structural changes to occur in both the oxide and the metal contacts makes it challenging to definitively determine the specific role each plays in modulating the device's conductance. To investigate the effect of the contact, it would be beneficial to fabricate and characterize devices with a variety of contact materials. Any discrepancies in observed behavior between these devices could be ascribed to the metal or the metal-insulator interface, while any enduring effects could be attributed to the oxide. To further examine any behavior attributed to the oxide, devices of varying oxide thicknesses could be fabricated. This might reveal a dependence on oxide thickness, offering supporting evidence for the oxide's role in changing device conductance. However, caution must be exercised, as changes in oxide thickness also modify the magnitude of the current density flowing through the device, potentially affecting the interfaces. The fabrication of devices with different oxide thicknesses and a variety of metal contacts remains a promising future research direction.\\
-
-
-\noindent If the hypothesis that the transient is the result of two separate changes is valid, it suggests that devices could potentially be engineered to exhibit only one of these changes in isolation. Fabricating such a device would provide strong supporting evidence for the hypothesis and a clear demonstration of the separability of these mechanisms. Modification of the top contact material, as observed with ITO, appears to facilitate this separation. Devices fabricated with a conductive ITO top electrode, in lieu of the gold-titanium contact, display the initial increase followed by instabilities. Figure \ref{fig:5b} illustrates the current-time response of an ITO-contacted device. As observed previously in gold devices, the current begins to increase; becoming progressively noisier until the device undergoes breakdown.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/b.png}
-    \caption[The current-time response for a device with a conductive ITO top electrode.]{The current-time response for a device with a conductive ITO top electrode. The current is generated in response to a step potential applied to the top contact relative to the bottom electrode. Notably, the device exhibits only an initial increase in conductance without any subsequent decay. As the steady-state current increases, the noise level also escalates until the device becomes electrically unstable. The device structure is identical to the gold-contacted devices, except for the substitution of the top gold-titanium electrode with indium tin oxide (ITO).}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.62\textwidth]{Chapter5/Figs/ito_iv_illumination.png}
+    \caption[Current--voltage response of an ITO device in the dark and under illumination.]{Forward-branch current--voltage response of a representative \abbrev{ITO}-contacted device ($0\rightarrow+25$\,V, $10$\,mA compliance) measured in the dark, under illumination, and in the dark immediately afterwards. Illumination raises the current by roughly an order of magnitude.}
     \label{fig:5b}
 \end{figure}
 
-\noindent The ITO device underwent a comparable stressing process to that of the gold devices. Initially, the devices exhibit only capacitive currents and possess a very high resistance. Subsequently, a constant current stressing procedure is employed to produce a more conductive device. Following a period of relaxation, a repeatable transient is produced, provided that the applied voltage is maintained for a sufficiently brief duration to prevent device breakdown. A comparable phenomenon has been documented in a variety of oxides \cite{moon2019rram} and is frequently employed in the replication of short-term potentiation of synapses \cite{zhang2017emulating, chang2011short}. Furthermore, this slower dynamic may corroborate previous findings \cite{meyer2005oxygen}, where slower dynamics were postulated to be attributable to oxygen vacancies. It is conceivable that the ITO contact is more prone to exchange oxygen with the oxygen vacancy than is the inert gold contact.\\
+\noindent This optical sensitivity is promising but preliminary. The three sweeps were recorded in close succession, with the current rising from one high-voltage sweep to the next, so the measurement conflates the optical response with a concurrent stress-induced conductance increase. Wavelength and power were also not calibrated. A dedicated study would separate the two and quantify the spectral response, interleaving illuminated and dark references on the same device across calibrated wavelength and intensity. The transparent-electrode platform provides a ready basis for it. The remainder of this chapter concentrates on the electrically driven transient, whose two phases the \abbrev{ITO} substitution helps to separate.\\
+
+\subsection[Optical Constants of the Pristine ITO Contact]{Optical Constants of the Pristine ITO Contact}\label{subsec:ellipsometry}
+
+\noindent Before the device is stressed, the optical state of the as-deposited \abbrev{ITO} contact is worth fixing quantitatively, both to confirm the film is a well-formed transparent conductor and to set a reference against which the later electrochemical reduction is read. The optical constants were measured by spectroscopic ellipsometry on a pristine stack (Semilab SEA analyser, $79^{\circ}$ angle of incidence, over the $450$--$760$\,nm visible range). The measured ellipsometric angles ($\Psi$, $\Delta$) were fitted with a layered optical model in which the \abbrev{ITO} dielectric function combines a Drude free-carrier term with a Lorentz oscillator, returning the wavelength-dependent refractive index $n$ and extinction coefficient $k$.\\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/ito_optical_dispersion.png}
+    \caption[Optical dispersion of the pristine ITO contact.]{Optical dispersion of the pristine \abbrev{ITO} top contact from spectroscopic ellipsometry. The refractive index $n$ (teal, left axis) and extinction coefficient $k$ (navy, right axis) are shown across the measured visible range ($450$--$760$\,nm); the dotted line marks the $632.8$\,nm reference ($n = 2.14$, $k = 0.10$). The transparent, weakly absorbing response is characteristic of a well-formed transparent conducting oxide and defines the pristine reference state of the electrode.}
+    \label{fig:5ellip}
+\end{figure}
+
+\noindent The model reproduced the measured response with high fidelity (regression $R^2 = 0.999$). The fitted optical constants (Figure~\ref{fig:5ellip}) show the as-deposited \abbrev{ITO} to be transparent and weakly absorbing across the visible range: the refractive index falls from $n \approx 2.29$ at $450$\,nm to $n \approx 2.08$ at $760$\,nm, and the extinction coefficient from $k \approx 0.17$ to $k \approx 0.085$ over the same range ($n = 2.14$, $k = 0.10$ at the $632.8$\,nm HeNe line). These values are characteristic of a well-formed transparent conducting oxide, and the free-carrier (Drude) contribution confirms the degenerate, conductive nature of the pristine film, giving a carrier concentration of order $10^{20}$\,cm$^{-3}$ and a sheet resistance of $\approx260$\,$\Omega$/sq. This optically transparent, low-loss starting state is the baseline against which the chemical and structural changes induced by electrical stress are interpreted: the reduction examined in the next section darkens the film as it loses oxygen, the optical counterpart of departing from this pristine state.\\
+
+\noindent The partial transient in \abbrev{ITO}-contacted devices, with the initial conductance increase but no subsequent slow decay, is a telling result. It shows the full transient to be a composite of at least two distinct, simultaneous physical changes rather than a single continuous process. The decay is exclusive to gold-contacted devices, so the top metal--insulator interface governs it. The initial increase occurs with both electrodes, so it is less sensitive to that interface and likely arises in the bulk oxide or at the bottom contact. That specific interfaces can selectively shape the transient is further supported by tantalum-oxide devices, in which an $Al_2O_3$ buffer layer between the tantalum-oxide bulk and the titanium-nitride electrodes markedly altered the prominence of the transient \cite{tuller2011point}.
+
+\subsection[Proton Drift Hypothesis]{Proton Drift Hypothesis}
+
+\noindent Locating where in the stack the conductance reduction originates is the first step in understanding these mechanisms. The decay disappears precisely when the top electrode is changed, strongly suggesting that its cause lies at the interface between the top electrode and the amorphous silicon dioxide. Given the slow dynamics, the drift of a mobile defect is the likely cause.\\
+
+
+\noindent Silicon dioxide films are well known to be susceptible to mobile alkali ions such as positively charged sodium and lithium \cite{snow1965ion, yon1966sodium}. As these charges drift and accumulate they shift potential drops at metal--oxide interfaces and modulate barrier heights. Attributing the observed positive space charge to alkali metals is nonetheless improbable. There is no evidence that the samples contain a significant concentration of such ions, which typically occur only as environmental contaminants, and their migration generally requires temperatures above $100^\circ C$ \cite{deal1974current}. As all transients here were observed at room temperature, the mobile space charge must be some other species, both naturally present in the oxide and mobile under ambient conditions.\\
+
+\noindent Temperature modelling of $TaO_x$ devices indicates localised increases of up to $100^\circ C$ near the conductive filament from Joule heating at applied voltages of -0.7V to -1.8V \cite{shen2021experimentally}. Comparable heating during the current transient could facilitate alkali-defect migration, but only within those confined regions.\\
+
+\noindent The proton \cite{hofstein1967proton} is a more likely positive ion mobile at room temperature, an interpretation now supported by extensive work on proton-conducting neuromorphic materials \cite{yuan2024proton}. Ionised hydrogen in silicon dioxide films is repeatedly observed to be stable \cite{vanheusden1998chemical}. Protons trapped within the oxide influence the electronic properties of capacitor devices \cite{vanheusden1999non}, and their long-term stability is shown by repeated cycles of migration between electrodes \cite{warren1997protonic}. They are commonly introduced as hydrogen during oxide growth \cite{vanheusden1998thermally}, with their concentration rising on annealing above $200^\circ C$ \cite{lifshitz1989detection}, and can also enter electronically via electrolysis of water within the device and through radiation \cite{winokur1977field}. Most relevant here, they migrate repeatedly at room temperature \cite{hofstein1967proton, vanheusden1999non}.\\
+
+\noindent The decisive support is on this very platform. A dedicated study of these \abbrev{SiOx} stacks identifies mobile hydrogen as a determinant of the conductance, diffusing to and from the electrode interfaces under the operating field, and notes that concentrations as low as $\sim$2\,at.\% (the level reported for comparable SiO$_2$ films) already modify the oxide's electronic properties measurably \cite{cox2024hydrogen}. Oxygen vacancies are a coupled second species, supplied by the reactive Ti and Mo electrodes that getter oxygen from the oxide and able to be passivated or generated by the mobile hydrogen, so the two cannot be cleanly separated \cite{cox2024hydrogen, mehonic2017intrinsic}. The current itself remains electronic throughout, this mobile charge acting only by screening the interfacial field.\\
+
+\noindent Why, then, do protons accumulate in gold-contacted devices but not in \abbrev{ITO}? Gold is inert and unlikely to be reduced by protons, so their accumulation at the gold interface is expected. \abbrev{ITO}, in contrast, is reduced in the presence of protons, as substantial evidence indicates. Although \abbrev{ITO} contacts are often treated as inert, their reduction depends strongly on electrolyte pH, and electrode reduction has been observed many times in acidic electrolytes \cite{ciocci2021differentiating, senthilkumar2008electrochemical}.\\
+
+\noindent The reduction of \abbrev{ITO} by protons has been demonstrated both in room-temperature electrochemical experiments \cite{wang2003optical} and in \abbrev{ITO} exposed to a hydrogen plasma \cite{banerjee1987degradation}. Applying negative voltages to an \abbrev{ITO} electrode immersed in hydrochloric acid formed metallic-appearing spherical structures at the grain boundaries of the \abbrev{ITO} film \cite{huang2003electrochemical}. Energy-dispersive X-ray spectroscopy (\abbrevdef{EDS}) \cite{huang2003electrochemical} and X-ray diffraction (\abbrevdef{XRD}) \cite{liu2015important} showed these regions to be depleted of oxygen or to exhibit only indium and tin peaks, strong evidence of their metallic nature. Similar structures appeared in \abbrev{ITO} films exposed to a hydrogen plasma, where Auger spectroscopy again showed lower oxygen concentrations \cite{banerjee1987degradation}.\\
+
+\noindent Reduction of \abbrev{ITO} by protons explains the absence of space-charge accumulation in \abbrev{ITO}-contacted devices. The reduction proceeds by a cathodic half-reaction that consumes the migrating protons,
+\begin{equation}
+    \mathrm{In_2O_3 + 6\,H^+ + 6\,e^- \rightarrow 2\,In + 3\,H_2O}, \label{eq:5.redox}
+\end{equation}
+with the analogous reaction reducing the tin oxide. The standard potential for In$^{3+}$/In is only $-0.34$\,V versus the standard hydrogen electrode \cite{liu2015important}. The strong cathodic bias on the top contact therefore drives the electrode potential well below it and makes the reduction thermodynamically accessible.\\
+
+\noindent The consequence for the transient is direct. Because the protons are consumed as water rather than accumulating, no positive space charge builds up, and the slow decay branch is removed. The accompanying structural changes in the electrode may also explain the more erratic current--time response of \abbrev{ITO} devices.\\
+
+\noindent Because structural changes can occur in both the oxide and the metal contacts, the specific role of each in modulating conductance is hard to determine. Fabricating and characterising devices with a range of contact materials would help. Any difference in behaviour between them could be ascribed to the metal or the metal--insulator interface, while any effect common to all could be attributed to the oxide. Varying the oxide thickness would test the oxide's role further, since a thickness dependence would support it. Caution is needed, however, because changing the thickness also alters the current density and so may affect the interfaces. Fabricating devices with different oxide thicknesses and a range of metal contacts remains a promising direction.\\
+
+
+\noindent If the transient indeed results from two separate changes, engineering a device to exhibit only one in isolation would be strong evidence that the mechanisms are separable. Changing the top contact to conductive \abbrev{ITO} achieves exactly this. The device shows the initial increase but, in place of the slow recovery, grows progressively noisier until breakdown (Figure \ref{fig:5c}).\\
 
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/c.png}
-    \caption[instabilities of potentiation and depression on the application of applied voltage pulses.]{instabilities of potentiation and depression on the application of higher applied voltage pulses on ITO devices.}
+    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/ito_current_time.png}
+    \caption[The current-time response for a device with a conductive ITO top electrode.]{Current--time response of a conductive \abbrev{ITO}-contacted device under step potentials on the top contact (bias amplitude $|V|$ by colour). Unlike the gold-contacted devices, the \abbrev{ITO} device shows the initial conductance change without the slow recovery, and grows progressively noisier at higher bias as it approaches electrical instability. The stack matches the gold-contacted devices except for the indium tin oxide top electrode.}
     \label{fig:5c}
 \end{figure}
 
-
-\noindent An alternative hypothesis is that the Au contact is diffusing through the oxide, whereas the ITO contact is not. Previous observations have shown that Au can form conductive bridges between two contacts through a thin film of ZnO \cite{peng2012resistive}. Given that gold is known to diffuse in silicon dioxide films \cite{madams1974migration}, this could be a possibility. However, Transmission Electron Microscopy (TEM) analyses of the devices studied in this thesis have not produced observable gold filaments, casting doubt on this hypothesis \cite{mehonic2017intrinsic}.\\
-
-
-\noindent An additional potential explanation for the observed discrepancy in behavior between the Au and ITO contacts is the possibility of differences in their respective work functions. While not directly measured on the samples in question, the work function of gold is reported to be between 4.9 and 5.2 electronvolts (eV) \cite{tran2019anisotropic}, whereas thin films of indium tin oxide (ITO) have been measured to have a work function between 4.25 and 4.28 eV \cite{schlaf2001work}. This could result in a work function difference of approximately 1 eV. Such differences would lead to offsets in the band alignments at the contact and oxide, which could affect which traps within the oxide the electrons are injected into. As discussed, the change in conductance dynamic with the alteration in top electrode is highly suggestive of proton migration playing a role in the slower decay in device current.
-
-\section[Oxygen Exchange Experimentation]{Oxygen Exchange Experimentation}
-
-X-ray photoelectron spectroscopy (XPS), also known as electron spectroscopy for chemical analysis (ESCA), is a widely utilised surface analysis technique in materials science \cite{fadley2010x}. It enables the acquisition of information regarding the composition and electronic structure of matter \cite{oswald2006x}. Furthermore, additional chemical information, such as binding energy and oxidation states, can be obtained through the utilisation of this technique. \\
-
-\subsection[X-ray Photoelectron Spectroscopy Principles]{X-ray Photoelectron Spectroscopy Principles}
-
-
-\noindent Photoelectron spectroscopy is founded upon the photoelectric effect, which posits that a flux of photons can eject material electrons \cite{margaritondo1988100}. The effect was first observed by H. Hertz in 1887 \cite{hertz1887ueber} and subsequently elucidated by Einstein in 1905 \cite{einstein1905generation}. The advent of photoelectron spectroscopy can be traced back to the late 1950s. Utilising X-ray radiation for excitation, K. Siegebahn conducted a study on the energy levels of core electrons in atoms \cite{nordling1957precision}. \\
-
-\noindent In XPS, samples are irradiated with X-rays, resulting in the ejection of electrons. These electrons are then collected in order to infer information about the composition and electronic structure of the sample. As the exact binding energy of the core level depends on the chemical environment of the atom from which the electrons were ejected, Siegebahn designated this technique as electron spectroscopy for chemical analysis (ESCA).\\
-
-\noindent The identification of elements and information regarding chemical bonding are inferred from electron energy and energy shift, respectively. The analysis process, which is conducted in an ultra-high vacuum, requires high energy and short-wavelength radiation. Furthermore, depth profiling is achievable through the use of ion sputtering \cite{oswald2006x}.\\
-
-\noindent By utilising only the elastic electrons emitted from the tested sample, precise information regarding the sample's elemental composition and chemical state can be retrieved directly from its spectrum. To optimise the mean free path of the photoelectron and minimise sample contamination, measurements are conducted in an ultra-high vacuum. It is important to note that in multicomponent samples, such as a stack of thin-film structures, spectral overlap from multiple elements may occur.\\
+\noindent The \abbrev{ITO} device was stressed much as the gold devices were. Initially the devices show only capacitive currents and a very high resistance, and a constant-current stressing procedure then makes them more conductive. After a relaxation period a repeatable transient appears, provided the voltage is held briefly enough to avoid breakdown. A comparable phenomenon is documented in a range of oxides \cite{moon2019rram} and is often used to emulate short-term synaptic potentiation \cite{zhang2017emulating, chang2011short}. This slower dynamic may also corroborate earlier work \cite{meyer2005oxygen} attributing slow dynamics to oxygen vacancies, since the \abbrev{ITO} contact may exchange oxygen with the vacancy more readily than the inert gold contact.\\
 
 \begin{figure}[htbp!] 
-\centering    
-\includegraphics[width=0.5\textwidth]{Chapter5/Figs/d.png}
-\caption[Schematic representation of an XPS system.]{Schematic of an XPS instrument. The X-ray radiation interacts with the sample and emitted electrons are focused onto the analyser which measures their kinetic energies and indirectly their binding energies \cite{regonini2008anodised}. }
-\label{fig:5d}
+    \centering    
+    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/ito_bias_instabilities.png}
+    \caption[Potentiation and depression instabilities in ITO devices at higher bias.]{Current--time response of \abbrev{ITO}-contacted devices at higher bias amplitudes ($|V|$ indicated by colour). The potentiation/depression behaviour becomes increasingly unstable as the bias rises, with the highest-amplitude traces showing large erratic spiking that precedes breakdown.}
+    \label{fig:5d}
 \end{figure}
 
-\noindent Figure \ref{fig:5d} depicts a schematic representation of an XPS system. An X-ray source is employed to irradiate the sample, which is situated within a vacuum chamber. A vacuum pump is connected to the system, enabling the reduction of the pressure to a range of $10^{-8}$ to $10^{-9} mbar$ for the purposes of analysis. The ejected photoelectrons are detected by means of electronic lenses. It is possible to adjust the retarding voltages applied to these lenses during this process in order to select electrons of a specific kinetic energy. \\
 
-\noindent A hemispherical analyser (HSA), which comprises a pair of charged plates, is employed to select electrons of specific energy (also referred to as 'pass energy'). The electron detector quantifies the flux of incoming photoelectrons with the specified pass energy, a process also designated as 'fixed analyser transmission' (FAT) mode. By varying the lens voltage across a range of electron energies to ascertain the variation in flux at the detector, the spectrum of the measured sample can be generated and displayed.\\
-
-\noindent In order for the incident radiation to ionise matter and extract its electrons, the energy of the radiation must be sufficient to eject electrons into the vacuum. The energy required for this process is known as the binding energy $E_{b}$ for core electrons. The electron energy $E_k$ can be expressed in terms of the incident x-ray energy $h\upsilon$, where $h$ is Planck's constant and $\upsilon$ is the photon frequency, the sample work function $\phi$, and the electron binding energy , as follows:
-\begin{align}
-E_k = h\upsilon - E_{b} - \phi \label{eq:3.20}
-\end{align}
-
-\noindent In a given spectroscopic measurement, the frequency $\upsilon$ is known and $h$ is the Planck's constant. Consequently, the energy of electrons in the conduction band, $E_b$, can be measured to estimate the energy of electrons in the valence band, $E_k$. The latter varies depending on the element, and therefore different peaks characterising the composition of the sample will appear in the XPS spectrum.\\
-
-\noindent X-ray radiation has the capacity to penetrate deeply into a sample, yet only electrons situated in close proximity to the surface are able to escape. As a consequence of the high degree of scattering that occurs within the sample, the photoelectrons generated are subject to a significant loss of energy. The surface sensitivity of the technique is determined by the low escape depth (0.5-2 nm) of the elastically scattered electrons \cite{oswald2006x}.\\
-
-\noindent The energy resolution of the measured spectrum is sensitive to a number of parameters, including the diameter of the analyser, the energy spread of the X-ray source, and the pass energy. The ionisation process results in the formation of localised charges at the surface of the sample (sample charging). \\
-
-\noindent The presence of these localised charges may result in a broadening of the spectral lines. It is therefore necessary to implement an effective charge neutralisation process. This is achieved by injecting electrons into the vacuum chamber using an ion gun, which neutralises the sample and improves its photoelectron emission. \\
-
-\noindent The pass energy of the hemispherical analyser dictates the energy bandwidth of the electrons allowed to reach the detector at any given moment, which directly governs the detector's energy resolution. This resolution quantifies the system's ability to distinguish between photoelectron peaks that differ in energy by only a small amount. Consequently, employing a lower pass energy restricts this bandwidth, thereby increasing the resolving power of the analyser at the expense of overall signal intensity.\\
-
-\noindent In contrast, Auger peaks manifest at elevated binding energies. Radiation-induced photoemission gives rise to shell vacancies, which can be filled by excited electrons undergoing decay and emitting Auger electrons. X-ray emission can also occur during the ionisation process in heavy atoms. Many samples exhibit degradation under exposure to X-rays.\\
-
-\noindent The probing method frequently permits focusing the X-ray beam onto a narrow, specific spot, thereby reducing sample damage to an absolute minimum. Despite XPS being a surface analysis technique, depth profile measurement can be performed nonetheless \cite{geng2002xps}. This can be typically achieved by integrating an ion beam source into the XPS system to mill the sample. Through ion milling, the sample material can be removed in a sequential manner while its composition is characterised. However, the milling process may result in alterations to the composition and cause damage to the sample. The introduction of energetic ions during the milling process may also result in the implantation of material, leading to changes in the composition with depth.
+\noindent An alternative hypothesis is that the Au contact diffuses through the oxide while the \abbrev{ITO} contact does not. Gold can form conductive bridges between contacts through a thin film of ZnO \cite{peng2012resistive} and is known to diffuse in silicon dioxide films \cite{madams1974migration}, so this is conceivable. However, Transmission Electron Microscopy (\abbrev{TEM}) of the devices studied here shows no observable gold filaments, casting doubt on the hypothesis \cite{mehonic2017intrinsic}.\\
 
 
-\subsection[Spectroscopic Validation of ITO Reduction]{Spectroscopic Validation of ITO Reduction}
+\noindent A further explanation for the difference between Au and \abbrev{ITO} contacts is a difference in work function. Although not measured on these samples, gold's work function is reported between 4.9 and 5.2 electronvolts (eV) \cite{tran2019anisotropic}, whereas thin films of indium tin oxide (\abbrev{ITO}) measure between 4.25 and 4.28 eV \cite{schlaf2001work}, a difference of about 1 eV. Such a gap would offset the band alignments at the contact and oxide and could change which oxide traps electrons are injected into. As discussed, the change in conductance dynamics with the top electrode strongly suggests that proton migration drives the slower decay in device current.
 
-To validate the hypothesis that the Indium Tin Oxide (ITO) top electrode is chemically unstable and undergoes electrochemical reduction during electrical stressing—unlike the inert gold contacts—X-ray Photoelectron Spectroscopy (XPS) depth profiling was performed. The analysis compared a pristine device stack against a "stressed" device that had been subjected to the electrical biasing conditions known to induce erratic conducting behaviour. The device stack consisted of ITO (50 nm) / SiOx (25 nm) / Mo (150 nm).\\
+\section[XPS Evidence for Electrode Reduction]{XPS Evidence for Electrode Reduction}\label{sec:5p2}
+
+X-ray photoelectron spectroscopy (\abbrevdef{XPS}), also known as electron spectroscopy for chemical analysis (\abbrevdef{ESCA}), is a widely used surface-analysis technique in materials science \cite{fadley2010x}. It reveals the composition and electronic structure of matter \cite{oswald2006x}, and yields further chemical information such as binding energy and oxidation states. \\
+
+\subsection[Principles of XPS Depth Profiling]{Principles of XPS Depth Profiling}
+
+
+\noindent Photoelectron spectroscopy rests on the photoelectric effect, in which a flux of photons ejects electrons from a material \cite{margaritondo1988100}. X-rays irradiate the sample and eject electrons whose energies are collected to infer its composition and electronic structure. Because the exact core-level binding energy depends on the chemical environment of the emitting atom, elements are identified from electron energy and chemical bonding from energy shifts. The analysis is conducted in ultra-high vacuum, both to satisfy the technique and to lengthen the photoelectron mean free path and minimise contamination. Depth profiling is achieved by ion sputtering \cite{oswald2006x}.\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=0.75\textwidth]{Chapter5/Figs/e.png}
-\caption[Survey spectra collected during depth profile.]{Survey spectra collected during depth profile of (a) pristine and (b) stressed ITO (50 nm) / SiOx (25nm) / Mo (150 nm) stacks.}
+\includegraphics[width=0.5\textwidth]{Chapter5/Figs/xps_depth_profile_setup.png}
+\caption[Schematic of the XPS depth-profiling experiment.]{Schematic of the \abbrev{XPS} depth-profiling experiment on the layered \abbrev{ITO} (50\,nm) / SiO$_x$ (25\,nm) / Mo (150\,nm) stack inside the ultra-high-vacuum chamber. X-ray radiation ($h\nu$) ejects photoelectrons ($e^-$), which are focused by the lens system onto a hemispherical energy analyser and dispersed by kinetic energy onto an electron multiplier to build up the \abbrev{XPS} spectrum (counts versus binding energy). An Ar$^+$ ion beam sputter-etches successive layers, so the analysis proceeds with increasing depth into the stack. Layer thicknesses are drawn for clarity and are not to scale.}
 \label{fig:5e}
 \end{figure}
 
-\noindent The survey spectra, presented in Figure \ref{fig:5e}, provide a broad elemental overview of the device composition during the depth profile. Both pristine and stressed samples exhibit the expected characteristic peaks for Indium (In $3d$), Tin (Sn $3d$), Oxygen (O $1s$), Silicon (Si $2p$), and Molybdenum (Mo $3d$). Carbon (C $1s$) is also detected, primarily at the surface. As shown in Figure \ref{fig:5f}, the specific core level spectra for Tin (Sn $3d$) and Carbon (C $1s$) were also monitored. The consistent presence of these elements across both samples confirms that the gross material stack remains intact, allowing for a focused analysis of subtle chemical shifts and stoichiometric changes at the critical metal-insulator interface.\\
+\noindent Figure \ref{fig:5e} shows the system schematically: an X-ray source irradiates the sample in vacuum, and electronic lenses feed the ejected photoelectrons to a hemispherical energy analyser that disperses them by kinetic energy to build up the spectrum. To eject a core electron the incident radiation must supply at least its binding energy $E_b$, so the measured kinetic energy $E_k$ follows from the X-ray energy $h\nu$ (with $h$ Planck's constant and $\nu$ the photon frequency), the sample work function $\phi$, and the binding energy:
+\begin{align}
+E_k = h\nu - E_b - \phi \label{eq:5.1}
+\end{align}
+
+\noindent Since $h\nu$ is known, $E_b$ is read from $E_k$, and because $E_b$ varies with element and chemical state, distinct peaks characterise the sample composition. The technique is surface-sensitive. X-rays penetrate deeply, but only electrons within the short escape depth (0.5--2\,nm) leave without heavy scattering \cite{oswald2006x}. Depth profiling extends this into the stack by adding an ion-beam source that mills the sample sequentially as the composition is characterised \cite{geng2002xps}, though the energetic ions can themselves alter the composition with depth.
+
+
+\subsection[Validating ITO Reduction Under Stress]{Validating ITO Reduction Under Stress}
+
+To test the hypothesis that the indium tin oxide (\abbrev{ITO}) top electrode, unlike the inert gold contacts, is chemically unstable and undergoes electrochemical reduction under electrical stress, X-ray Photoelectron Spectroscopy (\abbrev{XPS}) depth profiling was performed. The analysis compared a pristine device stack with a stressed one biased under the conditions known to induce erratic conducting behaviour. The stack consisted of \abbrev{ITO} (50 nm) / SiOx (25 nm) / Mo (150 nm).\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=0.75\textwidth]{Chapter5/Figs/f.png}
-\caption[Additional core level spectra collected during depth profile.]{Additional core level spectra collected during depth profile of (a,c) pristine and (b,d) stressed ITO (50 nm) /SiOx (25 nm) / Mo (150 nm), including (a,b) Sn 3d, and (c,d) C 1s. A constant background was subtracted from the lower binding energy side. No normalisation was applied.}
+\includegraphics[width=0.58\textwidth]{Chapter5/Figs/xps_survey_spectra.png}
+\caption[Survey spectra collected during depth profile.]{Survey spectra collected during depth profile of (a) pristine and (b) stressed \abbrev{ITO} (50 nm) / SiOx (25nm) / Mo (150 nm) stacks.}
 \label{fig:5f}
 \end{figure}
 
-\noindent A detailed examination of the core level spectra reveals significant chemical alterations in the stressed device. Figure \ref{fig:5g} compares the evolution of the In $3d$, Si $2p$, and O $1s$ peaks for pristine and stressed samples. In the pristine sample (Figure \ref{fig:5g}a), the In $3d_{5/2}$ peak maintains a relatively stable profile. However, in the stressed sample (Figure \ref{fig:5g}b), the In $3d$ spectra exhibit a distinct variation in peak shape and position as the depth profile progresses into the interface region. In contrast, the silicon (Si $2p$) spectra (Figures \ref{fig:5g}c and \ref{fig:5g}d) show negligible variation between the pristine and stressed states. This disparity strongly supports the hypothesis that the "active" region of change is localized to the top ITO electrode and its interface with the oxide, rather than the bulk silicon oxide layer itself.\\
+\noindent The survey spectra in Figure \ref{fig:5f} give a broad elemental overview of the stack through the depth profile. Both pristine and stressed samples show the expected peaks for Indium (In $3d$), Tin (Sn $3d$), Oxygen (O $1s$), Silicon (Si $2p$), and Molybdenum (Mo $3d$), with Carbon (C $1s$) detected mainly at the surface. The core-level spectra for Tin (Sn $3d$) and Carbon (C $1s$) were also monitored (Figure \ref{fig:5g}). The consistent presence of these elements in both samples confirms that the gross stack remains intact, allowing a focused analysis of subtle chemical shifts and stoichiometric changes at the metal--insulator interface.\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=0.75\textwidth]{Chapter5/Figs/g.png}
-\caption[Core level spectra collected during depth profile.]{Core level spectra collected during depth profile of (a,c,e) pristine and (b,d,f) stressed ITO/SiOx/Mo stacks. The spectra include (a,b) In $3d$, (c,d) Si $2p$, and (e,f) O $1s$. A constant background was subtracted from the lower binding energy side without normalization.}
+\includegraphics[width=0.75\textwidth]{Chapter5/Figs/xps_core_level_extra.png}
+\caption[Additional core level spectra collected during depth profile.]{Additional core level spectra collected during depth profile of (a,c) pristine and (b,d) stressed \abbrev{ITO} (50 nm) /SiOx (25 nm) / Mo (150 nm), including (a,b) Sn 3d, and (c,d) C 1s. A constant background was subtracted from the lower binding energy side. No normalisation was applied.}
 \label{fig:5g}
 \end{figure}
 
-\noindent The quantification of these oxygen chemical states, plotted against the etch step in Figure \ref{fig:5h}, exposes a critical physical change in the electrode. While the pristine sample (Figure \ref{fig:5h}a) shows a gradual transition between the metal-oxide (M-O) and silicon-oxide (SiOx) species, the stressed sample (Figure \ref{fig:5h}b) displays a markedly different profile. Notably, the cross-over points of the species occur earlier in the etch sequence for the stressed device. Given that the initial ITO thickness was identical (50 nm), this faster removal of the top layer in the stressed sample is puzzling if one assumes the material properties remained constant. However, within the context of the reduction hypothesis, this observation is consistent: the electrochemical reduction of the ITO ceramic into a metallic-rich, sub-stoichiometric layer "softens" the material, making it more susceptible to ion milling and increasing the sputter rate.\\
+\noindent The core-level spectra reveal clear chemical changes in the stressed device. Figure \ref{fig:5h} compares the In $3d$, Si $2p$, and O $1s$ peaks for the two samples. In the pristine sample (Figure \ref{fig:5h}a) the In $3d_{5/2}$ peak stays relatively stable, whereas in the stressed sample (Figure \ref{fig:5h}b) the In $3d$ spectra change distinctly in shape and position as the profile reaches the interface. The silicon (Si $2p$) spectra (Figures \ref{fig:5h}c and \ref{fig:5h}d) barely differ between the two states. This contrast strongly supports the hypothesis that the active region of change is localised to the top \abbrev{ITO} electrode and its interface with the oxide rather than the bulk silicon oxide.\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=0.75\textwidth]{Chapter5/Figs/h.png}
-\caption[Quantification of O $1s$ chemical states collected during depth profile.]{Quantification of O $1s$ chemical states collected during depth profile of (a) pristine and (b) stressed devices. The data was fitted with three features: metal-oxide (M-O), silicon oxide (SiOx), and an intermediate feature (Int). The stressed sample exhibits an accelerated rate of change and shifted cross-over point.}
+\includegraphics[width=0.52\textwidth]{Chapter5/Figs/xps_core_level_spectra.png}
+\caption[Core level spectra collected during depth profile.]{Core level spectra collected during depth profile of (a,c,e) pristine and (b,d,f) stressed \abbrev{ITO}/SiOx/Mo stacks. The spectra include (a,b) In $3d$, (c,d) Si $2p$, and (e,f) O $1s$. A constant background was subtracted from the lower binding energy side without normalisation.}
 \label{fig:5h}
 \end{figure}
 
-\noindent Finally, the relative binding energy (BE) positions of the indium and silicon core states were analyzed to confirm the chemical nature of the change. Figure \ref{fig:5i} illustrates the shift in binding energy relative to the surface state. The Indium (In $3d_{5/2}$) peak in the stressed sample shows a pronounced and distinct deviation in binding energy compared to the pristine control as the profile reaches the interface. Conversely, the Silicon (Si $2p$) peak shows little to no significant shift. This binding energy shift in Indium is indicative of a change in chemical state, specifically a change in oxidation state or oxygen stoichiometry consistent with reduction.\\
+\noindent Quantifying these oxygen states against the etch step (Figure \ref{fig:5i}) exposes a physical change in the electrode. The pristine sample (Figure \ref{fig:5i}a) shows a gradual transition between the metal-oxide (M-O) and silicon-oxide (SiOx) species, but the stressed sample (Figure \ref{fig:5i}b) is markedly different, its species cross-over points occurring earlier in the etch sequence. Since the initial \abbrev{ITO} thickness was identical (50 nm), this faster removal of the top layer is puzzling if the material properties are assumed constant. It fits the reduction hypothesis, however: reducing the \abbrev{ITO} ceramic to a metallic-rich, sub-stoichiometric layer softens it, raising its susceptibility to ion milling and its sputter rate.\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=0.75\textwidth]{Chapter5/Figs/i.png}
-\caption[Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile.]{Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile. The indium line shows a distinct change in its BE position under stress, while silicon remains stable, suggesting the primary alteration is a change in the chemical state (oxygen stoichiometry) of the top contact.}
+\includegraphics[width=0.6\textwidth]{Chapter5/Figs/xps_o1s_quantification.png}
+\caption[Quantification of O $1s$ chemical states collected during depth profile.]{Quantification of O $1s$ chemical states collected during depth profile of (a) pristine and (b) stressed devices. The data was fitted with three features: metal-oxide (M-O), silicon oxide (SiOx), and an intermediate feature (Int). The stressed sample exhibits an accelerated rate of change and shifted cross-over point.}
 \label{fig:5i}
 \end{figure}
 
-\noindent In summary, the XPS data provides spectroscopic validation for the proposed physical model. The detection of intermediate oxygen states, the significant binding energy shifts in indium, and the accelerated etch rate of the top electrode all converge to confirm that the ITO layer is not inert. Instead, it undergoes electrochemical reduction, likely by protons accumulated under negative bias, resulting in the structural instabilities and "chaotic" electrical behavior observed in the neuromorphic device characterization.
-
-\section[Compact SPICE Modeling of Transient Dynamics]{Compact SPICE Modeling of Transient Dynamics}
-
-This section presents the development of empirical models designed to track the rates of increase and decrease in conductance separately. These models are primarily intended to quantify the rate of change in conductance, with the question of a comprehensive physical model addressed in subsequent discussions.
-
-\subsection[Model Formulation and Evaluation Metrics]{Model Formulation and Evaluation Metrics}
-
-\noindent The models explored here are derived from relaxation experiments previously outlined. It was evident that the gradual decline in device current delineated the upper limit of the maximum device current, while the initial surge in current approached this maximum but did not exceed it. This behavior is represented by the product of two time-dependent functions, $f_{inc}(t)$ and $f_{dec}(t)$. The increase in current is analogous to a charging term, $f_{inc}(t)$, which rises from 0 to 1. Initially, this function primarily defines the device current. However, as  $f_{inc}(t)$ approaches 1, it then allows the function it is multiplied by, $f_{dec}(t)$, to define the total current:
-\begin{align}
-    I(t) = f_{inc}(t) \times f_{dec}(t) \quad \forall \left\{ f_{inc}(t) \in [0 \to 1] : f_{dec}(t) \in \mathbb{R} \right\} \label{eq:5.1}
-\end{align}
-
-
-\noindent While this equation forms the basis of the empirical model, the specific forms that $f_{inc}(t)$ and $f_{dec}(t)$ should take, and the most appropriate means of comparing their effectiveness, remain key considerations. The efficacy of each fitting equation is evaluated based on two criteria: the quality of the fit and the degree of realism of the fitted parameters in relation to the underlying physical system from which the model is derived. The correspondence between each term of a given model and a physical property is contingent upon the physical system from which the model is derived. These properties are assigned a range of values deemed realistic, with values outside this range potentially indicating that the assumed model is not applicable. The specific correspondence between physical properties and terms is model-specific and will be detailed later in conjunction with the model. \\
-
-\noindent The discrepancy between the fitted equation and the original experimental data is referred to as the residual. This can serve as a useful visual indicator of the quality of the fit. An optimal fit would manifest residuals centered around zero, exhibiting no systematic offsets or time-variant components. Residuals of this form indicate that the fitted equation tracks the experimental data well, with variances around zero assumed to be a form of noise or variance in the original data. In contrast, a less optimal fit would exhibit systematic offsets that vary over time, indicating either an additional term is absent or an incorrect function has been selected.\\
-
-\noindent While residuals are useful for visually assessing a fit, they are less so when larger datasets are being fitted. Therefore, only one residual for each model is assessed, chosen to be representative of the model's performance. The same experimental data will be fitted for each model, ensuring an accurate comparison. To assess a model's goodness of fit across an entire dataset, a single numerical metric that can quantify the fit is preferred.\\
-
-\noindent A more quantitative description of the goodness of fit is provided by the $R^2$  measure. The $R^2$  measure is a statistical tool that enables the comparison of the variance between observed data points and the model's predicted values against the variance of the observed data and the mean of that data. In other words, the most straightforward model for predicting a dataset would be to assume the mean value of the dataset in all cases.\\
-\begin{align}
-SS_{tot} &= \sum_{i}\left( y_i - \bar y \right)^2 \label{eq:5.2} 
-\end{align}
-
-
-\noindent In this context, $SS_{tot}$ (Equation \ref{eq:5.2}) represents the total sum of squares, where $y_i$ is an individual data point and $\bar y$  is the mean of the dataset, which is equal to the variance of the dataset. The variance of the dataset against the model's predictions, $SS_{res}$ , can be calculated using Equation (\ref{eq:5.3}), where $f_i$  is the model's predicted value at the $i^th$ index.
-\begin{align}
-    SS_{res} &= \sum_{i}\left( y_i - f_i \right)^2 \label{eq:5.3} 
-\end{align}
-
-\noindent If the model's variance is similar to that of the dataset, the model is no more than a simple mean value predictor, indicating a poor data fit. Conversely, a model with a variance much less than that of the dataset suggests a good fit, although residuals should still be checked. The $R^2$ value, defined by the ratio of the model's variance to the dataset's variance, is based on this premise and increases as the model's fit improves (Equation \ref{eq:5.4}).
-\begin{align}
-    R^2 &= 1 - \frac{SS_{res}}{SS_{tot}} \label{eq:5.4} 
-\end{align}
-
-\noindent Notwithstanding the possibility of obtaining an optimal fit, the values of the fitted parameters often remain uncertain. For instance, a minimum in the fitting error could be achieved by a range of parameter values. This range is referred to as the confidence bounds, which can be interpreted as the range within which the fitting algorithm is certain the final value lies. For example, 90\% confidence bounds will define a range within which the algorithm is 90\% sure the optimal value can be found. If a higher confidence is required, the range will generally increase, creating a trade-off between certainty and specificity. \\
-
-\noindent In this work, the standard confidence threshold of 90\% was employed. The choice of model for a particular dataset is influenced by the magnitude of these confidence intervals. If a model results in fitted parameters with large confidence intervals, it can present a challenge when interpreting the results, particularly if the actual variations in the fitted parameter values across different experimental conditions are small compared to the uncertainty bounds. Consequently, when selecting a model for dataset analysis, preference is given to models that yield smaller confidence intervals.\\
-
-\noindent The current transients observed in amorphous silicon oxide devices appear to result from two distinct changes occurring within the device simultaneously, leading to both an increase and a decrease in conductance. These two changes exhibit a number of distinguishing characteristics. First, the increase in conductance occurs significantly faster than the subsequent decay. Second, in terms of volatility, the increase in conductance relaxes to its initial state within tens of milliseconds, whereas the decay in conductance can take hours to fully reset. Third, in terms of their material dependence, the decay in conductance can be removed by changing the material of the electrodes \cite{mannion2022current}. This evidence strongly supports the conclusion that the two changes are driven by different physical mechanisms and can exist in isolation, a hypothesis that will be further detailed. The SPICE models for each of these processes will first be presented separately, and then the two will be combined to obtain the final model.\\
+\noindent Finally, the relative binding-energy (BE) positions of the indium and silicon core states were analysed to confirm the chemical nature of the change. Figure \ref{fig:5j} shows the BE shift relative to the surface state. As the profile reaches the interface, the Indium (In $3d_{5/2}$) peak in the stressed sample deviates markedly from the pristine control, whereas the Silicon (Si $2p$) peak shifts little or not at all. The indium shift indicates a change in chemical state, specifically an oxidation state or oxygen stoichiometry consistent with reduction.\\
 
 \begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter5/Figs/j.png}
-    \caption[Empirical SPICE model.]{Empirical SPICE model. (A) The SPICE model produces an output current, $I(t)$, given an input voltage, $V(t)$. The circuit consists of a single resistor, $R_0$, in addition to two voltage sources which act to reduce or increase the magnitude of the voltage applied to the resistor. These voltage sources are described by the sub-circuits highlighted in blue and red. (B) The voltage source, $V_n(t)$, has an initial value of $V_{n0}$ and reduces over time, leading to an increase in device current. (C) In contrast, the voltage source $V_{sc}(t)$ has an initial value of $0V$ and increases over time, causing a reduction in the current flowing through the device. All capacitors are set to a value of $1F$, whereas the values of the resistors and voltage biases are obtained from fitting the experimental data.}
-    \label{fig:5j}
+\centering    
+\includegraphics[width=0.75\textwidth]{Chapter5/Figs/xps_binding_energy_shift.png}
+\caption[Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile.]{Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile. The indium line shows a distinct change in its BE position under stress, while silicon remains stable, suggesting the primary alteration is a change in the chemical state (oxygen stoichiometry) of the top contact.}
+\label{fig:5j}
 \end{figure}
 
-\noindent The accelerated rise in conduction appears to be attributable to the phenomenon of charge trapping. This is corroborated by its shorter timescales, greater volatility, and experiments in which optically injected carriers were demonstrated to accelerate the process. One potential mechanism by which charge trapping affects device conductance is through modulation of the height of a Schottky-like barrier \cite{cowley1965surface}, which may be influenced by the population of interface states \cite{sze2021physics}. \\
+\noindent Taken together, the \abbrev{XPS} data spectroscopically validate the proposed physical model. The intermediate oxygen states, the binding-energy shifts in indium, and the accelerated etch rate of the top electrode all confirm that the \abbrev{ITO} layer is not inert: it undergoes electrochemical reduction, likely by protons accumulated under negative bias, producing the structural instabilities and chaotic electrical behaviour seen in the device characterisation.
 
-\noindent Although Schottky barriers are typically formed between metal-semiconductor interfaces, studies have identified analogous barriers within memristor devices \cite{hansen2015double}. While these silicon oxide devices do not always exhibit rectifying behaviour, its occurrence indicates the presence of an interface barrier at one of the metal-insulator interfaces. Additionally, the conductive filaments in these devices are composed of silicon-rich regions within the bulk oxide. Because this excess silicon imparts semiconducting properties to the filament, its junction with the metallic contacts effectively acts as a metal-semiconductor interface, providing a direct physical mechanism for the formation of a Schottky-like barrier.\\
+\section[Compact SPICE Model]{Compact SPICE Model}\label{sec:5p-model}
 
-\noindent The Schottky barrier is modeled as a time-dependent voltage drop that reduces the effective voltage across the active layer of the device, as illustrated by the red sub-circuit in Figure \ref{fig:5j}. As the height of this barrier diminishes over time, the potential across the active layer increases, resulting in a corresponding rise in the total device current. The magnitude of this barrier voltage is represented within the sub-circuit by the voltage across the capacitor, $C_n$. The initial voltage across this capacitor is established by the parameter $V_{n0}$. Over time, the capacitor is discharged by a voltage-controlled current source, $I_n(t)$, whose magnitude is proportional to the difference between the instantaneous barrier voltage and its final equilibrium value, $V_{n\infty}$, as defined in Equation (\ref{eq:5.5}).
+This section develops empirical models that track the rates of conductance increase and decrease separately. Their aim is to quantify the rate of change in conductance, leaving a full physical model to later discussion. The framework follows the canonical criteria for compact memristor models: well-posedness, simulation capability, qualitative asymptotic similarity, predictive ability, and structural stability \cite{woo2024localized}.\\
+
+\noindent The dual-mechanism circuit that follows was first introduced as a black-box \abbrev{SPICE} model fitted to a single gold-contacted device over 0.7--1.0\,V, in which the mobile species was deliberately left as a ``generic'' space charge of unidentified origin \cite{mannion2023compact}. That work was explicit about three limitations: the physical mechanism was unverified, the ion species was unidentified, and the model handled only single step potentials. The present chapter takes that empirical core as its starting point and addresses each limitation in turn.\\
+
+\noindent The electrode-substitution experiment of Section~\ref{sec:5p1} and the \abbrev{XPS} evidence of Section~\ref{sec:5p2} identify the mobile species as a proton and attribute the slow decay to its electrochemical reduction of the top contact, replacing the generic space charge with a physically grounded mechanism. The model is then extended with a diode-based interface, a sequential trap cascade that captures the sigmoidal conductance rise, and explicit relaxation (leakage) elements, so that it responds to arbitrary pulse trains rather than single steps and generalises across 0.8--1.5\,V from a single coefficient set.\\
+
+\noindent The empirical formulation of the earlier model is therefore retained and credited; the physical interpretation, the input generality, and the extended operating range are the contributions developed here.
+
+\subsection[Dual-Mechanism Empirical Formulation]{Dual-Mechanism Empirical Formulation}
+
+\noindent The relaxation transients are captured empirically as the product of two time-dependent terms, a charging term $f_{inc}(t)$ that rises from 0 to 1 and a decay term $f_{dec}(t)$ that defines the eventual current envelope \cite{mannion2023compact}:
 \begin{align}
-I_n(t) = \alpha \times \left[ V_n(t) - V_{n\infty} \right] \label{eq:5.5} 
+    I(t) = f_{inc}(t)\, f_{dec}(t), \quad f_{inc}(t) \in [0, 1], \quad f_{dec}(t) \in \mathbb{R} \label{eq:5.2}
 \end{align}
+The two factors are realised by the \abbrev{SPICE} circuit of Figure \ref{fig:5k}: a fixed channel resistance $R_0$ in series with two time-varying voltage sources, $V_n(t)$ (red sub-circuit) and $V_{sc}(t)$ (blue sub-circuit). Three observations justify the split. The conductance rise is much faster than the decay, it is far more volatile (millisecond versus minute-to-hour reset), and the decay can be eliminated by changing the top electrode material \cite{mannion2022current}, indicating two physically distinct mechanisms acting in parallel.\\
 
+\noindent Fits are evaluated by inspecting residuals (centred at zero with no systematic trend) and by the coefficient of determination $R^2 = 1 - SS_{res}/SS_{tot}$, with $SS_{tot} = \sum_i (y_i - \bar y)^2$ and $SS_{res} = \sum_i (y_i - f_i)^2$. Because nominally good fits can hide large parameter uncertainty, 90\% confidence bounds on each fitted parameter are also reported, and models that yield tighter bounds are preferred when the underlying parameter excursions are small.\\
 
-\noindent In this equation, the parameter $\alpha$ corresponds to the probability of trapping a carrier. Dimensionally, $\alpha$ must have units of conductance to correctly relate the voltage difference, which reflects the concentration of unpopulated states, to the resulting discharge current. The current source discharges the capacitor to a final equilibrium voltage, $V_{n\infty}$, where the trapping and de-trapping currents are equal. (Note that an additional leaking resistor, $R_{leak}$, will be introduced in a later, extended iteration of this model to correctly adjust for the rectifying behavior of the device.)\\
-
-
-\noindent Building on the spectroscopic evidence of proton-driven electrode reduction, this model attributes the slow conductance decay to the migration of positively charged ions. The extended timescale of this decay (tens to hundreds of seconds) precludes electron or hole trapping, pointing instead to massive drifting defects \cite{wang2006oxygen}. Reversing the applied voltage reverses the decay, further confirming the ion migration hypothesis. While field-driven oxygen vacancies frequently modulate oxide memristors \cite{vanka2022hydrogen}, the ambient-temperature mobility and the preceding XPS evidence strongly implicate protons (hydrogen ions) \cite{lagarias1998convergence} as the primary migrating space charge in these devices.\\
-
-\noindent The model posits that the dominant electronic current flows through localized, silicon-rich conductive filaments formed during electrical stress, consistent with C-AFM observations \cite{buckwell2015conductance}. Crucially, the actual ionic current generated by proton migration remains negligible \cite{meyer2005oxygen}. Instead, these migrating ions act purely as a modulatory space charge. Under bias, protons drift toward the top electrical contact. At an inert gold contact, they accumulate to form a localized positive space charge region. This accumulation screens the applied voltage, reducing the effective potential across the conductive filament and driving the observed conductance decay. Conversely, substituting the gold contact with ITO prevents this charge accumulation, as the protons electrochemically reduce the ITO rather than accumulating against it, thereby neutralizing the decay phase \cite{mannion2022current}.\\
-
-
-\noindent The effect of the space charge on the conductive channel can be described as follows. In the initial phase, the space charge exhibits a homogeneous distribution. Upon the application of a voltage to the device, a force is imparted on the space charge, resulting in its drift and accumulation at the device electrode. This accumulation effectively blocks the space charge from exiting the oxide. This accumulation results in the formation of a region of higher space charge concentration, which consumes a portion of the potential applied across the device. This leads to a reduction in the potential drop across the conductive channel. As the space charge accumulates, this voltage drop increases, meaning less potential is dropped across the channel and a reduction in device current is observed. Eventually, the drifting force imparted on the space charge will reach equilibrium with the diffusion and Coulombic repulsion formed by the accumulated space charge, leading to a steady-state condition. When the potential is removed, the space charge diffuses back to its original distribution.\\
-
-
-\noindent This process is modeled using the circuit illustrated in Figure \ref{fig:5j}. The conductive channel is represented by a fixed resistance, designated as $R_0$. The voltage across the conductive channel is defined by the applied potential at the terminals of the device, $V(t)$, and the voltage source, $V_{sc}(t)$, which represents the voltage drop caused by the accumulated space charge. This voltage source is time-dependent and is defined by the subcircuit shown in blue. As the voltage of this source increases over time, the voltage across the fixed resistor drops, and the device current also reduces.
-\begin{align}
-I_{sc}(t) = \mu \left[ V_{scmax} - V_{sc}(t) \right] \times \left[ V(t) - V_{sc}(t) \right] \label{eq:5.6} 
-\end{align}
-
-
-\noindent As illustrated in Figure \ref{fig:5j}C, the sub-circuit meticulously monitors the accumulation of the space charge and its concomitant voltage drop. The voltage across the capacitor represents this voltage drop. The charging of the capacitor is effected by the current source $I_{sc}(t)$, which generates a current in accordance with Equation (\ref{eq:5.6}). This current is driven by the effective potential across the device, $V(t) - V_{sc}(t)$, and is modulated by the remaining capacity for charge accumulation, $V_{scmax} - V_{sc}(t)$. The parameter $\mu$ acts as an empirical coefficient proportional to the mobility of the space charge. To ensure dimensional consistency, $\mu$ must incorporate the necessary geometric and material constants such that it possesses units of $A/V^2$. The current source is able to draw charge from a voltage source, representing the steady-state voltage drop, i.e., the maximum voltage drop consumed by the accumulated space charge $V_{scmax}$.
-
-\subsection[Composite Empirical Formulation]{Composite Empirical Formulation}
-
-
-\noindent To complete the model, the subcircuits for both potential drops are combined, as illustrated in Figure \ref{fig:5j}. The two voltage drops act upon a single resistor representing the conductive channel, $R_0$. In practice, this channel does not exhibit Ohmic conduction, and thus its resistance will have a voltage dependence. This non-Ohmic behavior is taken into account while collecting the meta-parameters.
-
-
-\begin{table}[ht]
-    \caption{Model parameter values.}
+\begin{figure}[htbp!]
     \centering
-    \begin{tabular}{|c|c|c|}
-    \hline
-    Parameter   & Function                & Value                                      \\ \hline
-    $R_0$       & Exponential             & $R_0(V) = 6.00 \times 10^6 \cdot \exp(-1.07V)$         \\ \hline
-    $\alpha$    & Linear                  & $\alpha(V) = 1.09V -0.454$                 \\ \hline
-    $V_{n\infty}$ & Constant                & $V_{n\infty} = 0.35$                         \\ \hline
-    $V_{n0}$    & Linear                  & $V_{n0}(V) = 1.03V - 0.391 $               \\ \hline
-    $\mu$       & Second Order Polynomial & $\mu(V) = -0.038V^2 + 0.142V - 0.057$      \\ \hline
-    $V_{scmax}$ & Exponential             & $V_{scmax}(V) = 5.17 \times 10^{-2} \cdot \exp(2.01V)$ \\ \hline
-    \end{tabular}
-    \label{table:5b}
-\end{table}
-
-
-\noindent The complete model comprises six parameters, which are listed in Table 5.2. These parameters were fitted to a dataset showing the current transients observed in a single device at various voltages ranging from 0.7V to 1.1V. Initially, the model was individually fit to each voltage trial and later generalized. Fitting was carried out in MATLAB using the \texttt{fminsearch} function, which employs the simplex search method \cite{lagarias1998convergence} to minimize an error function set to the mean-squared-error.\\
-
-
-\noindent The process of fitting individual voltage trials resulted in a set of parameters that exhibit voltage dependencies, with one exception: $V_{n\infty}$. This parameter was found to be distributed around a central value for different voltages and was therefore assumed to be independent of the applied voltage. For $V_{n\infty}$, the mean of its value across the dataset was calculated and set as a constant, 0.35V.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter5/Figs/k.png}
-    \caption[Fitting performance of the SPICE model.]{Fitting performance of the SPICE model. (A) The model’s response is compared with experimental data for a range of voltages. Experimental datapoints are indicated with gray points while model predictions are plotted with solid coloured lines. For each voltage case, the parameters in table \ref{table:5b} are refitted to minimise the mean-square-error between the experimental and model's response. (B) The residuals between the model's prediction and experimental data is plotted for $V=0.7V$  which exhibits the largest error of 13\% at the onset of the transient, which is predominantly due to noise within the experimental data. In contrast, the average percentage difference for the duration of the transient is 2\% with absolute residuals never exceeding $5nA$.}
+    \includegraphics[height=0.50\textheight]{Chapter5/Figs/spice_empirical_model.png}
+    \caption[Empirical SPICE model.]{Empirical \abbrev{SPICE} model. (A) The composite circuit: a channel resistance $R_0$ in series with two time-varying voltage sources, $V_n(t)$ (red) and $V_{sc}(t)$ (blue), driven by the input $V(t)$. (B) The charge-trapping sub-circuit generating $V_n(t)$, which falls from $V_{n0}$ over time, increasing the device current. (C) The space-charge sub-circuit generating $V_{sc}(t)$, which rises from zero over time, reducing the current.}
     \label{fig:5k}
 \end{figure}
 
+\noindent The fast rise in conductance is attributed to charge trapping at a Schottky-like interface barrier \cite{cowley1965surface,sze2021physics}. The devices are not always rectifying, but the silicon-rich filament forms an effective metal--semiconductor junction with the contact, and analogous barriers are reported in oxide memristors \cite{hansen2015double}. The barrier is represented by the time-dependent voltage $V_n(t)$ across capacitor $C_n$, initialised to $V_{n0}$ and discharged toward an equilibrium $V_{n\infty}$ by the voltage-controlled current source
+\begin{align}
+I_n(t) = \alpha \left[ V_n(t) - V_{n\infty} \right], \label{eq:5.3}
+\end{align}
+where $\alpha$ has units of conductance and represents the carrier-trapping probability.\\
 
-\noindent The prediction of the model when parameters are reoptimized for each specific voltage case is plotted in Figure \ref{fig:5k}A. As illustrated in Figure \ref{fig:5k}B, an example residual for the case of 0.7V is presented. This figure demonstrates the presence of suboptimal residuals, primarily attributable to the diminished device currents and noise within the experimental data. A maximum error of 13\% is exhibited at the transient's onset. Nevertheless, these errors decrease quickly, resulting in a mean error of only 1.9\% over the duration of the transient. For all voltage cases, the absolute error remains less than 5nA throughout the transient, indicating a reasonable fit. \\
+\noindent The slow decay (tens to hundreds of seconds, fully reversible on bias reversal) is too slow to be electronic trapping and is instead attributed to drift of positively charged defects \cite{wang2006oxygen,vanka2022hydrogen}. The \abbrev{XPS} evidence in the previous section, together with the ambient-temperature mobility, identifies these as protons rather than oxygen vacancies \cite{cox2024hydrogen,hofstein1967proton,vanheusden1999non}. Conduction itself remains filamentary through the silicon-rich percolation paths visible in C-\abbrev{AFM} \cite{buckwell2015conductance}, with negligible ionic current \cite{meyer2005oxygen}, so the protons act only as a modulating space charge. Under bias they accumulate at an inert gold electrode, screen the applied potential, and reduce the field across the filament. Replacing gold with \abbrev{ITO} suppresses the decay because protons electrochemically reduce the \abbrev{ITO} instead of piling up against it \cite{mannion2022current}. This screening is captured by the voltage $V_{sc}(t)$ across the blue sub-circuit, charged by
+\begin{align}
+I_{sc}(t) = \mu \left[ V_{scmax} - V_{sc}(t) \right] \left[ V(t) - V_{sc}(t) \right], \label{eq:5.4}
+\end{align}
+where the driving term is the effective potential $V(t) - V_{sc}(t)$, the bracketed factor $V_{scmax} - V_{sc}(t)$ enforces saturation at the steady-state screening voltage $V_{scmax}$, and $\mu$ (units $A/V^2$) absorbs the proton mobility together with the geometric and material constants. The two sub-circuits act in series on the channel resistance $R_0$ to give the composite model of Figure \ref{fig:5k}. \\
 
-\noindent However, a persistent oscillation is observed in the residuals of all voltage cases, suggesting that the model is missing some dynamics within the current transient. It is evident that this approach to fitting will result in an optimal fit, owing to the re-optimization of parameters for each voltage case. It should be noted that the model had not yet been generalized. In its initial state, it was necessary to modify the SPICE model's parameters in accordance with the voltage applied to the device. The ideal scenario involved the development of a generalized model, in which a single set of parameters is applicable to a range of applied voltages.\\
+\noindent In each state equation the node capacitance enters only through the products that fix the time constants ($R_{leak}C$ for the leakage, and the charging rate divided by $C$). $C$ and the resistances are therefore not separately identifiable from a current transient, only their products are. The capacitances $C_n$ and $C_{sc}$ are accordingly normalised to unity, a units convention rather than a physical plate capacitance, so that each fitted resistance is read directly as its node time constant in seconds. The resistance and voltage-bias parameters are obtained by fitting the experimental transients, and because the channel is non-Ohmic, $R_0$ is treated as voltage-dependent at the meta-parameter stage below.\\
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter5/Figs/l.png}
-    \caption[Fitting of the model's meta-parameters.]{Fitting of the model's meta-parameters. (A-E) The fitting for each of the model's parameters is plotted using the equations described in Table \ref{table:5b}. These functions' coefficients are referred to as meta-parameters and are used in the generalised model to produce a black box model that reproduces the current-time response to any voltage between 0.7 and 1.0 V. (F) The generalised model's response is plotted alongside the experimental data. This model uses the previously described meta-parameters. However, the generalised model breaks down at larger voltages, i.e. at 1.1 V. We assume this is due to the additional stressing of the oxide that occurs at higher voltages and device currents.}
+
+\noindent The base model carries six parameters, all fitted to current transients recorded on a single device from 0.7\,V to 1.1\,V. Each trial was first fitted individually using MATLAB's \texttt{fminsearch} (Nelder--Mead simplex \cite{lagarias1998convergence}) against a mean-squared-error objective. Re-optimising per voltage drove the mean error across the transient to 1.9\%, with absolute residuals below 5\,nA in every case. The worst case (13\% peak error at the 0.7\,V onset) was dominated by noise on the small measured currents. A persistent low-amplitude oscillation in the residuals shows that the present functional form misses some transient dynamics, but the per-voltage fit is only a diagnostic step. The end goal is a generalised model whose single coefficient set spans the full voltage range. One limitation should be noted. The gold-device coefficient set and the field-acceleration laws derived from it (Tables~\ref{table:5b}--\ref{table:5c}) are calibrated on this single device across voltage, so they capture its bias dependence but not the device-to-device spread. The across-device statistics reported here are confined to the \abbrev{ITO} retention study below ($n=53$), and transfer of the gold-device laws to a device population remains to be tested.\\
+
+\noindent To generalise, each per-trial parameter is replaced by a closed-form function of the applied voltage $V$. These fitted expressions, the meta-parameters, are reported in the upper block of Table \ref{table:5b}. Of the six, only $V_{n\infty}$ shows no clear voltage dependence and is held constant at the across-trials mean of 0.35\,V. Substituting these expressions into the \abbrev{SPICE} circuit yields a black-box model that reproduces the 0.7--1.0\,V transients from one coefficient set. The generalised fit is slightly looser than per-voltage refits but needs no re-fitting at each bias point.\\
+
+\begin{table}[ht]
+    \caption[Meta-parameters of the empirical SPICE model.]{Meta-parameters of the empirical \abbrev{SPICE} model (Figure~\ref{fig:5k}), each a closed-form fit over the 0.7--1.0\,V range; their physical roles are as given in the text above. Only $V_{n\infty}$ shows no voltage dependence and is held at the across-trials mean.}
+    \label{table:5b}
+    \centering
+    \footnotesize
+    \begin{tabular}{@{}l l@{}}
+    \toprule
+    Parameter & Voltage-dependent expression \\
+    \midrule
+    $R_0$         & $R_0(V) = 6.00 \times 10^{6}\, e^{-1.07V}$\,$\Omega$       \\
+    $\alpha$      & $\alpha(V) = 1.09\,V - 0.454$\,S                    \\
+    $V_{n0}$      & $V_{n0}(V) = 1.03\,V - 0.391$                    \\
+    $V_{n\infty}$ & $V_{n\infty} = 0.35$ (constant)                  \\
+    $\mu$         & $\mu(V) = -0.038\,V^{2} + 0.142\,V - 0.057$      \\
+    $V_{scmax}$   & $V_{scmax}(V) = 5.17 \times 10^{-2}\, e^{2.01V}$ \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent At 1.1\,V the generalised model breaks down, under-predicting the device current at the transient onset. This is attributed to electrical stress in the oxide at higher voltages and currents, previously shown to increase device conductivity \cite{mannion2023unipolar}. The discharge current of equation (\ref{eq:5.3}) is therefore augmented with a current-dependent term representing the dynamic creation of additional trap sites at the Schottky interface:
+\begin{align}
+    I_n(t) = \alpha \left[ V_n(t) - V_{n\infty} \right] - \sigma I(t). \label{eq:5.5}
+\end{align}
+Here $\sigma$ is a fitted coefficient weighting the stress-driven trap-creation contribution; it scales the measured device current $I(t)$ (in amperes) into the node-charging current $I_n$ of the unit-capacitance state equation (the $C_n=1$ normalisation introduced above, under which the source terms set the node time constants directly), and so carries that conversion factor rather than being dimensionless, which is why its fitted value is numerically large ($\sigma = 5.61 \times 10^5$). Although the term markedly improves the fit to the first half of the 1.1\,V transient, it breaks the generalisation because trap creation is negligible at lower voltages. It is therefore retained only as a diagnostic for the high-bias regime and dropped from the generalised model below.\\
+
+\noindent The base model therefore generalises across 0.7--1.0\,V, where trap creation is slow enough to neglect over the transient. At 1.1\,V and above, the higher field and current density accelerate trap generation, requiring the stressing term of Equation~(\ref{eq:5.5}). This term is not validated well beyond 1.1\,V, and further mechanisms such as Joule heating or avalanche breakdown would likely be needed at higher bias still.\\
+
+\subsection[Dispersive Trap-Cascade Extension and Relaxation]{Dispersive Trap-Cascade Extension and Relaxation}\label{sec:5p3}
+
+\noindent The empirical model of Section~\ref{sec:5p-model} captures the transient with a single charge-trapping state, but two limitations remain. A single trapping time constant produces a purely concave (saturating-exponential) rise, whereas the measured transients rise \emph{sigmoidally} at low bias. The model also responds only to single step potentials. Both are addressed here by (i) replacing the single trapping state with a short \emph{cascade} of sequential trap states, and (ii) adding leakage (relaxation) elements so the device responds to arbitrary pulse trains. The resulting circuit is shown in Figure~\ref{fig:5l}.\\
+
+\noindent The cascade is motivated by the shape of the rise itself. Fitting the measured gold-device rise to a stretched/compressed-exponential (Kohlrausch--Williams--Watts) form, $\Phi_r(t) = 1 - \exp[-(t/\tau_r)^{\beta_{fill}}]$, returns a compression exponent $\beta_{fill} = 1.95 \pm 0.30$ across all six voltages and both repeat trials. $\beta_{fill}$ is thus \emph{bias-independent}, with $\beta_{fill}>1$. This compressed ($\beta_{fill}>1$, sigmoidal) form is the opposite of the $\beta<1$ stretched form associated with classical dispersive band-tail transport \cite{scher1975anomalous,kakalios1987stretched}, and a bias-independent shape exponent of this kind is the property exploited by compact trap-based models of amorphous-semiconductor devices \cite{libsch1993bias,kim2022compact}.\\
+
+\noindent A compressed-exponential rise with $\beta_{fill}\approx2$ is the kinetic signature of charge passing through a short cascade of \emph{sequential} first-order trap-filling steps before it modulates the conduction band. The waiting time to populate the conducting state is the sum of $k$ independent exponential steps, which is Erlang-distributed and yields a sigmoidal response whose effective exponent grows with $k$ \cite{vankampen2007stochastic}. Matching the fitted exponent to the Erlang-$k$ rise gives $\beta_{fill}\approx1.86$ for $k=3$ and $\beta_{fill}\approx2.21$ for $k=4$, so the measured $\beta_{fill}\approx2$ corresponds to roughly three sequential stages. This is consistent with the inelastic trap-assisted tunnelling picture of Chapter~\ref{ch:transients}, in which carriers hop through a chain of spatially and energetically distributed trap sites \cite{jimenez2001physical} rather than filling a single trap level.\\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.82\textwidth]{Chapter5/Figs/spice_trap_cascade_model.png}
+    \caption[The extended SPICE model with a sequential trap cascade.]{The extended \abbrev{SPICE} model with a sequential trap cascade. The device current $I(t)$ responds to the input $V(t)$ through the charge-trapping branch (red), the channel resistance $R_0$, and the space-charge branch (blue). (A) The applied bias fills a short cascade of independent trap states $v_{n1}\!\to\!v_{n2}\!\to\!\cdots\!\to\!v_{nk}$ at a field-accelerated rate $\alpha(V)$, each leaked to ground through its own $R_{leak}$; the final stage $v_{nk}$ sets the branch conductance, producing the compressed-exponential ($\beta_{fill}\approx2$, $k\approx3$) sigmoidal rise. (B) The space-charge branch drives the slower current decay, with $R_{leak}$ providing relaxation when the input is removed.}
     \label{fig:5l}
 \end{figure}
 
-
-\noindent To generalize the model, it was necessary to account for the voltage dependence of each parameter. While this process inevitably introduces some error into the model's behavior and increases fitting residuals, the capacity to predict device behavior over a range of voltages using a single set of parameters justifies this reduction in accuracy. For each of the voltage-dependent parameters, the parameter values were fitted to a suitable function, as indicated in Table \ref{table:5b} and illustrated in Figure \ref{fig:5l}A-E. The extraction of the coefficients that describe the voltage dependency (e.g., the gradient and offset of a single order polynomial) was achieved from these functions. The term 'meta-parameters' is employed to denote these coefficients, as they encompass the parameters obtained previously from fitting the experimental data.\\
-
-
-\noindent The predictions of the generalized model are illustrated in Figure \ref{fig:5l}F. The discrepancies between the experimental and simulated device currents for each voltage curve have increased in comparison to the voltage-specific parameters. However, the advantage of the generalized model is that its parameters no longer require refitting for different applied voltages. A substantial departure from the established model is observed for the case of 1.1V. As demonstrated in Figure \ref{fig:5f}F, the model reliably forecasts a reduced device current during the initial phase of the transient. \\
-
-\noindent This phenomenon can be attributed to the elevated applied voltage and the resultant currents, which induce electrical stress within the oxide. It has been established that these devices exhibit an increase in conductivity in response to electrical stress \cite{mannion2023unipolar}. This can be rectified by the introduction of a stressing term, which serves to augment the number of traps within the Schottky interface. The discharge current, as outlined in Equation (\ref{eq:5.5}), is modified to encompass a term that facilitates the charging of the capacitor.\\
+\noindent The trapping branch is therefore modelled as a chain of $k$ sequential states, governed by a coupled system of first-order ordinary differential equations (\abbrevdef{ODE}s). The applied bias drives the first state at a field-accelerated rate $\alpha(V)$, each subsequent state is charged by the one before it, and every state leaks toward zero through $R_{leak}$:
 \begin{align}
-    I_n(t) = \alpha \times \left[ V_n(t) - V_{n\infty} \right] -\sigma I(t) \label{eq:5.7} 
+C\,\frac{d v_{n1}}{dt} &= \alpha(V)\,\big[ V_{nmax} - v_{n1} \big] - \frac{v_{n1}}{R_{leak}}, \label{eq:5.6} \\
+C\,\frac{d v_{ni}}{dt} &= \alpha(V)\, \frac{v_{n,i-1}}{V_{nmax}}\big[ V_{nmax} - v_{ni} \big] - \frac{v_{ni}}{R_{leak}}, \quad i = 2,\dots,k, \label{eq:5.7}
 \end{align}
+where the final stage $v_{nk}$ sets the conductance of the trapping branch and $V_{nmax}$ is the saturated trap occupancy. The charging rate rises with bias as the field-accelerated trap emission/capture rate, physically of the Poole--Frenkel form $\alpha(V) \propto \exp(\gamma\sqrt{V})$ \cite{frenkel1938pre}. Over the narrow 0.8--1.5\,V operating window this field acceleration is captured empirically by the exponential-in-$V$ laws fitted below (Equations~\ref{eq:5.8}--\ref{eq:5.9}), so the bias dependence is carried entirely by $\alpha(V)$ and the relaxation time constants, with no separate diode-injection term. The space-charge branch is retained from the empirical model (Equation~\ref{eq:5.4}) with an added $R_{leak}$ relaxation term. Equivalently and more compactly, the whole trapping rise is the stretched-exponential kernel $\Phi_r(t)=1-\exp[-(t/\tau_r)^{\beta_{fill}}]$ used for the generalised fit below.\\
 
-\noindent This modification is employed to simulate the creation of additional trap sites. The added term is proportional to the total current flowing through the device, $I(t)$, scaled by the coefficient $\sigma$, which represents the probability of defect creation. Because the equation evaluates to a current $I_n(t)$, with $\alpha$ already established as having the dimensions of conductance to balance the voltage difference, the scaling factor $\sigma$ acts as a dimensionless probability.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/m.png}
-    \caption[The improvement of SPICE fit at higher voltages.]{The improvement of SPICE fit at higher voltages. Two versions of the generalised model are evaluated at an applied voltage of 1.1 V. The model incorporating an additional stressing term ($\sigma = 5.61 \times 10^5$) demonstrates significantly enhanced predictive accuracy during the initial transient phase compared to the baseline model devoid of this term. The necessity for this term arises because elevated voltages and higher resultant currents induce electrical stress within the oxide, dynamically creating additional electron trap sites that accelerate the initial conductance increase.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Chapter5/Figs/dispersive_meta_parameters.png}
+    \caption[Meta-parameters of the dispersive trap-cascade extension.]{Meta-parameters of the dispersive trap-cascade extension over 0.8--1.5\,V. (A) The rise and decay time constants $\tau_r$ and $\tau_d$; points are per-voltage fits and lines the field-acceleration laws $\propto e^{-cV}$ of Table~\ref{table:5c}. (B) The compression exponent $\beta_{fill}$ from per-trace fits scatters about the fixed value $\beta_{fill}=2$ (shaded band: the $k=3$--$4$ sequential-stage range), confirming a bias-independent rise shape.}
     \label{fig:5m}
 \end{figure}
 
-\noindent The result of introducing this additional stressing term is illustrated in Figure \ref{fig:5m}. The two models are contrasted, both with and without the stressing term, and it is evident that the introduction of the stressing term, where $\sigma = 5.61 \times 10^5$ (dimensionless), significantly improves the model's performance in the first half of the transient. It is important to note, however, that the model is no longer generalized because this stressing term does not apply to smaller voltages. \\
+\noindent The extension is fitted as the empirical block was, but the parameters now separate cleanly into a bias-independent shape and field-accelerated time constants. The compression exponent is fixed at $\beta_{fill} = 2$ (equivalently $k\approx3$ cascade stages); only the two relaxation time constants carry a voltage dependence, accelerating with field as the trap emission/capture rate increases \cite{frenkel1938pre}:
+\begin{align}
+\tau_r(V) &= 1.45 \times 10^{2}\, e^{-2.9V}\ \mathrm{s}, \label{eq:5.8} \\
+\tau_d(V) &= 1.17 \times 10^{4}\, e^{-3.9V}\ \mathrm{s}, \label{eq:5.9}
+\end{align}
+collected in Table~\ref{table:5c} and plotted in Figure~\ref{fig:5m}A; the compression exponent and its scatter about $\beta_{fill}=2$ are shown in Figure~\ref{fig:5m}B. \\
 
-\noindent The SPICE model proposed in Figure \ref{fig:5j} can therefore be generalized for silicon dioxide devices for voltage ranges between 0.7V and 1.0V. While electrical stress and defect generation occur continuously at all applied voltages, the rate of trap creation at these lower voltages is sufficiently slow to be considered negligible over the short timescale of the transient. However, at elevated voltages (e.g., 1.1V and above), the higher electric field and increased current density transfer significantly more energy into the oxide lattice. This exponentially accelerates the generation of new electron traps, tangibly altering the transient's initial conductance rise. To account for this enhanced trap creation, the model must incorporate the dynamic stressing term outlined in Equation (\ref{eq:5.7}). Nevertheless, the validity of this specific empirical term remains unvalidated for voltages significantly in excess of 1.1V. Consequently, it is highly probable that further structural modifications—such as accounting for Joule heating or avalanche breakdown—will be required to ensure accurate simulation at even higher operating points.
+\begin{table}[ht]
+    \caption[Parameters of the dispersive trap-cascade extension (gold device).]{Parameters of the dispersive trap-cascade extension for the gold device (Figure~\ref{fig:5l}), fitted over 0.8--1.5\,V. The compression exponent (equivalently $k\approx3$ cascade stages) is bias-independent; only the rise and space-charge time constants carry a field dependence.}
+    \label{table:5c}
+    \centering
+    \footnotesize
+    \begin{tabular}{@{}l l@{}}
+    \toprule
+    Parameter & Value / expression \\
+    \midrule
+    $\beta_{fill}$    & $2$ (constant; $k\approx3$ stages) \\
+    $\tau_r$   & $1.45 \times 10^{2}\, e^{-2.9V}$\,s \\
+    $\tau_d$   & $1.17 \times 10^{4}\, e^{-3.9V}$\,s \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 
-\subsection[Physical Model Derivation]{Physical Model Derivation}
+\noindent With this single shape-parameter set the model reproduces every transient from 0.8\,V to 1.5\,V (Figure~\ref{fig:5m2}) at a median $R^2 = 0.93$. This removes the need for the separate stressing term of Equation~\ref{eq:5.5} at the top of the empirical model's range. Unlike a model with two independent trap time constants that over-fits each bias, it generalises from one coefficient set. All simulations use the unit-capacitance normalisation ($C = 1$) so that the source equations set the node time constants directly, and the values above are obtained by fitting the gold-device transients of Section~\ref{sec:5p1}.\\
 
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.72\textwidth]{Chapter5/Figs/dispersive_model_vs_measured.png}
+    \caption[Generalised dispersive model versus measured transients.]{The generalised dispersive trap-cascade model (lines, a single shape-parameter set with the meta-parameter laws of Figure~\ref{fig:5m}) reproduces the measured gold-device transients (points) across the full 0.8--1.5\,V range, at a median $R^2 = 0.93$.}
+    \label{fig:5m2}
+\end{figure}
 
-\noindent In its current configuration, the model operates within a constrained electric field range to prevent significant electrical stressing of the device. For the devices characterized in this study, this upper operational limit was observed at an applied voltage of 1.1V. Because the onset of these effects is fundamentally driven by the electric field ($E = V/d$), expressing this threshold as a critical field (approximately 31 MV/m for a 35 nm oxide) provides a more universal metric that remains valid across varying oxide thicknesses. If the field is increased beyond this threshold, aggressive electrical stressing occurs—specifically, the irreversible generation of new structural defects, such as oxygen vacancies, within the oxide lattice. This continuous defect creation fundamentally alters the charge transport dynamics and the shape of the current transient, rendering the existing model invalid. The appropriate non-stressing range can be determined empirically by performing multiple trials at a fixed field strength; if a permanent, gradual increase in baseline conductance is observed across successive trials, it indicates the onset of defect generation, and the applied field must be reduced accordingly.\\
+\noindent Beyond reproducing the single-step transients it was fitted to, the extended model is now driven by structured spike inputs to demonstrate two functional behaviours: rate habituation (Figure~\ref{fig:5n}) and short-term memory (Figure~\ref{fig:5o}). These are \emph{demonstrations} of the fitted model, not fits to additional measurements. The device shape parameters ($k=3$, $\beta_{fill}=2$, and the time-constant laws $\tau_r$, $\tau_d$ of Equations~\ref{eq:5.8}--\ref{eq:5.9}) are those fitted to the gold-device transients above, while the demonstration sets only the input protocol and the regime-selecting rates (state capacitances held at $C=1$, currents normalised).\\
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.9\textwidth]{Chapter5/Figs/n.png}
-    \caption[The extended SPICE model.]{The extended SPICE model. The improvement of SPICE fit at higher voltages. The SPICE model generates an output current, \textit{I(t)}, based on an input voltage, \textit{V(t)}. The circuit incorporates a single resistor, $R_0$, along with two diode models that serve to attenuate or amplify the voltage applied to the resistor. These diode models are represented by the sub-circuits highlighted in blue and red.}
+\noindent The first behaviour validates the model against the homeostatic response measured in Chapter~\ref{ch:transients} (Figure~\ref{fig:4l}). Driven by the same $1\,\text{Hz}\to10\,\text{Hz}\to1\,\text{Hz}$ rate protocol, the model reproduces it (Figure~\ref{fig:5n}). The current settles to a suppressed steady state under sustained high-rate input and recovers when the rate falls. The mechanism is the fitted timescale separation $\tau_r \ll \tau_d$, not an added ingredient. The fast trap cascade sets a rate-independent baseline while the slow space-charge branch integrates the spike rate, suppressing the current between closely spaced spikes and bleeding off when they are sparse. Because the device constants (seconds to minutes) far exceed the inter-spike interval, the spike train enters as its mean rate, the quantity that drives habituation. The demonstration keeps the fitted $k=3$, $\beta_{fill}\approx2$ cascade and a trap leak of $\approx8$\,s. The only tuned settings are a large trap-charging gain ($3.0$) for the saturating baseline, a slow space-charge rate ($0.05$) and relaxation ($0.06$) for the integrating depression branch, and a below-unity suppression depth ($0.85$) matching the partial suppression measured in Figure~\ref{fig:4l}.\\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Chapter5/Figs/rate_habituation_reproduction.png}
+    \caption[Extended model reproduces the measured rate habituation.]{The extended model reproduces the qualitative form of the rate habituation measured in Chapter~\ref{ch:transients} (Figure~\ref{fig:4l}). Top: the pre-synaptic spike-rate protocol (1\,Hz, then 10\,Hz over the shaded interval, then 1\,Hz). Bottom: the simulated device current settles to a suppressed level under sustained 10\,Hz input and recovers when the rate returns to 1\,Hz.}
     \label{fig:5n}
 \end{figure}
 
+\noindent This habituation is the depression-dominated face of the model, set by the slow space-charge branch. Its complementary, potentiation-dominated face is a short-term memory set by the trap cascade and its leakage $\tau_{leak} = R_{leak}C$. That face is taken up in Section~\ref{sec:5p-ito}, once the leakage has been measured directly on the \abbrev{ITO} devices, since $\tau_{leak}$ is the very parameter the short-term memory sweeps.
 
-\noindent To extend the model's applicability to more general inputs beyond simple step potentials,it is essential to account for the relaxation behaviour of the current transient. This can be achieved by adding leakage components $R_{leak}$  to the charge-trapping and space-charge subcircuits, allowing their associated capacitors to charge and discharge over time.\\
+\subsection[Extension to ITO Devices]{Extension to ITO Devices}\label{sec:5p-ito}
 
-\noindent The enhanced model, shown in Figure \ref{fig:5n}, builds upon earlier designs by replacing static voltage sources with diode-based elements that better replicate Schottky-like metal-insulator contact behavior. It also introduces dynamic relaxation features that emerge when input potentials are removed or the device is grounded.
-\begin{align}
-I_d(t) = \left( I_0 + I_{\delta} V_n(t) \right)\times \left( e^{\frac{V(d_1,d_2)}{nV_t} }  - 1\right) \label{eq:5.8}
-\end{align}
+\noindent The model developed above is parameterised on the gold-contacted device. Applying it to the \abbrev{ITO}-contacted devices tests how far the framework transfers across the electrode substitution of Section~\ref{sec:5p1}. The model carries three well-separated timescales, and the \abbrev{ITO} relaxation must be matched to the right one. The slowest is the space-charge (proton) decay $\tau_d$, of order hundreds of seconds (Equation~\ref{eq:5.9}). Next is the trap-\emph{filling} rise $\tau_r$ (Equation~\ref{eq:5.8}), of order ten seconds. The fastest is the leakage time constant $\tau_{leak}=R_{leak}C$ introduced above, which governs how quickly each trap state \emph{discharges} once the bias is removed. \\
 
-\noindent Where $I_d(t)$ is the time-dependent diode current, which captures how the current evolves over time due to transient phenomena or dynamic voltage input. $I_0$ is the reverse saturation current or the leakage current through the diode when reverse-biased. It is an intrinsic property of the junction and depends on factors like material properties and temperature. \\
+\noindent As established in Section~\ref{sec:5p1}, the \abbrev{ITO} contact removes the slow proton decay, and consistent with this, none of the measured \abbrev{ITO} relaxations fall on the $\tau_d$ timescale. What remains is a much faster relaxation, of order one second (median $1.3$\,s across the measured set). This is neither the proton decay nor the trap-filling rise (both an order of magnitude or more slower) but the leakage time constant $\tau_{leak}$. It is the trap states discharging through $R_{leak}$ once the stress is removed, exactly the relaxation that the gold device's short-term-memory behaviour (Figure~\ref{fig:5o}) also exercises. Identifying the \abbrev{ITO} relaxation with $\tau_{leak}$ rather than a new mechanism keeps the extension within the existing two-branch model. \abbrev{ITO} simply removes the proton branch and exposes the trap-discharge relaxation directly.\\
 
-\noindent $I_{\delta} V_n(t)$ is the modulated current term, a dynamic extension not present in the standard Shockley equation. It introduces a time-varying modulation of the saturation current, where $I_{\delta}$ is a scaling factor representing sensitivity of the diode to input modulation and $V_n(t)$ is a time-dependent voltage signal driven from an internal node. This term allows the diode behavior to adapt dynamically to changes in the input signal, which is crucial for modeling transient memristive phenomena such as relaxation and adaptation. $V(d_1,d_2)$ is the voltage difference across the diode terminals in the SPICE model. This is equivalent to the V in the traditional Shockley equation. This voltage controls the exponential response of the diode. $n$ is the ideality factor that reflects how closely the diode follows the ideal Shockley behavior. An $n>1$ accounts for recombination losses or non-idealities in real diodes and is often used to better fit experimental data. Finally, $V_t$ is the thermal voltage.\\
-
-\noindent To derive a form that better matches experimentally observed transient behavior from the original (\ref{eq:5.5}), it is assumed that $V_{n\infty} = V_{scmax}$, a simplification that assumes both voltages reflect the same saturation point for field-driven relaxation. Moreover, since the decay dynamics of $V_n(t)$ are influenced by the total device current, a modulation term by the main current $I_d(t)$ from (\ref{eq:5.8}) is introduced, leading to the modified expression:
+\noindent This fast \abbrev{ITO} relaxation is fitted to a stretched exponential,
 \begin{equation}
-I_n(t) = \alpha I_d(t) \left[ V_{scmax} - V_n(t) \right] \label{eq:5.9}
+    I(t) = A\,\exp\!\big[-(t/\tau_{leak})^{\beta_{leak}}\big] + I_0, \qquad \beta_{leak} < 1, \label{eq:5.10}
 \end{equation}
-This equation captures both the deviation from equilibrium and the feedback from the instantaneous device current, providing a more accurate representation of the charge relaxation behavior observed in subthreshold memristive devices. To simplify the original space-charge current (\ref{eq:5.6}) expression for modeling in SPICE, the voltage driving the ionic drift as the terminal voltage is approximated as $V(d_1, d_2)$. Additionally, the modulation term $\left[ V_{scmax} - V_{sc}(t) \right]$ can be treated as constant or absorbed into the mobility factor $\mu$ in certain operating regimes. This leads to the simplified form:
-\begin{equation}
-I_{sc}(t) = \mu V_{sc}(t) \cdot V(d_1, d_2) \label{eq:5.10}
-\end{equation}
+the discharge-face counterpart of the compressed-exponential rise. It describes the measured decays well (Figure~\ref{fig:5p}), markedly better than a single exponential ($\beta_{leak}=1$; median $R^2$ of $0.98$ versus $0.90$). The fit returns a dispersion exponent $\beta_{leak} = 0.54 \pm 0.17$ that stays below unity at every bias (Figure~\ref{fig:5q}) and a fast relaxation of median $\tau_{leak} \approx 1.3$\,s ($n = 53$), an order of magnitude faster than the proton decay. A stretched exponent $\beta_{leak}<1$ is the canonical signature of \emph{dispersive} relaxation over a distribution of trap-release times \cite{scher1975anomalous,kakalios1987stretched}, the mirror image of the gold device's \emph{compressed} ($\beta_{fill}\approx2$) sequential-fill rise. \\
 
-\noindent This simplified form effectively captures the relationship between accumulated space charge potential and the applied terminal bias. These modified equations are better suited for implementation in compact SPICE models used to simulate transient behavior in neuromorphic circuits.
+\noindent This value is not merely a fit parameter but a physically grounded one. It matches the room-temperature exponent $\beta = 0.45 \pm 0.05$ measured for stretched-exponential relaxation in hydrogenated amorphous silicon, where $\beta = T/T_0$ with $T_0 \approx 600$\,K \cite{kakalios1987stretched}. Through the equivalent multiple-trapping relation $\beta_{leak} = k_B T/E_0$, with $E_0$ the width of an exponential trap-energy tail, $\beta_{leak} = 0.54$ corresponds to a disorder width $E_0 \approx 48$\,meV at room temperature ($\approx 36$--$70$\,meV across the fitted scatter). This is in close agreement with the $k_B T_0 \approx 52$\,meV of that system, and is a band-tail-scale energy characteristic of amorphous silicon-rich oxides. \\
+
+\noindent These relaxations are all recorded under a \emph{held} subthreshold bias, so this median is a held-bias effective constant rather than the field-free discharge. The emission rate accelerates with field through barrier lowering. Plotting the fitted $\tau_{leak}$ against $\sqrt{|V|}$ confirms the expected straight line, $\ln(1/\tau_{leak})\propto\sqrt{V}$ (slope $0.89\pm0.17$, $p<10^{-5}$; Figure~\ref{fig:5s}a), giving a measured field-acceleration law,
+\begin{equation}
+    \tau_{leak}(V) \approx 3.6\,e^{-0.89\sqrt{V}}\ \text{s}. \label{eq:5.11}
+\end{equation}
+The eligibility trace, by contrast, decays after the drive ends, in the field-free limit where the bare $\tau_{leak} = R_{leak}C$ of the leakage element (Equations~\ref{eq:5.6}--\ref{eq:5.7}) applies. The zero-bias limit of Equation~\ref{eq:5.11} sets that field-free retention at $\tau_{leak}(0)\approx3.6$\,s ($95\%$ confidence interval $[2.4, 5.7]$, bootstrap over the $n=53$ fits), longer than the held-bias median, so the held-bias value is a lower bound on the operating retention. The gap is widened by the dispersion itself: for a stretched exponential the fitted scale $\tau_{leak}$ is not the mean retention $\langle\tau\rangle = (\tau_{leak}/\beta_{leak})\,\Gamma(1/\beta_{leak})$, so the low held-bias $\beta_{leak}$ depresses the apparent scale relative to the true mean (a held-bias $1.3$\,s at $\beta_{leak}=0.54$ already implies $\langle\tau\rangle\approx2.3$\,s). The dispersion exponent $\beta_{leak}$ is itself field-dependent, decreasing with held bias (Figure~\ref{fig:5s}b) as
+\begin{equation}
+    \beta_{leak}(V) \approx \beta_0 - s_\beta\,\log_{10}V, \qquad s_\beta \approx 0.33\ \text{per decade}, \label{eq:5.11b}
+\end{equation}
+with slope $-0.33\pm0.05$ per decade ($p<10^{-7}$). The voltage was stepped non-monotonically, so this is a field effect, not device aging. \\
+
+\noindent The field broadens the spread of emission \emph{rates}, not the intrinsic disorder $E_0$ (the trap density of states is a property of the oxide, not the field): an inhomogeneous Poole--Frenkel barrier lowering across trap depths widens the rate spread at a given field. This is the dispersion face of the $\sqrt{V}$ scale law: the mean lowering across traps sets the scale $\tau_{leak}(V)$ of Equation~\ref{eq:5.11}, while its spread across traps widens the rate distribution and lowers $\beta_{leak}$. The held-bias decay is in any case not pure emission but emission competing with field-driven re-filling (Equations~\ref{eq:5.12}--\ref{eq:5.14}), which a single stretched-exponential fit registers as further apparent dispersion. Both effects vanish as $V\to0$, so the held-bias $\beta_{leak}\approx0.5$ is a lower bound and the field-free value is milder ($\beta_{leak}\approx0.85$, near single-rate). \\
+
+\noindent The $\sqrt{V}$ form is the field signature of barrier-lowered trap emission, the process that empties a trap back to the band, as opposed to the trap-assisted tunnelling that carries the steady-state current between traps (Chapter~\ref{ch:fab}). The two are not cleanly separable, since the field-lowered barrier is plausibly the same one a field-assisted trap-assisted hop crosses. As noted in Chapter~\ref{ch:transients}, $\sqrt{V}$ alone does not separate Poole--Frenkel from Schottky emission, and on a filament the unknown high-field length precludes the dielectric-constant test that would, so the assignment is provisional and a low-field temperature (Arrhenius) sweep would settle it. The identification of the trace does not depend on it. The stretched form with a field-tunable constant holds whichever barrier-lowering mechanism applies. \\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{Chapter5/Figs/ito_tau_field_dependence.png}
+    \caption[Field dependence of the ITO trap-discharge time constant.]{Field dependence of the \abbrev{ITO} trap-discharge time constant. (a) Held-bias $\tau_{leak}$ against $\sqrt{|V|}$ (log axis): the field-acceleration line $\ln(1/\tau_{leak})\propto\sqrt{V}$ (red; slope $0.89\pm0.17$, $p<10^{-5}$, Equation~\ref{eq:5.11}) extrapolates to a field-free $\tau_{leak}(0)\approx3.6$\,s ($95\%$ CI $[2.4, 5.7]$, $n=53$), above the held-bias median (dotted, $1.3$\,s). (b) The dispersion exponent $\beta_{leak}$ stays below unity and decreases with held bias (Equation~\ref{eq:5.11b}; slope $-0.33\pm0.05$ per decade, $p<10^{-7}$), extrapolating towards a near-single-rate $\beta_{leak}\approx0.85$ at zero field.}
+    \label{fig:5s}
+\end{figure}
+
+\noindent The two electrodes therefore expose complementary faces of the same dispersive trap physics (Figure~\ref{fig:5r}). The gold device reveals the compressed trap-filling rise ($\tau_r$, $\beta_{fill}\approx2$), and the \abbrev{ITO} device the stretched trap-discharge relaxation ($\tau_{leak}$, held-bias $\beta_{leak}\approx0.5$). With the rate captured by the measured $\sqrt{V}$ law of Equation~\ref{eq:5.11}, the \abbrev{ITO} extension supplies both faces of the trap physics with a parameterised rate law rather than a qualitative confirmation.\\
 
 \begin{table}[ht]
-    \caption{Extemded model parameter values.}
+    \caption[Trap-discharge parameters from the ITO devices.]{Trap-discharge parameters from the \abbrev{ITO} devices ($n=53$), which remove the space-charge branch and expose the discharge directly. The held-bias and field-free retentions bracket the operating value (Equation~\ref{eq:5.11}).}
+    \label{table:5d}
     \centering
-    \begin{tabular}{|c|c|c|}
-    \hline
-    Parameter   & Function                & Value                                      \\ \hline
-    $I_0$       & Exponential             & $I_0(V) = 2.39\times10^{-9}\cdot e^{-13.4V} + 1.03\times 10^{-13}\cdot e^{-1.53V}$         \\ \hline
-    $I_{\delta}$    & Power                  & $I_{\delta}(V)=7.41\times 10^{-15} \cdot V^{-2.91}$                 \\ \hline
-    $n$ & Polynomial                & $n(V)=-0.131V^2 + 1.01V + 0.615$                         \\ \hline
+    \footnotesize
+    \begin{tabular}{@{}l l@{}}
+    \toprule
+    Parameter & Value \\
+    \midrule
+    $\beta_{leak}$ (dispersion exponent, held-bias) & $0.54 \pm 0.17$ \\
+    $\tau_{leak}(V)$ (field-acceleration law) & $\approx 3.6\, e^{-0.89\sqrt{V}}$\,s \\
+    $\tau_{leak}$ (held bias)             & $\approx 1.3$\,s \\
+    $\tau_{leak}$ (field-free)            & $\approx 3.6$\,s $[2.4, 5.7]$ \\
+    \bottomrule
     \end{tabular}
-    \label{table:5c}
 \end{table}
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.9\textwidth]{Chapter5/Figs/o.png}
-    \caption[Fitting of the extended model's meta-parameters.]{Fitting of the extended model's meta-parameters. (A-C) The fitting for each of the model's parameters is plotted using the equations described in Table \ref{table:5c} that reproduces the current-time response at higher voltage. (D) The generalised model's response is plotted alongside the experimental data from 0.8V to 1.5V.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{Chapter5/Figs/dispersive_trap_kinetics.png}
+    \caption[Dispersive trap kinetics across the two electrodes.]{Dispersive trap kinetics across the two electrodes (schematic). (a) At an inert Ti/Au contact protons accumulate as positive space charge; (b) at the \abbrev{ITO} contact they are consumed by electrochemical reduction, so none accumulates. (c) In gold the slow proton decay ($\tau_d$) masks the faster trap discharge; (d) \abbrev{ITO} removes that branch, exposing the bare discharge $\tau_{leak}$. (e) The discharge is \emph{dispersive}: a spread of release rates sums to a stretched exponential ($\beta_{leak}<1$, Scher--Montroll), not a single rate. (f) The same trap physics in two regimes: the compressed fill ($\beta_{fill}\approx2$) mirrors the stretched discharge ($\beta_{leak}\approx0.5$).}
+    \label{fig:5r}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Chapter5/Figs/ito_dispersive_relaxation_semilog.png}
+        \caption{}
+        \label{fig:5p}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Chapter5/Figs/ito_dispersive_relaxation_linear.png}
+        \caption{}
+        \label{fig:5q}
+    \end{subfigure}
+    \caption[The dispersive ITO trap-discharge relaxation.]{The dispersive \abbrev{ITO} trap-discharge relaxation, exposed once the \abbrev{ITO} contact removes the slow proton decay. (a) Representative \abbrev{ITO} relaxations (points) with their stretched-exponential fits (lines), labelled by bias magnitude; the median time constant is $\approx1.3$\,s, far faster than the tens-to-hundreds-of-seconds proton decay. (b) Distribution of the fitted exponent $\beta_{leak}$ across the device set ($n=53$): the values cluster near $0.5$ ($\beta_{leak}<1$, dispersive), separated from a single exponential ($\beta_{leak}=1$) and from the gold device's compressed rise ($\beta_{fill}\approx2$, dashed line). The sign of the exponent distinguishes trap release (\abbrev{ITO}, $\beta_{leak}<1$) from sequential filling (gold, $\beta_{fill}>1$).}
+    \label{fig:5pq}
+\end{figure}
+
+\noindent The $\approx3.6$\,s figure rests on extrapolating the held-bias law to zero field, since no transient was captured at true zero bias (the near-zero $1$\,mV reads of Figure~\ref{fig:5u} approach but do not reach it). The held-bias data do, however, contain a second and independent estimate of the same field-free retention. Because the conditioning stress pre-fills the trap states, the measured relaxation is not pure emission: under the sensing bias the states relax toward the steady state where field-driven re-filling balances emission. Linearising a single state about that regime,
+\begin{align}
+\frac{dv}{dt} &= f\,(V_{max}-v) - g\,v, \qquad f = \alpha\,d(V),\quad g = 1/\tau_{leak}, \label{eq:5.12}
+\end{align}
+with $f$ the field-driven filling rate and $g$ the field-free emission rate, the relaxation decays at the \emph{sum} of the two rates while the steady-state floor (the offset $I_0$ of the stretched-exponential fit, relative to the peak $A+I_0$) reports their ratio,
+\begin{align}
+\frac{1}{\tau_{hb}} &= f + g, \qquad \rho \equiv \frac{v_{ss}}{v_{peak}} = \frac{I_0}{A+I_0} = \frac{f}{f+g}. \label{eq:5.13}
+\end{align}
+Eliminating $f$ gives the emission rate, and hence the field-free retention, from the held-bias fit alone,
+\begin{align}
+g = \frac{1-\rho}{\tau_{hb}}, \qquad \tau_{leak} = \frac{\tau_{hb}}{1-\rho}. \label{eq:5.14}
+\end{align}
+The stress passes $\approx0.5\,\mu$A for about ten seconds ($\sim6\times10^{-6}$\,C, an upper bound on the trapped population, most of which transits to the electrode). Across the \abbrev{ITO} set the floor is small ($\rho\approx0.11$ median), so most of the held-bias decay is already emission and the correction is modest. The field-free $\tau_{leak}$ has median $\approx1.6$\,s, rising to $\approx3$\,s in the low-bias subset where re-filling is weakest (Figure~\ref{fig:5t}), consistent with the $\approx3.6$\,s Poole--Frenkel extrapolation. The two estimates are independent (one separates the rates at fixed field, the other extrapolates the rate over field) and agree on a few-second field-free retention.\\
+
+\noindent This same balance has a rate dependence that the later chapters draw on directly, so it is recorded here as a property of the device. Under a sustained pre-synaptic spike train the device constants (seconds) far exceed the inter-spike interval, so the input enters as its mean rate $r$ (as for the habituation of Figure~\ref{fig:5n}): the field-driven filling rate is then $f = \kappa\, r$, linear in $r$ with a per-spike charging increment $\kappa$, while the field-free emission rate $g = 1/\tau_{leak}$ is rate-independent. The steady-state occupancy of Equation~\ref{eq:5.12} is $v_{ss}/V_{max} = f/(f+g) = \rho$, the same floor measured in Equation~\ref{eq:5.13}. Because the accumulated charge \emph{screens} the conduction (Section~\ref{sec:5p-model}), the available steady-state conductance reads the unscreened complement,
+\begin{align}
+G_{ss}(r) = G_{max}\left(1 - \frac{v_{ss}}{V_{max}}\right) = \frac{G_{max}}{1 + r/r_{th}}, \qquad r_{th} = \frac{1}{\kappa\,\tau_{leak}}, \label{eq:5.15}
+\end{align}
+a rate-divisive gain that falls once the input rate exceeds $r_{th}$. Its form is fixed by the physics, with no free exponent: a single trap state filled at one rate and emptied at another has a first-order (Langmuir) steady-state occupancy $f/(f+g)$, so its unscreened complement is exactly the unit-exponent sigmoid $1/(1+r/r_{th})$. The exponent counts the number of \emph{independent} screening states gating the line; one state gives unity, and the high-rate roll-off is correspondingly $r^{-1}$. The threshold is not free either: it is the field-free emission rate $g=1/\tau_{leak}$ divided by the charging gain, so the measured retention $\tau_{leak}\approx3.6$\,s places $r_{th}$ in the single-Hz band where the habituation of Figure~\ref{fig:5n} acts. This steady-state gain is the hardware-aware homeostatic regulariser of Chapter~\ref{ch:bio}, derived there from Equation~\ref{eq:5.15}. The same balance, linearised instead as a transient about its set-point occupancy, gives the activity-stabilising weight rule of the reward-modulated learner of Chapter~\ref{ch:learning} (derived in place there). The slow retention $\tau_{leak}$ that supplies the eligibility trace therefore also supplies, by the same physics, the homeostasis that stabilises it.\\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.92\textwidth]{Chapter5/Figs/ito_fill_emission_separation.png}
+    \caption[Field-free retention from a fill--emission separation.]{Field-free $\tau_{leak}$ from the fill--emission separation of Equations~\ref{eq:5.12}--\ref{eq:5.14}, an independent check on the Poole--Frenkel extrapolation of Figure~\ref{fig:5s}. (a) One held-bias trace ($|V|=0.4$\,V): the stretched-exponential fit gives $\tau_{hb}$ and the floor $\rho=I_0/(A+I_0)$, hence $\tau_{leak}=\tau_{hb}/(1-\rho)$. (b) Distribution over the set ($n=53$): the field-free median ($\approx1.6$\,s) sits above the held-bias median ($1.3$\,s) and the low-bias subset reaches $\approx3$\,s, consistent with the $3.6$\,s extrapolation.}
+    \label{fig:5t}
+\end{figure}
+
+\noindent A direct \emph{drive-off} measurement, setting the bias to zero after filling so that $\dot v = -g\,v$ isolates the emission, would remove the filling term physically rather than by Equation~\ref{eq:5.14}. That the traps empty at zero field is not in question. Trap emission is thermally activated, with a zero-field rate $e_n = \sigma_n v_{th} N_C \exp(-E_T/k_B T)$ that carries no field term, the bias only lowering the trap barrier $E_T$ \cite{shockley1952statistics, hall1952electron}, exactly as the thermal trap spectroscopies rely on, from deep-level transient spectroscopy \cite{lang1974deep} to the field-free thermally stimulated depolarisation current \cite{bucci1966ionic}. The obstacle is not that the traps fail to emit at zero bias but that the bare \emph{conduction} read-out weakens as the bias falls, so the surviving charge must be sensed at a small but finite field. This read was taken at $|V|=1$\,mV, near enough to zero field that the $\sqrt{V}$ correction is only $\sim$3\,\% (Figure~\ref{fig:5u}). On two devices the discharge follows a near-single-rate stretched exponential ($\beta_{leak}=0.82$--$0.86$), markedly milder than the held-bias shape and consistent with the field-free $\beta_{leak}\approx0.85$ of Equation~\ref{eq:5.11b}. The limited window biases the exponent slightly upward, so the field-free value remains bounded rather than pinned, and three further experiments would settle it definitively. A true drive-off measurement at $V=0$ removes the filling term physically rather than by Equation~\ref{eq:5.14}. A temperature sweep at low field separates the thermal and field parts of the emission rate, so an Arrhenius fit returns the zero-field trap depth and with it the true $\tau_{leak}(0)$. And a contactless probe (Kelvin-probe force microscopy, or time-resolved photoluminescence, the latter made practical by the transparent \abbrev{ITO} electrode) tracks the trapped charge without passing any current at all.\\
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.72\textwidth]{Chapter5/Figs/ito_field_free_discharge.png}
+    \caption[Direct field-free trap discharge at 1\,mV.]{Direct field-free trap discharge, read at $|V|=1$\,mV (essentially zero field) on two devices, currents normalised to the post-coincidence peak. Both decays follow a near-single-rate stretched exponential ($\beta_{leak}=0.82$--$0.86$), tracking the single-exponential reference and well above the strongly dispersive held-bias shape, in agreement with the field-free limit of the $\beta_{leak}(V)$ law (Equation~\ref{eq:5.11b}).}
+    \label{fig:5u}
+\end{figure}
+
+\noindent The same relaxation underlies a complementary capability: a short-term memory of recent input (Figure~\ref{fig:5o}). Across spike bursts the trapped charge builds during a burst and decays between bursts at a rate set by $\tau_{leak} = R_{leak}C$, so a short $\tau_{leak}$ forgets all but the most recent activity while a long one integrates across bursts. This single retention, swept here at $2$ and $10$\,s with the fitted $k=3$, $\beta_{fill}=2$ cascade, a moderate trap-charging gain ($0.8$), and a $1.2$\,V pulse train ($55$\,ms on, $110$\,ms period), is the temporal primitive the reward-modulated learning of Chapter~\ref{ch:learning} builds on. Its range is bounded by the measured dynamics: the trap-filling rise $\tau_r$ ($\approx1.9$--$14.5$\,s, Table~\ref{table:5c}) and, most directly, the \abbrev{ITO} trap discharge measured above (held-bias median $\approx1.3$\,s, field-free $\approx3.6$\,s), which is this same leakage exposed in isolation. The retention rides the \emph{electronic} trap-discharge branch ($\tau_{leak}$, through $R_{leak}$), not the ionic space-charge branch ($\tau_d$), so it is decoupled from the identity of the mobile species behind the slow screening decay. Whichever species sets $\tau_d$, the trap-discharge primitive is the same.\\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Chapter5/Figs/short_term_memory_relaxation.png}
+    \caption[Short-term memory from the relaxation extension.]{Short-term memory from the $R_{leak}$ relaxation. Top: applied pre-synaptic pulse bursts. Bottom: the normalised current rises during each burst and relaxes between them at a rate set by $\tau_{leak} = R_{leak}C$, so that fast forgetting ($\tau_{leak} = 2$\,s, green) retains only recent activity while slow relaxation ($\tau_{leak} = 10$\,s, blue) integrates across bursts. The rise and relaxation shapes are the fitted dynamics of Figures~\ref{fig:5l}--\ref{fig:5m}; both $\tau_{leak}$ values are illustrative $R_{leak}C$ settings within the measured retention band (the trap-filling rise $\tau_r\approx1.9$--$14.5$\,s of Table~\ref{table:5c} and the field-free \abbrev{ITO} trap-discharge of $\approx3.6$\,s established above), not interpolations below it.}
     \label{fig:5o}
 \end{figure}
 
-\noindent The initial equation fitting for each trial yielded small residuals, indicating a satisfactory fit, albeit only within the noise range and limited to individual voltages. The model was then generalized, with parameters plotted across various voltages. This resulted in a set of empirical functions (hyperparameters) that account for voltage dependency, as shown in Table \ref{table:5c}. This approach facilitates the simulation of blackbox circuits and consequently identifies novel diode parameters that augment the previous model's fit, as seen in Figure \ref{fig:5o}.\\
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter5/Figs/p.png}
-    \caption[Simulated current transient response under repeated voltage pulses using the extended SPICE model.]{Simulated current transient response under repeated voltage pulses using the extended SPICE model. The gradual decay in peak current illustrates the relaxation dynamics of charge trapping and space-charge effects when step potentials are intermittently removed, consistent with subthreshold memristive behavior.}
-    \label{fig:5p}
-\end{figure}
-
-\noindent Finally, Figure \ref{fig:5p} illustrates the behavior of the extended SPICE model incorporating relaxation dynamics, particularly under pulsed input conditions. Each pulse generates a sharp rise in current followed by a decay, reflecting the transient response of charge trapping and space-charge mechanisms. Over successive pulses, the peak current gradually decreases, demonstrating the cumulative effect of relaxation when the step potential is removed between pulses. This decay mirrors experimentally observed behaviours in memristive devices operating in the subthreshold regime, where ionic and electronic processes relax during the off periods. The extended model captures this temporal evolution, offering improved accuracy for simulating pulsed neuromorphic stimuli.
+\noindent Taken together, the gold and \abbrev{ITO} results establish the model as a compact, semi-physical description of the transient, well suited to circuit-level Spiking Neural Network (\abbrev{SNN}) simulation in tools such as Brian2 or NEST without the computational overhead of atomistic models. Its two-branch structure makes electrode choice an explicit design handle. The gold contact retains the slow proton decay and so supplies the depression and rate-habituation behaviour, while the \abbrev{ITO} contact removes it and exposes the bare trap-release dynamics. A circuit designer can therefore select which relaxation branch dominates the observed response by material rather than by re-tuning parameters.\\
 
 
 \section[Summary]{Summary}
 
 
-\noindent This chapter presented a comprehensive modeling framework for current transients in silicon oxide memristors, emphasizing their neuromorphic applications. Experimental evidence revealed that replacing the inert gold top electrode with indium tin oxide (ITO) eliminates the slow conductance decay phase, leaving only a rapid initial conductance increase. X-ray Photoelectron Spectroscopy (XPS) depth profiling confirmed that the ITO electrode undergoes electrochemical reduction under electrical stress—likely driven by proton accumulation—while the silicon oxide bulk remains chemically stable. This proves that the current transient stems from two independent physical processes: rapid charge trapping at Schottky-like barriers governing the initial conductance increase, and mobile ion accumulation at the top metal-insulator interface driving the subsequent slow decay.\\
+\noindent This chapter presented a modelling framework for current transients in silicon oxide memristors. Replacing the inert gold top electrode with indium tin oxide (\abbrev{ITO}) eliminated the slow conductance decay, leaving only the rapid initial increase. X-ray photoelectron spectroscopy (\abbrev{XPS}) depth profiling showed that the \abbrev{ITO} electrode undergoes electrochemical reduction under stress, likely driven by proton accumulation, while the silicon oxide bulk remains chemically stable. The transient therefore stems from two independent processes: rapid charge trapping at a Schottky-like barrier, driving the initial increase, and mobile-ion accumulation at the top metal--insulator interface, driving the subsequent decay.\\
 
-\noindent To simulate these dual-phase transients, an extended SPICE model integrates two time-dependent voltage sources on a shared resistive path. By incorporating leakage terms and relaxation dynamics, the model replicates the device's response to biologically relevant voltage pulses with high fidelity. Voltage-dependent parameter fitting and a high-voltage stressing term generalize the model across a practical 0.7–1.5V operating range. This semi-physical empirical approach bridges fundamental device physics and higher-level system design, offering sufficient accuracy for circuit-level Spiking Neural Network (SNN) simulations without the computational overhead of full atomistic models. Future studies employing Secondary Ion Mass Spectrometry (SIMS) or localized temperature measurements could further refine this dual-mechanism theory.\\
-
-\noindent Ultimately, this modeling framework provides a critical tool for advancing energy-efficient artificial intelligence and edge computing. Capturing the dynamic, state-dependent behavior of memristive synapses enables seamless integration into advanced neuromorphic simulators like Brian2 or NEST. This facilitates the optimization of SNN architectures leveraging transient phenomena for on-chip learning and dynamic filtering. Furthermore, the model guides future memristor fabrication by informing material and structural choices to enhance precise analog weight tuning and relaxation dynamics, setting the stage for robust spiking neural network implementations.
+\noindent These two phases were captured in an extended \abbrev{SPICE} model that combines a dispersive trap cascade with a space-charge relaxation branch on a shared resistive path, generalising across a 0.8--1.5\,V range from a single coefficient set. The trap cascade reproduces the sigmoidal, compressed-exponential ($\beta_{fill}\approx2$) conductance rise, while the leakage terms let the model follow arbitrary pulse trains, reproduce the measured rate habituation of Chapter~\ref{ch:transients}, and provide a programmable short-term memory. Applied to the \abbrev{ITO} devices, the same framework exposes the complementary dispersive ($\beta_{leak}\approx0.5$) trap-release relaxation and a Poole--Frenkel field law for its retention, confirming the dispersive-trap description carries across the electrode change. The resulting compact model thus identifies electrode choice as a handle for selecting which relaxation branch the device exposes, and supplies the device-level primitives the following chapters build on: the steady-state map for the hardware-aware classifiers of Chapter~\ref{ch:bio}, and the retention-tunable eligibility trace for the reward-modulated learning of Chapter~\ref{ch:learning}.

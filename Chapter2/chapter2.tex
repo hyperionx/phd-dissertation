@@ -1,426 +1,401 @@
 %!TEX root = ../thesis.tex
 %*******************************************************************************
-%*********************************** First Chapter *****************************
+%*********************************** Second Chapter ****************************
 %*******************************************************************************
 
-\chapter{Theoretical Foundations}  %Title of the First Chapter
+\chapter{Theoretical Foundations}\label{ch:foundations}
 
+\noindent This chapter assembles the theory the rest of the thesis draws on, across the three layers the later chapters work at. It begins with neural computation and learning: the biological neuron, the synapse and its plasticity, and the supervised, unsupervised, and reinforcement paradigms. It then turns to the memristor as a device, its physics, charge transport, and the subthreshold regime this work operates in. It closes on the systems built from arrays of such devices: the crossbar, hardware plasticity, and benchmarking. The treatment is selective rather than exhaustive, retaining only what the results chapters build on directly. \\
 
-\section[Biological Neural Computation]{Biological Neural Computation}
+\noindent The review draws on the established literature throughout, with sources cited at each point. The synthesis and the emphasis are the author's own, particularly the framing of the subthreshold transient and the three-factor eligibility trace as the connective threads of the thesis.
 
-\noindent Computational neuroscience uses computational methods to elucidate brain function mechanisms. This involves identifying neural computations and understanding the interactions between neurons and synapses that facilitate them. The brain performs vast computations using neurons and synapses as fundamental units. A synapse facilitates the transfer of electrical or chemical signals from a presynaptic to a postsynaptic neuron. \\
+\section[Neural Computation and Learning]{Neural Computation and Learning}
 
-\noindent This section overviews relevant biological details and computational neuroscience concepts employed in this study. These foundations inform the accurate modeling of silicon oxide-based neuromorphic hardware and bio-inspired computing. This section presents fundamental biological details at both neural and network levels. The models outlined here are simplified compared to the extensive biological evidence \cite{kandel2000principles}. Consequently, only biological facts essential to this work are presented.
+\noindent The brain computes through two fundamental units: neurons and synapses. A neuron integrates inputs and emits voltage spikes. A synapse transfers the resulting signal from a presynaptic to a postsynaptic neuron, and by changing its strength it stores what the network has learned. This thesis builds memristive hardware that emulates both functions, so this section establishes the biology and learning theory it draws on. It moves from the spiking neuron, through the synapse and its plasticity, to the supervised, unsupervised, and reinforcement paradigms. The models are deliberately simplified relative to the biological evidence \cite{kandel2000principles}, retaining only what the later chapters build on.
 
+\subsection[Neurons and Spiking Dynamics]{Neurons and Spiking Dynamics}\label{subsec:neuronal-modelling}
 
-\subsection[Neuronal Physiology and Signaling]{Neuronal Physiology and Signaling}
+\noindent A neuron is a specialised cell that processes and transmits information through electrical and chemical signals \cite{mel1994information}. It receives input from other neurons, and sufficient stimulation triggers an action potential, a voltage spike, which propagates to connected cells. Figure \ref{fig:2a} shows the basic structure. Dendrites receive input voltage and carry it to the soma (cell body), which integrates it. If the membrane depolarises past a threshold, a spike travels down the axon and releases neurotransmitter at the synapses onto downstream neurons. \\
 
-\noindent A neuron is a specialized cell that processes and transmits information via electrical and chemical signals \cite{mel1994information}. While one of many brain cell types, neurons are the primary computational entities. Functionally, neurons receive input from other neurons; sufficient stimulation triggers an action potential, or voltage spike, which propagates to connected neurons. Figure \ref{fig:2a} illustrates the basic neuron structure, comprising dendrites, the soma (cell body), and the axon. Dendrites receive input voltage and transmit it to the soma. A spiking neuron sends voltage down its axon, triggering neurotransmitter release at synapses—connections between the axon and the dendrites of other neurons. This release induces dendritic input voltage in connected neurons. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/a.png}
-    \caption[Labeled diagram of the neuron.]{Labeled diagram of the neuron. The gap between dendrites and axons are synapses that allow it to accept input from other neurons. The dendrites carry current to the soma, where electrical charge is integrated. If the neuron membrane gets sufficiently polarised, an action potential travels down the axon. This causes neurotransmitters to be released at synapses, resulting in voltage in the dendrites of postsynaptic neurons.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/neuron_anatomy.png}
+    \caption[Labelled diagram of the neuron.]{Labelled diagram of the neuron. The gaps between axons and dendrites are synapses that accept input from other neurons. The dendrites carry current to the soma, which integrates the charge. If the membrane becomes sufficiently polarised, an action potential travels down the axon, releasing neurotransmitters at synapses and inducing voltage in the dendrites of postsynaptic neurons.}
     \label{fig:2a}
 \end{figure}
 
-\noindent Computationally, the soma integrates incoming dendritic voltages \cite{polsky2004computational}, initiating action potential generation (Figure \ref{fig:2b}). At rest, the soma maintains a negative resting voltage via ion pumps that regulate intracellular ion concentrations, predominantly sodium ($Na^+$), potassium ($K^+$), and calcium ($Ca^{+2}$). \\
+\noindent At rest, the soma holds a negative voltage through ion pumps that regulate intracellular concentrations of sodium ($Na^+$), potassium ($K^+$), and calcium ($Ca^{2+}$) \cite{polsky2004computational}. Incoming dendritic currents depolarise the cell \cite{johnston1996active}. When the somatic voltage reaches threshold, voltage-activated sodium channels open and admit a rapid influx that depolarises the membrane further. Substantial depolarisation then opens voltage-gated potassium channels, which repolarise the cell and briefly drive it below the resting level (hyperpolarisation) while the sodium channels inactivate. \\
 
-\noindent Incoming dendritic currents depolarize the cell \cite{johnston1996active}. When somatic voltage reaches a threshold, voltage-activated sodium channels open, allowing sodium influx and further depolarization. This continues until the electrical gradient from accumulated sodium ions equilibrates with the chemical gradient, significantly increasing the neuron's positive charge beyond the resting voltage. \\
+\noindent Three gating variables describe these channel states: $m$ and $h$, the $Na^+$ activation and inactivation gates, and $n$, the $K^+$ activation gate, each the probability that the corresponding gate is open. The $m$ gate rises rapidly while $h$ closes more slowly, so the $Na^+$ channels conduct only during the brief window in which $m$ and $h$ are simultaneously elevated. The slower $n$ gate opens later and stays open, sustaining the $K^+$ conductance that repolarises the membrane (Figure \ref{fig:2b}). The resulting absolute refractory period, during which no second spike can fire, sets a floor on the neuron's inter-spike interval. \\
 
-\noindent Substantial depolarization activates voltage-gated potassium channels, releasing potassium ions and facilitating repolarization. Concurrently, sodium channels inactivate. Potassium channel opening drives the cell voltage below its resting level, a state termed hyperpolarization. Sodium channels remain inactivated and potassium channels open for a duration following the spike. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/b.png}
-    \caption[Spiking dynamics of a neuron.]{The action potential and the underlying conductance and currents with respect to time \cite{squire2012fundamental}. Increased conductance for $Na^+$ is associated with the rising phase of the action potential, whereas the slower increase in conductance for $K^+$ is associated with repolarisation and afterhyperpolarisation. The reduction in $I_{Na}$ before the peak of the action potential is due to inactivation of the Na+ channels.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Chapter2/Figs/neuron_spiking_dynamics.png}
+    \caption[Spiking dynamics of a neuron.]{The action potential and its underlying ionic mechanisms, simulated from the Hodgkin--Huxley model \cite{hodgkin1952quantitative}; conceptual layout after \cite{squire2012fundamental}, with time referenced to the spike peak. (a) Membrane potential. (b) The rapid $Na^+$ conductance ($G_{Na}$) precedes the slower, sustained $K^+$ conductance ($G_K$). (c) The corresponding inward $Na^+$ ($I_{Na}$) and outward $K^+$ ($I_{K}$) currents. (d) The gating variables $m$, $h$, and $n$.}
     \label{fig:2b}
 \end{figure}
 
-\noindent These factors create an absolute refractory period during which the neuron cannot fire. While ionic concentration changes during a single spike are minor, ion pumps maintain optimal sodium and potassium concentrations over numerous spikes. Other currents, notably calcium currents, exist in some neurons. \\
+\noindent Neuron models range from simple binary threshold units \cite{stocks2001information} to detailed multi-compartmental reconstructions of dendritic morphology \cite{markram2015reconstruction}. For large networks reproducing high-level behaviour, single-compartment models remain prevalent. They treat the neuron as one electrical entity and model the spike separately from the subthreshold dynamics, which separates time scales and conserves computation \cite{abbott1999lapicque}. The most influential detailed model is that of Hodgkin and Huxley (\abbrevdef{HH}) for the squid giant axon \cite{hodgkin1952quantitative}, whose nonlinear differential equations reproduce the membrane potential accurately \cite{chua2012hodgkin}. In the equivalent circuit of Figure \ref{fig:2c}(a), time-varying nonlinear conductances $G_{Na}$ and $G_K$ represent the sodium and potassium channels, a linear leak $G_L$ the passive channels, and $C_m$ the membrane capacitance. The total membrane current is
+\begin{align}
+    I_m(t) = C_m \frac{dV_m(t)}{dt} + \sum_{k} I_k(t), \label{eq:2.1}
+\end{align}
 
-\noindent Action potential-induced rapid depolarization increases somatic voltage and partially depolarizes proximal axon segments. This opens sodium channels in the axon, causing further depolarization and propagating the effect to subsequent sections. Thus, the somatic spike triggers a voltage wave traveling down the axon, eventually releasing neurotransmitters from synaptic vesicles at the axon terminals. \\
-
-\noindent Dale's principle posits that all synapses along a neuron's axon release the same neurotransmitter or combination of neurotransmitters. Originally assuming a single neurotransmitter type per neuron, subsequent evidence revealed cotransmission \cite{burnstock2004cotransmission}. Neurotransmitters exert either excitatory or inhibitory effects on postsynaptic cells.
-
-\subsection[Computational Neuron Models]{Computational Neuron Models}
-
-\noindent Available neuron models have proliferated, ranging from simple binary threshold units \cite{stocks2001information} to complex multi-compartmental models accounting for dendritic morphology \cite{markram2015reconstruction}. For large-scale neural models reproducing high-level behaviors, single-compartment neuron models remain prevalent. Single-compartment models treat the neuron as a unified electrical entity combining dendrites, soma, and axon. Conversely, multi-compartmental models represent the neuron as interacting electrical compartments. Modeling the spike separately from other neural dynamics separates time scales, conserving computational resources by avoiding detailed spike trajectory modeling \cite{abbott1999lapicque}. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter2/Figs/c.png}
-    \caption[Hodgkin-Huxley neuron model.]{(a) An equivalent circuit for the Hodgkin-Huxley (HH) models \cite{hodgkin1952quantitative}. (b) An action potential waveform, which demonstrates the resting, threshold, and reset potentials \cite{chua2012hodgkin}.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=1\textwidth]{Chapter2/Figs/hodgkin_huxley_model.png}
+    \caption[Hodgkin-Huxley neuron model.]{(a) An equivalent circuit for the Hodgkin--Huxley (\abbrev{HH}) model \cite{hodgkin1952quantitative}. (b) An action potential waveform, demonstrating the resting, threshold, and reset potentials \cite{chua2012hodgkin}.}
     \label{fig:2c}
 \end{figure}
 
-\noindent Many influential computational neuroscience findings rely on detailed neuronal models. The Hodgkin-Huxley (HH) model of the squid giant axon \cite{hodgkin1952quantitative} is prominent, employing nonlinear differential equations to accurately approximate neuronal electrical signals \cite{chua2012hodgkin}. Figure \ref{fig:2c}(a) depicts the HH model, where time-varying nonlinear resistors $R_{Na}(G_{Na})$ and $R_K(G_K)$ represent sodium and potassium channels, respectively. A linear resistor $R_L(G_L)$ simulates leak channels, and $C$ models membrane capacitance. The HH model equations are: 
+\noindent where $V_m$ is the membrane potential and $\sum_k I_k$ the sum of the ionic currents, decomposed into potassium, sodium, and leak terms gated by $m$, $h$, and $n$:
 \begin{align}
-    C \frac{dV_m(t)}{dt} = I_C(t) + \sum_{k}^{}I_k(t) \label{eq:2.1} 
+    \sum_{k}I_k &= G_K n^4 (V_m - V_K) + G_{Na} m^3 h (V_m - V_{Na}) + G_L (V_m - V_L), \label{eq:2.2} \\
+    \frac{dn}{dt} &= \alpha_n(V_m)(1-n)-\beta_n(V_m)n, \label{eq:2.3} \\
+    \frac{dm}{dt} &= \alpha_m(V_m)(1-m) - \beta_m(V_m)m, \label{eq:2.4} \\
+    \frac{dh}{dt} &= \alpha_h(V_m)(1-h)-\beta_h(V_m)h. \label{eq:2.5}
 \end{align}
 
-\noindent Here, $V_m$ represents membrane potential, and $\sum_{k}^{}I_k(t)$ denotes the sum of ionic currents flowing into the neuron, formulated as three currents:
+\noindent Here $V_K$, $V_{Na}$, and $V_L$ are reversal potentials, $G_K$, $G_{Na}$, and $G_L$ maximal conductances, and the voltage-dependent rate constants $\alpha_i$ and $\beta_i$ describe each channel. The formalism generalises well beyond the squid axon. Noble adapted it to the pacemaker potentials of cardiac Purkinje fibres \cite{noble1962modification}. Moreover, $G_{Na}$ and $G_K$ have themselves been shown to be memristive \cite{chua1976memristive}, an early hint of the device--biology correspondence this thesis exploits. \\
+
+\noindent For network-scale work the \abbrev{HH} detail is usually unnecessary, and the integrate-and-fire family is preferred. The integrate-and-fire (IF) neuron \cite{lapicque1907louis} models the membrane as a capacitor that integrates input current and fires when its voltage reaches threshold \cite{abbott1999lapicque}. Writing the stored charge as $Q = CV$ and differentiating gives
 \begin{align}
-    \sum_{k}^{}I_k &= C_m \frac{dV_m}{dt} + G_Kn^4(V_m - V_K) + G_{Na}m^3(V_m - V_{Na}) + G_L (V_m - V_L) \label{eq:2.2} \\
-    \frac{dn}{dt} &= \alpha_n(V_m)(1-n)-\beta_n(V_m)n \label{eq:2.3} \\
-    \frac{dm}{dt} &= \alpha_m(V_m)(1-m) - \beta_m(V_m)m \label{eq:2.4} \\
-    \frac{dh}{dt} &= \alpha_h(V_m)(1-h)-\beta_h(V_m)h \label{eq:2.5}
+    C \frac{dV(t)}{dt} = J(t), \label{eq:2.6}
 \end{align}
 
-\noindent $V_K$, $V_{Na}$, and $V_L$ are reversal potentials. Rate constants $\alpha_i$ and $\beta_i$, dependent on membrane potential, describe the $i^{th}$ ion channel behavior. $G_K$, $G_{Na}$, and $G_L$ represent maximal conductance values. Dimensionless quantities $n$, $m$, and $h$ (between 0 and 1) associate with the ion channels. To optimize the fit for human action potentials, the HH model reduces leakage channel conductance to $G_L = 0$ \cite{noble1962modification}. $G_{Na}$ and $G_K$ have been demonstrated to be memristors \cite{chua1976memristive}, as shown in Figure \ref{fig:2c}(b). \\
-
-\noindent The integrate-and-fire (IF) neuron \cite{lapicque1907louis}, one of the earliest computational models, predates the measurement of neuronal electrical and chemical changes. It models the neuron membrane as a capacitor storing charge over time \cite{abbott1999lapicque}. The IF model integrates current over time and fires when voltage reaches a threshold. Incorporating a leak term (a resistor in parallel with the capacitor) allows charge dissipation, designating the model as leaky integrate-and-fire (LIF). \\
-
-\noindent To determine membrane voltage evolution and spike timing, capacitor charge $Q$ is defined as $Q = V \times C$. Differentiating with respect to time yields the neuron's membrane voltage $V(t)$:
+\noindent where $J(t)$ is the input current and $C$ the membrane capacitance. When $V$ crosses a threshold $V_{th}$ the neuron emits a spike and resets to $V_{rest}$, mirroring the irreversibility of biological spike initiation. Adding a leak, a resistor $R$ in parallel with the capacitor, lets charge dissipate so that the membrane "forgets" in the absence of input. This gives the leaky integrate-and-fire (\abbrevdef{LIF}) model \cite{knight1972dynamics, koch2004biophysics}:
 \begin{align}
-    C \frac{dV(t)}{dt} = J(t) \label{eq:2.6} 
+    C \frac{dV(t)}{dt} = J(t) - \frac{1}{R}\,(V - V_{rest}). \label{eq:2.7}
 \end{align}
 
-\noindent Here, $J(t)$ represents input current, and $C$ denotes membrane capacitance. Equation (\ref{eq:2.6}) shows the IF neuron integrating input current. Spike timing must then be identified. A threshold voltage, $V_{th}$, defines the firing point. Exceeding this threshold triggers a spike, reflecting the neurophysiological principle that spike initiation is irreversible once the threshold is crossed. After firing, the membrane voltage resets to the resting potential, $V_{rest}$. Physiologically, post-spike ionic currents (typically potassium) restore the membrane voltage.\\
-
-\noindent The leaky integrate-and-fire (LIF) model \cite{knight1972dynamics} accounts for membrane leakage. Imperfect capacitance causes current leakage, pulling voltage back to resting potential. Modeling the membrane as a parallel capacitor and resistor enables "forgetting": without input, voltage returns to rest \cite{koch2004biophysics}. LIF dynamics are described by:
-
+\noindent Multiplying through by $R$ and collecting terms defines the membrane time constant and casts the model in its standard single-parameter form,
 \begin{align}
-C \frac{dV(t)}{dt} = J(t) - \frac{1}{R} (V - V_{rest}) \label{eq:2.7} 
+    \tau_{\abbrevdef{RC}} \frac{dV}{dt} &= R\,J(t) - V + V_{rest}, \label{eq:2.8} \\
+    \tau_{\abbrev{RC}} &= R\,C, \label{eq:2.9}
 \end{align}
 
-\noindent Here, $R$ represents membrane resistance; other parameters and the resetting procedure remain consistent with the IF model. The LIF model includes parameters $C, R, V_{rest}$, and $V_{th}$. Normalizing the model reduces parameter count while preserving dynamics. Specifically, voltage can be normalized to the range [0, 1], with zero resting potential and unit firing threshold. Multiplying Equation (\ref{eq:2.7}) by $R$ yields:
+\noindent which, after normalising the voltage to a unit threshold and zero rest, reduces to the dimensionless $\tau_{\abbrev{RC}}\,\dot{V} = J - V$ used throughout the spiking-network chapters, where this membrane time constant is written $\tau_m$. The \abbrev{LIF} model is the workhorse of large-scale spiking networks \cite{lapicque1907louis}. Figure \ref{fig:2d}(a) shows its circuit: synaptic current $I(t)$ charges $C$ while $R$ leaks it away, and a spike fires and resets the potential when $V$ reaches threshold. \\
 
-\begin{align}
-    \tau_{rc} \frac{dV}{dt} &= RJ(t) - V + V_{rest} \label{eq:2.8} \\
-    \tau_{rc} &= R \times C \label{eq:2.9} \\
-    \bar{V} &= \frac{V - V_{rest}}{V_{th} - V_{rest}} \label{eq:2.10} \\
-    \bar{V_{rest}} &= \frac{V_{rest}}{V_{th}} \label{eq:2.11} 
-\end{align}
-
-\noindent Substituting $\bar{V}$ and $\bar{V_{rest}}$ into Equation (\ref{eq:2.3}) gives:
-
-\begin{align}
-    \tau_{RC}(V_{th} - V_{rest})\frac{d\bar{V}}{dt} &= RJ(t) - \bar{V}(V_{th} - V_{rest})
-    \label{eq:2.12} \\
-    \tau_{rc}\frac{d\bar{V}}{dt} &= \frac{R}{V_{th} - V_{rest}} J(t) - \bar{V} \label{eq:2.13} \\
-    \tau_{rc} \frac{d\bar{V}}{dt} &= \bar{J}(t) - \bar{V} \label{eq:2.14} 
-\end{align}
-
-\noindent With $\bar{V_{th}} = 1$, $\bar{V_{rest}} = 0$, and $\bar{J}(t) = \frac{R}{V_{th} - V_{rest}} J(t)$, $\bar{J}(t)$ is a linear transformation of $J(t)$. Consequently, Equation (\ref{eq:2.14}) retains the full dynamics of Equation (\ref{eq:2.7}) for a scaled input, using only parameter $\tau_{RC}$. $\bar{V}$ and $\bar{J}$ are unitless. Conventionally, unitless space is used, referring to these quantities as $V$ and $J$ for mathematical simplicity without loss of generality. \\
-
-\noindent Equation (\ref{eq:2.14}) describes spike conditions for input current $J(t)$. Often, considering only the spike rate—spikes per second for a given input—suffices. For the LIF model, the analytical firing rate for constant input current is determined by calculating the inter-spike interval (ISI). The firing rate is the inverse of the ISI. For constant input $J(t) = j$, Equation (\ref{eq:2.14}) yields the voltage over time: 
-\begin{align}
-    V(t) = (V(0) - j)e^{\frac{-t}{\tau_{rc}}} + j \label{eq:2.15}
-\end{align}
-
-\noindent Without spikes, the time for voltage to rise from $V(0) = 0$ to $V(t) = 1$ is calculated (requiring $j > 1$). Substituting into Equation (\ref{eq:2.15}) and solving for $t$ yields:
-\begin{align}
-    t = - \tau_{RC} log \left( - \frac{1}{j} \right) \label{eq:2.16}
-\end{align}
-
-\noindent Incorporating the refractory period and inverting yields the LIF neuron spike rate $r$:
-\begin{align}
-    r &= \begin{cases}
-    \frac{1}{t_{ref} - \tau_{RC} log \left( 1 - \frac{1}{j} \right)} & \text{ if } j > 1 \\ 
-    0 & \text{ otherwise }  
-    \end{cases} \label{eq:2.17}
-\end{align}
-
-
-\noindent The LIF model is a widely used simplified neuron model \cite{lapique1907researches}, illustrated in Figure \ref{fig:2d}(a). Here, a resistor $R$ in series with a DC source $V_{rest}/V_{reset}$ connects in parallel with a capacitor $C$ \cite{stein1967frequency}. A postsynaptic neuron receives synaptic current $I(t)$ from presynaptic spikes. Current $I(t)$ flowing into $C$ increases membrane potential $V(t)$, while charge leaks via resistor $R$. When $V(t)$ reaches a threshold, the neuron spikes, and the potential resets. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter2/Figs/d.png}
-    \caption[The Leaky Integrate-and-Fire neuron model.]{(a) Schematic diagram of the LIF electrical model. The LIF model allows for the control of spiking behaviour through a comparison of membrane potential and threshold at each time step. Upon the triggering of a spike, a voltage-controlled switch discharges C for a duration corresponding to the refractory period $t_0$ \cite{tal1997computing}. (b) Input current in the form of an alpha function \cite{teeter2018generalized}.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=1\textwidth]{Chapter2/Figs/lif_neuron_model.png}
+    \caption[The Leaky Integrate-and-Fire neuron model.]{(a) Schematic of the \abbrev{LIF} electrical model. Spiking behaviour follows from comparing the membrane potential with a threshold at each time step; on a spike a voltage-controlled switch discharges $C$ for a refractory duration $t_0$ \cite{tal1997computing}. (b) An input synaptic current in the form of an alpha function \cite{teeter2018generalized}.}
     \label{fig:2d}
 \end{figure}
 
-\noindent Without $I(t)$, voltage across $C$ settles at $V_{rest}$. During the refractory period $t_0$, spiking is disabled. Figure \ref{fig:2d}(c,d) illustrates LIF dynamics for DC input with zero rest and reset potentials ($E_{reset} = E_{rest} = 0$) \cite{tal1997computing}. Input synaptic current $I(t)$ can be described by a time-varying alpha function, or alternatives like instantaneous rise with exponential decay, biexponential functions, sawtooth, or pulse functions. The alpha synaptic current is modeled by Equation (\ref{eq:2.15}) (Figure \ref{fig:2d}(b)). Neurons exhibit considerable heterogeneity in dynamics, morphology, and connectivity. They are categorized as: excitatory neurons, which promote activity; inhibitory neurons, which suppress activity to maintain stability and rhythm; and interneurons, which connect local circuits to enable complex computations.
+\noindent During the refractory period $t_0$ spiking is disabled, and without input the potential settles back to $V_{rest}$. The synaptic current $I(t)$ that drives the neuron is itself a filtered version of the presynaptic spikes, taken up next. Neurons vary in dynamics and connectivity. They fall broadly into three classes: excitatory, which promote activity; inhibitory, which suppress it to maintain stability; and interneurons, which wire local circuits together.
 
-\subsection[Synaptic Plasticity and Learning Rules]{Synaptic Plasticity and Learning Rules}
+\subsection[Synaptic Plasticity and Coding]{Synaptic Plasticity and Coding}\label{subsec:plasticity}
 
-Modeling synaptic dynamics is essential. Synapses function as low-pass filters; a presynaptic spike elicits an extended postsynaptic current pulse, effectively a filtered version of the spike. The simplest synapse model is a first-order low-pass filter. The impulse response describes the filter's reaction to an impulse (an idealized spike), representing the postsynaptic current response. The first-order low-pass filter impulse response is:
+\noindent A synapse behaves as a low-pass filter: a presynaptic spike elicits an extended postsynaptic current that is a smoothed version of the impulse. The simplest model is a first-order filter whose impulse response decays exponentially,
 \begin{align}
-h(t) = \frac{1}{\tau_s}e^{\frac{t}{\tau_s}} \label{eq:2.18} 
+    h(t) = \frac{1}{\tau_s}\, e^{-t/\tau_s}, \label{eq:2.10}
 \end{align}
 
-\noindent The synaptic time constant $\tau_s$ defines the duration of the postsynaptic current spread. As the impulse response is exponential, this is termed the exponential synapse model.
+\noindent where the synaptic time constant $\tau_s$ sets the spread of the postsynaptic current. A second-order filter is a closer fit \cite{mainen1995reliability}; its impulse response is the alpha function,
 \begin{align}
-h(t) = \frac{1}{\tau_s^2}e^{\frac{t}{\tau_s}} \label{eq:2.19} 
+    h(t) = \frac{t}{\tau_s^2}\, e^{-t/\tau_s}, \label{eq:2.11}
 \end{align}
 
-\noindent A second-order low-pass filter offers a superior synapse model \cite{mainen1995reliability}. Its impulse response, defined by Equation (\ref{eq:2.19}), is the alpha function, designating it the alpha synapse model. Both are current-based synapse models, describing current generated by a spike.\\
+\noindent shown in Figure \ref{fig:2d}(b). Both are current-based models, describing the current a spike injects into the postsynaptic neuron. \\
 
-\noindent A primary objective of computational neuroscience is to determine how the brain encodes information. Researchers have proposed various coding schemes, with a key distinction between rate coding and temporal coding. Rate coding considers only the firing rate over a period. For example, peripheral motor neurons use rate coding to control muscle contraction intensity \cite{gerstner1997neural}. Temporal coding considers individual spike timing. In the early auditory system, precise timing facilitates sound localization \cite{chase2006spike}.\\
+\noindent How spikes encode information is a central question. Rate coding considers only the firing rate over a window, as in the peripheral motor neurons that grade muscle contraction \cite{gerstner1997neural}. Temporal coding instead uses the precise timing of individual spikes, as in the sub-millisecond cues the auditory system uses for sound localisation \cite{chase2006spike}. The boundary between the two is debated \cite{dayan2005theoretical}. Population coding extends both to groups of neurons, distributing a quantity across many cells. For example, head direction is encoded by neurons each tuned to a preferred orientation \cite{georgopoulos1982relations}, a redundancy that confers robustness. \\
 
-\noindent Definitions of rate and temporal codes remain contentious \cite{dayan2005theoretical}. For instance, a neuron might fire rapidly then rest, while another fires the same number of spikes evenly over the same period. Rate and temporal codes describe individual neuron encoding. Population coding involves distributed representation across a neuron group, where the value cannot be decoded from a limited subset.\\
-
-\noindent Extrapolating coding to multiple neurons could involve redundancy, where numerous neurons with similar tuning properties exhibit similar firing patterns for a given value. Conversely, population coding entails each neuron representing a distinct aspect of the value \cite{georgopoulos1982relations}. For example, in representing head direction, different neurons encode specific orientations (left, right, centered, intermediate). The direction eliciting maximal activity is the neuron's preferred direction. \\
-
-\noindent Synapses play a dual role: facilitating communication and serving as the locus of learning and memory. Synaptic strength \cite{bastos2022motor} determines the connection magnitude. Synaptic plasticity refers to the ability to modify these strengths. Plasticity is categorized into types: Short-Term Plasticity (STP) involves transient changes lasting milliseconds to seconds. Long-Term Potentiation (LTP) and Long-Term Depression (LTD) involve sustained increases or decreases in synaptic strength. \\
-
-\noindent Hebbian learning, summarized as "neurons that fire together wire together," is a significant plasticity model. Spike-Timing Dependent Plasticity (STDP) \cite{zheng2018learning} offers a more precise, temporally sensitive rule. Mathematical models capture spike timing effects on weight updates. If a presynaptic neuron fires shortly before a postsynaptic neuron, the synapse strengthens; the reverse order weakens it. A common representation is:
+\noindent Beyond carrying signals, synapses are the locus of learning: their strength \cite{bastos2022motor} sets the magnitude of a connection, and \emph{synaptic plasticity} is the capacity to modify it. Plasticity is classified by its persistence. Short-Term Plasticity (\abbrevdef{STP}) produces transient changes lasting milliseconds to seconds, while Long-Term Potentiation (\abbrevdef{LTP}) and Long-Term Depression (\abbrevdef{LTD}) are sustained increases and decreases in strength. The governing principle, Hebbian learning, is summarised as "neurons that fire together wire together." Spike-Timing-Dependent Plasticity (\abbrev{STDP}) \cite{zheng2018learning} makes this temporally precise: a synapse strengthens when the presynaptic neuron fires shortly before the postsynaptic one, and weakens when the order reverses,
 \begin{align}
-\Delta w = \left\{ \begin{array}{cl}
-    A_+ \cdot e^{-\Delta t/\tau_+}, & \ \Delta t > 0 \\
-    -A_- \cdot e^{-\Delta t/\tau_-}, & \ \Delta t < 0
-    \end{array} \right. \label{eq:2.20}
+    \Delta w = \begin{cases}
+    A_+\, e^{-\Delta t/\tau_+},  & \Delta t > 0, \\
+    -A_-\, e^{\Delta t/\tau_-},  & \Delta t < 0,
+\end{cases} \label{eq:2.12}
 \end{align}
 
-\noindent Here, $\Delta t = t_{post} - t_{pre}$ is the timing difference, $A_+, A_-$ are learning rates, and $\tau_+, \tau_-$ are time constants. This asymmetric window reflects experimental observations, providing a biologically plausible basis for hardware synaptic learning.\\
+\noindent where $\Delta t = t_{post} - t_{pre}$, the amplitudes $A_+, A_-$ are learning rates, and $\tau_+, \tau_-$ are decay constants. This asymmetric window, observed experimentally, is the canonical timing-based learning rule and recurs throughout the thesis. \\
 
-\noindent Memristive devices offer an electronic synapse analogue via tunable conductance and history-dependent memory. In crossbar arrays, they implement synaptic weight matrices directly in hardware, with updates governed by local pulses. Memristive STDP implementations exploit device physics, making conductance change contingent on pulse overlap:
+\noindent Memristive devices provide a natural electronic synapse, with tunable, history-dependent conductance. A timed pair of voltage pulses applied across a memristor changes its conductance by an amount set by their relative timing, realising \abbrev{STDP} directly in device physics,
 \begin{align}
-    \Delta G = f(V_{pre}, V_{post}, \Delta t) \label{eq:2.21}
-\end{align}
-\noindent where $f$ is a device-specific function determined by material properties and pulse shapes. \\
-
-\noindent Memristors inherently facilitate the nonlinear, history-dependent behavior characteristic of biological plasticity rules like STDP. Applying timed voltage pulses to a memristor modulates conductance, mimicking LTP and LTD.
-
-\section[Memristive Neuromorphic Hardware]{Memristive Neuromorphic Hardware}
-
-Extensive research in device physics and materials science explores innovative memory materials and retention techniques \cite{indiveri2021introducing}. The term "neuromorphic" describes technologies and systems that exhibit behaviors comparable to biological synapses, essential for massive AI networks \cite{di2009circuit}. The concept of using nanoscale "memristors" to create synapses in deep neural networks and sustain weights locally gained popularity \cite{jo2010nanoscale}. \\
-
-\noindent This hardware enables "in-memory computing" and advanced non-linear properties, mimicking biological synapse physics \cite{saighi2015plasticity}. Research aims to develop volatile and non-volatile memristive electronics and spike-based control systems to elicit biologically realistic learning in crossbar arrays. Identifying the ideal artificial synapse requires investigating diverse materials, tools, and techniques.
-
-\subsection[Physics of Memristive Devices]{Physics of Memristive Devices}
-
-\noindent Memristive devices, or memory resistors, are foundational to neuromorphic computing, retaining resistive states based on electrical history to emulate biological synapses. These components facilitate unified memory storage and computation, enabling the co-location vital for brain-inspired architectures. Traditional passive circuit components (resistor, capacitor, inductor) inadequately describe characteristics connected by circuit theory symmetry. Leon Chua addressed this by introducing the memristor in 1971 \cite{chua1971memristor}, coupling flux linkage and charge:
-\begin{align}
-    M(q) = \frac{d\phi}{dq} \label{eq:2.22}
+    \Delta G = f(V_{pre}, V_{post}, \Delta t), \label{eq:2.13}
 \end{align}
 
-\noindent where $M$ denotes memristance, a value dependent on the device's current history. This creates resistive memory, retaining the previous state. Proof of resistive switching in the memristor model was established in 2008 \cite{strukov2008missing}.
+\noindent where $f$ is a device-specific function set by the material and the pulse shapes. The same nonlinear, history-dependent response that complicates memristors as digital memory is what makes them faithful analogues of biological synapses, emulating \abbrev{LTP} and \abbrev{LTD} through gradual conductance change. The hardware realisation of this mechanism is detailed in Section~\ref{sec:neuro-hardware}.
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/e.png}
-    \caption[Conceptual symmetries of resistor, capacitor, inductor, and memristor]{Conceptual symmetries of resistor, capacitor, inductor, and memristor \cite{du2017metal}. Four fundamental variables in circuit theory are depicted with their relationships. Each variable can be related to another via either a passive component or a well-known equation.}
+\subsection[Learning Paradigms and Reinforcement Learning]{Learning Paradigms and Reinforcement Learning}\label{subsec:learning-paradigms}
+
+\noindent Machine learning is conventionally divided into three paradigms \cite{stone2019artificial}. \emph{Supervised} learning fits a mapping from inputs to labelled targets by minimising an error, and underlies the digit- and biosignal-classification of Chapter~\ref{ch:bio}. \emph{Unsupervised} learning extracts structure from unlabelled data and, in its local Hebbian form, aligns most closely with biology. \emph{Reinforcement} learning (\abbrev{RL}) sits between the two: rather than being told the correct action, the agent receives a scalar reward that evaluates its behaviour, and must discover a policy that maximises reward over time. Chapter~\ref{ch:learning} realises this last paradigm on the device transient, so the rest of this subsection introduces it from first principles. \\
+
+\noindent The unsupervised, local end of the spectrum is captured by Hebbian learning \cite{kempter1999hebbian}, in which a synapse is strengthened in proportion to the joint activity of the neurons it connects,
+\begin{align}
+    \Delta w_{ij} = \eta\, x_i\, y_j, \label{eq:2.14}
+\end{align}
+
+\noindent where $x_i$ and $y_j$ are the pre- and postsynaptic activities and $\eta$ is the learning rate \cite{frenkel2019morphic}. \abbrev{STDP} (Equation~\ref{eq:2.12}) is its spike-timing-resolved form. Such two-factor rules, depending only on local activity, extract correlation well but cannot by themselves learn behaviour judged by a delayed external outcome. \\
+
+\noindent Reinforcement learning formalises that setting \cite{sutton2018reinforcement}. An \emph{agent} interacts with an \emph{environment} in discrete steps: it observes a \emph{state}, selects an \emph{action} according to its \emph{policy}, and receives a scalar \emph{reward} together with the next state. The goal is a policy that maximises the return, the cumulative (and often time-discounted) reward, rather than the reward of any single step. Because the agent is never told which action was correct, it must balance \emph{exploration}, trying actions to discover their value, against \emph{exploitation}, taking the action currently believed best. The simplest non-trivial instance is the \emph{contextual bandit}, in which each state is presented independently and a single action yields an immediate reward. It isolates credit assignment from the further complication of long state sequences, and is the entry point used in Chapter~\ref{ch:learning}. That chapter then extends to a sequential multi-step task, where credit must bridge a whole trajectory. \\
+
+\noindent The central difficulty is \emph{temporal credit assignment}, sharpened in spiking systems as the \emph{distal-reward problem} \cite{izhikevich2007solving}. The reward that evaluates an action arrives well after the spike coincidences that produced it, by which time the responsible activity has passed. A purely Hebbian two-factor rule keeps no record of which synapses were recently active and so cannot bridge the delay. Biology resolves this with a \emph{three-factor}, or neo-Hebbian, learning rule \cite{fremaux2016neuromodulated, gerstner2018eligibility}. This rule is the computational expression of a mechanism neurobiology describes directly as \emph{synaptic tagging and capture} \cite{frey1997synaptic, redondo2011making}: a burst of activity sets a transient molecular \emph{tag} at the stimulated synapse, and a later neuromodulator converts that tag into a lasting change only if it arrives while the tag survives. In the rule, a fast pre--post coincidence does not change the weight directly but sets a slowly decaying \emph{eligibility trace} $e_{ij}$ on the synapse,
+\begin{align}
+    \frac{de_{ij}}{dt} = -\frac{e_{ij}}{\tau_e} + c_{ij}(t), \label{eq:2.15}
+\end{align}
+
+\noindent where $c_{ij}(t)$ is the Hebbian coincidence signal and $\tau_e$ the trace time constant. A delayed, global third factor, a neuromodulator encoding reward or a reward-minus-baseline advantage, then gates the surviving trace into a weight change,
+\begin{align}
+    \Delta w_{ij} = \eta\,(R - b)\, e_{ij}(t_R), \label{eq:2.16}
+\end{align}
+
+\noindent evaluated when the reward $R$ arrives at time $t_R$, with $b$ a baseline. The trace is the memory that bridges the millisecond timescale of spikes and the seconds-to-minutes timescale of behaviour. Its time constant $\tau_e$ sets the longest action--reward delay the synapse can learn \cite{florian2007reinforcement}, a dependence Chapter~\ref{ch:learning} makes quantitative and testable when $\tau_e$ is supplied by the device's own retention. The same eligibility-trace idea underpins the hardware-friendly learning rules that approximate backpropagation through time without weight transport, such as e-prop \cite{bellec2020solution}, which Chapter~\ref{ch:learning} adopts as an algorithmic benchmark. Figure~\ref{fig:2k} summarises the three-factor structure. \\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Chapter2/Figs/three_factor_eligibility_trace.png}
+    \caption[The three-factor learning rule and the eligibility trace.]{The three-factor (neo-Hebbian) learning rule. (a) A pre--post spike coincidence sets a slowly decaying eligibility trace $e(t)$ on the synapse (factors~1 and~2); a delayed global reward, or neuromodulator (factor~3), then multiplies the surviving trace to produce the weight change $\Delta w = \eta\,(R-b)\,e(t)$. (b) The trace bridges the delay between the coincidence at $t=0$ and the reward at $t_R$: the weight change is proportional to the eligibility $e(t_R)$ still present when the reward arrives, so a slow trace solves the distal-reward credit-assignment problem.}
+    \label{fig:2k}
+\end{figure}
+
+\noindent Such reward-modulated plasticity has been realised directly in device hardware. A bio-inspired recurrent network (\abbrevdef{RNN}) with self-adaptive neurons and phase-change synapses has solved reinforcement-learning tasks on-chip \cite{bianchi2020bio} through a local update of the general form
+\begin{align}
+    \Delta w_{ij} = \eta\,(r_i - \alpha\, w_{ij}), \label{eq:2.17}
+\end{align}
+
+\noindent where $r_i$ is a reward-related signal and $\alpha$ a decay factor that bounds the weights. On mixed-signal neuromorphic hardware, reward-based meta-plasticity has even let a network "learn to learn", adapting its own rule across a family of tasks \cite{bohnstingl2019learns}. These demonstrations show that local, reward-driven learning can run within the array rather than on an external host. \\
+
+\noindent The term \emph{biorealistic learning} carries a specific sense throughout this thesis, worth fixing before it recurs. It denotes learning in which the physical dynamics of the device map onto an identified biological synaptic or regulatory mechanism, rather than learning whose optimisation algorithm is itself biological. The distinction matters because some of the training in this work uses backpropagation through time, which is not a biological algorithm. What is biorealistic is the substrate it acts on, the memristive synapse whose conductance dynamics emulate potentiation, depression, homeostatic regulation, and an eligibility trace. Biorealism is therefore a property of the device-to-synapse mapping and the learning \emph{rule} it supports, and it lies on a spectrum rather than a binary. A surrogate-gradient classifier \cite{neftci2019surrogate} trained on physically grounded device statistics sits at the weaker end, while a local three-factor rule whose eligibility trace is supplied by the device's own relaxation (a physical realisation of the synaptic tag of tagging and capture) sits at the stronger end.
+
+\section[Memristive Devices]{Memristive Devices}
+
+\noindent Extensive research in device physics and materials science explores new memory materials and retention mechanisms \cite{indiveri2021introducing, mehonic2024review}. The term "neuromorphic" describes systems whose behaviour is comparable to biological synapses and neurons, increasingly important as a substrate for large artificial-intelligence (\abbrevdef{AI}) networks \cite{di2009circuit}. Using nanoscale "memristors" as synapses that hold their weights locally gained traction \cite{jo2010nanoscale}, and recent fully integrated compute-in-memory chips have demonstrated the paradigm at the scale of millions of devices \cite{wan2022compute, ambrogio2023analog}. This section introduces the single device: the origin and physics of the memristor, the charge-transport mechanisms that carry current through it, and the subthreshold regime in which this thesis operates. Section \ref{sec:neuro-hardware} takes up the systems built from arrays of such devices.
+
+\subsection[Memristor Device Physics]{Memristor Device Physics}
+
+\noindent Memristive devices, or memory resistors, retain a resistive state set by their electrical history, co-locating memory and computation as biological synapses do. Circuit theory relates four variables, voltage, current, charge, and magnetic flux, through pairwise relationships. The three classical passive elements (resistor, capacitor, inductor) capture only three of these. In 1971, Leon Chua identified the missing link between charge and flux and introduced the memristor \cite{chua1971memristor}:
+\begin{align}
+    M(q) = \frac{d\phi}{dq}, \label{eq:2.18}
+\end{align}
+
+\noindent where $M$ is the memristance, a value that depends on the device's accumulated charge and so on its history. The element remained theoretical until 2008, when Strukov et al. reported a TiO$_2$ thin-film device whose resistance switching matched Chua's model \cite{strukov2008missing}. Figure \ref{fig:2e} shows the conceptual symmetry it completes. \\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/circuit_element_symmetries.png}
+    \caption[Conceptual symmetries of resistor, capacitor, inductor, and memristor]{Conceptual symmetries of the resistor, capacitor, inductor, and memristor \cite{du2017metal}. The four fundamental variables, voltage ($v$), current ($i$), charge ($q$), and magnetic flux ($\phi$), are linked pairwise: each device relates one pair, while the remaining relations follow from the definitions $q = \int i\,dt$ and $\phi = \int v\,dt$. The memristor completes the symmetry by relating charge and flux.}
     \label{fig:2e}
 \end{figure}
 
-\noindent Basic circuit theory involves three fundamental elements and four variables. One component is absent for symmetry: a device interconnecting charge and magnetic flux (Figure \ref{fig:2e}). The link between the mathematical memristive model and a two-terminal resistive switching device is pivotal. Memristance differs from resistance by being charge-dependent rather than constant. Current, defined as charge flow per unit time, is expressed as:
+\noindent Since current is the time-derivative of charge, the accumulated charge is
 \begin{align}
-    q = \int_{-\infty}^{t_0} i(t)dt \label{eq:2.23}
+    q(t) = \int_{-\infty}^{t} i(t')\,dt', \label{eq:2.19}
 \end{align}
 
-\noindent where charge is the integral of current up to time $t_0$. Thus, memristance is determined by historical currents. If current is interrupted, the memory state persists until flow restores, characterizing the device as a "memristor."Physically, memristors are modeled as two-terminal devices where resistance varies due to ion or vacancy drift in a dielectric. State-dependent resistance is:
+\noindent so the memristance is determined by the history of current flow. If the current is interrupted, the state persists until flow resumes, the defining property of a "memristor". Physically, such devices are modelled as two-terminal elements whose resistance varies with an internal state $s(t)$,
 \begin{align}
-    V(t) = R(w(t)) \cdot I(t) \label{eq:2.24}
+    V(t) = R(s(t))\, I(t), \label{eq:2.20}
 \end{align}
 
-\noindent where $V(t)$ and $I(t)$ are voltage and current, and $R(w(t))$ is resistance dependent on internal state $w(t)$. $w(t)$ often represents physical quantities like oxygen vacancy concentration or filament length. The state evolution is defined by $f(w, I) = \frac{dw}{dt}$. \\
+\noindent where $s(t)$ often represents a physical quantity such as oxygen-vacancy concentration or filament length, and the symbol $w$ is reserved throughout for synaptic weights. Its evolution is governed by some $f(s, I) = ds/dt$. \\
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/f.png}
-    \caption[Typical I-V characteristic of a memristor]{The typical I-V characteristic of a memristor displays a pinched hysteresis loop resulting from the nonlinear relationship between current and voltage in memristance \cite{wen2012dynamics}.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/memristor_iv_characteristic.png}
+    \caption[Typical I-V characteristic of a memristor]{The typical I--V characteristic of a memristor is a pinched hysteresis loop, arising from the nonlinear, history-dependent relationship between current and voltage \cite{chua2019resistance}.}
     \label{fig:2f}
 \end{figure}
-    
-\noindent Visually, the frequency-dependent pinched hysteresis loop distinguishes memristors \cite{chua2019resistance} (Figure \ref{fig:2f}). As voltage input frequency increases, the loop shrinks; at infinite frequency, the memristor approximates a resistor.\\
 
-\noindent This study focuses on memristor devices among non-volatile memories, including MRAM, PRAM, FeRAM, and RRAM \cite{wang2017memristors}. These devices are characterized by resistive switching—a reversible, non-volatile resistance change driven by electrical signaling and material properties \cite{mehonic2018silicon}. RRAM utilizes reversible resistance switching, cycling between discrete states via repeated stimuli \cite{liu2010controllable}. An RRAM cell comprises an insulating thin film (typically metal oxide) sandwiched between electrodes, where switching occurs. "Memristance" describes RRAM behavior: resistance depends on total charge flow or the time-integral of applied voltage, allowing precise state switching. However, the ideal model often fails to capture real RRAM complexities.
+\noindent The pinched hysteresis loop is the visual signature of a memristor (Figure \ref{fig:2f}). The loop is frequency-dependent: it shrinks as the input frequency rises, and at infinite frequency the device approximates a linear resistor \cite{chua2019resistance}. Among non-volatile memories, including magnetoresistive (\abbrevdef{MRAM}), phase-change (\abbrevdef{PRAM}), ferroelectric (FeRAM), and resistive random-access memory (\abbrevdef{RRAM}), this study focuses on memristive \abbrev{RRAM} \cite{wang2017memristors}. Whether resistance-switching devices are strictly memristors in Chua's original sense is debated, since a physical \abbrev{RRAM} cell involves coupled ionic and thermal dynamics beyond the idealised charge-flux relation. The identification adopted here follows the broader reading under which they are taken as a subclass of memristive systems \cite{chua2019resistance}, and nothing in this thesis depends on the stricter definition. These devices are defined by resistive switching, a reversible, non-volatile resistance change driven by electrical signalling and material properties \cite{mehonic2018silicon, liu2010controllable}. An \abbrev{RRAM} cell is an insulating thin film, typically a metal oxide, sandwiched between two electrodes, where switching occurs. \\
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/g.png}
-    \caption[The main RRAM types.]{The main RRAM types, from left to right: electrochemical metallization memory (ECM), valence change memory (VCM), and thermochemical memory (TCM). \cite{goux2016electrochemical}}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Chapter2/Figs/rram_types.png}
+    \caption[The main RRAM types.]{The main \abbrev{RRAM} types, from left to right: electrochemical metallisation memory (\abbrev{ECM}), in which a filament of metal cations (e.g. Ag$^+$) bridges the electrodes; valence change memory (\abbrev{VCM}), in which the filament forms from oxygen vacancies in the oxide (highlighted); and thermochemical memory (\abbrev{TCM}), driven by local Joule heating \cite{goux2016electrochemical}.}
     \label{fig:2g}
-\end{figure} 
+\end{figure}
 
-\noindent Despite sharing a metal-insulator-metal (MIM) architecture, RRAM categorization is challenging. Devices are generally classified by mechanism into oxide-RAM (OxRAM) and conductive bridge RAM (CBRAM) \cite{liu2015categorization}. Internal physical behavior varies, complicating a unified view. RRAM cells are classified by switching mechanism: electrochemical metallization (ECM), valence change memory (VCM), or thermochemical memory (TCM) \cite{goux2016electrochemical} (Figure \ref{fig:2g}). \\
-
-\noindent Memristors operate between a high resistance "OFF" state (HRS) and a low resistance "ON" state (LRS). Transitioning from HRS to LRS is "Set"; the reverse is "Reset." An electroforming step typically converts the pristine, high-resistance device to a switchable state. Biorealistic learning requires continuous synaptic strength adjustment. Analog (gradual) switching in memristors is essential, offering incremental conductance changes under controlled pulses, unlike binary transitions. Consider a simplified state evolution model:
+\noindent Despite a shared metal--insulator--metal (\abbrev{MIM}) architecture, \abbrev{RRAM} resists a single classification. Switching mechanism groups the devices into electrochemical metallisation (\abbrevdef{ECM}), valence change memory (\abbrevdef{VCM}), and thermochemical memory (\abbrevdef{TCM}) \cite{goux2016electrochemical, liu2015categorization} (Figure \ref{fig:2g}). A device cycles between a high-resistance state (\abbrevdef{HRS}) and a low-resistance state (\abbrevdef{LRS}). The \abbrev{HRS}-to-\abbrev{LRS} transition is "Set" and the reverse is "Reset", with an initial electroforming step converting the pristine device to a switchable state. In devices that switch gradually rather than abruptly, the internal state evolves continuously with the stimulus, a simple model being
 \begin{align}
-    \frac{dw}{dt} = \mu \cdot I(t) \label{eq:2.25}
+    \frac{ds}{dt} = \mu\, I(t), \label{eq:2.21}
 \end{align}
-where $\mu$ is a material-dependent mobility parameter. Controlled voltage pulses allow precise conductance modulation:
+where $\mu$ is a material-dependent mobility. Because the conductance follows the state, the conductance change scales with the integrated current,
 \begin{align}
-    \Delta G \varpropto \int I(t) dt = Q \label{eq:2.26}
+    \Delta G \propto \int I(t)\,dt = Q, \label{eq:2.22}
 \end{align}
 
-\noindent Here, $Q$ is the accumulated charge. Shaping input pulses encodes plasticity rules like STDP directly in hardware.\\
+\noindent where $Q$ is the accumulated charge. This charge dependence underlies the incremental, analogue conductance changes that distinguish memristive switching from abrupt binary transitions. \\
 
-\noindent Despite promise, memristive devices exhibit non-idealities \cite{govoreanu2013vacancy}. Variability in conductance range, switching thresholds, and cycle-to-cycle behavior occurs even among nominally identical devices. Conductance updates often exhibit non-linear saturation or asymmetry. Drift and retention loss over time may result from relaxation effects. \\
-
-\noindent Neuromorphic systems employ redundancy, error-tolerant algorithms, or closed-loop calibration to address these issues. Notably, variability may be biologically realistic; synaptic stochasticity can enhance generalization and robustness. Compact models, ranging from physics-based to empirical, are essential for design and testing. The linear ion drift model \cite{cai2011abel} is a popular framework for early $TiO_2$ devices:
+\noindent These devices are not ideal \cite{govoreanu2013vacancy}. Conductance range, switching thresholds, and cycle-to-cycle behaviour vary even among nominally identical devices; updates often saturate non-linearly or asymmetrically; and relaxation produces drift or retention loss. Neuromorphic systems counter these with redundancy, error-tolerant algorithms, and closed-loop calibration. Some variability is in fact biologically realistic, and synaptic stochasticity can aid generalisation. Compact models, from physics-based to empirical, are essential for design. The linear ion-drift model \cite{cai2011abel}, popular for early TiO$_2$ devices, writes
 \begin{align}
-    w(t) = w_0 + \frac{\mu_vR_{ON}}{D} \cdot \int_{0}^{t} I(\tau)   \,d\tau  \label{eq:2.27}
+    s(t) = s_0 + \frac{\mu_v R_{ON}}{D} \int_{0}^{t} I(\tau)\, d\tau, \label{eq:2.23}
 \end{align}
 
-\noindent where $\mu_v$ is ion mobility, $R_{ON}$ is the low resistance state, and $D$ is device thickness. Window functions prevent unrealistic $w(t)$ values in simulations. A modified form is:
+\noindent where $\mu_v$ is the ion mobility, $R_{ON}$ the low-resistance state, and $D$ the device thickness, so that $s$ is a normalised internal state confined to $[0, 1]$, the fraction of the device in the low-resistance phase. A window function keeps $s$ in range by forcing $ds/dt \to 0$ at the boundaries,
 \begin{align}
-    \frac{dw}{dt} = \mu \cdot I(t) \cdot f(w) \label{eq:2.28}
+    \frac{ds}{dt} = \mu\, I(t)\, f(s), \qquad f(s) = 1 - (2s - 1)^{2p}, \label{eq:2.24}
 \end{align}
 
-\noindent where $f(w)$ is a window function such as:
+\noindent with $p$ controlling the boundary non-linearity; $f(s)$ vanishes at $s = 0$ and $s = 1$, preventing the state from exceeding its physical limits. Such compact models enable software prototyping before hardware, but grow increasingly insufficient as device physics advances. Recent reviews set criteria for well-posed, predictive compact models \cite{woo2024localized} and consolidate the emerging proton-conducting paradigm, in which mobile protons modulate barrier heights on biologically relevant timescales \cite{yuan2024proton}. A recent roadmap frames the broader tension between maturing device physics and the system-level frameworks needed to absorb it \cite{mehonic2024review}.
+
+\subsection[Charge Transport Mechanisms]{Charge Transport Mechanisms}\label{subsec:transport}
+
+\noindent The compact models above describe how the internal state evolves, but not how charge is physically carried through the oxide in a given state. Identifying the dominant transport mechanism is what lets a measured current--voltage characteristic be interpreted in terms of device physics, and the same framework is applied to the fabricated devices in Chapter \ref{ch:fab}. The electric field and temperature govern conduction in a thin insulating film. Assuming negligible fixed oxide charge and a flat-band condition, the field across a film of thickness $d$ under bias $V$ is
 \begin{align}
-    f(w) = 1 - (2w - 1)^{2p} \label{eq:2.29}
+    E = \frac{V}{d} \label{eq:ct-field}
 \end{align}
-\noindent with $p$ controlling boundary non-linearity. These models enable software prototyping of algorithms and circuits, facilitating design-space exploration and validation before hardware realization.
+\noindent though in real devices these assumptions hold only approximately. Transport is conventionally divided into \emph{electrode-limited} mechanisms, set by the injecting barrier at the metal--oxide interface (direct and Fowler--Nordheim tunnelling, thermionic emission), and \emph{bulk-limited} mechanisms, set by the oxide interior and its defects (ohmic, ionic, space-charge-limited, Poole--Frenkel, and trap-assisted conduction) \cite{sze2021physics}. Each leaves a characteristic signature in the current density $J$, so plotting the data in suitably linearised coordinates and testing for a straight line discriminates between them. Figure \ref{fig:2j} summarises the energy-band pictures of the principal mechanisms. \\
 
-\subsection[In-Memory Computing with Crossbars]{In-Memory Computing with Crossbars}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.65\textwidth]{Chapter2/Figs/conduction_band_diagrams.png}
+    \caption[Energy-band diagrams of conduction mechanisms.]{Energy-band diagrams showing different conduction mechanisms: (a) direct tunnelling, (b) Fowler--Nordheim tunnelling, (c) thermionic emission, (d) Poole--Frenkel emission, and (e) trap-assisted tunnelling \cite{sze2021physics}.}
+    \label{fig:2j}
+\end{figure}
 
-\noindent Neuromorphic computing represents a paradigm shift inspired by biological neural systems. Unlike conventional systems that compartmentalize memory and processing, causing inefficiencies, neuromorphic systems co-locate them using distributed, parallel architectures mimicking brain functionality. Neuromorphic engineering originated with Carver Mead in the 1980s \cite{mead1989analog}, who proposed analog electronics to mimic neurons and synapses. The field now encompasses both analog and digital brain-inspired circuits.\\
+\subsubsection[Direct Tunnelling]{Direct Tunnelling}
 
-\noindent Neuromorphic computing translates neurobiological principles into hardware. Event-driven processing, where circuits activate only when necessary, significantly reduces power consumption. For example, synapses (implemented by resistive memory) function as both computational and memory units. Neuromorphic systems exhibit plasticity and real-time local learning using biologically plausible rules like STDP. \\
+\noindent When the oxide is thin enough (typically below $\sim$1\,nm) and the field is strong, carriers tunnel directly across the full barrier width. The current density depends exponentially on the barrier height $\phi_B$ and effective mass $m^{*}$,
+\begin{align}
+    J &\propto E^{2} \exp\left[ -\frac{4\sqrt{2m^{*}}(q\phi_B)^{3/2}}{3q\hslash E} \right] \label{eq:ct-dt1} \\
+    J &\propto V^2 \exp\left( -\frac{b}{V} \right) \label{eq:ct-dt2}
+\end{align}
+\noindent and is essentially temperature-independent, reflecting the quantum-mechanical nature of the process.
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/h.png}
-    \caption[The memristor-based crossbar architecture.]{The memristor-based crossbar architecture with a single memristor array and a constant-term circuit \cite{truong2014new}. Resistive components are located at word and bit line connections. When voltages $\mathbf{V}$ are applied to the word line, the resistive element at the junction of the $i^{th}$ word line and the $j^{th}$ bit line generates $V_i \times G_{i,j}$ units of current, assuming zero wire resistance, as per Ohm's law. Currents created by each element are aggregated along the bit lines using Kirchhoff's current law.}
+\subsubsection[Fowler--Nordheim Tunnelling]{Fowler--Nordheim Tunnelling}
+
+\noindent At high field the barrier is deformed into a triangle and carriers need only tunnel through its narrowed tip before entering the conduction band:
+\begin{align}
+    J &= \frac{q^2 E^2}{8\pi \hslash \phi_B} \exp\left[ -\frac{4\sqrt{2m^{*}}(q\phi_B)^{3/2}}{3q\hslash E} \right] \label{eq:ct-fn1}
+\end{align}
+\noindent A Fowler--Nordheim plot of $\ln(J/E^2)$ against $1/E$ linearises Equation (\ref{eq:ct-fn1}); its gradient yields the barrier height $\phi_B$ and the intercept reflects the emission efficiency. The mechanism requires $V > \phi_B$; below this, direct tunnelling dominates.
+
+\subsubsection[Ohmic Conduction]{Ohmic Conduction}
+
+\noindent A small population of thermally generated free carriers in the oxide drifts under the field, giving
+\begin{align}
+    J &\propto E \exp\left( -\frac{\Delta E_a}{k_B T} \right) \label{eq:ct-ohm1} \\
+    J &\propto \frac{V}{T} \exp\left( -\frac{c}{T} \right) \label{eq:ct-ohm2}
+\end{align}
+\noindent The current density is proportional to the field $E$, so at fixed temperature it is linear in the applied voltage; the exponential factor captures the thermally activated carrier density, not any voltage non-linearity. Ohmic conduction therefore dominates at low field and high temperature.
+
+\subsubsection[Ionic Conduction]{Ionic Conduction}
+
+\noindent Charge can also be carried by the drift of mobile ions, such as oxygen vacancies, rather than electrons:
+\begin{align}
+    J &\propto \frac{E}{T} \exp\left( -\frac{\Delta E_{a,ion}}{k_B T} \right) \label{eq:ct-ion1} \\
+    J &\propto \frac{V}{T} \exp\left( -\frac{c'}{T} \right) \label{eq:ct-ion2}
+\end{align}
+\noindent Here the activation energy $\Delta E_{a,ion}$ is that for ion hopping through the lattice, typically far larger than the electronic activation energy $\Delta E_a$ of Equation (\ref{eq:ct-ohm1}). The two should not be conflated. Ions accumulating at an interface build a space-charge region and internal field that can drive current even after the external field is removed.
+
+\subsubsection[Space-Charge-Limited Current]{Space-Charge-Limited Current}
+
+\noindent When carrier injection from an electrode outpaces the rate at which the bulk can transport them, injected charge accumulates and limits the current. In the trap-free Mott--Gurney regime,
+\begin{align}
+    J &= \frac{9\varepsilon_i \mu V^2}{8d^3} \label{eq:ct-sclc1} \\
+    J &\propto V^2 \label{eq:ct-sclc2}
+\end{align}
+\noindent so space-charge-limited current is identified by a quadratic dependence on voltage.
+
+\subsubsection[Poole--Frenkel Hopping]{Poole--Frenkel Hopping}
+
+\noindent In a defect-rich oxide, electrons trapped at localised states are thermally excited into the conduction band, with the field lowering the trap barrier:
+\begin{align}
+    J &\propto E \exp\left[ -\frac{q\left(\phi_B - \sqrt{qE / \pi \varepsilon_i}\right)}{k_B T} \right] \label{eq:ct-pf1} \\
+    J &\propto V \exp\left[ \frac{q}{k_B T} \left( 2a\sqrt{V} - \phi_B \right) \right] \label{eq:ct-pf2}
+\end{align}
+\noindent The current depends on the trap depth $\phi_B$, the permittivity $\varepsilon$, and temperature $T$; a non-ideality factor between 1 and 2 accounts for fabrication variations. A plot of $\ln(J/E)$ against $\sqrt{E}$ is linear, and its slope yields the dynamic dielectric constant $\varepsilon_r$.
+
+\subsubsection[Thermionic (Schottky) Emission]{Thermionic (Schottky) Emission}
+
+\noindent At a metal--oxide contact, carriers with thermal energy exceeding the interface barrier are emitted over it, as the Schottky diode model describes:
+\begin{align}
+    J &= A^{**} T^2 \exp\left[ -\frac{q\left(\phi_B - \sqrt{qE / 4\pi \varepsilon_i}\right)}{k_B T} \right] \label{eq:ct-te1} \\
+    J &\propto \exp\left[ \frac{q}{k_B T} \left( a\sqrt{V} - \phi_B \right) \right] \label{eq:ct-te2} \\
+    A^{**} &= \frac{4\pi q m^* k_B^2}{h^3} \label{eq:ct-te3} \\
+    a &= \sqrt{\frac{q}{4\pi \varepsilon_i d}} \label{eq:ct-te4}
+\end{align}
+\noindent with $A^{**}$ the effective Richardson constant (Equation \ref{eq:ct-te3}) and $a$ the field-lowering coefficient (Equation \ref{eq:ct-te4}). The current depends on temperature both through the $T^2$ prefactor and through the exponent, giving it a stronger temperature dependence than the other mechanisms. Forward bias lowers the interface barrier and enhances emission, whereas reverse bias raises it, so thermionic emission produces rectifying, asymmetric characteristics.
+
+\subsubsection[Trap-Assisted Tunnelling]{Trap-Assisted Tunnelling}
+
+\noindent Where defect states are dense, carriers tunnel in multiple steps via intermediate traps that divide the barrier and raise the overall transmission probability:
+\begin{align}
+    J \propto \exp\left[ -\frac{8\pi \sqrt{2qm^*}}{3\hslash E} \phi_t^{3/2} \right] \label{eq:ct-tat}
+\end{align}
+\noindent where $\phi_t$ is the trap barrier height. The process is elastic if the carrier conserves its energy at the trap and inelastic if it loses energy, for example to phonons. In disordered, defect-rich films such as the silicon-rich oxides studied here, trap-assisted tunnelling is often the dominant channel, as the analysis in Chapter \ref{ch:fab} confirms.
+
+\subsection[The Subthreshold Regime]{The Subthreshold Regime}\label{subsec:subthreshold}
+
+\noindent The mechanisms above describe conduction in a device that has been formed and is switching between resistance states, and the compact and plasticity models all assume this conventional switching between distinct states. This thesis, however, operates the device in a different mode. In the \emph{subthreshold regime}, the applied bias is held below the threshold for non-volatile switching, so the device does not toggle between high- and low-resistance states but instead shows small, volatile, analogue conductance changes well suited to synaptic emulation \cite{mannion2023unipolar}. \\
+
+\noindent This regime is the operating point of the rest of the thesis and gives rise to the central phenomenon studied here. Under a sustained subthreshold stimulus the current does not settle immediately but evolves over seconds to minutes. This slow transient is produced by the trapping and de-trapping of charge and the build-up and dissipation of space charge described above, rather than by filament formation. Chapter \ref{ch:transients} characterises this transient in fabricated silicon-oxide devices and shows that the top-electrode material selects which of these processes dominate. Chapter~\ref{ch:model} then condenses the dynamics into a compact, discretisable model. Because the trapping and space-charge processes occur on the timescale of behaviour rather than of spikes, this slow transient, often a limitation for static memory, is the phenomenon the later results chapters build on.
+
+\section[Neuromorphic Computing Hardware]{Neuromorphic Computing Hardware}\label{sec:neuro-hardware}
+
+\noindent Individual memristive devices become a computing substrate only when assembled into arrays and driven by supporting circuitry. This section moves from the single device to the system: how crossbar arrays perform in-memory computation, how plasticity rules are realised in hardware, and how the resulting systems are integrated and benchmarked.
+
+\subsection[Crossbar In-Memory Computing]{Crossbar In-Memory Computing}
+
+\noindent Neuromorphic computing takes its inspiration from biological neural systems. Unlike conventional architectures that separate memory and processing, incurring the data-movement cost of the von Neumann bottleneck, neuromorphic systems co-locate them in distributed, parallel structures that mimic the brain. The field began with Carver Mead in the 1980s \cite{mead1989analog}, who proposed analogue electronics to emulate neurons and synapses, and now spans both analogue and digital brain-inspired circuits. Event-driven processing, in which circuits activate only when needed, sharply reduces power. The same memristive elements serve as both memory and computational units, supporting local plasticity rules such as \abbrev{STDP}. \\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/crossbar_architecture.png}
+    \caption[The memristor-based crossbar architecture.]{A memristor crossbar array \cite{truong2014new}. Input voltages $V_1,\dots,V_N$ drive the word lines (rows), a memristive element of conductance $G_{i,j}$ sits at each crosspoint, and the output currents $I_1,\dots,I_M$ are read from the bit lines (columns). Each element contributes a current $V_i G_{i,j}$ (Ohm's law), and these sum along each bit line (Kirchhoff's current law), so the array evaluates the vector--matrix product $\mathbf{I} = \mathbf{G}\mathbf{V}$ in a single step.}
     \label{fig:2h}
 \end{figure}
 
-
-\noindent Neuromorphic architectures fall into two categories \cite{ceolini2020hand}. Digital systems (e.g., IBM TrueNorth, Intel Loihi) use digital circuits to simulate spiking neurons with programmable connectivity. Analog/Mixed-Signal systems, including memristive arrays, more closely mimic continuous biological dynamics, offering a substrate for analog computation. The crossbar array, with intersecting metal lines and memristive devices, is a key unit supporting efficient matrix-vector multiplication. For input voltage vector $V$ and conductance matrix $G$, the output current vector $I$ is:
+\noindent Neuromorphic architectures fall into two categories \cite{ceolini2020hand}: digital systems (e.g. IBM TrueNorth, Intel Loihi) that simulate spiking neurons with programmable connectivity, and analogue or mixed-signal systems, including memristive arrays, that more closely mimic continuous biological dynamics. The crossbar array (Figure \ref{fig:2h}) is the key analogue unit. For an input voltage vector $\mathbf{V}$ and a conductance matrix $\mathbf{G}$, the output current vector is
 \begin{align}
-    \mathbf{I} = \mathbf{G} \cdot \mathbf{V} \label{eq:2.30}
+    \mathbf{I} = \mathbf{G}\,\mathbf{V}, \label{eq:2.44}
 \end{align}
 
-\noindent This single-step analog computation eliminates data movement, offering energy efficiency. Fundamental circuit laws perform the multiplication and addition required for linear algebra. Per Ohm's law, current $I$ through a conductance $G$ with voltage $V$ is $V \times G$, making $G$ a multiplicative factor. Per Kirchhoff's current law, currents $I_i$ from multiple branches sum at an intersection ($I = \sum_{i}^{} I_i$). \\
+\noindent computed in a single physical step: Ohm's law performs the multiplication ($V \times G$) and Kirchhoff's current law the accumulation along each bit line, eliminating data movement and yielding the energy efficiency of in-memory computing. A network layer $\mathbf{y} = \mathbf{x}^\intercal \mathbf{W}$ therefore maps directly onto the array, the input $\mathbf{x}$ encoded as voltages and the weights $\mathbf{W}$ as conductances. The choice of device depends on the workload. Training repeatedly updates the weights and so demands linear, repeatable programming, whereas inference fixes them after an initial write. This is why much crossbar research targets inference. \\
 
-\noindent Resistive crossbar arrays perform vector-matrix products. Output currents represent the product of a voltage vector and conductance matrix. For $\mathbf{y} = \mathbf{x}^\intercal \mathbf{W}$, mapping $\mathbf{x}$ to voltages $\mathbf{V}$ and $\mathbf{W}$ to conductances $\mathbf{G}$ generates currents $\mathbf{I}$ proportional to $\mathbf{y}$. Crossbar structure enables vector-matrix multiplication. Voltages $\mathbf{V}$ applied to word lines interact with resistive elements $G_{i,j}$ at junctions, and currents $\mathbf{I}$ are measured on bit lines. Applying $V_i$ generates current $V_i \times G_{i,j}$. Currents on the $j^{th}$ bit line sum to $I_j$, the dot product of $\mathbf{V}$ and the $j^{th}$ column of $\mathbf{G}$. Thus, the output current vector is $\mathbf{I}^\intercal = \mathbf{V}^\intercal \mathbf{G}$. \\
-    
-\noindent Application requirements dictate resistive device choice. Training requires frequent conductance updates, while inference uses fixed weights set after initial programming. Both require programmability. Memristors, with electrically tunable conductance, are ideal for crossbar accelerators. Training requires linear, repeatable programming, a significant challenge. Consequently, research often focuses on inference. \\
-    
-\noindent Memristors have a restricted conductance range $[G_{off}, G_{on}]$. Since conductance is positive, representing real numbers (including negatives) is challenging.  Differential pairs address this by representing $w$ as the difference between two conductances, $G+$ and $G-$ \cite{joksas2022nonideality}. These are chosen symmetrically around an average value and assigned to different bit lines \cite{kim20214k}. Independent currents $\mathbf{I}+$ and $\mathbf{I}-$ are generated, and the result is $\mathbf{I}+ - \mathbf{I}-$. Arranging positive and negative bit lines proximally mitigates line resistance effects \cite{joksas2020committee}. \\
+\noindent Because conductance is positive and bounded to a range $[G_{off}, G_{on}]$, signed weights require a differential pair, encoding each weight $w$ as the difference between two conductances $G^+$ and $G^-$ on separate bit lines \cite{joksas2022nonideality}. The two are chosen symmetrically about a mean value \cite{kim20214k}, and their bit-line currents are subtracted to give $\mathbf{I}^+ - \mathbf{I}^-$. The positive and negative lines are placed close together to mitigate line-resistance effects \cite{joksas2020committee}. This differential mapping is the scheme used for the memristive networks of Chapter~\ref{ch:bio}.
 
-\noindent Neuromorphic learning approaches include supervised, unsupervised, and reinforcement learning \cite{stone2019artificial}. Unsupervised, local learning aligns best with biological models. Biorealistic learning draws on synaptic plasticity laws like Hebbian Learning \cite{kempter1999hebbian} ("neurons that fire together wire together"), simplified as:\\
+\subsection[Hardware Plasticity Mechanisms]{Hardware Plasticity Mechanisms}
+
+\noindent Realising the plasticity rules of Section~\ref{subsec:plasticity} in hardware is central to memristive learning. Pulse-pairing schemes encode spike timing as overlapping voltage pulses, so that the device's own conductance modulation physically computes the learning rule \cite{campbell2016pulse}. Both the pre- and post-synaptic neurons apply identically shaped pulses of the same polarity, one to each terminal. The device experiences their difference, and because the two pulses are offset by the spike-timing difference, this difference is signed,
 \begin{align}
-    \Delta w_{ij} = \eta \cdot x_i \cdot y_i \label{eq:2.31}
+    V_{mem}(t) = V_{pre}(t) - V_{post}(t). \label{eq:2.45}
 \end{align}
 
-\noindent where $\Delta w_{ij}$ is the weight change, $x_i$ and $y_i$ are activity levels, and $\eta$ is the learning rate. Hebbian learning enhances synaptic strength via co-activity \cite{frenkel2019morphic}. STDP is a temporally sensitive variant. Homeostatic plasticity ensures neural activity remains within functional bounds, analogous to biological metabolic regulation.\\
-
-\noindent Local circuit rules implement these mechanisms. In memristive STDP, pulse timing determines conductance change, embodying the learning rule physically. Digital learning involves updates like:
+\noindent When the pulses coincide ($\Delta t = 0$) they cancel and $V_{mem} \approx 0$. When the presynaptic pulse leads, there is an interval in which only $V_{pre}$ is active, so $V_{mem} > 0$ exceeds the potentiation threshold and conductance increases. When the postsynaptic pulse leads, $V_{mem} < 0$ drives depression. The conductance then evolves by a windowed integration of this effective voltage,
 \begin{align}
-    w_{ij} \leftarrow w_{ij} + \eta \cdot \delta_j \cdot x_i \label{eq:2.32} 
+    \Delta G = \int_{-\infty}^{\infty} \gamma\big(V_{mem}(t)\big)\, dt, \label{eq:2.46}
 \end{align}
 
-\noindent where $\delta_j$ is the error signal. Memristive learning avoids explicit backpropagation, using local rules where conductance change $\Delta G$ depends on spike timing and voltage:
+\noindent where $\gamma(\cdot)$ maps voltage to conductance change non-linearly, physically realising the \abbrev{STDP} window of Equation~\ref{eq:2.12}. Configured with \abbrev{LIF} neuron layers and spike-timing detection circuitry, a crossbar of such synapses learns from the temporal correlations in its inputs. \\
+
+\noindent Unbounded synaptic growth destabilises learning, so biological systems use homeostasis to keep activity within a functional range \cite{turrigiano1999homeostatic}, and analogous mechanisms are indispensable in memristive networks. Synaptic normalisation bounds the total conductance,
 \begin{align}
-    \Delta G \varpropto f(\Delta t_{ij}) \cdot g(V_{pre}, V_{post}) \label{eq:2.33}
+    \sum_{i} G_i = G_{max}, \label{eq:2.47}
 \end{align}
 
-\noindent Here, $f(\Delta t_{ij})$ is the STDP window and $g(V_{pre}, V_{post})$ models voltage pulse effects. Memristors act as "plastic synapses," evolving weights in real time based on temporal correlations.
-
-\subsection[Hardware Realization of Plasticity]{Hardware Realization of Plasticity}
-
-\noindent Implementing biorealistic learning is central to memristor-based architectures. This section explores embedding neuroscience-inspired rules like STDP, Hebbian learning, and homeostatic regulation into memristive networks. Pulse-pairing schemes encode spike timing as overlapping voltage pulses to implement plasticity rules. Memristor conductance modulation physically realizes these rules \cite{campbell2016pulse}. \\
-
-\noindent A presynaptic spike triggers a positive pulse, and a postsynaptic spike a negative one. Net voltage depends on temporal alignment. Constructive overlap (pre before post) exceeds the potentiation threshold, increasing conductance; reversed order triggers depression. \\
-
-\noindent For pulse shapes $V_{pre}(t)$ and $V_{post}(t)$, the effective voltage is:
+\noindent while weight decay models biological forgetting,
 \begin{align}
-    V_{mem}(t) = V_{pre}(t) - V_{post}(t) \label{eq:2.34}
+    G_i(t + \Delta t) = (1 - \alpha)\, G_i(t) + \Delta G_i, \label{eq:2.48}
 \end{align}
 
-\noindent Conductance $G(t)$ changes based on $V_{mem}(t)$ via a windowed integration rule:
-\begin{align}
-    \Delta G = \int_{-\infty}^{-\infty} \gamma (V_{mem}(t)) \,dt \label{eq:2.35}
-\end{align}
-\noindent where $\gamma(\cdot)$ maps voltage to conductance change non-linearly. \\
+\noindent where $\alpha$ is a decay factor. These mechanisms ensure stability and enable continual learning; a homeostatic regulariser of this kind is developed for the spiking networks of Chapter~\ref{ch:bio}.
 
-\noindent Memristive synapses form dense connectivity graphs. Configured with spiking neurons, emergent learning occurs. Typical architectures include LIF neuron layers, memristive crossbars for weights, and circuits for spike timing detection and pulse application.\\
+\subsection[Neuromorphic Systems and Benchmarks]{Neuromorphic Systems and Benchmarks}
 
-\noindent For a neuron with inputs $x_i(t)$ and synapses $G_i(t)$, membrane potential $V_m$ evolves as:
-\begin{align}
-    C_m \frac{dV_m}{dt} = -\frac{V_m}{R_m} + \sum_{i} G_i(t) \cdot x_i(t) \label{eq:2.36}
-\end{align}
+\noindent Scaling individual devices and crossbars into complete systems requires hierarchical integration. This brings its own challenges: variability, inconsistent behaviour, write-endurance degradation, and non-linear dynamics, all managed through the co-design of algorithms and devices. Practical crossbars must also contend with sneak paths, line resistance, and noise, addressed by selector devices, resistive isolation, and adaptive calibration. \\
 
-\noindent where $C_m$ is capacitance and $R_m$ is leakage resistance. Exceeding threshold $V_{th}$ triggers a spike and reset. Synaptic updates follow:
-\begin{align}
-    \Delta G_i(t) = f(\Delta t_i) \cdot Pulse_{pairing}(x_i(t), y(t)) \label{eq:2.37}
-\end{align}
-
-\noindent with $f(\Delta t_i)$ as the STDP kernel and $Pulse_{pairing}$ as the pulse overlap function. Unsupervised pattern recognition illustrates biorealistic learning. Memristive networks exposed to spiking MNIST digits learn prototypes via STDP. Input pixels connect to neurons via memristive synapses, with intensity converted to spike trains. Winner-take-all mechanisms inhibit simultaneous firing. STDP strengthens synapses with temporally correlated inputs. Neurons specialize in specific patterns, emulating cortical feature selectivity.\\
-
-\noindent Unbounded synaptic growth destabilizes learning. Biological systems use homeostasis for stability; analogous mechanisms are indispensable in memristive networks. Synaptic normalization constrains the sum of synaptic weights:
-\begin{align}
-    \sum_{i} G_i = G_{max} \label{eq:2.38}
-\end{align}
-
-\noindent Alternatively, weight decay models biological forgetting:
-\begin{align}
-    G_i(t + \Delta t) = (1 - \alpha) \cdot G_i(t) + \Delta G_i \label{eq:2.39}
-\end{align}
-
-\noindent where $\alpha$ is a decay factor. These mechanisms ensure stability and enable continual learning.
-
-\section[System Architecture and Integration]{System Architecture and Integration}
-
-\noindent Memristive networks eliminate the von Neumann bottleneck via in-memory learning. Subthreshold operation enables ultra-low-power computation, and physical time integration matches biological timescales. Challenges include variability, inconsistent behavior, write endurance degradation, and non-linear dynamics. Co-designing algorithms and devices adapts learning rules to device characteristics, facilitating practical implementation. Realizing practical systems requires scaling architectural integration. This section explores hierarchical organization, interfacing, and optimization, demonstrating the translation of bio-inspired learning into cohesive hardware.
-
-\subsection[Scalable Hierarchical Architectures]{Scalable Hierarchical Architectures}
-
-\noindent The crossbar array enables massive parallelism and efficient matrix-vector multiplication (MVM), a cornerstone of neural computation. Practical implementations face issues like sneak paths, line resistance, variability, and noise. Selector devices, resistive isolation, and adaptive calibration maintain accuracy and scalability.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/i.png}
-    \caption[The address-event representation.]{The address-event representation \cite{deiss1999pulse}. Self-timed neurons on the sending chip generate trains of action potentials. Neurons request bus control upon generating action potentials. Multiplexing circuitry encodes and transmits addresses sequentially. The receiver processes the temporal stream to produce action potential trains for postsynaptic targets. Relative event timing is preserved, provided source neurons do not generate excessively close action potentials.}
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/address_event_representation.png}
+    \caption[The address-event representation.]{The address-event representation \cite{deiss1999pulse}. Self-timed neurons on the sending chip generate trains of action potentials and request bus control when they spike; multiplexing circuitry encodes and transmits their addresses sequentially, and the receiver reconstructs the spike trains for the postsynaptic targets. Relative event timing is preserved, provided source neurons do not spike too close together.}
     \label{fig:2i}
 \end{figure}
-    
 
-\noindent Neocortical modularity inspires hierarchical neuromorphic architectures. Each "core" comprises spiking neurons, a local memristive crossbar, peripheral circuitry, and optional learning engines. Cores connect via event-driven networks mimicking axonal signaling, typically using Address-Event Representation (AER). This scales the architecture while preserving sparse, asynchronous activity (Figure \ref{fig:2i}). Cores operate independently, with global integration via spike-based communication.\\
+\noindent Neocortical modularity inspires hierarchical architectures in which each "core" comprises spiking neurons, a local memristive crossbar, peripheral circuitry, and optional learning engines. Cores communicate over event-driven networks that mimic axonal signalling, typically using the Address-Event Representation (\abbrevdef{AER}), which preserves sparse, asynchronous activity while scaling the system (Figure \ref{fig:2i}). Hybrid designs such as Neurogrid \cite{khodagholy2015neurogrid} combine analogue dendritic computation with digital routing, and memristive variants replace charge-based memory with conductance-based synapses. Unlike batch-trained deep learning, biorealistic learning of this kind is online and local. Pulse-modulation circuits set each conductance update from the measured pre--post timing difference $\Delta t$, so that closely correlated synapses receive larger updates, at high parallelism and low power. \\
 
-\noindent Neurogrid \cite{khodagholy2015neurogrid} combines analog dendritic trees with digital processors. Memristive implementations replace charge-based memory with conductance-based synapses. The hybrid interface equation resembles:
+\noindent Recent fully integrated compute-in-memory chips have moved the field beyond proof-of-concept. The NeuRRAM chip of Wan et al.~\cite{wan2022compute} integrates more than three million devices across 48 cores and reaches CIFAR-class accuracy competitive with software. IBM's analogue-AI chip performs energy-efficient speech recognition at commercially relevant scale \cite{ambrogio2023analog}. The paradigm extends further, to probabilistic computation with a memristor-based Bayesian machine \cite{le2024memristor} and to deep \emph{physical} networks trained by a backpropagation-compatible procedure \cite{wright2022deep}. Together these establish memristive crossbars as a viable substrate for general machine-learning workloads. They share one limitation, however: each programs or trains around device non-idealities rather than folding the measured device statistics into training, and none exploits the slow dynamics of the subthreshold regime. These are the two gaps that this thesis addresses: hardware-aware training that samples the device's own conductance statistics, and the slow transient as a computational resource. \\
+
+\noindent Such systems are evaluated against standard benchmarks. The Modified National Institute of Standards and Technology (\abbrevdef{MNIST}) dataset of handwritten digits \cite{lecun1998gradient} remains a common first test, though no longer challenging for state-of-the-art methods. The Canadian Institute for Advanced Research (\abbrevdef{CIFAR}) datasets, \abbrev{CIFAR}-10 and \abbrev{CIFAR}-100 \cite{krizhevsky2009learning}, probe more complex colour images. Beyond classification, memory tasks evaluate storage and recall, and reinforcement-learning tasks, such as learning to play Atari games from pixels, evaluate the acquisition of reward-driven policies, the setting of Chapter~\ref{ch:learning}. Regression and sequence performance is commonly quantified by a mean-absolute error over $N$ samples,
 \begin{align}
-    y_j = \sigma \left( \sum_i G_{ij} \cdot V_i + b_j  \right) \label{eq:2.40}
-\end{align}
-\noindent where $G_{ij}$ is conductance, $V_i$ is input voltage, $b_j$ is digital bias, and $\sigma$ is the digital thresholding function. \\
-
-\noindent Biorealistic learning requires online, local learning, unlike batch-trained deep learning. Memristive systems facilitate this via pulse modulation circuits applying updates based on spike timing. Systems incorporate time-window detectors and plasticity controllers. These engines exhibit high parallelism and low power consumption, facilitating real-time adaptation. Synapse conductance $G$ evolves via:
-\begin{align}
-    G(t + \Delta t) = G(t) + \Delta G = G(t) + f(\Delta t) \cdot V_{update} \label{eq:2.41}
+    E = \frac{1}{N} \sum_{i=1}^{N} \left| y_i - \hat{y}_i \right|, \label{eq:2.49}
 \end{align}
 
-\noindent where $f(\Delta t)$ is the learning window and $V_{update}$ is the voltage pulse. Experimental systems illustrate full-stack integration. Intel Loihi 2 \cite{orchard2021efficient} exhibits event-driven learning. The IMEC Dot Product Engine uses analog crossbars for pattern recognition \cite{zha2017imec}. NeuroSim+ simulates large-scale architectures \cite{chen2017neurosim+}. These systems facilitate complex tasks like speech recognition and motor control. \\
+\noindent where $y_i$ and $\hat{y}_i$ are the true and predicted outputs. \\
 
-\noindent Memristive architectures are optimal for edge AI due to compactness and efficiency. On-device learning and inference eliminate cloud dependency. This requires local learning, non-volatile memory, and energy harvesting compatibility. This parallels biological unsupervised, embodied learning, reinforcing the bio-alignment of memristive architectures.
-
-\subsection[Hardware-Software Co-Design Frameworks]{Hardware-Software Co-Design Frameworks}
-
-\noindent Memristive hardware requires software co-design to realize its potential. Biorealistic learning, SNNs, and recurrent systems necessitate reconsidering software stacks to leverage memristive dynamics and constraints. Biorealistic models typically employ spiking neuron formulations like LIF, Izhikevich, or Hodgkin-Huxley, using differential equations for membrane dynamics:
-\begin{align}
-    \tau_m \frac{dV(t)}{dt} = -(V(t) - V_{rest}) + R_mI(t) \label{eq:2.42}
-\end{align}
-
-\noindent where $V(t)$ is membrane potential, $V_{rest}$ is resting potential, $I(t)$ is input current, $\tau_m$ is the time constant, and $R_m$ is resistance. Software frameworks must generate spike trains, emulate conductance changes, encode delays, and schedule computation. Frameworks like Brian2 \cite{stimberg2019brian}, NEST \cite{gewaltig2007nest}, and BindsNET \cite{hazan2018bindsnet} offer abstractions. Translation layers map models to hardware control signals. \\
-
-\noindent Local learning rules must be compiled into device-level protocols. Quantization poses a challenge, as memristive devices have limited resolution (4-8 bits), requiring mapping of continuous gradients to discrete states. Physical constraints necessitate efficient placement and routing. Key constraints include fan-in/fan-out limits, synaptic locality, and event congestion, which requires load balancing.\\
-
-\noindent Mapping tools use graph partitioning and spatial locality heuristics to co-locate interacting neurons and optimize routing. Software compensation algorithms mitigate stochasticity, variability, drift, and degradation. Methods include write-verify loops, adaptive learning rates, and redundancy encoding. Homeostatic plasticity can be implemented as system-level feedback:
-\begin{align}
-    \theta_i(t + 1) = \theta_i(t) + \eta(r_i - r_{target}) \label{eq:2.43}
-\end{align}
-
-\noindent where $\theta_i$ is the threshold, $r_i$ is the firing rate, and $\eta$ is the adjustment rate. This regulates hardware behavior to match desired statistics.Emulation platforms (FPGAs, software models) simulate memristive networks, preserving timing and constraints, reducing prototyping costs. Simulators like NeuroSim, MNSIM, CARLsim, and XNOR-Nets facilitate testing, scalability evaluation, and validation before silicon implementation. Domain-specific languages and toolchains (Nengo, PyNN, NxSDK) bridge algorithm design and hardware execution. Integration with these ecosystems enables a complete workflow: model specification, learning rule assignment, hardware mapping, and runtime adaptation. Future progress depends on co-designed environments abstracting hardware complexity.
-
-\subsection[Benchmarking and Evaluation]{Benchmarking and Evaluation}
-
-\noindent Experimental validation assesses the effectiveness of biorealistic learning algorithms. This section explores empirical studies, benchmarks, and comparisons with digital platforms and biological networks, discussing validation challenges and solutions. Benchmark tasks assess MNN robustness and efficiency, evaluating learning, generalization, and computational efficiency. Primary categories include pattern recognition and classification. \\
-
-\noindent The MNIST dataset \cite{lecun1998gradient}, comprising preprocessed handwritten digits, frequently evaluates fundamental classification capabilities. While no longer challenging for state-of-the-art methods, its small size makes it a common benchmark for new models, enabling efficient training with slower methods. CIFAR-10 and CIFAR-100 \cite{krizhevsky2009learning} contain small color images from 10 and 100 categories, respectively. These datasets evaluate network performance on complex visual data. CIFAR-100 is particularly challenging due to category diversity and similarity. Memristive networks are also tested on speech recognition tasks for temporal pattern recognition.\\
-
-\noindent Memory and learning tasks evaluate information storage and recall. Sequence learning tests temporal sequence acquisition, while working memory evaluates information retention and manipulation. Reinforcement learning tasks evaluate action optimization based on feedback. Atari games test the acquisition of decision-making strategies from pixel inputs. Benchmarks evaluate accuracy, learning speed, and energy efficiency. Memristive systems are often compared with digital platforms to assess energy consumption.\\
-
-\noindent Empirical studies explore memristive SNN implementations, leveraging crossbar arrays and temporal dynamics. Memristive networks demonstrate competitive results in pattern recognition tasks compared to conventional algorithms.A 4-layer SNN on memristive hardware using STDP achieved 97\% accuracy with 30\% less energy than a GPU-based model.Memristive systems excel in memory tasks. A memristive RNN \cite{wang2018fully} for sequence prediction demonstrated:
-\begin{align}
-    E = \frac{1}{N} \sum_{i=1}^{N} \left| y_i - \hat{y}_i  \right| \label{eq:2.44}
-\end{align}
-
-\noindent where $E$ is error, $y_i$ is true output, and $\hat{y}_i$ is predicted output. The memristive RNN outperformed traditional RNNs by 20\% in accuracy and efficiency.Memristive networks show promise in reinforcement learning. A memristive SNN learned Atari 2600 games using reward feedback and a reward-modulated plasticity rule \cite{bohnstingl2019reinforcement}:
-\begin{align}
-    \Delta w_{ij} = \eta \cdot \left( r_i - \alpha \cdot w_{ij} \right) \label{eq:2.45}
-\end{align}
-
-\noindent where $\eta$ is learning rate, $r_i$ is reward, and $\alpha$ is decay factor. This SNN achieved an 85\% success rate, outperforming traditional models by 10\% in performance and efficiency.\\
-
-\noindent Memristive systems offer superior energy efficiency. They excel at low-energy, parallel computation. A 1-watt memristive chip can perform tasks requiring 100 watts on a conventional CPU or GPU \cite{prezioso2015training}. Permanent synaptic weight storage reduces memory refresh needs, enhancing power efficiency for continuous, real-time systems.Scaling challenges exist. Device-to-device variations in conductance change require calibration or redundancy. Increasing device density increases crosstalk risk, requiring advanced routing and encoding. Lower precision necessitates quantization, error correction, and approximate computing.\\
-
-\noindent Future validation will explore complex tasks. Brain emulation research focuses on large-scale networks using memristive chips to model cognitive processes. Future research aims to create sophisticated networks for accurate cognitive modeling, advancing AI and neuroscience. Integrating neuroprosthetics with memristive systems could restore sensory or motor functions. Future studies may explore hybrid systems combining biological neurons and memristive devices. The long-term potential lies in mirroring biological computation for improved efficiency, power, and scalability.
+\noindent Memristive \abbrev{SNN}s report classification accuracies approaching equivalent software networks, aided by conversion techniques that map trained deep networks onto low-latency spiking ones \cite{diehl2015fast}. A fully hardware memristor convolutional network has classified \abbrev{MNIST} on-chip at over two orders of magnitude better energy efficiency than a graphics processing unit (\abbrevdef{GPU}) \cite{yao2020fully}. Fully memristive networks have performed unsupervised classification within the array \cite{wang2018fully}, and the first in-situ-trained crossbar classifier established the feasibility of array training on a conventional host \cite{prezioso2015training}. Such on-device local learning suits edge \abbrev{AI}, removing the dependence on the cloud. Realising it requires software co-design, so that limited conductance resolution, stochasticity, and drift are reflected when models map to the array. This is supported by mature spiking-network simulators such as Brian2 \cite{stimberg2019brian}, NEST \cite{gewaltig2007nest}, and BindsNET \cite{hazan2018bindsnet}.
 
 \section[Summary]{Summary}
 
-\noindent Memristive networks enable biorealistic learning and adaptive behavior. Their capacity to model synaptic plasticity facilitates biomimetic computation. Applications range from robotics and AI to neuroprosthetics. Addressing challenges in performance, scalability, and integration reveals the potential of memristive networks. While imperative, ethical and societal examinations are outside this study's scope. Memristive networks are poised to revolutionize machine learning. Biorealistic learning on these networks promises intelligent, adaptive, and efficient systems, transforming robotics, AI, neuroscience, and medicine.
+\noindent This chapter established the foundations underpinning the rest of the thesis along three threads. It began with neural computation and learning: the biological neuron and the action potential, the neuron models that abstract them from the Hodgkin--Huxley description to the leaky integrate-and-fire model, the synapse and its plasticity, and the three learning paradigms the results chapters realise. The reinforcement-learning paradigm was given a first-principles account, covering the distal-reward problem and the three-factor eligibility-trace rule. It then introduced the memristor: its origin as the fourth circuit element, its realisation in resistive-switching \abbrev{RRAM}, the charge-transport mechanisms that carry current through the oxide, and the subthreshold regime operated throughout this work, whose slow current transient is the central phenomenon of Chapters~\ref{ch:transients} and~\ref{ch:model}. Finally, it moved from the single device to the system: how crossbar arrays perform in-memory vector--matrix multiplication, how plasticity and homeostasis map onto device conductance, and how complete neuromorphic systems are integrated and benchmarked. It closed on the non-idealities, variability, limited resolution, and drift, that motivate the hardware-aware approaches developed in the chapters that follow.

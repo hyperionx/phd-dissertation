@@ -9,6 +9,8 @@ Reallocating 'name_of_file' (item size: 1) to 18 items.
 A level-1 auxiliary file: Impact/impact.aux
 Reallocating 'name_of_file' (item size: 1) to 36 items.
 A level-1 auxiliary file: Acknowledgement/acknowledgement.aux
+Reallocating 'name_of_file' (item size: 1) to 30 items.
+A level-1 auxiliary file: Nomenclature/nomenclature.aux
 Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: Chapter1/chapter1.aux
 Reallocating 'name_of_file' (item size: 1) to 22 items.
@@ -25,50 +27,50 @@ Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: Chapter7/chapter7.aux
 Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: Chapter8/chapter8.aux
-Reallocating 'name_of_file' (item size: 1) to 8 items.
-The style file: apalike.bst
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: unsrtnat.bst
 Reallocating 'name_of_file' (item size: 1) to 22 items.
-Reallocating 'field_info' (item size: 4) to 12216 items.
+Reallocating 'field_info' (item size: 4) to 13624 items.
 Database file #1: References/references.bib
 Reallocating 'str_pool' (item size: 1) to 130000 items.
-You've used 328 entries,
-            1935 wiz_defined-function locations,
-            2164 strings with 71779 characters,
-and the built_in function-call counts, 153211 in all, are:
-= -- 14501
-> -- 8502
-< -- 137
-+ -- 3100
-- -- 3025
-* -- 14334
-:= -- 26926
-add.period$ -- 1005
-call.type$ -- 328
-change.case$ -- 3109
-chr.to.int$ -- 315
-cite$ -- 328
-duplicate$ -- 4916
-empty$ -- 9470
-format.name$ -- 3459
-if$ -- 29195
-int.to.chr$ -- 14
-int.to.str$ -- 0
-missing$ -- 329
-newline$ -- 1639
-num.names$ -- 986
-pop$ -- 2616
+You've used 308 entries,
+            2481 wiz_defined-function locations,
+            2220 strings with 71329 characters,
+and the built_in function-call counts, 137637 in all, are:
+= -- 10495
+> -- 9722
+< -- 113
++ -- 3586
+- -- 2958
+* -- 12512
+:= -- 23005
+add.period$ -- 999
+call.type$ -- 308
+change.case$ -- 602
+chr.to.int$ -- 296
+cite$ -- 308
+duplicate$ -- 6020
+empty$ -- 11306
+format.name$ -- 3364
+if$ -- 28224
+int.to.chr$ -- 13
+int.to.str$ -- 309
+missing$ -- 313
+newline$ -- 1609
+num.names$ -- 924
+pop$ -- 2289
 preamble$ -- 1
-purify$ -- 3124
+purify$ -- 308
 quote$ -- 0
-skip$ -- 3689
+skip$ -- 3386
 stack$ -- 0
-substring$ -- 10168
-swap$ -- 581
-text.length$ -- 38
+substring$ -- 6489
+swap$ -- 824
+text.length$ -- 26
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1946
+type$ -- 2117
 warning$ -- 0
-while$ -- 1166
+while$ -- 1082
 width$ -- 0
-write$ -- 4264
+write$ -- 4129

@@ -1,90 +1,132 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Labeled diagram of the neuron.}}{6}{figure.caption.12}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Spiking dynamics of a neuron.}}{7}{figure.caption.13}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Hodgkin-Huxley neuron model.}}{8}{figure.caption.14}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces The Leaky Integrate-and-Fire neuron model.}}{11}{figure.caption.15}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Conceptual symmetries of resistor, capacitor, inductor, and memristor}}{15}{figure.caption.16}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Typical I-V characteristic of a memristor}}{16}{figure.caption.17}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces The main RRAM types.}}{17}{figure.caption.18}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces The memristor-based crossbar architecture.}}{19}{figure.caption.19}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces The address-event representation.}}{23}{figure.caption.20}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Labelled diagram of the neuron.}}{6}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Spiking dynamics of a neuron.}}{8}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Hodgkin-Huxley neuron model.}}{9}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces The Leaky Integrate-and-Fire neuron model.}}{10}{figure.caption.16}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces The three-factor learning rule and the eligibility trace.}}{14}{figure.caption.17}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Conceptual symmetries of resistor, capacitor, inductor, and memristor}}{16}{figure.caption.18}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Typical I-V characteristic of a memristor}}{16}{figure.caption.19}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces The main RRAM types.}}{17}{figure.caption.20}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Energy-band diagrams of conduction mechanisms.}}{20}{figure.caption.21}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces The memristor-based crossbar architecture.}}{24}{figure.caption.22}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces The address-event representation.}}{27}{figure.caption.23}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Device Structure}}{30}{figure.caption.21}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Radio Frequency Magnetron Sputtering}}{31}{figure.caption.22}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Contact AFM for thin film thickness measurements.}}{32}{figure.caption.23}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Two wire or Four wire (Kelvin) testing.}}{34}{figure.caption.24}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Transimpedance amplifier circuit.}}{35}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Experimental setup of spike train measurements.}}{36}{figure.caption.26}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Initial electroforming step for unipolar switching.}}{37}{figure.caption.27}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Non-volatile switching behaviour for unipolar device under current compliance.}}{37}{figure.caption.28}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Observation of Set and Reset process under the a forward sweep and reverse sweep.}}{38}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Cycling stress test for unipolar device.}}{39}{figure.caption.30}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Switching in unipolar devices across different electrode sizes.}}{39}{figure.caption.31}%
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Initial electroforming step for unipolar sample via a double sweep curve.}}{40}{figure.caption.32}%
-\contentsline {figure}{\numberline {3.13}{\ignorespaces Observation of bipolar switching in asymmetric device with -2V Set and 2V Reset sweeps.}}{40}{figure.caption.33}%
-\contentsline {figure}{\numberline {3.14}{\ignorespaces Cycling stress test for bipolar devices.}}{42}{figure.caption.34}%
-\contentsline {figure}{\numberline {3.15}{\ignorespaces Switching in bipolar devices across different electrode sizes.}}{43}{figure.caption.35}%
-\contentsline {figure}{\numberline {3.16}{\ignorespaces Multi-levels I-V characteristics in MIM devices.}}{43}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.17}{\ignorespaces Gradual increase (left) and decrease (right) in conductivity for bipolar device.}}{44}{figure.caption.37}%
-\contentsline {figure}{\numberline {3.18}{\ignorespaces Current-time plots showing transitions between resistive states.}}{44}{figure.caption.38}%
-\contentsline {figure}{\numberline {3.19}{\ignorespaces Volatile activities observed under different constant current inputs.}}{45}{figure.caption.39}%
-\contentsline {figure}{\numberline {3.20}{\ignorespaces : Conductive regions for filamentary switching and interface switching.}}{46}{figure.caption.40}%
-\contentsline {figure}{\numberline {3.21}{\ignorespaces Energy-band diagrams showing different conduction mechanisms.}}{46}{figure.caption.41}%
-\contentsline {figure}{\numberline {3.22}{\ignorespaces Poole-Frenkel Hopping mechanism fittings}}{50}{figure.caption.42}%
-\contentsline {figure}{\numberline {3.23}{\ignorespaces Thermionic Emission mechanism fittings}}{51}{figure.caption.43}%
-\contentsline {figure}{\numberline {3.24}{\ignorespaces Trap-Assisted Tunnelling mechanism fittings}}{51}{figure.caption.44}%
-\contentsline {figure}{\numberline {3.25}{\ignorespaces Schematic of switching mechanism in SiOx devices.}}{53}{figure.caption.46}%
-\contentsline {figure}{\numberline {3.26}{\ignorespaces Schematic I-V curves.}}{54}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Device Structure}}{30}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Cross-section of the MIM device stacks.}}{31}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces RF Sputtering}}{32}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Stylus profilometer for thin-film thickness measurement.}}{33}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Two-wire versus four-wire (Kelvin) measurement.}}{34}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Transimpedance amplifier circuit.}}{35}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Experimental setup of spike-train measurements.}}{36}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Initial electroforming step via a double sweep curve.}}{37}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Non-volatile switching behaviour for unipolar device under current compliance.}}{38}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Observation of the Set and Reset process under forward and reverse sweeps.}}{38}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Cycling stress test for unipolar device.}}{39}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Switching in unipolar devices across different electrode sizes.}}{39}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Electroforming step for the bipolar sample via a double sweep curve.}}{40}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Observation of bipolar switching in an asymmetric device with $-2$\,V Set and $+2$\,V Reset sweeps.}}{41}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Cycling stress test for bipolar devices.}}{42}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Switching in bipolar devices across different electrode sizes.}}{43}{figure.caption.39}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Multi-levels I-V characteristics in MIM devices.}}{43}{figure.caption.40}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Gradual increase (left) and decrease (right) in conductivity for bipolar device.}}{44}{figure.caption.41}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Current-time plots showing transitions between resistive states.}}{44}{figure.caption.42}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Volatile activities observed under different constant current inputs.}}{45}{figure.caption.43}%
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Conductive regions for filamentary and interface switching.}}{46}{figure.caption.44}%
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Poole-Frenkel Hopping mechanism fittings}}{46}{figure.caption.45}%
+\contentsline {figure}{\numberline {3.23}{\ignorespaces Thermionic Emission mechanism fittings}}{47}{figure.caption.46}%
+\contentsline {figure}{\numberline {3.24}{\ignorespaces Trap-Assisted Tunnelling mechanism fittings}}{47}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.25}{\ignorespaces Schematic of switching mechanism in SiOx devices.}}{49}{figure.caption.49}%
+\contentsline {figure}{\numberline {3.26}{\ignorespaces Schematic I-V curves.}}{50}{figure.caption.50}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Current transients illustration}}{56}{figure.caption.48}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Transient's peak identification}}{61}{figure.caption.49}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Current Transient Device Structure}}{63}{figure.caption.50}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Response of devices to different magnitudes of stressing currents.}}{64}{figure.caption.51}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces The voltage dependence of the current transient in the subthreshold regime.}}{66}{figure.caption.52}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Repeatability of current transients in the sub-threshold range.}}{67}{figure.caption.53}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Device response to a spike train.}}{68}{figure.caption.54}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Dependence of potentiation and depression on the amplitude of applied voltage pulses.}}{69}{figure.caption.55}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Depression selection using spike trains of greater amplitudes.}}{69}{figure.caption.56}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Device current dependence on stressing magnitudes.}}{70}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Device suitable for trains of voltage spikes with varying inter-spike time periods.}}{71}{figure.caption.58}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Response of the device to different frequency of spike pulses}}{72}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Current transients illustration}}{54}{figure.caption.51}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Transient's peak identification}}{59}{figure.caption.52}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Current Transient Device Structure}}{61}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Response of devices to different magnitudes of stressing currents.}}{62}{figure.caption.54}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces The voltage dependence of the current transient in the subthreshold regime.}}{64}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Repeatability of current transients in the subthreshold range.}}{65}{figure.caption.56}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Device response to a spike train.}}{65}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Dependence of potentiation and depression on the amplitude of applied voltage pulses.}}{66}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Depression selection using spike trains of greater amplitudes.}}{67}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Device current dependence on stressing magnitudes.}}{68}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Device suitable for trains of voltage spikes with varying inter-spike time periods.}}{68}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Response of the device to different frequency of spike pulses}}{69}{figure.caption.62}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Electrical stress response of an ITO-contacted device.}}{80}{figure.caption.61}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces The current-time response for a device with a conductive ITO top electrode.}}{84}{figure.caption.62}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces instabilities of potentiation and depression on the application of applied voltage pulses.}}{85}{figure.caption.63}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Schematic representation of an XPS system.}}{86}{figure.caption.64}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Survey spectra collected during depth profile.}}{89}{figure.caption.65}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Additional core level spectra collected during depth profile.}}{90}{figure.caption.66}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Core level spectra collected during depth profile.}}{92}{figure.caption.67}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Quantification of O $1s$ chemical states collected during depth profile.}}{93}{figure.caption.68}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile.}}{94}{figure.caption.69}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Empirical SPICE model.}}{97}{figure.caption.70}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Fitting performance of the SPICE model.}}{101}{figure.caption.72}%
-\contentsline {figure}{\numberline {5.12}{\ignorespaces Fitting of the model's meta-parameters.}}{102}{figure.caption.73}%
-\contentsline {figure}{\numberline {5.13}{\ignorespaces The improvement of SPICE fit at higher voltages.}}{104}{figure.caption.74}%
-\contentsline {figure}{\numberline {5.14}{\ignorespaces The extended SPICE model.}}{105}{figure.caption.75}%
-\contentsline {figure}{\numberline {5.15}{\ignorespaces Fitting of the extended model's meta-parameters.}}{108}{figure.caption.77}%
-\contentsline {figure}{\numberline {5.16}{\ignorespaces Simulated current transient response under repeated voltage pulses using the extended SPICE model.}}{109}{figure.caption.78}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Electrical stress response of an ITO-contacted device.}}{77}{figure.caption.64}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Current--voltage response of an ITO device in the dark and under illumination.}}{77}{figure.caption.65}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Optical dispersion of the pristine ITO contact.}}{78}{figure.caption.66}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces The current-time response for a device with a conductive ITO top electrode.}}{82}{figure.caption.67}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Potentiation and depression instabilities in ITO devices at higher bias.}}{83}{figure.caption.68}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Schematic of the XPS depth-profiling experiment.}}{84}{figure.caption.69}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Survey spectra collected during depth profile.}}{85}{figure.caption.70}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Additional core level spectra collected during depth profile.}}{86}{figure.caption.71}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Core level spectra collected during depth profile.}}{87}{figure.caption.72}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Quantification of O $1s$ chemical states collected during depth profile.}}{88}{figure.caption.73}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Relative binding energy positions of In $3d_{5/2}$ and Si $2p$ core states collected during depth profile.}}{89}{figure.caption.74}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Empirical SPICE model.}}{91}{figure.caption.75}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces The extended SPICE model with a sequential trap cascade.}}{95}{figure.caption.77}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Meta-parameters of the dispersive trap-cascade extension.}}{96}{figure.caption.78}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Generalised dispersive model versus measured transients.}}{97}{figure.caption.80}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Extended model reproduces the measured rate habituation.}}{98}{figure.caption.81}%
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Field dependence of the ITO trap-discharge time constant.}}{101}{figure.caption.82}%
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Dispersive trap kinetics across the two electrodes.}}{102}{figure.caption.84}%
+\contentsline {figure}{\numberline {5.19}{\ignorespaces The dispersive ITO trap-discharge relaxation.}}{103}{figure.caption.85}%
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Field-free retention from a fill--emission separation.}}{105}{figure.caption.86}%
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Direct field-free trap discharge at 1\,mV.}}{106}{figure.caption.87}%
+\contentsline {figure}{\numberline {5.22}{\ignorespaces Short-term memory from the relaxation extension.}}{107}{figure.caption.88}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials generated via chemical and electrical signaling at synapses.}}{113}{figure.caption.79}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Hybrid memristor-CMOS architecture for STDP learning.}}{113}{figure.caption.80}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{115}{figure.caption.81}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Depiction of Spike-timing-dependent plasticity (STDP).}}{119}{figure.caption.82}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{121}{figure.caption.83}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces An SNN layer utilizing a crossbar array of RRAM synapses.}}{123}{figure.caption.84}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{127}{figure.caption.85}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{130}{figure.caption.86}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{133}{figure.caption.87}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{136}{figure.caption.88}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a convolutional Spiking Neural Network (CSNN) model under two conditions}}{136}{figure.caption.89}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Confusion Matrices for two distinct Spiking Neural Network (SNN) architectures: a Fully Connected Model and a Convolutional Model.}}{137}{figure.caption.91}%
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Impact of memrisitve nonidealities on performance of standard and spiking CNN models under the same training setup.}}{138}{figure.caption.92}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Excitatory and inhibitory postsynaptic potentials generated via chemical and electrical signalling at synapses.}}{110}{figure.caption.89}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Hybrid memristor-CMOS architecture for STDP learning.}}{111}{figure.caption.90}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Schematic illustration of a single-layer spiking neural network (SNN).}}{112}{figure.caption.91}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Memristor between presynaptic and postsynaptic neurons.}}{114}{figure.caption.92}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces An SNN layer utilising a crossbar array of RRAM synapses.}}{117}{figure.caption.93}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{120}{figure.caption.94}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{124}{figure.caption.95}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{127}{figure.caption.96}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{129}{figure.caption.97}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Test loss and test accuracy comparison for a memristive convolutional spiking neural network (MCSNN) model under two conditions}}{130}{figure.caption.98}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Neuromorphic architecture with homeostatic gain regulariser.}}{134}{figure.caption.101}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Feature maps at the second convolutional layer.}}{134}{figure.caption.102}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Architecture dependence of the homeostatic benefit.}}{135}{figure.caption.103}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces The device-grounded temporal networks.}}{137}{figure.caption.105}%
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Working-memory hold-time on a delayed-response task.}}{139}{figure.caption.106}%
+\contentsline {figure}{\numberline {6.16}{\ignorespaces Store--recall working memory: the device membrane reaches the ALIF's hold-time.}}{140}{figure.caption.107}%
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Benchmark capability of the device-grounded temporal network.}}{143}{figure.caption.112}%
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Class structure of the learned device-conv representation on N-MNIST.}}{144}{figure.caption.113}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Proposed Neuromorphic architecture with homeostasis dropout}}{147}{figure.caption.93}%
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Feature maps at the second convolutional layer.}}{148}{figure.caption.94}%
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Fully-Connected Spiking Neural Network (SNN) model with and without homeostasis dropout.}}{149}{figure.caption.95}%
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Training Loss Comparison and Test Accuracy Comparison for a Convolutional Spiking Neural Network (CSNN) model with and without homeostasis Dropout.}}{150}{figure.caption.96}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Confusion matrices of convolutional homeostasis model that illustrate the classification performance of a Spiking Neural Network (SNN) under two Simulated Memristor Failures and homeostasis dropout enhancements.}}{151}{figure.caption.98}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Visualization of class separability in spiking feature representations using dimensionality reduction techniques.}}{155}{figure.caption.99}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces How the trap-discharge retention serves as the eligibility trace.}}{150}{figure.caption.114}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces A biological-to-device translation map of tag-and-capture.}}{152}{figure.caption.115}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces The transient as a retention-tunable eligibility trace.}}{154}{figure.caption.116}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Device, learning, and biological timescales overlap.}}{155}{figure.caption.117}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Architecture and three-factor learning mechanism.}}{156}{figure.caption.118}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Retention tunes the credit-assignment window.}}{157}{figure.caption.119}%
+\contentsline {figure}{\numberline {7.7}{\ignorespaces The dual-phase trace is a tunable interval-selective eligibility.}}{158}{figure.caption.120}%
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Credit assignment in a full spiking network.}}{160}{figure.caption.121}%
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Closed-loop reinforcement learning.}}{160}{figure.caption.122}%
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Sequential credit assignment and an algorithmic benchmark.}}{161}{figure.caption.123}%
+\contentsline {figure}{\numberline {7.11}{\ignorespaces Crossbar realisation of the closed-loop task.}}{164}{figure.caption.125}%
+\contentsline {figure}{\numberline {7.12}{\ignorespaces Scaling of the closed-loop result, and remedies.}}{165}{figure.caption.126}%
+\contentsline {figure}{\numberline {7.13}{\ignorespaces A hybrid perception--decision agent.}}{166}{figure.caption.127}%
+\contentsline {figure}{\numberline {7.14}{\ignorespaces The hybrid stack at array scale under the measured fault prior.}}{168}{figure.caption.129}%
+\contentsline {figure}{\numberline {7.15}{\ignorespaces Deep all-local reinforcement learning with the device trace.}}{169}{figure.caption.130}%
+\contentsline {figure}{\numberline {7.16}{\ignorespaces Crossbar realisation of the deep all-local agent.}}{171}{figure.caption.131}%
+\contentsline {figure}{\numberline {7.17}{\ignorespaces The temporal primitive isolated on a delayed-match task.}}{173}{figure.caption.132}%
+\contentsline {figure}{\numberline {7.18}{\ignorespaces Temporal and spatial credit assignment together.}}{174}{figure.caption.133}%
+\contentsline {figure}{\numberline {7.19}{\ignorespaces Why homeostasis stabilises learning under a noisy reward.}}{175}{figure.caption.134}%
+\contentsline {figure}{\numberline {7.20}{\ignorespaces The all-local rule at array scale under the measured fault prior.}}{176}{figure.caption.135}%
+\contentsline {figure}{\numberline {7.21}{\ignorespaces The device trace on the Frank probabilistic-selection task.}}{176}{figure.caption.136}%
+\contentsline {figure}{\numberline {7.22}{\ignorespaces The deep all-local policy under the human-EEG reward.}}{178}{figure.caption.137}%
+\contentsline {figure}{\numberline {7.23}{\ignorespaces The measured dopamine reward signal grounding the capstone.}}{179}{figure.caption.138}%
+\contentsline {figure}{\numberline {7.24}{\ignorespaces A deep all-local policy learning under a measured dopamine reward.}}{180}{figure.caption.139}%
+\contentsline {figure}{\numberline {7.25}{\ignorespaces The retention--delay scaling relation $D_{\max }\approx s_D\,\tau $.}}{181}{figure.caption.140}%
+\contentsline {figure}{\numberline {7.26}{\ignorespaces Retention as an asset on a deep distal-cue task.}}{183}{figure.caption.141}%
+\contentsline {figure}{\numberline {7.27}{\ignorespaces The single-rate reduction validated against the measured dispersion.}}{183}{figure.caption.142}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Longer-horizon credit across trajectory length.}}{188}{figure.caption.143}%
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Reversal learning and the retention--flexibility trade-off.}}{189}{figure.caption.144}%
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Multi-timescale credit from the measured retention spread.}}{190}{figure.caption.145}%
+\contentsline {figure}{\numberline {8.4}{\ignorespaces A cascade-vector timer rescues scalar aliasing in simulation.}}{191}{figure.caption.146}%
+\contentsline {figure}{\numberline {8.5}{\ignorespaces One device timescale covers working memory and eligibility.}}{192}{figure.caption.147}%
+\contentsline {figure}{\numberline {8.6}{\ignorespaces Predicted memristive capture by a second-order cell.}}{193}{figure.caption.148}%
+\contentsline {figure}{\numberline {8.7}{\ignorespaces Predicted capture step at the electron level.}}{194}{figure.caption.149}%
+\contentsline {figure}{\numberline {8.8}{\ignorespaces A device-native actor-critic on the corridor task.}}{196}{figure.caption.150}%

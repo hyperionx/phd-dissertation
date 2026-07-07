@@ -46,7 +46,39 @@
 
 % ************************* Algorithms and Pseudocode **************************
 
-%\usepackage{algpseudocode}
+% The algorithmicx / algorithms bundle is not present in all TeX installations
+% (e.g. texlive-basic), so the thesis defines a lightweight, self-contained
+% pseudocode facility from `float` and `enumitem` only, both of which are always
+% available. It provides: an `algorithm` float (numbered, caption above, listed
+% via \listofalgorithms if desired) and a small set of pseudocode macros used in
+% Appendix~\ref{app:pseudocode}.
+\usepackage{float}
+\usepackage{enumitem}
+
+% A floating environment for algorithms, styled with rules (caption on top).
+\floatstyle{ruled}
+\newfloat{algorithm}{htbp}{loa}[chapter]
+\floatname{algorithm}{Algorithm}
+
+% Pseudocode body: a tight, auto-numbered line list emulating the algorithmicx
+% `algorithmic' environment. The optional [n] argument (line-number stride) is
+% accepted and ignored; every line is numbered.
+\newlist{algcode}{enumerate}{1}
+\setlist[algcode]{label=\footnotesize\arabic*:, ref=\arabic*,
+  leftmargin=2.8em, itemsep=1pt, topsep=3pt, parsep=0pt}
+\newenvironment{algorithmic}[1][0]{\footnotesize\begin{algcode}}{\end{algcode}}
+% Structural keywords and helpers matching the algorithmicx names used in the text.
+\newcommand{\algkw}[1]{\textbf{#1}}
+\newcommand{\Require}[1]{\item[\textbf{Input:}] #1}
+\newcommand{\Ensure}[1]{\item[\textbf{Output:}] #1}
+\newcommand{\State}{\item}
+\newcommand{\Comment}[1]{{\normalfont\itshape\quad// #1}}
+\newcommand{\For}[1]{\item \algkw{for} #1 \algkw{do}}
+\newcommand{\EndFor}{\item \algkw{end for}}
+\newcommand{\While}[1]{\item \algkw{while} #1 \algkw{do}}
+\newcommand{\EndWhile}{\item \algkw{end while}}
+\newcommand{\If}[1]{\item \algkw{if} #1 \algkw{then}}
+\newcommand{\EndIf}{\item \algkw{end if}}
 
 
 % ********************Captions and Hyperreferencing / URL **********************
@@ -68,6 +100,21 @@
 %\usepackage{float}
 %\restylefloat{figure}
 
+% \FloatBarrier prevents floats from drifting past section boundaries.
+\usepackage{placeins}
+
+% Float placement: relax the LaTeX defaults so large figures share a page with
+% text instead of being exiled to half-empty float-only pages. Raise the share
+% of a page that floats may occupy, require float pages to be nearly full, and
+% allow more floats per page.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.85}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
 % Subcaption package is also available in the sty folder you can use that by
 % uncommenting the following line
 % This is for people stuck with older versions of texlive
@@ -79,12 +126,39 @@
 \usepackage{multirow}
 
 %\usepackage{multicol}
-%\usepackage{longtable}
-%\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{tabularx}
+% Centred equal-width column for the source-data tables of Appendix~\ref{app:sourcedata}.
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 
 % *********************************** SI Units *********************************
 \usepackage{siunitx} % use this package module for SI units
+
+% ******************************* Code Listings *******************************
+% Verbatim source listings for Appendix C (the reproducible code snippet).
+\usepackage{xcolor}
+\usepackage{listings}
+\definecolor{lstbg}{gray}{0.97}
+\definecolor{lstcomment}{rgb}{0.30,0.45,0.30}
+\definecolor{lstkw}{rgb}{0.20,0.20,0.60}
+\definecolor{lststr}{rgb}{0.55,0.25,0.10}
+\lstdefinestyle{thesiscode}{%
+  language=Python,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{lstbg},
+  keywordstyle=\color{lstkw},
+  commentstyle=\color{lstcomment}\itshape,
+  stringstyle=\color{lststr},
+  numbers=left, numberstyle=\tiny\color{gray}, numbersep=6pt,
+  showstringspaces=false,
+  breaklines=true, breakatwhitespace=false,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
+  tabsize=4, columns=fullflexible, keepspaces=true,
+  frame=single, rulecolor=\color{gray!40},
+  captionpos=b, xleftmargin=1.5em, framexleftmargin=1.5em,
+}
+\lstset{style=thesiscode}
 
 
 % ******************************* Line Spacing *********************************
@@ -148,6 +222,27 @@
 % To change the name of the Nomenclature section, uncomment the following line
 
 %\renewcommand{\nomname}{Symbols}
+
+% List-of-Abbreviations link infrastructure (bidirectional hyperlinks).
+% \abbrevdef{KEY}      -- place at the FIRST use of an acronym in a chapter.
+%                         (a) sets a hyperlink target named abbrev:KEY so the
+%                             List of Abbreviations can link back to here, and
+%                         (b) renders the acronym itself as a hyperlink to the
+%                             matching row in the List of Abbreviations
+%                             (target nom:KEY). Clicking jumps to the table.
+% \abbrevref{KEY}{TXT} -- used in Nomenclature/nomenclature.tex to render the
+%                         definition cell as a hyperlink to the first-use site.
+% \nomrow{KEY}{TXT}    -- used in Nomenclature/nomenclature.tex to render one
+%                         row of the abbreviation table. The acronym cell
+%                         carries a hypertarget nom:KEY so the chapter
+%                         occurrences can link to it.
+% Made \abbrev robust so it survives "moving arguments" (TOC/LOF/LOT entries,
+% \caption short forms, section bookmarks). Without \protect the embedded
+% \hyperlink macro expands prematurely and corrupts the .toc/.lof/.lot files.
+\DeclareRobustCommand{\abbrevdef}[1]{\hypertarget{abbrev:#1}{\hyperlink{nom:#1}{#1}}}
+\DeclareRobustCommand{\abbrev}[1]{\hyperlink{nom:#1}{#1}}
+\newcommand{\abbrevref}[2]{\hyperlink{abbrev:#1}{#2}}
+\newcommand{\nomrow}[2]{\hypertarget{nom:#1}{#1} & \abbrevref{#1}{#2} \\}
 
 
 % ********************************* Appendix ***********************************
