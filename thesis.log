@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.26)  13 JUL 2026 11:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.26)  13 JUL 2026 12:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2927,12 +2927,12 @@ Package pdftex.def Info: Chapter6/Figs/homeostatic_architecture_dependence.png
  used on input line 437.
 (pdftex.def)             Requested size: 349.97023pt x 249.989pt.
  [135 <./Chapter6/Figs/homeostatic_architecture_dependence.png>]
-<Chapter6/Figs/fig_liability_asset.png, id=3473, 794.97pt x 317.988pt>
+<Chapter6/Figs/fig_liability_asset.png, id=3473, 784.8522pt x 300.6432pt>
 File: Chapter6/Figs/fig_liability_asset.png Graphic file (type png)
 <use Chapter6/Figs/fig_liability_asset.png>
 Package pdftex.def Info: Chapter6/Figs/fig_liability_asset.png  used on input l
 ine 468.
-(pdftex.def)             Requested size: 428.71002pt x 171.48776pt.
+(pdftex.def)             Requested size: 428.71002pt x 164.22116pt.
  [136 <./Chapter6/Figs/fig_liability_asset.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 483--485
 
@@ -3845,7 +3845,7 @@ Data/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/User/AppDa
 ta/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/User/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/User/AppData
 /Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on thesis.pdf (252 pages, 64228353 bytes).
+Output written on thesis.pdf (252 pages, 64167072 bytes).
 PDF statistics:
  4852 PDF objects out of 5155 (max. 8388607)
  1120 named destinations out of 1200 (max. 500000)
