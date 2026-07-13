@@ -25,7 +25,7 @@
 \contentsline {figure}{\numberline {3.11}{\ignorespaces Cycling stress test for unipolar device.}}{39}{figure.caption.34}%
 \contentsline {figure}{\numberline {3.12}{\ignorespaces Switching in unipolar devices across different electrode sizes.}}{39}{figure.caption.35}%
 \contentsline {figure}{\numberline {3.13}{\ignorespaces Electroforming step for the bipolar sample via a double sweep curve.}}{40}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.14}{\ignorespaces Observation of bipolar switching in an asymmetric device with $-2$\,V Set and $+2$\,V Reset sweeps.}}{41}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Observation of bipolar switching in an asymmetric device.}}{41}{figure.caption.37}%
 \contentsline {figure}{\numberline {3.15}{\ignorespaces Cycling stress test for bipolar devices.}}{42}{figure.caption.38}%
 \contentsline {figure}{\numberline {3.16}{\ignorespaces Switching in bipolar devices across different electrode sizes.}}{43}{figure.caption.39}%
 \contentsline {figure}{\numberline {3.17}{\ignorespaces Multi-levels I-V characteristics in MIM devices.}}{43}{figure.caption.40}%
@@ -46,10 +46,10 @@
 \contentsline {figure}{\numberline {4.5}{\ignorespaces The voltage dependence of the current transient in the subthreshold regime.}}{64}{figure.caption.55}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Repeatability of current transients in the subthreshold range.}}{65}{figure.caption.56}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Device response to a spike train.}}{65}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Dependence of potentiation and depression on the amplitude of applied voltage pulses.}}{66}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Dependence of potentiation and depression on applied voltage.}}{66}{figure.caption.58}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Depression selection using spike trains of greater amplitudes.}}{67}{figure.caption.59}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Device current dependence on stressing magnitudes.}}{68}{figure.caption.60}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Device suitable for trains of voltage spikes with varying inter-spike time periods.}}{68}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Device suitable for varying inter-spike time periods.}}{68}{figure.caption.61}%
 \contentsline {figure}{\numberline {4.12}{\ignorespaces Response of the device to different frequency of spike pulses}}{69}{figure.caption.62}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Electrical stress response of an ITO-contacted device.}}{77}{figure.caption.64}%
@@ -82,51 +82,52 @@
 \contentsline {figure}{\numberline {6.5}{\ignorespaces An SNN layer utilising a crossbar array of RRAM synapses.}}{117}{figure.caption.93}%
 \contentsline {figure}{\numberline {6.6}{\ignorespaces Single sweeps of 53 resistance states of a $SiO_x$ device.}}{120}{figure.caption.94}%
 \contentsline {figure}{\numberline {6.7}{\ignorespaces I-V sweeps of a SiOx device are presented for two regions}}{124}{figure.caption.95}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Abstract SNN representation for MNIST pattern recognition with input, hidden memristive layers, and output layer.}}{127}{figure.caption.96}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Test Loss Comparison and Test Accuracy Comparison for a fully-connected Spiking Neural Network (SNN) model under two conditions}}{129}{figure.caption.97}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Test loss and test accuracy comparison for a memristive convolutional spiking neural network (MCSNN) model under two conditions}}{130}{figure.caption.98}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Abstract SNN representation for MNIST pattern recognition.}}{127}{figure.caption.96}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Test loss and accuracy comparison for fully-connected SNN.}}{129}{figure.caption.97}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Test loss and accuracy comparison for MCSNN.}}{130}{figure.caption.98}%
 \contentsline {figure}{\numberline {6.11}{\ignorespaces Neuromorphic architecture with homeostatic gain regulariser.}}{134}{figure.caption.101}%
 \contentsline {figure}{\numberline {6.12}{\ignorespaces Feature maps at the second convolutional layer.}}{134}{figure.caption.102}%
 \contentsline {figure}{\numberline {6.13}{\ignorespaces Architecture dependence of the homeostatic benefit.}}{135}{figure.caption.103}%
-\contentsline {figure}{\numberline {6.14}{\ignorespaces The device-grounded temporal networks.}}{137}{figure.caption.105}%
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Working-memory hold-time on a delayed-response task.}}{139}{figure.caption.106}%
-\contentsline {figure}{\numberline {6.16}{\ignorespaces Store--recall working memory: the device membrane reaches the ALIF's hold-time.}}{140}{figure.caption.107}%
-\contentsline {figure}{\numberline {6.17}{\ignorespaces Benchmark capability of the device-grounded temporal network.}}{143}{figure.caption.112}%
-\contentsline {figure}{\numberline {6.18}{\ignorespaces Class structure of the learned device-conv representation on N-MNIST.}}{144}{figure.caption.113}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Architecture-dependent use of the device transient.}}{136}{figure.caption.105}%
+\contentsline {figure}{\numberline {6.15}{\ignorespaces The device-grounded temporal networks.}}{138}{figure.caption.106}%
+\contentsline {figure}{\numberline {6.16}{\ignorespaces Working-memory hold-time on a delayed-response task.}}{139}{figure.caption.107}%
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Store--recall working memory.}}{141}{figure.caption.108}%
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Benchmark capability of the device-grounded temporal network.}}{144}{figure.caption.113}%
+\contentsline {figure}{\numberline {6.19}{\ignorespaces Class structure of the learned device-conv representation on N-MNIST.}}{145}{figure.caption.114}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces How the trap-discharge retention serves as the eligibility trace.}}{150}{figure.caption.114}%
-\contentsline {figure}{\numberline {7.2}{\ignorespaces A biological-to-device translation map of tag-and-capture.}}{152}{figure.caption.115}%
-\contentsline {figure}{\numberline {7.3}{\ignorespaces The transient as a retention-tunable eligibility trace.}}{154}{figure.caption.116}%
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Device, learning, and biological timescales overlap.}}{155}{figure.caption.117}%
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Architecture and three-factor learning mechanism.}}{156}{figure.caption.118}%
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Retention tunes the credit-assignment window.}}{157}{figure.caption.119}%
-\contentsline {figure}{\numberline {7.7}{\ignorespaces The dual-phase trace is a tunable interval-selective eligibility.}}{158}{figure.caption.120}%
-\contentsline {figure}{\numberline {7.8}{\ignorespaces Credit assignment in a full spiking network.}}{160}{figure.caption.121}%
-\contentsline {figure}{\numberline {7.9}{\ignorespaces Closed-loop reinforcement learning.}}{160}{figure.caption.122}%
-\contentsline {figure}{\numberline {7.10}{\ignorespaces Sequential credit assignment and an algorithmic benchmark.}}{161}{figure.caption.123}%
-\contentsline {figure}{\numberline {7.11}{\ignorespaces Crossbar realisation of the closed-loop task.}}{164}{figure.caption.125}%
-\contentsline {figure}{\numberline {7.12}{\ignorespaces Scaling of the closed-loop result, and remedies.}}{165}{figure.caption.126}%
-\contentsline {figure}{\numberline {7.13}{\ignorespaces A hybrid perception--decision agent.}}{166}{figure.caption.127}%
-\contentsline {figure}{\numberline {7.14}{\ignorespaces The hybrid stack at array scale under the measured fault prior.}}{168}{figure.caption.129}%
-\contentsline {figure}{\numberline {7.15}{\ignorespaces Deep all-local reinforcement learning with the device trace.}}{169}{figure.caption.130}%
-\contentsline {figure}{\numberline {7.16}{\ignorespaces Crossbar realisation of the deep all-local agent.}}{171}{figure.caption.131}%
-\contentsline {figure}{\numberline {7.17}{\ignorespaces The temporal primitive isolated on a delayed-match task.}}{173}{figure.caption.132}%
-\contentsline {figure}{\numberline {7.18}{\ignorespaces Temporal and spatial credit assignment together.}}{174}{figure.caption.133}%
-\contentsline {figure}{\numberline {7.19}{\ignorespaces Why homeostasis stabilises learning under a noisy reward.}}{175}{figure.caption.134}%
-\contentsline {figure}{\numberline {7.20}{\ignorespaces The all-local rule at array scale under the measured fault prior.}}{176}{figure.caption.135}%
-\contentsline {figure}{\numberline {7.21}{\ignorespaces The device trace on the Frank probabilistic-selection task.}}{176}{figure.caption.136}%
-\contentsline {figure}{\numberline {7.22}{\ignorespaces The deep all-local policy under the human-EEG reward.}}{178}{figure.caption.137}%
-\contentsline {figure}{\numberline {7.23}{\ignorespaces The measured dopamine reward signal grounding the capstone.}}{179}{figure.caption.138}%
-\contentsline {figure}{\numberline {7.24}{\ignorespaces A deep all-local policy learning under a measured dopamine reward.}}{180}{figure.caption.139}%
-\contentsline {figure}{\numberline {7.25}{\ignorespaces The retention--delay scaling relation $D_{\max }\approx s_D\,\tau $.}}{181}{figure.caption.140}%
-\contentsline {figure}{\numberline {7.26}{\ignorespaces Retention as an asset on a deep distal-cue task.}}{183}{figure.caption.141}%
-\contentsline {figure}{\numberline {7.27}{\ignorespaces The single-rate reduction validated against the measured dispersion.}}{183}{figure.caption.142}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces How the trap-discharge retention serves as the eligibility trace.}}{150}{figure.caption.115}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces A biological-to-device translation map of tag-and-capture.}}{152}{figure.caption.116}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces The transient as a retention-tunable eligibility trace.}}{154}{figure.caption.117}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Device, learning, and biological timescales overlap.}}{155}{figure.caption.118}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Architecture and three-factor learning mechanism.}}{156}{figure.caption.119}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Retention tunes the credit-assignment window.}}{157}{figure.caption.120}%
+\contentsline {figure}{\numberline {7.7}{\ignorespaces The dual-phase trace is a tunable interval-selective eligibility.}}{158}{figure.caption.121}%
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Credit assignment in a full spiking network.}}{160}{figure.caption.122}%
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Closed-loop reinforcement learning.}}{160}{figure.caption.123}%
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Sequential credit assignment and an algorithmic benchmark.}}{161}{figure.caption.124}%
+\contentsline {figure}{\numberline {7.11}{\ignorespaces Crossbar realisation of the closed-loop task.}}{164}{figure.caption.126}%
+\contentsline {figure}{\numberline {7.12}{\ignorespaces Scaling of the closed-loop result, and remedies.}}{165}{figure.caption.127}%
+\contentsline {figure}{\numberline {7.13}{\ignorespaces A hybrid perception--decision agent.}}{166}{figure.caption.128}%
+\contentsline {figure}{\numberline {7.14}{\ignorespaces The hybrid stack at array scale under the measured fault prior.}}{168}{figure.caption.130}%
+\contentsline {figure}{\numberline {7.15}{\ignorespaces Deep all-local reinforcement learning with the device trace.}}{169}{figure.caption.131}%
+\contentsline {figure}{\numberline {7.16}{\ignorespaces Crossbar realisation of the deep all-local agent.}}{171}{figure.caption.132}%
+\contentsline {figure}{\numberline {7.17}{\ignorespaces The temporal primitive isolated on a delayed-match task.}}{173}{figure.caption.133}%
+\contentsline {figure}{\numberline {7.18}{\ignorespaces Temporal and spatial credit assignment together.}}{174}{figure.caption.134}%
+\contentsline {figure}{\numberline {7.19}{\ignorespaces Why homeostasis stabilises learning under a noisy reward.}}{175}{figure.caption.135}%
+\contentsline {figure}{\numberline {7.20}{\ignorespaces The all-local rule at array scale under the measured fault prior.}}{176}{figure.caption.136}%
+\contentsline {figure}{\numberline {7.21}{\ignorespaces The device trace on the Frank probabilistic-selection task.}}{176}{figure.caption.137}%
+\contentsline {figure}{\numberline {7.22}{\ignorespaces The deep all-local policy under the human-EEG reward.}}{178}{figure.caption.138}%
+\contentsline {figure}{\numberline {7.23}{\ignorespaces The measured dopamine reward signal grounding the capstone.}}{179}{figure.caption.139}%
+\contentsline {figure}{\numberline {7.24}{\ignorespaces A deep all-local policy learning under a measured dopamine reward.}}{180}{figure.caption.140}%
+\contentsline {figure}{\numberline {7.25}{\ignorespaces The retention--delay scaling relation $D_{\max }\approx s_D\,\tau $.}}{181}{figure.caption.141}%
+\contentsline {figure}{\numberline {7.26}{\ignorespaces Retention as an asset on a deep distal-cue task.}}{183}{figure.caption.142}%
+\contentsline {figure}{\numberline {7.27}{\ignorespaces The single-rate reduction validated against the measured dispersion.}}{183}{figure.caption.143}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8.1}{\ignorespaces Longer-horizon credit across trajectory length.}}{188}{figure.caption.143}%
-\contentsline {figure}{\numberline {8.2}{\ignorespaces Reversal learning and the retention--flexibility trade-off.}}{189}{figure.caption.144}%
-\contentsline {figure}{\numberline {8.3}{\ignorespaces Multi-timescale credit from the measured retention spread.}}{190}{figure.caption.145}%
-\contentsline {figure}{\numberline {8.4}{\ignorespaces A cascade-vector timer rescues scalar aliasing in simulation.}}{191}{figure.caption.146}%
-\contentsline {figure}{\numberline {8.5}{\ignorespaces One device timescale covers working memory and eligibility.}}{192}{figure.caption.147}%
-\contentsline {figure}{\numberline {8.6}{\ignorespaces Predicted memristive capture by a second-order cell.}}{193}{figure.caption.148}%
-\contentsline {figure}{\numberline {8.7}{\ignorespaces Predicted capture step at the electron level.}}{194}{figure.caption.149}%
-\contentsline {figure}{\numberline {8.8}{\ignorespaces A device-native actor-critic on the corridor task.}}{196}{figure.caption.150}%
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Longer-horizon credit across trajectory length.}}{188}{figure.caption.144}%
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Reversal learning and the retention--flexibility trade-off.}}{189}{figure.caption.145}%
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Multi-timescale credit from the measured retention spread.}}{190}{figure.caption.146}%
+\contentsline {figure}{\numberline {8.4}{\ignorespaces A cascade-vector timer rescues scalar aliasing in simulation.}}{191}{figure.caption.147}%
+\contentsline {figure}{\numberline {8.5}{\ignorespaces One device timescale covers working memory and eligibility.}}{192}{figure.caption.148}%
+\contentsline {figure}{\numberline {8.6}{\ignorespaces Predicted memristive capture by a second-order cell.}}{193}{figure.caption.149}%
+\contentsline {figure}{\numberline {8.7}{\ignorespaces Predicted capture step at the electron level.}}{194}{figure.caption.150}%
+\contentsline {figure}{\numberline {8.8}{\ignorespaces A device-native actor-critic on the corridor task.}}{196}{figure.caption.151}%

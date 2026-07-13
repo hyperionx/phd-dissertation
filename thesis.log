@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.26)  7 JUL 2026 11:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.26)  13 JUL 2026 10:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1179,7 +1179,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
  []
 
 [5]
-<Chapter2/Figs/neuron_anatomy.png, id=1165, 595.5048pt x 542.025pt>
+<Chapter2/Figs/neuron_anatomy.png, id=1167, 595.5048pt x 542.025pt>
 File: Chapter2/Figs/neuron_anatomy.png Graphic file (type png)
 <use Chapter2/Figs/neuron_anatomy.png>
 Package pdftex.def Info: Chapter2/Figs/neuron_anatomy.png  used on input line 2
@@ -1196,13 +1196,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--30
  []
 
 [6 <./Chapter2/Figs/neuron_anatomy.png>]
-<Chapter2/Figs/neuron_spiking_dynamics.png, id=1177, 505.89pt x 664.52264pt>
+<Chapter2/Figs/neuron_spiking_dynamics.png, id=1179, 505.89pt x 664.52264pt>
 File: Chapter2/Figs/neuron_spiking_dynamics.png Graphic file (type png)
 <use Chapter2/Figs/neuron_spiking_dynamics.png>
 Package pdftex.def Info: Chapter2/Figs/neuron_spiking_dynamics.png  used on inp
 ut line 33.
 (pdftex.def)             Requested size: 371.84462pt x 488.45377pt.
-<Chapter2/Figs/hodgkin_huxley_model.png, id=1189, 636.4578pt x 263.5446pt>
+<Chapter2/Figs/hodgkin_huxley_model.png, id=1191, 636.4578pt x 263.5446pt>
 File: Chapter2/Figs/hodgkin_huxley_model.png Graphic file (type png)
 <use Chapter2/Figs/hodgkin_huxley_model.png>
 Package pdftex.def Info: Chapter2/Figs/hodgkin_huxley_model.png  used on input 
@@ -1219,7 +1219,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 76--77
  []
 
 [9 <./Chapter2/Figs/hodgkin_huxley_model.png>]
-<Chapter2/Figs/lif_neuron_model.png, id=1247, 777.6252pt x 259.2084pt>
+<Chapter2/Figs/lif_neuron_model.png, id=1249, 777.6252pt x 259.2084pt>
 File: Chapter2/Figs/lif_neuron_model.png Graphic file (type png)
 <use Chapter2/Figs/lif_neuron_model.png>
 Package pdftex.def Info: Chapter2/Figs/lif_neuron_model.png  used on input line
@@ -1260,7 +1260,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--144
 
  []
 
-<Chapter2/Figs/three_factor_eligibility_trace.png, id=1323, 511.1898pt x 206.45
+<Chapter2/Figs/three_factor_eligibility_trace.png, id=1325, 511.1898pt x 206.45
 13pt>
 File: Chapter2/Figs/three_factor_eligibility_trace.png Graphic file (type png)
 <use Chapter2/Figs/three_factor_eligibility_trace.png>
@@ -1277,7 +1277,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
-<Chapter2/Figs/circuit_element_symmetries.png, id=1363, 542.025pt x 542.025pt>
+<Chapter2/Figs/circuit_element_symmetries.png, id=1365, 542.025pt x 542.025pt>
 File: Chapter2/Figs/circuit_element_symmetries.png Graphic file (type png)
 <use Chapter2/Figs/circuit_element_symmetries.png>
 Package pdftex.def Info: Chapter2/Figs/circuit_element_symmetries.png  used on 
@@ -1288,7 +1288,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 191--192
 
  []
 
-<Chapter2/Figs/memristor_iv_characteristic.png, id=1366, 542.025pt x 496.254pt>
+<Chapter2/Figs/memristor_iv_characteristic.png, id=1368, 542.025pt x 496.254pt>
 
 File: Chapter2/Figs/memristor_iv_characteristic.png Graphic file (type png)
 <use Chapter2/Figs/memristor_iv_characteristic.png>
@@ -1302,7 +1302,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 200--201
 
 [16 <./Chapter2/Figs/circuit_element_symmetries.png> <./Chapter2/Figs/memristor
 _iv_characteristic.png>]
-<Chapter2/Figs/rram_types.png, id=1402, 715.473pt x 336.7125pt>
+<Chapter2/Figs/rram_types.png, id=1404, 715.473pt x 336.7125pt>
 File: Chapter2/Figs/rram_types.png Graphic file (type png)
 <use Chapter2/Figs/rram_types.png>
 Package pdftex.def Info: Chapter2/Figs/rram_types.png  used on input line 204.
@@ -1317,7 +1317,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 237--239
 
  []
 
-<Chapter2/Figs/conduction_band_diagrams.png, id=1456, 591.20876pt x 525.965pt>
+<Chapter2/Figs/conduction_band_diagrams.png, id=1458, 591.20876pt x 525.965pt>
 File: Chapter2/Figs/conduction_band_diagrams.png Graphic file (type png)
 <use Chapter2/Figs/conduction_band_diagrams.png>
 Package pdftex.def Info: Chapter2/Figs/conduction_band_diagrams.png  used on in
@@ -1333,7 +1333,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 331--332
 
  []
 
-<Chapter2/Figs/crossbar_architecture.png, id=1518, 863.8674pt x 574.3056pt>
+<Chapter2/Figs/crossbar_architecture.png, id=1520, 863.8674pt x 574.3056pt>
 File: Chapter2/Figs/crossbar_architecture.png Graphic file (type png)
 <use Chapter2/Figs/crossbar_architecture.png>
 Package pdftex.def Info: Chapter2/Figs/crossbar_architecture.png  used on input
@@ -1360,7 +1360,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 377--378
 
  []
 
-<Chapter2/Figs/address_event_representation.png, id=1554, 508.956pt x 304.848pt
+<Chapter2/Figs/address_event_representation.png, id=1556, 508.956pt x 304.848pt
 >
 File: Chapter2/Figs/address_event_representation.png Graphic file (type png)
 <use Chapter2/Figs/address_event_representation.png>
@@ -1403,7 +1403,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
 
 
 ]
-<Chapter3/Figs/device_structure.png, id=1624, 355.437pt x 164.031pt>
+<Chapter3/Figs/device_structure.png, id=1626, 355.437pt x 164.031pt>
 File: Chapter3/Figs/device_structure.png Graphic file (type png)
 <use Chapter3/Figs/device_structure.png>
 Package pdftex.def Info: Chapter3/Figs/device_structure.png  used on input line
@@ -1425,7 +1425,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 31--32
  []
 
 [30 <./Chapter3/Figs/device_structure.png>]
-<Chapter3/Figs/mim_stack_cross_section.png, id=1643, 722.7pt x 361.35pt>
+<Chapter3/Figs/mim_stack_cross_section.png, id=1645, 722.7pt x 361.35pt>
 File: Chapter3/Figs/mim_stack_cross_section.png Graphic file (type png)
 <use Chapter3/Figs/mim_stack_cross_section.png>
 Package pdftex.def Info: Chapter3/Figs/mim_stack_cross_section.png  used on inp
@@ -1436,7 +1436,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 42--43
 
  []
 
-<Chapter3/Figs/rf_sputtering.png, id=1645, 813.0375pt x 484.81125pt>
+<Chapter3/Figs/rf_sputtering.png, id=1647, 813.0375pt x 484.81125pt>
 File: Chapter3/Figs/rf_sputtering.png Graphic file (type png)
 <use Chapter3/Figs/rf_sputtering.png>
 Package pdftex.def Info: Chapter3/Figs/rf_sputtering.png  used on input line 46
@@ -1457,7 +1457,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 55--56
 
  []
 
-<Chapter3/Figs/stylus_profilometer.png, id=1662, 439.8615pt x 270.3555pt>
+<Chapter3/Figs/stylus_profilometer.png, id=1664, 439.8615pt x 270.3555pt>
 File: Chapter3/Figs/stylus_profilometer.png Graphic file (type png)
 <use Chapter3/Figs/stylus_profilometer.png>
 Package pdftex.def Info: Chapter3/Figs/stylus_profilometer.png  used on input l
@@ -1473,7 +1473,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 71--72
 
  []
 
-<Chapter3/Figs/kelvin_four_wire_measurement.png, id=1677, 562.392pt x 256.5585p
+<Chapter3/Figs/kelvin_four_wire_measurement.png, id=1679, 562.392pt x 256.5585p
 t>
 File: Chapter3/Figs/kelvin_four_wire_measurement.png Graphic file (type png)
 <use Chapter3/Figs/kelvin_four_wire_measurement.png>
@@ -1490,7 +1490,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 82--83
 
  []
 
-<Chapter3/Figs/transimpedance_amplifier.png, id=1685, 812.928pt x 405.15pt>
+<Chapter3/Figs/transimpedance_amplifier.png, id=1687, 812.928pt x 405.15pt>
 File: Chapter3/Figs/transimpedance_amplifier.png Graphic file (type png)
 <use Chapter3/Figs/transimpedance_amplifier.png>
 Package pdftex.def Info: Chapter3/Figs/transimpedance_amplifier.png  used on in
@@ -1501,7 +1501,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 92--93
 
  []
 
-<Chapter3/Figs/spike_train_setup.png, id=1688, 598.527pt x 253.602pt>
+<Chapter3/Figs/spike_train_setup.png, id=1690, 598.527pt x 253.602pt>
 File: Chapter3/Figs/spike_train_setup.png Graphic file (type png)
 <use Chapter3/Figs/spike_train_setup.png>
 Package pdftex.def Info: Chapter3/Figs/spike_train_setup.png  used on input lin
@@ -1517,7 +1517,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--112
 
  []
 
-<Chapter3/Figs/electroforming_double_sweep.png, id=1703, 528.666pt x 372.081pt>
+<Chapter3/Figs/electroforming_double_sweep.png, id=1705, 528.666pt x 372.081pt>
 
 File: Chapter3/Figs/electroforming_double_sweep.png Graphic file (type png)
 <use Chapter3/Figs/electroforming_double_sweep.png>
@@ -1529,7 +1529,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 120--121
 
  []
 
-<Chapter3/Figs/unipolar_nonvolatile_switching.png, id=1711, 421.794pt x 295.212
+<Chapter3/Figs/unipolar_nonvolatile_switching.png, id=1713, 421.794pt x 295.212
 pt>
 File: Chapter3/Figs/unipolar_nonvolatile_switching.png Graphic file (type png)
 <use Chapter3/Figs/unipolar_nonvolatile_switching.png>
@@ -1546,7 +1546,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 131--132
 
  []
 
-<Chapter3/Figs/set_reset_sweeps.png, id=1717, 569.838pt x 401.427pt>
+<Chapter3/Figs/set_reset_sweeps.png, id=1719, 569.838pt x 401.427pt>
 File: Chapter3/Figs/set_reset_sweeps.png Graphic file (type png)
 <use Chapter3/Figs/set_reset_sweeps.png>
 Package pdftex.def Info: Chapter3/Figs/set_reset_sweeps.png  used on input line
@@ -1557,7 +1557,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
  []
 
-<Chapter3/Figs/unipolar_cycling_stress.png, id=1729, 580.41844pt x 426.09187pt>
+<Chapter3/Figs/unipolar_cycling_stress.png, id=1731, 580.41844pt x 426.09187pt>
 
 File: Chapter3/Figs/unipolar_cycling_stress.png Graphic file (type png)
 <use Chapter3/Figs/unipolar_cycling_stress.png>
@@ -1571,7 +1571,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 149--150
 
 [38 <./Chapter3/Figs/unipolar_nonvolatile_switching.png> <./Chapter3/Figs/set_r
 eset_sweeps.png>]
-<Chapter3/Figs/unipolar_electrode_size.png, id=1741, 853.443pt x 315.141pt>
+<Chapter3/Figs/unipolar_electrode_size.png, id=1743, 853.443pt x 315.141pt>
 File: Chapter3/Figs/unipolar_electrode_size.png Graphic file (type png)
 <use Chapter3/Figs/unipolar_electrode_size.png>
 Package pdftex.def Info: Chapter3/Figs/unipolar_electrode_size.png  used on inp
@@ -1579,7 +1579,7 @@ ut line 153.
 (pdftex.def)             Requested size: 437.46112pt x 161.53244pt.
  [39 <./Chapter3/Figs/unipolar_cycling_stress.png> <./Chapter3/Figs/unipolar_el
 ectrode_size.png>]
-<Chapter3/Figs/bipolar_electroforming.png, id=1754, 577.284pt x 406.902pt>
+<Chapter3/Figs/bipolar_electroforming.png, id=1756, 577.284pt x 406.902pt>
 File: Chapter3/Figs/bipolar_electroforming.png Graphic file (type png)
 <use Chapter3/Figs/bipolar_electroforming.png>
 Package pdftex.def Info: Chapter3/Figs/bipolar_electroforming.png  used on inpu
@@ -1590,7 +1590,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
-<Chapter3/Figs/bipolar_switching_asymmetric.png, id=1756, 534.36pt x 374.709pt>
+<Chapter3/Figs/bipolar_switching_asymmetric.png, id=1758, 534.36pt x 374.709pt>
 
 File: Chapter3/Figs/bipolar_switching_asymmetric.png Graphic file (type png)
 <use Chapter3/Figs/bipolar_switching_asymmetric.png>
@@ -1602,7 +1602,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 181--182
 
  []
 
-<Chapter3/Figs/bipolar_cycling_stress.png, id=1760, 233.016pt x 469.536pt>
+<Chapter3/Figs/bipolar_cycling_stress.png, id=1762, 233.016pt x 469.536pt>
 File: Chapter3/Figs/bipolar_cycling_stress.png Graphic file (type png)
 <use Chapter3/Figs/bipolar_cycling_stress.png>
 Package pdftex.def Info: Chapter3/Figs/bipolar_cycling_stress.png  used on inpu
@@ -1614,7 +1614,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 191--192
  []
 
 [40 <./Chapter3/Figs/bipolar_electroforming.png>]
-<Chapter3/Figs/bipolar_electrode_size.png, id=1781, 883.227pt x 320.178pt>
+<Chapter3/Figs/bipolar_electrode_size.png, id=1783, 883.227pt x 320.178pt>
 File: Chapter3/Figs/bipolar_electrode_size.png Graphic file (type png)
 <use Chapter3/Figs/bipolar_electrode_size.png>
 Package pdftex.def Info: Chapter3/Figs/bipolar_electrode_size.png  used on inpu
@@ -1625,13 +1625,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 205--206
 
  []
 
-<Chapter3/Figs/multilevel_iv.png, id=1788, 963.6pt x 316.893pt>
+<Chapter3/Figs/multilevel_iv.png, id=1790, 963.6pt x 316.893pt>
 File: Chapter3/Figs/multilevel_iv.png Graphic file (type png)
 <use Chapter3/Figs/multilevel_iv.png>
 Package pdftex.def Info: Chapter3/Figs/multilevel_iv.png  used on input line 21
 0.
 (pdftex.def)             Requested size: 437.46112pt x 143.86256pt.
-<Chapter3/Figs/bipolar_conductance_modulation.png, id=1791, 644.4075pt x 462.22
+<Chapter3/Figs/bipolar_conductance_modulation.png, id=1793, 644.4075pt x 462.22
 687pt>
 File: Chapter3/Figs/bipolar_conductance_modulation.png Graphic file (type png)
 <use Chapter3/Figs/bipolar_conductance_modulation.png>
@@ -1645,7 +1645,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 223--224
 
 [41 <./Chapter3/Figs/bipolar_switching_asymmetric.png>] [42 <./Chapter3/Figs/bi
 polar_cycling_stress.png>]
-<Chapter3/Figs/resistive_state_transitions.png, id=1804, 898.776pt x 300.687pt>
+<Chapter3/Figs/resistive_state_transitions.png, id=1806, 898.776pt x 300.687pt>
 
 File: Chapter3/Figs/resistive_state_transitions.png Graphic file (type png)
 <use Chapter3/Figs/resistive_state_transitions.png>
@@ -1657,7 +1657,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 234--235
 
  []
 
-<Chapter3/Figs/volatile_constant_current.png, id=1806, 946.08pt x 357.627pt>
+<Chapter3/Figs/volatile_constant_current.png, id=1808, 946.08pt x 357.627pt>
 File: Chapter3/Figs/volatile_constant_current.png Graphic file (type png)
 <use Chapter3/Figs/volatile_constant_current.png>
 Package pdftex.def Info: Chapter3/Figs/volatile_constant_current.png  used on i
@@ -1675,7 +1675,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 249--250
 
  []
 
-<Chapter3/Figs/filamentary_interface_regions.png, id=1831, 867.24pt x 158.84344
+<Chapter3/Figs/filamentary_interface_regions.png, id=1833, 867.24pt x 158.84344
 pt>
 File: Chapter3/Figs/filamentary_interface_regions.png Graphic file (type png)
 <use Chapter3/Figs/filamentary_interface_regions.png>
@@ -1688,19 +1688,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 260--261
  []
 
 [45 <./Chapter3/Figs/volatile_constant_current.png>]
-<Chapter3/Figs/poole_frenkel_fit.png, id=1841, 675.834pt x 527.133pt>
+<Chapter3/Figs/poole_frenkel_fit.png, id=1843, 675.834pt x 527.133pt>
 File: Chapter3/Figs/poole_frenkel_fit.png Graphic file (type png)
 <use Chapter3/Figs/poole_frenkel_fit.png>
 Package pdftex.def Info: Chapter3/Figs/poole_frenkel_fit.png  used on input lin
 e 264.
 (pdftex.def)             Requested size: 349.97023pt x 272.96857pt.
-<Chapter3/Figs/thermionic_emission_fit.png, id=1842, 638.166pt x 498.225pt>
+<Chapter3/Figs/thermionic_emission_fit.png, id=1844, 638.166pt x 498.225pt>
 File: Chapter3/Figs/thermionic_emission_fit.png Graphic file (type png)
 <use Chapter3/Figs/thermionic_emission_fit.png>
 Package pdftex.def Info: Chapter3/Figs/thermionic_emission_fit.png  used on inp
 ut line 271.
 (pdftex.def)             Requested size: 349.97023pt x 273.22635pt.
-<Chapter3/Figs/trap_assisted_tunnelling_fit.png, id=1843, 651.744pt x 502.167pt
+<Chapter3/Figs/trap_assisted_tunnelling_fit.png, id=1845, 651.744pt x 502.167pt
 >
 File: Chapter3/Figs/trap_assisted_tunnelling_fit.png Graphic file (type png)
 <use Chapter3/Figs/trap_assisted_tunnelling_fit.png>
@@ -1724,7 +1724,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 310--311
 
  []
 
-<Chapter3/Figs/siox_switching_mechanism.png, id=1873, 521.439pt x 176.514pt>
+<Chapter3/Figs/siox_switching_mechanism.png, id=1875, 521.439pt x 176.514pt>
 File: Chapter3/Figs/siox_switching_mechanism.png Graphic file (type png)
 <use Chapter3/Figs/siox_switching_mechanism.png>
 Package pdftex.def Info: Chapter3/Figs/siox_switching_mechanism.png  used on in
@@ -1745,7 +1745,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 323--324
 
  []
 
-<Chapter3/Figs/schematic_iv_curves.png, id=1887, 812.928pt x 362.664pt>
+<Chapter3/Figs/schematic_iv_curves.png, id=1889, 812.928pt x 362.664pt>
 File: Chapter3/Figs/schematic_iv_curves.png Graphic file (type png)
 <use Chapter3/Figs/schematic_iv_curves.png>
 Package pdftex.def Info: Chapter3/Figs/schematic_iv_curves.png  used on input l
@@ -1778,7 +1778,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--18
  []
 
 [53]
-<Chapter4/Figs/current_transient_illustration.png, id=1946, 371.5335pt x 240.46
+<Chapter4/Figs/current_transient_illustration.png, id=1948, 371.5335pt x 240.46
 2pt>
 File: Chapter4/Figs/current_transient_illustration.png Graphic file (type png)
 <use Chapter4/Figs/current_transient_illustration.png>
@@ -1840,7 +1840,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--87
 
  []
 
-<Chapter4/Figs/transient_peak_identification.png, id=2052, 382.7025pt x 291.379
+<Chapter4/Figs/transient_peak_identification.png, id=2054, 382.7025pt x 291.379
 5pt>
 File: Chapter4/Figs/transient_peak_identification.png Graphic file (type png)
 <use Chapter4/Figs/transient_peak_identification.png>
@@ -1857,7 +1857,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 97--98
 
  []
 
-<Chapter4/Figs/transient_device_structure.png, id=2077, 362.007pt x 214.5105pt>
+<Chapter4/Figs/transient_device_structure.png, id=2079, 362.007pt x 214.5105pt>
 
 File: Chapter4/Figs/transient_device_structure.png Graphic file (type png)
 <use Chapter4/Figs/transient_device_structure.png>
@@ -1890,7 +1890,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 126--127
  []
 
 [61 <./Chapter4/Figs/transient_device_structure.png>]
-<Chapter4/Figs/stress_current_response.png, id=2091, 1787.67876pt x 1395.2125pt
+<Chapter4/Figs/stress_current_response.png, id=2093, 1787.67876pt x 1395.2125pt
 >
 File: Chapter4/Figs/stress_current_response.png Graphic file (type png)
 <use Chapter4/Figs/stress_current_response.png>
@@ -1918,7 +1918,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 153--154
  []
 
 [63]
-<Chapter4/Figs/subthreshold_voltage_dependence.png, id=2123, 1482.53876pt x 118
+<Chapter4/Figs/subthreshold_voltage_dependence.png, id=2125, 1482.53876pt x 118
 2.4175pt>
 File: Chapter4/Figs/subthreshold_voltage_dependence.png Graphic file (type png)
 
@@ -1931,7 +1931,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 162--163
 
  []
 
-<Chapter4/Figs/transient_repeatability.png, id=2128, 1494.58376pt x 1180.41pt>
+<Chapter4/Figs/transient_repeatability.png, id=2130, 1494.58376pt x 1180.41pt>
 File: Chapter4/Figs/transient_repeatability.png Graphic file (type png)
 <use Chapter4/Figs/transient_repeatability.png>
 Package pdftex.def Info: Chapter4/Figs/transient_repeatability.png  used on inp
@@ -1942,7 +1942,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
-<Chapter4/Figs/spike_train_response.png, id=2134, 1450.41875pt x 1162.3425pt>
+<Chapter4/Figs/spike_train_response.png, id=2136, 1450.41875pt x 1162.3425pt>
 File: Chapter4/Figs/spike_train_response.png Graphic file (type png)
 <use Chapter4/Figs/spike_train_response.png>
 Package pdftex.def Info: Chapter4/Figs/spike_train_response.png  used on input 
@@ -1959,7 +1959,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 184--185
 
  []
 
-<Chapter4/Figs/pulse_amplitude_potentiation_depression.png, id=2155, 213.4374pt
+<Chapter4/Figs/pulse_amplitude_potentiation_depression.png, id=2157, 213.4374pt
  x 159.9576pt>
 File: Chapter4/Figs/pulse_amplitude_potentiation_depression.png Graphic file (t
 ype png)
@@ -1972,7 +1972,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 193--194
 
  []
 
-<Chapter4/Figs/depression_spike_train_amplitude.png, id=2161, 1586.92876pt x 13
+<Chapter4/Figs/depression_spike_train_amplitude.png, id=2163, 1586.92876pt x 13
 35.99126pt>
 File: Chapter4/Figs/depression_spike_train_amplitude.png Graphic file (type png
 )
@@ -1986,7 +1986,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 203--204
  []
 
 [66 <./Chapter4/Figs/pulse_amplitude_potentiation_depression.png>]
-<Chapter4/Figs/stress_magnitude_dependence.png, id=2171, 227.4096pt x 163.3302p
+<Chapter4/Figs/stress_magnitude_dependence.png, id=2173, 227.4096pt x 163.3302p
 t>
 File: Chapter4/Figs/stress_magnitude_dependence.png Graphic file (type png)
 <use Chapter4/Figs/stress_magnitude_dependence.png>
@@ -1998,7 +1998,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 212--213
 
  []
 
-<Chapter4/Figs/interspike_interval_response.png, id=2174, 227.4096pt x 170.5572
+<Chapter4/Figs/interspike_interval_response.png, id=2176, 227.4096pt x 170.5572
 pt>
 File: Chapter4/Figs/interspike_interval_response.png Graphic file (type png)
 <use Chapter4/Figs/interspike_interval_response.png>
@@ -2016,7 +2016,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 227--228
 
  []
 
-<Chapter4/Figs/spike_frequency_response.png, id=2195, 948.54375pt x 416.55624pt
+<Chapter4/Figs/spike_frequency_response.png, id=2197, 948.54375pt x 416.55624pt
 >
 File: Chapter4/Figs/spike_frequency_response.png Graphic file (type png)
 <use Chapter4/Figs/spike_frequency_response.png>
@@ -2118,7 +2118,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
 
  []
 
-<Chapter5/Figs/ito_stress_response.png, id=2318, 396.7623pt x 281.6121pt>
+<Chapter5/Figs/ito_stress_response.png, id=2320, 396.7623pt x 281.6121pt>
 File: Chapter5/Figs/ito_stress_response.png Graphic file (type png)
 <use Chapter5/Figs/ito_stress_response.png>
 Package pdftex.def Info: Chapter5/Figs/ito_stress_response.png  used on input l
@@ -2130,7 +2130,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--44
  []
 
 [76]
-<Chapter5/Figs/ito_iv_illumination.png, id=2331, 437.562pt x 288.7515pt>
+<Chapter5/Figs/ito_iv_illumination.png, id=2333, 437.562pt x 288.7515pt>
 File: Chapter5/Figs/ito_iv_illumination.png Graphic file (type png)
 <use Chapter5/Figs/ito_iv_illumination.png>
 Package pdftex.def Info: Chapter5/Figs/ito_iv_illumination.png  used on input l
@@ -2147,7 +2147,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 56--57
 
  []
 
-<Chapter5/Figs/ito_optical_dispersion.png, id=2344, 397.485pt x 281.6121pt>
+<Chapter5/Figs/ito_optical_dispersion.png, id=2346, 397.485pt x 281.6121pt>
 File: Chapter5/Figs/ito_optical_dispersion.png Graphic file (type png)
 <use Chapter5/Figs/ito_optical_dispersion.png>
 Package pdftex.def Info: Chapter5/Figs/ito_optical_dispersion.png  used on inpu
@@ -2213,7 +2213,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 97--98
 
  []
 
-<Chapter5/Figs/ito_current_time.png, id=2423, 405.6756pt x 281.6121pt>
+<Chapter5/Figs/ito_current_time.png, id=2425, 405.6756pt x 281.6121pt>
 File: Chapter5/Figs/ito_current_time.png Graphic file (type png)
 <use Chapter5/Figs/ito_current_time.png>
 Package pdftex.def Info: Chapter5/Figs/ito_current_time.png  used on input line
@@ -2225,7 +2225,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 106--107
  []
 
 [81]
-<Chapter5/Figs/ito_bias_instabilities.png, id=2441, 406.8801pt x 281.6121pt>
+<Chapter5/Figs/ito_bias_instabilities.png, id=2443, 406.8801pt x 281.6121pt>
 File: Chapter5/Figs/ito_bias_instabilities.png Graphic file (type png)
 <use Chapter5/Figs/ito_bias_instabilities.png>
 Package pdftex.def Info: Chapter5/Figs/ito_bias_instabilities.png  used on inpu
@@ -2246,7 +2246,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 128--129
 
  []
 
-<Chapter5/Figs/xps_depth_profile_setup.png, id=2470, 496.0131pt x 442.2924pt>
+<Chapter5/Figs/xps_depth_profile_setup.png, id=2472, 496.0131pt x 442.2924pt>
 File: Chapter5/Figs/xps_depth_profile_setup.png Graphic file (type png)
 <use Chapter5/Figs/xps_depth_profile_setup.png>
 Package pdftex.def Info: Chapter5/Figs/xps_depth_profile_setup.png  used on inp
@@ -2258,7 +2258,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 147--148
  []
 
 [84 <./Chapter5/Figs/xps_depth_profile_setup.png>]
-<Chapter5/Figs/xps_survey_spectra.png, id=2499, 335.8146pt x 483.7272pt>
+<Chapter5/Figs/xps_survey_spectra.png, id=2501, 335.8146pt x 483.7272pt>
 File: Chapter5/Figs/xps_survey_spectra.png Graphic file (type png)
 <use Chapter5/Figs/xps_survey_spectra.png>
 Package pdftex.def Info: Chapter5/Figs/xps_survey_spectra.png  used on input li
@@ -2270,7 +2270,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 156--157
  []
 
 [85 <./Chapter5/Figs/xps_survey_spectra.png>]
-<Chapter5/Figs/xps_core_level_extra.png, id=2509, 233.673pt x 249.5724pt>
+<Chapter5/Figs/xps_core_level_extra.png, id=2511, 233.673pt x 249.5724pt>
 File: Chapter5/Figs/xps_core_level_extra.png Graphic file (type png)
 <use Chapter5/Figs/xps_core_level_extra.png>
 Package pdftex.def Info: Chapter5/Figs/xps_core_level_extra.png  used on input 
@@ -2281,7 +2281,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 165--166
 
  []
 
-<Chapter5/Figs/xps_core_level_spectra.png, id=2518, 233.673pt x 378.213pt>
+<Chapter5/Figs/xps_core_level_spectra.png, id=2520, 233.673pt x 378.213pt>
 File: Chapter5/Figs/xps_core_level_spectra.png Graphic file (type png)
 <use Chapter5/Figs/xps_core_level_spectra.png>
 Package pdftex.def Info: Chapter5/Figs/xps_core_level_spectra.png  used on inpu
@@ -2292,7 +2292,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 174--175
 
  []
 
-<Chapter5/Figs/xps_o1s_quantification.png, id=2531, 320.8788pt x 425.4294pt>
+<Chapter5/Figs/xps_o1s_quantification.png, id=2533, 320.8788pt x 425.4294pt>
 File: Chapter5/Figs/xps_o1s_quantification.png Graphic file (type png)
 <use Chapter5/Figs/xps_o1s_quantification.png>
 Package pdftex.def Info: Chapter5/Figs/xps_o1s_quantification.png  used on inpu
@@ -2304,7 +2304,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 183--184
  []
 
 [87 <./Chapter5/Figs/xps_core_level_spectra.png>]
-<Chapter5/Figs/xps_binding_energy_shift.png, id=2538, 321.3606pt x 217.7736pt>
+<Chapter5/Figs/xps_binding_energy_shift.png, id=2540, 321.3606pt x 217.7736pt>
 File: Chapter5/Figs/xps_binding_energy_shift.png Graphic file (type png)
 <use Chapter5/Figs/xps_binding_energy_shift.png>
 Package pdftex.def Info: Chapter5/Figs/xps_binding_energy_shift.png  used on in
@@ -2335,7 +2335,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 212--213
 
  []
 
-<Chapter5/Figs/spice_empirical_model.png, id=2562, 384.0165pt x 486.18pt>
+<Chapter5/Figs/spice_empirical_model.png, id=2564, 384.0165pt x 486.18pt>
 File: Chapter5/Figs/spice_empirical_model.png Graphic file (type png)
 <use Chapter5/Figs/spice_empirical_model.png>
 Package pdftex.def Info: Chapter5/Figs/spice_empirical_model.png  used on input
@@ -2407,7 +2407,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 273--274
 
  []
 
-<Chapter5/Figs/spice_trap_cascade_model.png, id=2629, 562.392pt x 392.5575pt>
+<Chapter5/Figs/spice_trap_cascade_model.png, id=2631, 562.392pt x 392.5575pt>
 File: Chapter5/Figs/spice_trap_cascade_model.png Graphic file (type png)
 <use Chapter5/Figs/spice_trap_cascade_model.png>
 Package pdftex.def Info: Chapter5/Figs/spice_trap_cascade_model.png  used on in
@@ -2418,7 +2418,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 286--288
 
  []
 
-<Chapter5/Figs/dispersive_meta_parameters.png, id=2646, 646.488pt x 281.5245pt>
+<Chapter5/Figs/dispersive_meta_parameters.png, id=2648, 646.488pt x 281.5245pt>
 
 File: Chapter5/Figs/dispersive_meta_parameters.png Graphic file (type png)
 <use Chapter5/Figs/dispersive_meta_parameters.png>
@@ -2435,7 +2435,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 319--320
 
  []
 
-<Chapter5/Figs/dispersive_model_vs_measured.png, id=2668, 469.755pt x 303.2055p
+<Chapter5/Figs/dispersive_model_vs_measured.png, id=2670, 469.755pt x 303.2055p
 t>
 File: Chapter5/Figs/dispersive_model_vs_measured.png Graphic file (type png)
 <use Chapter5/Figs/dispersive_model_vs_measured.png>
@@ -2453,7 +2453,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 330--331
  []
 
 [97 <./Chapter5/Figs/dispersive_model_vs_measured.png>]
-<Chapter5/Figs/rate_habituation_reproduction.png, id=2689, 499.977pt x 352.809p
+<Chapter5/Figs/rate_habituation_reproduction.png, id=2691, 499.977pt x 352.809p
 t>
 File: Chapter5/Figs/rate_habituation_reproduction.png Graphic file (type png)
 <use Chapter5/Figs/rate_habituation_reproduction.png>
@@ -2496,7 +2496,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 367--368
  []
 
 [100]
-<Chapter5/Figs/ito_tau_field_dependence.png, id=2741, 693.792pt x 289.08pt>
+<Chapter5/Figs/ito_tau_field_dependence.png, id=2743, 693.792pt x 289.08pt>
 File: Chapter5/Figs/ito_tau_field_dependence.png Graphic file (type png)
 <use Chapter5/Figs/ito_tau_field_dependence.png>
 Package pdftex.def Info: Chapter5/Figs/ito_tau_field_dependence.png  used on in
@@ -2507,13 +2507,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 376--377
 
  []
 
-<Chapter5/Figs/dispersive_trap_kinetics.png, id=2756, 794.97pt x 462.528pt>
+<Chapter5/Figs/dispersive_trap_kinetics.png, id=2758, 794.97pt x 462.528pt>
 File: Chapter5/Figs/dispersive_trap_kinetics.png Graphic file (type png)
 <use Chapter5/Figs/dispersive_trap_kinetics.png>
 Package pdftex.def Info: Chapter5/Figs/dispersive_trap_kinetics.png  used on in
 put line 397.
 (pdftex.def)             Requested size: 437.46112pt x 254.53233pt.
-<Chapter5/Figs/ito_dispersive_relaxation_semilog.png, id=2761, 455.6295pt x 311
+<Chapter5/Figs/ito_dispersive_relaxation_semilog.png, id=2763, 455.6295pt x 311
 .7465pt>
 File: Chapter5/Figs/ito_dispersive_relaxation_semilog.png Graphic file (type pn
 g)
@@ -2521,7 +2521,7 @@ g)
 Package pdftex.def Info: Chapter5/Figs/ito_dispersive_relaxation_semilog.png  u
 sed on input line 406.
 (pdftex.def)             Requested size: 214.35834pt x 146.66357pt.
-<Chapter5/Figs/ito_dispersive_relaxation_linear.png, id=2762, 455.6295pt x 311.
+<Chapter5/Figs/ito_dispersive_relaxation_linear.png, id=2764, 455.6295pt x 311.
 7465pt>
 File: Chapter5/Figs/ito_dispersive_relaxation_linear.png Graphic file (type png
 )
@@ -2541,7 +2541,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 437--439
 
  []
 
-<Chapter5/Figs/ito_fill_emission_separation.png, id=2800, 621.522pt x 252.945pt
+<Chapter5/Figs/ito_fill_emission_separation.png, id=2802, 621.522pt x 252.945pt
 >
 File: Chapter5/Figs/ito_fill_emission_separation.png Graphic file (type png)
 <use Chapter5/Figs/ito_fill_emission_separation.png>
@@ -2554,7 +2554,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 447--448
  []
 
 [104]
-<Chapter5/Figs/ito_field_free_discharge.png, id=2825, 448.074pt x 310.761pt>
+<Chapter5/Figs/ito_field_free_discharge.png, id=2827, 448.074pt x 310.761pt>
 File: Chapter5/Figs/ito_field_free_discharge.png Graphic file (type png)
 <use Chapter5/Figs/ito_field_free_discharge.png>
 Package pdftex.def Info: Chapter5/Figs/ito_field_free_discharge.png  used on in
@@ -2566,7 +2566,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 456--457
  []
 
 [105 <./Chapter5/Figs/ito_fill_emission_separation.png>]
-<Chapter5/Figs/short_term_memory_relaxation.png, id=2837, 450.2421pt x 306.6657
+<Chapter5/Figs/short_term_memory_relaxation.png, id=2839, 450.2421pt x 306.6657
 pt>
 File: Chapter5/Figs/short_term_memory_relaxation.png Graphic file (type png)
 <use Chapter5/Figs/short_term_memory_relaxation.png>
@@ -2604,7 +2604,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
 
  []
 
-<Chapter6/Figs/synaptic_postsynaptic_potentials.png, id=2897, 752.265pt x 322.8
+<Chapter6/Figs/synaptic_postsynaptic_potentials.png, id=2899, 752.265pt x 322.8
 06pt>
 File: Chapter6/Figs/synaptic_postsynaptic_potentials.png Graphic file (type png
 )
@@ -2612,7 +2612,7 @@ File: Chapter6/Figs/synaptic_postsynaptic_potentials.png Graphic file (type png
 Package pdftex.def Info: Chapter6/Figs/synaptic_postsynaptic_potentials.png  us
 ed on input line 22.
 (pdftex.def)             Requested size: 306.22144pt x 131.4056pt.
-<Chapter6/Figs/memristor_cmos_stdp_architecture.png, id=2900, 813.2784pt x 420.
+<Chapter6/Figs/memristor_cmos_stdp_architecture.png, id=2902, 813.2784pt x 420.
 1296pt>
 File: Chapter6/Figs/memristor_cmos_stdp_architecture.png Graphic file (type png
 )
@@ -2621,7 +2621,7 @@ Package pdftex.def Info: Chapter6/Figs/memristor_cmos_stdp_architecture.png  us
 ed on input line 29.
 (pdftex.def)             Requested size: 306.22144pt x 158.18927pt.
 [110 <./Chapter6/Figs/synaptic_postsynaptic_potentials.png>]
-<Chapter6/Figs/snn_schematic.png, id=2923, 847.4862pt x 417.9615pt>
+<Chapter6/Figs/snn_schematic.png, id=2925, 847.4862pt x 417.9615pt>
 File: Chapter6/Figs/snn_schematic.png Graphic file (type png)
 <use Chapter6/Figs/snn_schematic.png>
 Package pdftex.def Info: Chapter6/Figs/snn_schematic.png  used on input line 43
@@ -2652,7 +2652,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 94--95
 
  []
 
-<Chapter6/Figs/memristor_synapse_placement.png, id=3000, 370.986pt x 144.54pt>
+<Chapter6/Figs/memristor_synapse_placement.png, id=3002, 370.986pt x 144.54pt>
 File: Chapter6/Figs/memristor_synapse_placement.png Graphic file (type png)
 <use Chapter6/Figs/memristor_synapse_placement.png>
 Package pdftex.def Info: Chapter6/Figs/memristor_synapse_placement.png  used on
@@ -2684,7 +2684,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 144--145
  []
 
 [116]
-<Chapter6/Figs/rram_crossbar_snn_layer.png, id=3075, 773.289pt x 572.3784pt>
+<Chapter6/Figs/rram_crossbar_snn_layer.png, id=3077, 773.289pt x 572.3784pt>
 File: Chapter6/Figs/rram_crossbar_snn_layer.png Graphic file (type png)
 <use Chapter6/Figs/rram_crossbar_snn_layer.png>
 Package pdftex.def Info: Chapter6/Figs/rram_crossbar_snn_layer.png  used on inp
@@ -2720,7 +2720,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 196--197
 
  []
 
-<Chapter6/Figs/siox_resistance_states.png, id=3178, 525.4029pt x 310.0383pt>
+<Chapter6/Figs/siox_resistance_states.png, id=3180, 525.4029pt x 310.0383pt>
 File: Chapter6/Figs/siox_resistance_states.png Graphic file (type png)
 <use Chapter6/Figs/siox_resistance_states.png>
 Package pdftex.def Info: Chapter6/Figs/siox_resistance_states.png  used on inpu
@@ -2736,7 +2736,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 260--261
 
  []
 
-<Chapter6/Figs/siox_iv_regions.png, id=3234, 483.2454pt x 225.4824pt>
+<Chapter6/Figs/siox_iv_regions.png, id=3236, 483.2454pt x 225.4824pt>
 File: Chapter6/Figs/siox_iv_regions.png Graphic file (type png)
 <use Chapter6/Figs/siox_iv_regions.png>
 Package pdftex.def Info: Chapter6/Figs/siox_iv_regions.png  used on input line 
@@ -2793,7 +2793,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 297--298
  []
 
 [126]
-<Chapter6/Figs/msnn_mnist_architecture.png, id=3296, 396.2805pt x 220.6644pt>
+<Chapter6/Figs/msnn_mnist_architecture.png, id=3298, 396.2805pt x 220.6644pt>
 File: Chapter6/Figs/msnn_mnist_architecture.png Graphic file (type png)
 <use Chapter6/Figs/msnn_mnist_architecture.png>
 Package pdftex.def Info: Chapter6/Figs/msnn_mnist_architecture.png  used on inp
@@ -2830,7 +2830,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 330--331
  []
 
 [128]
-<Chapter6/Figs/msnn_loss_accuracy.png, id=3333, 524.9211pt x 222.8325pt>
+<Chapter6/Figs/msnn_loss_accuracy.png, id=3335, 524.9211pt x 222.8325pt>
 File: Chapter6/Figs/msnn_loss_accuracy.png Graphic file (type png)
 <use Chapter6/Figs/msnn_loss_accuracy.png>
 Package pdftex.def Info: Chapter6/Figs/msnn_loss_accuracy.png  used on input li
@@ -2846,7 +2846,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 341--342
 
  []
 
-<Chapter6/Figs/mcsnn_loss_accuracy.png, id=3338, 524.1984pt x 222.8325pt>
+<Chapter6/Figs/mcsnn_loss_accuracy.png, id=3340, 524.1984pt x 222.8325pt>
 File: Chapter6/Figs/mcsnn_loss_accuracy.png Graphic file (type png)
 <use Chapter6/Figs/mcsnn_loss_accuracy.png>
 Package pdftex.def Info: Chapter6/Figs/mcsnn_loss_accuracy.png  used on input l
@@ -2892,7 +2892,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 418--419
 
  []
 
-<Chapter6/Figs/homeostatic_regulariser_architecture.png, id=3432, 1802.735pt x 
+<Chapter6/Figs/homeostatic_regulariser_architecture.png, id=3434, 1802.735pt x 
 913.4125pt>
 File: Chapter6/Figs/homeostatic_regulariser_architecture.png Graphic file (type
  png)
@@ -2905,7 +2905,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 426--427
 
  []
 
-<Chapter6/Figs/homeostatic_feature_maps.png, id=3439, 714.7503pt x 354.123pt>
+<Chapter6/Figs/homeostatic_feature_maps.png, id=3441, 714.7503pt x 354.123pt>
 File: Chapter6/Figs/homeostatic_feature_maps.png Graphic file (type png)
 <use Chapter6/Figs/homeostatic_feature_maps.png>
 Package pdftex.def Info: Chapter6/Figs/homeostatic_feature_maps.png  used on in
@@ -2918,7 +2918,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 434--435
 
 [134 <./Chapter6/Figs/homeostatic_regulariser_architecture.png (PNG copy)> <./C
 hapter6/Figs/homeostatic_feature_maps.png>]
-<Chapter6/Figs/homeostatic_architecture_dependence.png, id=3458, 404.712pt x 28
+<Chapter6/Figs/homeostatic_architecture_dependence.png, id=3460, 404.712pt x 28
 9.08pt>
 File: Chapter6/Figs/homeostatic_architecture_dependence.png Graphic file (type 
 png)
@@ -2926,97 +2926,98 @@ png)
 Package pdftex.def Info: Chapter6/Figs/homeostatic_architecture_dependence.png 
  used on input line 437.
 (pdftex.def)             Requested size: 349.97023pt x 249.989pt.
- [135 <./Chapter6/Figs/homeostatic_architecture_dependence.png>] [136]
-Underfull \hbox (badness 10000) in paragraph at lines 476--478
+ [135 <./Chapter6/Figs/homeostatic_architecture_dependence.png>]
+<Chapter6/Figs/fig_liability_asset.png, id=3473, 794.97pt x 317.988pt>
+File: Chapter6/Figs/fig_liability_asset.png Graphic file (type png)
+<use Chapter6/Figs/fig_liability_asset.png>
+Package pdftex.def Info: Chapter6/Figs/fig_liability_asset.png  used on input l
+ine 468.
+(pdftex.def)             Requested size: 428.71002pt x 171.48776pt.
+ [136 <./Chapter6/Figs/fig_liability_asset.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 483--485
 
  []
 
-<Chapter6/Figs/device_temporal_network_architecture.png, id=3484, 733.5405pt x 
+<Chapter6/Figs/device_temporal_network_architecture.png, id=3487, 733.5405pt x 
 497.57895pt>
 File: Chapter6/Figs/device_temporal_network_architecture.png Graphic file (type
  png)
 <use Chapter6/Figs/device_temporal_network_architecture.png>
 Package pdftex.def Info: Chapter6/Figs/device_temporal_network_architecture.png
-  used on input line 480.
+  used on input line 487.
 (pdftex.def)             Requested size: 437.46112pt x 296.74266pt.
-[137 <./Chapter6/Figs/device_temporal_network_architecture.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 491--493
+[137]
+Underfull \hbox (badness 10000) in paragraph at lines 498--500
 
  []
 
-<Chapter6/Figs/working_memory_hold_time.png, id=3505, 785.93625pt x 322.68555pt
+<Chapter6/Figs/working_memory_hold_time.png, id=3509, 785.93625pt x 322.68555pt
 >
 File: Chapter6/Figs/working_memory_hold_time.png Graphic file (type png)
 <use Chapter6/Figs/working_memory_hold_time.png>
 Package pdftex.def Info: Chapter6/Figs/working_memory_hold_time.png  used on in
-put line 495.
+put line 502.
 (pdftex.def)             Requested size: 437.46112pt x 179.61452pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 503--505
+[138 <./Chapter6/Figs/device_temporal_network_architecture.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 510--512
 
  []
 
-[138]
-<Chapter6/Figs/store_recall_working_memory.png, id=3526, 527.571pt x 753.41475p
+[139 <./Chapter6/Figs/working_memory_hold_time.png>]
+<Chapter6/Figs/store_recall_working_memory.png, id=3536, 527.571pt x 753.41475p
 t>
 File: Chapter6/Figs/store_recall_working_memory.png Graphic file (type png)
 <use Chapter6/Figs/store_recall_working_memory.png>
 Package pdftex.def Info: Chapter6/Figs/store_recall_working_memory.png  used on
- input line 507.
+ input line 514.
 (pdftex.def)             Requested size: 314.97253pt x 449.8106pt.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 518.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 525.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 518.
- [139 <./Chapter6/Figs/working_memory_hold_time.png>] [140 <./Chapter6/Figs/sto
-re_recall_working_memory.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 597--598
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 525.
+
+Underfull \hbox (badness 10000) in paragraph at lines 604--605
 
  []
 
-[141]
-<Chapter6/Figs/temporal_network_benchmark.png, id=3585, 433.62pt x 289.08pt>
+[140] [141 <./Chapter6/Figs/store_recall_working_memory.png>] [142]
+<Chapter6/Figs/temporal_network_benchmark.png, id=3594, 433.62pt x 289.08pt>
 File: Chapter6/Figs/temporal_network_benchmark.png Graphic file (type png)
 <use Chapter6/Figs/temporal_network_benchmark.png>
 Package pdftex.def Info: Chapter6/Figs/temporal_network_benchmark.png  used on 
-input line 618.
+input line 625.
 (pdftex.def)             Requested size: 306.22144pt x 204.1587pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 623--624
+Underfull \hbox (badness 10000) in paragraph at lines 630--631
 
  []
 
-[142]
-Underfull \hbox (badness 10000) in paragraph at lines 625--626
+
+Underfull \hbox (badness 10000) in paragraph at lines 632--633
 
  []
 
-<Chapter6/Figs/nmnist_class_separability.png, id=3609, 607.068pt x 823.878pt>
+<Chapter6/Figs/nmnist_class_separability.png, id=3612, 607.068pt x 823.878pt>
 File: Chapter6/Figs/nmnist_class_separability.png Graphic file (type png)
 <use Chapter6/Figs/nmnist_class_separability.png>
 Package pdftex.def Info: Chapter6/Figs/nmnist_class_separability.png  used on i
-nput line 628.
+nput line 635.
 (pdftex.def)             Requested size: 393.71233pt x 534.32008pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 635--636
+Underfull \hbox (badness 10000) in paragraph at lines 642--643
 
  []
 
-[143 <./Chapter6/Figs/temporal_network_benchmark.png>] [144 <./Chapter6/Figs/nm
-nist_class_separability.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
+[143]
+Underfull \hbox (badness 10000) in paragraph at lines 644--645
 
  []
 
-) [145]
+[144 <./Chapter6/Figs/temporal_network_benchmark.png>] [145 <./Chapter6/Figs/nm
+nist_class_separability.png>]) [146]
 \openout2 = `Chapter7/chapter7.aux'.
 
- (Chapter7/chapter7.tex [146
-
-
-
-
-]
+ (Chapter7/chapter7.tex
 Chapter 7.
 
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
@@ -3028,7 +3029,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 10--11
 
  []
 
-[147]
+[147
+
+
+
+
+]
 Underfull \hbox (badness 10000) in paragraph at lines 22--23
 
  []
@@ -3048,7 +3054,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--39
 
  []
 
-<Chapter7/Figs/eligibility_trace_electron_schematic.png, id=3690, 722.7pt x 520
+<Chapter7/Figs/eligibility_trace_electron_schematic.png, id=3695, 722.7pt x 520
 .344pt>
 File: Chapter7/Figs/eligibility_trace_electron_schematic.png Graphic file (type
  png)
@@ -3066,7 +3072,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 48--49
 
  []
 
-<Chapter7/Figs/tag_capture_translation_map.png, id=3711, 794.97pt x 968.418pt>
+<Chapter7/Figs/tag_capture_translation_map.png, id=3716, 794.97pt x 968.418pt>
 File: Chapter7/Figs/tag_capture_translation_map.png Graphic file (type png)
 <use Chapter7/Figs/tag_capture_translation_map.png>
 Package pdftex.def Info: Chapter7/Figs/tag_capture_translation_map.png  used on
@@ -3097,7 +3103,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 76--77
 
  []
 
-<Chapter7/Figs/retention_tunable_trace.png, id=3755, 303.534pt x 216.81pt>
+<Chapter7/Figs/retention_tunable_trace.png, id=3760, 303.534pt x 216.81pt>
 File: Chapter7/Figs/retention_tunable_trace.png Graphic file (type png)
 <use Chapter7/Figs/retention_tunable_trace.png>
 Package pdftex.def Info: Chapter7/Figs/retention_tunable_trace.png  used on inp
@@ -3113,7 +3119,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--87
 
  []
 
-<Chapter7/Figs/device_biology_timescales.png, id=3776, 515.0442pt x 210.3057pt>
+<Chapter7/Figs/device_biology_timescales.png, id=3781, 515.0442pt x 210.3057pt>
 
 File: Chapter7/Figs/device_biology_timescales.png Graphic file (type png)
 <use Chapter7/Figs/device_biology_timescales.png>
@@ -3130,7 +3136,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 108--110
 
  []
 
-<Chapter7/Figs/three_factor_architecture.png, id=3810, 758.1123pt x 306.9066pt>
+<Chapter7/Figs/three_factor_architecture.png, id=3815, 758.1123pt x 306.9066pt>
 
 File: Chapter7/Figs/three_factor_architecture.png Graphic file (type png)
 <use Chapter7/Figs/three_factor_architecture.png>
@@ -3138,7 +3144,7 @@ Package pdftex.def Info: Chapter7/Figs/three_factor_architecture.png  used on i
 nput line 118.
 (pdftex.def)             Requested size: 402.46342pt x 162.93132pt.
 [156 <./Chapter7/Figs/three_factor_architecture.png>]
-<Chapter7/Figs/credit_window_vs_retention.png, id=3827, 245.718pt x 202.356pt>
+<Chapter7/Figs/credit_window_vs_retention.png, id=3832, 245.718pt x 202.356pt>
 File: Chapter7/Figs/credit_window_vs_retention.png Graphic file (type png)
 <use Chapter7/Figs/credit_window_vs_retention.png>
 Package pdftex.def Info: Chapter7/Figs/credit_window_vs_retention.png  used on 
@@ -3150,7 +3156,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--138
  []
 
 [157 <./Chapter7/Figs/credit_window_vs_retention.png>]
-<Chapter7/Figs/interval_selective_eligibility.png, id=3835, 520.344pt x 216.81p
+<Chapter7/Figs/interval_selective_eligibility.png, id=3840, 520.344pt x 216.81p
 t>
 File: Chapter7/Figs/interval_selective_eligibility.png Graphic file (type png)
 <use Chapter7/Figs/interval_selective_eligibility.png>
@@ -3177,7 +3183,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
-<Chapter7/Figs/spiking_network_credit.png, id=3853, 245.718pt x 202.356pt>
+<Chapter7/Figs/spiking_network_credit.png, id=3858, 245.718pt x 202.356pt>
 File: Chapter7/Figs/spiking_network_credit.png Graphic file (type png)
 <use Chapter7/Figs/spiking_network_credit.png>
 Package pdftex.def Info: Chapter7/Figs/spiking_network_credit.png  used on inpu
@@ -3193,7 +3199,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 161--162
 
  []
 
-<Chapter7/Figs/closed_loop_learning_curve.png, id=3860, 245.718pt x 195.129pt>
+<Chapter7/Figs/closed_loop_learning_curve.png, id=3865, 245.718pt x 195.129pt>
 File: Chapter7/Figs/closed_loop_learning_curve.png Graphic file (type png)
 <use Chapter7/Figs/closed_loop_learning_curve.png>
 Package pdftex.def Info: Chapter7/Figs/closed_loop_learning_curve.png  used on 
@@ -3201,7 +3207,7 @@ input line 164.
 (pdftex.def)             Requested size: 262.47934pt x 208.46439pt.
 [159] [160 <./Chapter7/Figs/spiking_network_credit.png> <./Chapter7/Figs/closed
 _loop_learning_curve.png>]
-<Chapter7/Figs/sequential_credit_benchmark.png, id=3873, 520.344pt x 216.81pt>
+<Chapter7/Figs/sequential_credit_benchmark.png, id=3878, 520.344pt x 216.81pt>
 File: Chapter7/Figs/sequential_credit_benchmark.png Graphic file (type png)
 <use Chapter7/Figs/sequential_credit_benchmark.png>
 Package pdftex.def Info: Chapter7/Figs/sequential_credit_benchmark.png  used on
@@ -3238,7 +3244,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 190--191
  []
 
 [162]
-<Chapter7/Figs/closed_loop_crossbar.png, id=3906, 712.3413pt x 300.1614pt>
+<Chapter7/Figs/closed_loop_crossbar.png, id=3911, 712.3413pt x 300.1614pt>
 File: Chapter7/Figs/closed_loop_crossbar.png Graphic file (type png)
 <use Chapter7/Figs/closed_loop_crossbar.png>
 Package pdftex.def Info: Chapter7/Figs/closed_loop_crossbar.png  used on input 
@@ -3259,7 +3265,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 242--243
 
  []
 
-<Chapter7/Figs/closed_loop_scaling_remedies.png, id=3929, 512.6352pt x 215.3646
+<Chapter7/Figs/closed_loop_scaling_remedies.png, id=3934, 512.6352pt x 215.3646
 pt>
 File: Chapter7/Figs/closed_loop_scaling_remedies.png Graphic file (type png)
 <use Chapter7/Figs/closed_loop_scaling_remedies.png>
@@ -3276,7 +3282,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 252--253
 
  []
 
-<Chapter7/Figs/hybrid_perception_decision.png, id=3940, 507.8172pt x 209.583pt>
+<Chapter7/Figs/hybrid_perception_decision.png, id=3945, 507.8172pt x 209.583pt>
 
 File: Chapter7/Figs/hybrid_perception_decision.png Graphic file (type png)
 <use Chapter7/Figs/hybrid_perception_decision.png>
@@ -3303,13 +3309,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 283--284
 
  []
 
-<Chapter7/Figs/hybrid_array_scale_faults.png, id=3959, 462.528pt x 289.08pt>
+<Chapter7/Figs/hybrid_array_scale_faults.png, id=3964, 462.528pt x 289.08pt>
 File: Chapter7/Figs/hybrid_array_scale_faults.png Graphic file (type png)
 <use Chapter7/Figs/hybrid_array_scale_faults.png>
 Package pdftex.def Info: Chapter7/Figs/hybrid_array_scale_faults.png  used on i
 nput line 286.
 (pdftex.def)             Requested size: 341.21913pt x 213.27184pt.
-<Chapter7/Figs/deep_all_local_learning.png, id=3962, 513.117pt x 220.4235pt>
+<Chapter7/Figs/deep_all_local_learning.png, id=3967, 513.117pt x 220.4235pt>
 File: Chapter7/Figs/deep_all_local_learning.png Graphic file (type png)
 <use Chapter7/Figs/deep_all_local_learning.png>
 Package pdftex.def Info: Chapter7/Figs/deep_all_local_learning.png  used on inp
@@ -3351,7 +3357,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 309--310
  []
 
 [170]
-<Chapter7/Figs/deep_all_local_crossbar.png, id=3994, 794.97pt x 289.08pt>
+<Chapter7/Figs/deep_all_local_crossbar.png, id=3999, 794.97pt x 289.08pt>
 File: Chapter7/Figs/deep_all_local_crossbar.png Graphic file (type png)
 <use Chapter7/Figs/deep_all_local_crossbar.png>
 Package pdftex.def Info: Chapter7/Figs/deep_all_local_crossbar.png  used on inp
@@ -3387,7 +3393,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 335--336
 
  []
 
-<Chapter7/Figs/delayed_match_temporal_primitive.png, id=4039, 607.068pt x 245.7
+<Chapter7/Figs/delayed_match_temporal_primitive.png, id=4044, 607.068pt x 245.7
 18pt>
 File: Chapter7/Figs/delayed_match_temporal_primitive.png Graphic file (type png
 )
@@ -3401,13 +3407,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 343--344
  []
 
 [173 <./Chapter7/Figs/delayed_match_temporal_primitive.png>]
-<Chapter7/Figs/temporal_spatial_credit.png, id=4054, 664.884pt x 281.853pt>
+<Chapter7/Figs/temporal_spatial_credit.png, id=4059, 664.884pt x 281.853pt>
 File: Chapter7/Figs/temporal_spatial_credit.png Graphic file (type png)
 <use Chapter7/Figs/temporal_spatial_credit.png>
 Package pdftex.def Info: Chapter7/Figs/temporal_spatial_credit.png  used on inp
 ut line 346.
 (pdftex.def)             Requested size: 402.46342pt x 170.60976pt.
-<Chapter7/Figs/homeostasis_stabilisation.png, id=4055, 520.344pt x 317.988pt>
+<Chapter7/Figs/homeostasis_stabilisation.png, id=4060, 520.344pt x 317.988pt>
 File: Chapter7/Figs/homeostasis_stabilisation.png Graphic file (type png)
 <use Chapter7/Figs/homeostasis_stabilisation.png>
 Package pdftex.def Info: Chapter7/Figs/homeostasis_stabilisation.png  used on i
@@ -3424,13 +3430,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 359--360
  []
 
 [174 <./Chapter7/Figs/temporal_spatial_credit.png>]
-<Chapter7/Figs/array_scale_fault_tolerance.png, id=4066, 404.712pt x 289.08pt>
+<Chapter7/Figs/array_scale_fault_tolerance.png, id=4071, 404.712pt x 289.08pt>
 File: Chapter7/Figs/array_scale_fault_tolerance.png Graphic file (type png)
 <use Chapter7/Figs/array_scale_fault_tolerance.png>
 Package pdftex.def Info: Chapter7/Figs/array_scale_fault_tolerance.png  used on
  input line 362.
 (pdftex.def)             Requested size: 271.22375pt x 193.73993pt.
-<Chapter7/Figs/frank_probabilistic_selection.png, id=4069, 578.16pt x 231.264pt
+<Chapter7/Figs/frank_probabilistic_selection.png, id=4074, 578.16pt x 231.264pt
 >
 File: Chapter7/Figs/frank_probabilistic_selection.png Graphic file (type png)
 <use Chapter7/Figs/frank_probabilistic_selection.png>
@@ -3458,7 +3464,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 382--383
 
  []
 
-<Chapter7/Figs/eeg_reward_capstone.png, id=4102, 534.798pt x 216.81pt>
+<Chapter7/Figs/eeg_reward_capstone.png, id=4107, 534.798pt x 216.81pt>
 File: Chapter7/Figs/eeg_reward_capstone.png Graphic file (type png)
 <use Chapter7/Figs/eeg_reward_capstone.png>
 Package pdftex.def Info: Chapter7/Figs/eeg_reward_capstone.png  used on input l
@@ -3470,7 +3476,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 390--391
  []
 
 [178 <./Chapter7/Figs/eeg_reward_capstone.png>]
-<Chapter7/Figs/dopamine_reward_signal.png, id=4132, 578.16pt x 224.037pt>
+<Chapter7/Figs/dopamine_reward_signal.png, id=4137, 578.16pt x 224.037pt>
 File: Chapter7/Figs/dopamine_reward_signal.png Graphic file (type png)
 <use Chapter7/Figs/dopamine_reward_signal.png>
 Package pdftex.def Info: Chapter7/Figs/dopamine_reward_signal.png  used on inpu
@@ -3481,14 +3487,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 398--399
 
  []
 
-<Chapter7/Figs/dopamine_reward_capstone.png, id=4147, 794.97pt x 224.037pt>
+<Chapter7/Figs/dopamine_reward_capstone.png, id=4152, 794.97pt x 224.037pt>
 File: Chapter7/Figs/dopamine_reward_capstone.png Graphic file (type png)
 <use Chapter7/Figs/dopamine_reward_capstone.png>
 Package pdftex.def Info: Chapter7/Figs/dopamine_reward_capstone.png  used on in
 put line 401.
 (pdftex.def)             Requested size: 437.46112pt x 123.2891pt.
 [179 <./Chapter7/Figs/dopamine_reward_signal.png>]
-<Chapter7/Figs/retention_delay_scaling_law.png, id=4160, 404.712pt x 303.534pt>
+<Chapter7/Figs/retention_delay_scaling_law.png, id=4165, 404.712pt x 303.534pt>
 
 File: Chapter7/Figs/retention_delay_scaling_law.png Graphic file (type png)
 <use Chapter7/Figs/retention_delay_scaling_law.png>
@@ -3520,7 +3526,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 429--430
 
  []
 
-<Chapter7/Figs/retention_as_asset_distal_cue.png, id=4181, 498.663pt x 228.6141
+<Chapter7/Figs/retention_as_asset_distal_cue.png, id=4186, 498.663pt x 228.6141
 pt>
 File: Chapter7/Figs/retention_as_asset_distal_cue.png Graphic file (type png)
 <use Chapter7/Figs/retention_as_asset_distal_cue.png>
@@ -3533,7 +3539,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 437--438
  []
 
 [182]
-<Chapter7/Figs/single_rate_reduction_validation.png, id=4189, 607.068pt x 238.4
+<Chapter7/Figs/single_rate_reduction_validation.png, id=4194, 607.068pt x 238.4
 91pt>
 File: Chapter7/Figs/single_rate_reduction_validation.png Graphic file (type png
 )
@@ -3610,7 +3616,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--22
 
 
 ]
-<Chapter8/Figs/long_horizon.png, id=4257, 650.43pt x 245.718pt>
+<Chapter8/Figs/long_horizon.png, id=4262, 650.43pt x 245.718pt>
 File: Chapter8/Figs/long_horizon.png Graphic file (type png)
 <use Chapter8/Figs/long_horizon.png>
 Package pdftex.def Info: Chapter8/Figs/long_horizon.png  used on input line 24.
@@ -3621,7 +3627,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
 
-<Chapter8/Figs/reversal.png, id=4261, 643.6848pt x 256.0767pt>
+<Chapter8/Figs/reversal.png, id=4266, 643.6848pt x 256.0767pt>
 File: Chapter8/Figs/reversal.png Graphic file (type png)
 <use Chapter8/Figs/reversal.png>
 Package pdftex.def Info: Chapter8/Figs/reversal.png  used on input line 32.
@@ -3631,7 +3637,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 41--43
 
  []
 
-<Chapter8/Figs/multitimescale.png, id=4272, 419.166pt x 274.626pt>
+<Chapter8/Figs/multitimescale.png, id=4277, 419.166pt x 274.626pt>
 File: Chapter8/Figs/multitimescale.png Graphic file (type png)
 <use Chapter8/Figs/multitimescale.png>
 Package pdftex.def Info: Chapter8/Figs/multitimescale.png  used on input line 4
@@ -3647,7 +3653,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
  []
 
-<Chapter8/Figs/vector_timer.png, id=4289, 650.43pt x 245.718pt>
+<Chapter8/Figs/vector_timer.png, id=4294, 650.43pt x 245.718pt>
 File: Chapter8/Figs/vector_timer.png Graphic file (type png)
 <use Chapter8/Figs/vector_timer.png>
 Package pdftex.def Info: Chapter8/Figs/vector_timer.png  used on input line 55.
@@ -3659,7 +3665,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 60--61
  []
 
 [190 <./Chapter8/Figs/multitimescale.png>]
-<Chapter8/Figs/wm_stc_joint.png, id=4297, 715.473pt x 267.03764pt>
+<Chapter8/Figs/wm_stc_joint.png, id=4302, 715.473pt x 267.03764pt>
 File: Chapter8/Figs/wm_stc_joint.png Graphic file (type png)
 <use Chapter8/Figs/wm_stc_joint.png>
 Package pdftex.def Info: Chapter8/Figs/wm_stc_joint.png  used on input line 63.
@@ -3680,12 +3686,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 81--82
 
  []
 
-<Chapter8/Figs/capture.png, id=4334, 809.424pt x 310.761pt>
+<Chapter8/Figs/capture.png, id=4339, 809.424pt x 310.761pt>
 File: Chapter8/Figs/capture.png Graphic file (type png)
 <use Chapter8/Figs/capture.png>
 Package pdftex.def Info: Chapter8/Figs/capture.png  used on input line 84.
 (pdftex.def)             Requested size: 402.46342pt x 154.5171pt.
-<Chapter8/Figs/capture_electron.png, id=4341, 722.7pt x 520.344pt>
+<Chapter8/Figs/capture_electron.png, id=4346, 722.7pt x 520.344pt>
 File: Chapter8/Figs/capture_electron.png Graphic file (type png)
 <use Chapter8/Figs/capture_electron.png>
 Package pdftex.def Info: Chapter8/Figs/capture_electron.png  used on input line
@@ -3717,7 +3723,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 106--107
  []
 
 [195]
-<Chapter8/Figs/device_td.png, id=4367, 455.301pt x 277.5168pt>
+<Chapter8/Figs/device_td.png, id=4372, 455.301pt x 277.5168pt>
 File: Chapter8/Figs/device_td.png Graphic file (type png)
 <use Chapter8/Figs/device_td.png>
 Package pdftex.def Info: Chapter8/Figs/device_td.png  used on input line 109.
@@ -3807,13 +3813,13 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 6E854831EA425D82BFD89D2B0378B2FB;21741.
+(rerunfilecheck)             Checksum: C2F8BC15FFDE9087097FCC00B0AEE284;21741.
  ) 
 Here is how much of TeX's memory you used:
- 27778 strings out of 474486
- 546739 string characters out of 5744227
+ 27787 strings out of 474486
+ 547085 string characters out of 5744227
  1968542 words of memory out of 5000000
- 47988 multiletter control sequences out of 15000+600000
+ 47996 multiletter control sequences out of 15000+600000
  663263 words of font info for 428 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  125i,16n,121p,2425b,1705s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -3839,9 +3845,9 @@ Data/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/User/AppDa
 ta/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/User/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/User/AppData
 /Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on thesis.pdf (252 pages, 64124752 bytes).
+Output written on thesis.pdf (252 pages, 64228432 bytes).
 PDF statistics:
- 4847 PDF objects out of 5155 (max. 8388607)
- 1119 named destinations out of 1200 (max. 500000)
- 96095 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 4852 PDF objects out of 5155 (max. 8388607)
+ 1120 named destinations out of 1200 (max. 500000)
+ 96100 words of extra memory for PDF output out of 106986 (max. 10000000)
 
