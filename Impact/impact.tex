@@ -2,13 +2,13 @@
 
 \begin{impact}      
 
-\noindent This thesis shows how memristive silicon-oxide devices can support biorealistic learning: hardware that learns through physical principles rather than abstract algorithms, at greater energy efficiency than conventional architectures. Characterising these devices in the subthreshold regime points towards energy-efficient synapses supporting both potentiation and depression, and the compact models developed here let engineers simulate such circuits before fabrication. \\
+\noindent This thesis shows how memristive silicon-oxide devices can support biorealistic learning through physical dynamics rather than only stored numerical state. Subthreshold characterisation points towards low-voltage synapses supporting potentiation and depression, while the compact models let engineers simulate candidate circuits before fabrication. No circuit-level energy or area comparison is claimed. \\
 
-\noindent At the system level, spiking neural networks learn robustly on these hardware-aware rules, and how the device's slow transient should be treated depends on the architecture: suppressed by a homeostatic regulariser it aids fully connected networks, while used as a neuron's membrane leak it supplies a fabrication-set temporal memory. The same transient then acts as an eligibility trace, turning a discarded effect into the credit-assignment mechanism for reward-modulated reinforcement learning, matching the established algorithmic traces while supplying its timescale as a fabrication-set physical parameter. \\
+\noindent At system level, simulated spiking networks learn on these hardware-aware rules, with architecture determining how the slow transient is used: homeostatic suppression aids fully connected networks, while device-constrained retention serves as neuronal leak. The transient also acts as a device-local analogue of an eligibility state. Fair controls identify its distinctive contribution as an interval-selective temporal prior that can avoid an externally stored eligibility trajectory under an in-material implementation. \\
 
-\noindent Two features speak directly to on-chip learning. Paired with a local feedback-alignment signal, the trace carries credit through a deep network entirely locally, with no weight transport -- a long-standing obstacle to analogue-hardware training -- made reliable by the same homeostatic mechanism the device needs for stable inference in the static case. And the rule grounds in biology: it reproduces the human positive- versus negative-feedback asymmetry, and the full stack learns under a reward decoded from a directly measured dopamine transient (public mouse fibre-photometry, not measured here). \\
+\noindent Two features speak to on-chip learning. Local feedback alignment carries credit through a synthetic deep network without weight transport, stabilised by the same homeostatic mechanism used for static inference. Separately, public biological data provide a coherent dopamine-learning spine: Coddington supplies positive causal policy-learning evidence, Jeong recovers the inhibition direction, and leakage-safe DANDI 001340 replay improves held-out prediction over shuffled waveforms. \\
 
-\noindent Reframing device physics as a computational resource rather than a limitation to be suppressed offers a way to fold physical constraints into the design of learning systems, uniting materials science, circuit design, and learning algorithms, with reach into low-power adaptive computing for edge and robotics applications. \\
+\noindent Reframing device physics as a computational resource folds physical constraints into learning-system design. Model comparison resolves a compressed rise without identifying cascade depth, and frozen pulse-off predictions state how the material--algorithm link can be falsified. The immediate value is a testable framework for matching material timescales to temporal-credit problems; low-power edge or robotics benefits remain implementation targets rather than measured outcomes. \\
 
 \clearpage
 \thispagestyle{empty}
@@ -16,21 +16,21 @@
 
 \subsection*{Academic Award}
 \begin{itemize}
-    \item "Onsite Session Best Presentation Award: Advanced Electronic Information System and Signal Analysis", IEEE SEAI 2025.
+    \item ``Onsite Session Best Presentation Award: Advanced Electronic Information System and Signal Analysis'', IEEE SEAI 2025.
 \end{itemize}
 
 \subsection*{List of Publications}
 \begin{itemize}
-    \item V. C. Vu, D. J. Mannion, D. Joksas, W. H. Ng, A. Mehonic, and A. Kenyon, “Spiking Neural Networks with Silicon Oxide Memristive Devices in the Subthreshold Regime,” in 2025 IEEE 5th International Conference on Software Engineering and Artificial Intelligence, Jul. 2025, pp. 340–344.
-    \item V. C. Vu, A. Kenyon, D. Joksas, A. Mehonic, D. J. Mannion, and W. H. Ng, “Spiking Neural Networks with Nonidealities from Memristive Silicon Oxide Devices,” in 2024 IEEE 24th International Conference on Nanotechnology, Jul. 2024, pp. 46–50.
-    \item D. J. Mannion, V. C. Vu, W. H. Ng, A. Mehonic, and A. J. Kenyon, “Unipolar Potentiation and Depression in Memristive Devices Utilizing the Subthreshold Regime,” IEEE Transactions on Nanotechnology, vol. 22, pp. 313–320, 2023.
+    \item V. C. Vu, D. J. Mannion, D. Joksas, W. H. Ng, A. Mehonic, and A. Kenyon, ``Spiking Neural Networks with Silicon Oxide Memristive Devices in the Subthreshold Regime,'' in 2025 IEEE 5th International Conference on Software Engineering and Artificial Intelligence, Jul. 2025, pp. 340--344.
+    \item V. C. Vu, A. Kenyon, D. Joksas, A. Mehonic, D. J. Mannion, and W. H. Ng, ``Spiking Neural Networks with Nonidealities from Memristive Silicon Oxide Devices,'' in 2024 IEEE 24th International Conference on Nanotechnology, Jul. 2024, pp. 46--50.
+    \item D. J. Mannion, V. C. Vu, W. H. Ng, A. Mehonic, and A. J. Kenyon, ``Unipolar Potentiation and Depression in Memristive Devices Utilizing the Subthreshold Regime,'' IEEE Transactions on Nanotechnology, vol. 22, pp. 313--320, 2023.
 \end{itemize}
 
 \subsection*{Conference Presentations}
 \begin{itemize}
-    \item "Unipolar Potentiation and Depression within Optically Active Memristive Devices Subthreshold Regime", EMRS Spring 2025.
-    \item "Circuit-Based Modelling of Current Transients within the Memristive Devices Subthreshold Regime", MEMRISYS 2024.
-    \item "A Compact SPICE Model for Current Transients within the Subthreshold Regime of Memristors", IEEE MetroXRAINE 2023.
+    \item ``Unipolar Potentiation and Depression within Optically Active Memristive Devices Subthreshold Regime'', EMRS Spring 2025.
+    \item ``Circuit-Based Modelling of Current Transients within the Memristive Devices Subthreshold Regime'', MEMRISYS 2024.
+    \item ``A Compact SPICE Model for Current Transients within the Subthreshold Regime of Memristors'', IEEE MetroXRAINE 2023.
 \end{itemize}
 
 \end{impact}
