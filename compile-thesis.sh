@@ -36,10 +36,10 @@ case "$cmd" in
 		;;
 	compile)
 		echo "Compiling $filename.tex with latexmk..."
-		if ! latexmk -pdf -f "$filename.tex"; then
+		if ! latexmk -pdf "$filename.tex"; then
 			echo "First pass failed. Removing stale aux/out files and retrying..."
 			rm -f "$filename.out" "$filename.aux" "$filename.toc"
-			latexmk -pdf -f "$filename.tex"
+			latexmk -pdf "$filename.tex"
 		fi
 		echo "Success! -> $filename.pdf"
 		;;

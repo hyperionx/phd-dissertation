@@ -5,484 +5,601 @@
 
 \chapter{Memristive Reinforcement Learning}\label{ch:learning}
 
-\noindent Chapter~\ref{ch:bio} trained static weights robust to the device's \emph{steady-state} non-idealities, setting the slow current transient aside. This chapter takes the complementary route: it uses the transient of Chapters~\ref{ch:transients} and~5 as the computational substrate itself. The dispersive trap-cascade model of Section~\ref{sec:5p3} supplies a device-local analogue of an \emph{eligibility state}, the slowly decaying synaptic memory that reward-modulated learning needs to bridge an action--reward delay. Trace-level, leaky integrate-and-fire (\abbrev{LIF}) and closed contextual-bandit experiments establish the device-to-learning construction; a four-decision task then tests trajectory-level credit. Learning-rate-fair controls define its operating envelope, while the central shape result survives them: the measured rise--decay form supplies an interval-selective temporal prior under the stated circuit abstraction.\\
+\noindent Delayed reward requires each active synapse to retain a local state until the outcome of an action becomes
+known. In a canonical three-factor rule, local activity deposits eligibility, a decay kernel carries it towards reward,
+and the reward gates the persistent weight update. This chapter takes the normalised SiO$_x$ relaxation
+measured in Chapter~\ref{ch:model} as that decay kernel, derives how it weights events at different delays, and tests
+the resulting predictions in closed-loop reinforcement learning.\\
 
-\noindent A deep all-local two-layer agent then tests how temporal and spatial credit compose, reaching reliable learning once the same-class local homeostatic stabiliser is added. These archived deep results use the linear cascade representation and are retained as synthetic representation sensitivities. The biological spine is supplied by three complementary public datasets: Coddington provides a positive closed-loop test of action-contingent dopamine policy learning, Jeong independently recovers the direction of dopamine-inhibition effects, and DANDI 001340 connects intact continuous dLight waveforms to the recorded-action update. The physical replay improves held-out choice likelihood relative to within-session shuffled waveforms; the similarity of matched kernels defines the next shape-identification experiment rather than weakening this biological connection. Retention--delay scaling is reported as a task-specific design relation whose physical test is fixed prospectively.\\
+\noindent The author developed the kernel identification, learning rules, simulations, and analyses reported in this
+chapter. The same measured decay also drives a two-layer learner without weight transport on a task that requires
+credit to be divided between layers. The mesoporous-SiO$_2$ relaxations \cite{zhang2024mesoporous} refitted for the
+external check were measured and deposited by another group, and the reanalysis is the author's. Only the decay
+profile comes from the device measurement: activity-dependent
+deposition, signed eligibility, reward gating, and persistent weight updates remain simulated, and no integrated
+learning device is claimed.
 
-\noindent The contributions of this chapter are entirely the author's own. The identification of the device transient as an eligibility trace, the three-factor learning rule built on it, and every experiment, simulation, and analysis reported here were conceived and carried out by the author, building on the device model of Chapter~\ref{ch:model} and the homeostatic mechanism of Chapter~\ref{ch:bio}.
-
-\section[The Transient as an Eligibility Trace]{The Transient as an Eligibility Trace}
+\section[Measured Eligibility-Kernel Identification]{Measured Eligibility-Kernel Identification}
 \label{sec:7p1}
 
-\noindent Reinforcement learning in any spiking substrate faces the \emph{distal-reward problem} of Section~\ref{subsec:learning-paradigms} \cite{izhikevich2007solving}: a reward arrives well after the spike coincidences that earned it. The established biological resolution is the three-factor, or neo-Hebbian, eligibility-trace rule \cite{fremaux2016neuromodulated, gerstner2018eligibility}. In that rule a fast pre--post coincidence sets a slowly decaying \emph{eligibility trace} that a delayed neuromodulator later gates into a weight change. Where the slow trace comes from is usually left open, the trace posited as an abstract synaptic variable. This chapter tests whether the measured device transient can supply a physically local analogue of that state. Its decay time constrains a task-specific action--reward window in simulation; it does not by itself establish the biological trace or a universal learnable horizon \cite{izhikevich2007solving, florian2007reinforcement}.
+\noindent Before the measured current can enter a learning rule, it must be converted into a dimensionless decay, and
+that conversion requires a background current, an amplitude, and a fitted observation interval. The first subsection
+identifies the kernel and places it in the canonical three-factor equation. Fit reliability follows in the second, which
+tests how the fitted interval and background-current definition alter the inferred kernel and, consequently, its
+temporal-credit prediction.
 
-\subsection[Repurposing the Trap-Cascade Model]{Repurposing the Trap-Cascade Model}
+\subsection[Measured Decay in the Canonical Rule]{Measured Decay in the Canonical Rule}
 \label{sec:7p1p1}
 
-\noindent The dispersive trap-cascade model of Section~\ref{sec:5p3} realises this candidate trace computationally. The compressed rise is consistent with a short effective cascade, represented primarily by $k=3$ with $k=4$ as a sensitivity; the data do not uniquely identify microscopic stage count. Chapter~5 fits the transient under constant bias. Here the same equation family is driven by a pre--post coincidence and read as a normalised gating variable. The nonlinear normalised-headroom equation is the equation-matching physical primary, while the earlier linear Erlang cascade is retained explicitly as the empirically better Au representation and computational sensitivity.\\
+\noindent An eligibility trace is a synapse-local state written by recent activity and read when reward arrives.
+Within the learning model, each deposited contribution carries unit amplitude, while the measurement supplies its
+subsequent decay. Writing $q(\ell)$ for the fraction remaining after lag $\ell$, the normalised post-drive relaxation
+of the \abbrev{ITO}-contacted SiO$_x$ device provides the kernel directly instead of imposing a chosen
+time constant.\\
 
-\noindent Concretely, the same system of first-order ordinary differential equations (\abbrev{ODE}s) is retained, but a coincidence signal $d_{ij}(t)$ at synapse $ij$ replaces the applied bias as the cascade drive, and the normalised final stage is read out as the eligibility trace,
+\noindent Ten relaxations were available from one randomly selected \abbrev{ITO}-contacted pad in one session, measured
+by the near-zero-bias protocol of Section~\ref{sec:3pulse}. The kernel screen of Section~\ref{sec:3analysis} retained nine
+measurements; the excluded measurement returned $R^2=0.88$.
+These nine measurements quantify repeatability within one session on one contact instead of variation between devices,
+and the drive history immediately preceding each of them was not documented.\\
+
+\noindent Equation~\ref{eq:3.1}, a stretched exponential, gives the fraction of one deposited contribution that
+survives to lag $\ell$, and its mean retention
+follows from the fitted scale and shape parameters:
 \begin{align}
-    \frac{dv^{(m)}_{ij}}{dt} &= \alpha\, p^{(m)}_{ij}\left( V_{max} - \left| v^{(m)}_{ij} \right| \right) - \frac{v^{(m)}_{ij}}{\tau_{leak}}, \label{eq:7.1} \\
-    \frac{du_{ij}}{dt} &= \alpha\, d_{ij}\left( V_{max} - \left| u_{ij} \right| \right) - \frac{u_{ij}}{\tau_d}, \label{eq:7.2} \\
-    e_{ij}(t) &= \frac{v^{(k)}_{ij}(t)}{V_{max}}, \label{eq:7.3}
+    q(\ell) &= \exp\!\left[-\left(\frac{\ell}{\tau_{leak}}\right)^{\beta_{leak}}\right], \qquad
+    \langle t \rangle = \int_{0}^{\infty} q(\ell)\, d\ell = \frac{\tau_{leak}}{\beta_{leak}}\,\Gamma\!\left(\frac{1}{\beta_{leak}}\right). \label{eq:7.1}
 \end{align}
-with $p^{(1)}_{ij} = d_{ij}$ and $p^{(m)}_{ij} = v^{(m-1)}_{ij}/V_{max}$ for $m>1$ (the sequential cascade of Section~\ref{sec:5p3}, the upstream stage entering as a dimensionless occupancy fraction), and $\alpha = k/\tau_r$ the per-stage rate set by the fitted rise time. Equation~\ref{eq:7.2} is the slow space-charge state $u_{ij}$ that Chapter~5 separates from the trap chain, driven by the same coincidence $d_{ij}$ but relaxing at the proton-decay constant $\tau_d \gg \tau_{leak}$. It screens the interfacial field but carries no appreciable current. The eligibility is read from the final cascade stage alone (Equation~\ref{eq:7.3}), so $u_{ij}$ does not enter it. The $\left| \cdot \right|$ headroom term admits signed (depressing) excursions bounded to $\left| v \right|, \left| u \right| \le V_{max}$, a generalisation of Equations~\ref{eq:5.6}--\ref{eq:5.7} required because an eligibility trace must decrease as well as increase. The rise is the same sigmoidal trap-filling of Chapter~5 and the relaxation the same $R_{leak}$ leakage. Only the interpretation changes. The retention $\tau_{leak}$, a short-term-memory time in Chapter~5, becomes the \emph{credit-assignment window}: the longest coincidence-to-reward delay over which the synapse remains eligible.\\
+\noindent Here $\tau_{leak}$ is a retention scale in seconds, and $\beta_{leak}$ sets the decay shape. Each measurement
+was fitted separately as a decaying current above a settled background, fixed at the median current over the final
+tenth of the complete measurement. Subtracting that background and dividing by the fitted amplitude gives the
+dimensionless kernel, with $q(0)=1$.\\
 
-\noindent The correspondence is exact at the level of the reduced equation, but it is not a demonstration of biological chemistry or of the surrounding circuit. Take a single state ($k=1$, so $p^{(1)}_{ij} = d_{ij}$) and the small-signal regime $|v| \ll V_{max}$, where the headroom factor $V_{max} - |v| \to V_{max}$ is constant. Equation~\ref{eq:7.1} becomes linear,
-\begin{align}
-    \dot{e}_{ij} \;\approx\; \underbrace{\alpha}_{\text{gain}}\, d_{ij}(t) \;-\; \frac{e_{ij}}{\tau_{leak}}, \label{eq:7.4}
-\end{align}
-a leaky integrator driven by the pre--post coincidence $d_{ij}$ and decaying with time constant $\tau_{leak}$. This is, term by term, the canonical eligibility-trace equation of reward-modulated spike-timing-dependent plasticity \cite{izhikevich2007solving, florian2007reinforcement}: the coincidence drive plays the role of the \abbrev{STDP} kernel and the trap-discharge time $\tau_{leak}$ that of the trace time constant. The device model can therefore implement the same state equation locally, provided a circuit supplies coincidence drive, sensing and reward-gated weight update. That mathematical identity does not establish that the device and a biological synapse share a microscopic mechanism.\\
+\noindent The arithmetic mean of the nine fitted parameter pairs gives $\tau_{leak}=16.0$\,s and
+$\beta_{leak}=0.622$, with mean $R^2=0.995$ and no measurement below $0.992$. The fitted amplitudes span a factor of
+$1.87$, while the normalised decays closely overlap, so averaging parameter pairs gives each measurement equal
+weight.\\
 
-\noindent Under this circuit abstraction, the candidate eligibility state is carried by the device's own relaxation rather than by a separately stored digital trajectory. Figure~\ref{fig:7s} traces the proposed mapping at the electron level, from coincidence-driven trap capture, through the trapped-electron population used as eligibility, to the reward-gated update that samples whatever survives at $t_R$.\\
+\noindent Across the nine measurements, $\tau_{leak}$ ranges from $14.8$ to $17.5$\,s, and $\beta_{leak}$ ranges
+from $0.604$ to $0.647$. Every fit is dispersive and remains below the exponential value
+$\beta_{leak}=1$, consistent with the close overlap after normalisation, and Equation~\ref{eq:7.1} gives a mean
+retention of $23.0$\,s for the aggregate kernel
+(Figure~\ref{fig:7r}).\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/eligibility_trace_electron_schematic.png}}
-    \caption[How the trap-discharge retention serves as the eligibility trace.]{How $\tau_{leak}$ serves as the eligibility trace, at the electron level. (a) A pre--post coincidence captures electrons into a short chain of oxide traps; once the drive stops they are emitted back to the conduction band over a spread of energies (the dispersive, $\beta_{leak}<1$ discharge). (b) The trapped-electron population is the eligibility $e(t)$, rising at the coincidence and decaying over the trapped-electron lifetime $\tau_{leak}=R_{leak}C$. (c) A delayed reward samples whatever survives at $t_R$ and commits $\Delta w_{ij}=\eta(R-b)\,e_{ij}(t_R)$ (Equation~\ref{eq:7.8}). (d) $\tau_{leak}$, set by trap depth, fixes the width of the credit window, from fast-forgetting (shallow traps) to integrating (deep traps). Schematic of the established trap-emission mechanism (Section~\ref{sec:7p1p1}).}
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/measured_relaxation.pdf}}
+    \caption[The measured post-drive relaxation that supplies the kernel.]{\emph{Measured}: \textbf{(a)} nine
+    post-drive currents from one contact, each with its stretched-exponential fit. \textbf{(b)} The same measurements after
+    background subtraction and amplitude normalisation, with the aggregate kernel at $\tau_{leak}=16.0$\,s and
+    $\beta_{leak}=0.622$.}
+    \label{fig:7r}
+\end{figure}
+
+\noindent Within the canonical three-factor rule, the normalised decay weights every locally generated
+eligibility contribution according to its age when reward arrives:
+\begin{align}
+    e_{ij}(t_R) &= \int_{0}^{\infty} d_{ij}(t_R - \ell)\, q(\ell)\, d\ell, \label{eq:7.2} \\
+    \Delta w_{ij} &= \eta \left( R - b \right) e_{ij}(t_R). \label{eq:7.3}
+\end{align}
+\noindent Here $d_{ij}$ is the signed drive produced by local input and output activity at synapse $ij$,
+$e_{ij}(t_R)$ is the eligibility surviving at reward time $t_R$, $R$ is the received reward, $b$ is a running reward
+expectation, and $\eta$ is the learning rate. This product $(R-b)e_{ij}$ sets the update sign: agreement between reward
+prediction error and eligibility potentiates the synapse, while disagreement depresses it
+\cite{fremaux2016neuromodulated, florian2007reinforcement}.\\
+
+\noindent For the exponential member of this function, $q(\ell)=e^{-\ell/\tau_{leak}}$, the convolution in
+Equation~\ref{eq:7.2} reduces exactly to the first-order equation
+\begin{align}
+    \dot{e}_{ij}(t) &= d_{ij}(t) - \frac{e_{ij}(t)}{\tau_{leak}}, \label{eq:7.4}
+\end{align}
+\noindent which is the canonical exponential eligibility equation
+\cite{izhikevich2007solving, florian2007reinforcement}. Setting $\beta_{leak}=1$ therefore recovers the standard rule,
+whereas the measured $\beta_{leak}=0.622$ replaces its single-timescale decay with a dispersive kernel inside the same
+update. Equation~\ref{eq:7.1} remains defined for every positive exponent, including the values above unity returned
+by the truncated fits below. For $\beta_{leak}<1$, equal increments of time remove progressively smaller fractions of
+what remains, so the exponent sets how the surviving fraction changes with age. Equal mean retention can therefore
+conceal different weighting of newer and older events. Because $q(0)=1$, eligibility is greatest when deposited and
+then decays without an internal rising phase.\\
+
+\noindent The measurement identifies the decay kernel and not the microscopic mechanism behind it, while the remaining
+functions of the learning rule, namely activity-dependent deposition, signed storage, eligibility sensing, reward
+gating, and weight updates, are simulated. The kernel uses the \abbrev{ITO} relaxation alone, because combining
+it with the conductance rise measured in Ti/Au-contacted devices would construct a transient that no single device
+family produced. Figure~\ref{fig:7s} shows how $\tau_{leak}$ and $\beta_{leak}$ change the eligibility surviving at
+reward.
+
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/eligibility_kernel_physics.pdf}}
+    \caption[The eligibility kernel and the two fitted parameters that set it.]{\textbf{(a)} \emph{Conceptual}: the
+    working interpretation links coincident activity to trap filling and subsequent emission; no trap distribution is
+    identified. \textbf{(b)} At fixed $\tau_{leak}=16$\,s, $\beta_{leak}$ changes the decay shape across the refitted
+    range. \textbf{(c)} At fixed $\beta_{leak}$, $\tau_{leak}$ changes the eligibility surviving at reward time $t_R$.}
     \label{fig:7s}
 \end{figure}
 
-\noindent This makes the construction biorealistic in learning-rule structure, not biologically identified in mechanism. It is functionally related to \emph{synaptic tagging and capture} \cite{frey1997synaptic, redondo2011making}: a coincidence sets a transient \emph{tag} that decays on its own, and a delayed neuromodulator captures it into a lasting change only while the tag survives \cite{frey1997synaptic, moncada2007induction}. The shared requirement is a physical transient state with its own decay time; the chemical substrate is different. Cortical synapses carry distinct potentiation and depression traces \cite{he2015eligibility}, and dopamine reinforces a recently stimulated spine only within roughly $0.3$--$2$\,s \cite{yagishita2014timewindow, gerstner2018eligibility}.\\
+\subsection[Fit Reliability and Reporting]{Fit Reliability and Reporting}
+\label{sec:7p1p2}
 
-\noindent The correspondence is to the logic of tagging and capture, a decaying tag whose lifetime sets a capture window, and is dynamical rather than chemical. Trap emission through $R_{leak}$ is not the synapse's calcium- and protein-based machinery. The claim is therefore the weaker one that both are activity-set relaxation processes on the same behavioural timescale, not the minutes-to-hours chemistry of classical tagging and capture. Figure~\ref{fig:7v} sets the two sequences side by side.\\
+\noindent Primary identification uses each complete $226$\,s measurement and fixes the background from its final
+tenth. For the truncation comparison, the same selected-interval-tail rule applies to both the $30$\,s and $226$\,s
+intervals; over the complete interval the two definitions coincide and return the same exponent. This distinction
+matters because the truncation comparison changes observation length alone, while the broader sensitivity analysis
+varies observation length and background treatment independently.\\
 
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.86\textwidth]{Chapter7/Figs/tag_capture_translation_map.png}}
-    \caption[A biological-to-device translation map of tag-and-capture.]{A biological-to-device translation map of tag-and-capture, read top to bottom as time passes. \emph{Left, biology:} a synapse fires and sets a transient chemical tag; the tag fades over seconds; a delayed wave of dopamine binds only to the surviving tag; late long-term potentiation enlarges the spine. \emph{Right, silicon:} the neuron fires electrons into deep SiO$_x$ traps; they detrap in a dispersive Scher--Montroll leak ($\beta_{leak}<1$); a broadcast scalar $(R-b)$ meets the electrons still trapped and, gated by that surviving population, the weight cell's filament thickens. The trapping and dispersive leak are grounded in the fitted transient; the capture step is a prediction with an assumed coupling, taken up in Section~\ref{sec:8p1p2}. Conceptual schematic.}
-    \label{fig:7v}
-\end{figure}
+\noindent Fitted retention and dispersion depend on what part of the relaxation is observed and which current is
+treated as settled. Each measurement was therefore refitted over intervals ending at $20$, $30$, $60$, $120$, $160$,
+and $226$\,s. The background was fixed from the final tenth of the complete measurement, estimated freely from
+the selected interval, or fixed from the final tenth of that interval. This last convention treats the end of every
+selected interval as settled, even when the current may still be decreasing.\\
 
-\noindent Equation~\ref{eq:7.1} is physically motivated rather than microscopically identified term by term. Conduction in this silicon-rich oxide is filamentary and compatible with inelastic trap-assisted tunnelling between defect sites \cite{buckwell2015conductance,jimenez2001physical}. A short cascade is consistent with the compressed rise, but the historical averaged-trace estimate $\beta_{fill}=1.95\pm0.30$ and the grouped full-fit value 2.64 differ enough to rule out a precise stage-count claim. The frozen $k=3$ primary and $k=4$ sensitivity are therefore representation choices. Their rise-rate law is fitted; coincidence coupling, signed headroom and reward capture are repository adaptations that require circuit validation.\\
+\noindent The nine measurements, six intervals, and three background treatments produced $162$ fits.
+Across individual measurements, $\beta_{leak}$ ranged from $0.598$ to $1.268$, and the means for each fitting
+condition ranged from $0.616$ to $1.210$, so both ranges cross the exponential value of unity. This dependence arises
+from the slow tail: assigning the end of a short interval to the background raises the estimated settled current,
+steepens the apparent early decay, and increases the fitted exponent. Longer intervals reveal more of the tail and
+reduce the dependence.\\
 
-\noindent The leak term $-v/\tau_{leak}$ is the discharge of those same traps once the coincidence drive stops. Because the traps span a distribution of release energies rather than a single rate, the discharge is \emph{dispersive}, a stretched exponential ($\beta_{leak} < 1$): the Scher--Montroll signature of relaxation over a spread of trap depths \cite{scher1975anomalous}, and the mirror image of the compressed sequential fill.\\
-
-\noindent The space-charge branch of Equation~\ref{eq:7.2}, which Chapter~5 separates from this discharge, is associated with a mobile positive species that screens the interfacial field. Only the faster residual trap-discharge branch is used for eligibility. Its measured timescale constrains the model, but not every learning coefficient is a measured material property: coincidence gain, reward coupling, selected synthetic retentions and update scale remain modelling or circuit choices.\\
-
-\noindent This dispersive picture also yields the eligibility trace from first principles, and shows the canonical exponential trace to be a limiting case of it. Take the trace to be the population of electrons still held in the conducting traps a time $t$ after a coincidence empties charge into them at $t=0$. A single trap of release-energy $E$ emits to the conduction band at a thermally-activated first-order rate
-\begin{align}
-    r(E) = \nu_0 \exp\!\left(-\frac{E}{k_B T}\right), \label{eq:7.5}
-\end{align}
-with attempt frequency $\nu_0$, so its occupancy decays as $e^{-r(E)t}$. The amorphous oxide does not present one depth but a distribution $g(E)$ of trap energies, the very dispersion that gives the stretched discharge, so the measurable eligibility is the ensemble average over that distribution,
-\begin{align}
-    e(t) = \int_0^{\infty} g(E)\, \exp\!\big(-r(E)\,t\big)\, dE. \label{eq:7.6}
-\end{align}
-For the exponential band tail $g(E) \propto \exp(-E/E_0)$ characteristic of disordered silicon-rich oxides, with disorder width $E_0$, this multiple-trapping integral is the Scher--Montroll problem \cite{scher1975anomalous, kakalios1987stretched}: its long-time form is the stretched (dispersive) exponential
-\begin{align}
-    e(t) \approx \exp\!\left[-\left(\frac{t}{\tau_{leak}}\right)^{\beta_{leak}}\right], \qquad \beta_{leak} = \frac{k_B T}{E_0} < 1, \label{eq:7.7}
-\end{align}
-whose exponent $\beta_{leak}$ is set by the disorder width $E_0$ relative to thermal energy and whose scale $\tau_{leak}$ is the trap-discharge retention. Equation~\ref{eq:7.7} describes the held-bias \abbrev{ITO} records of Chapter~5 (primary-QC $\beta_{leak}=0.470\pm0.090$). In the narrow-distribution limit it collapses to the canonical mono-exponential trace. The two supplementary 1\,mV reads give $\beta_{leak}=0.836$ and 0.814, suggesting milder near-zero dispersion but not establishing a field-free population. The single-rate path is consequently an explicit computational reduction whose sensitivity is tested, not a uniquely validated operating-regime law.\\
-
-\noindent Two features make the correspondence useful. First, the measured discharge constrains a seconds-scale family rather than leaving retention wholly arbitrary. Second, the $k>1$ representations depart from an instantaneous-rise trace through a sigmoidal latency. A digital simulation must store and update these states explicitly; an in-material implementation could instead retain them physically. That state-locality benefit is conditional on a circuit that supplies coincidence, sensing and reward gating, whose costs are not measured here.\\
+\noindent A robust-loss sensitivity analysis on a subsampled grid reproduced the same dependence on interval and
+background treatment, including the crossing of unity. This reproduction attributes the effect to the observed portion
+of the decay and not to a small number of large residuals. At $\beta_{leak}=1$ the kernel is exponential; below unity
+the fractional loss slows with age, and above unity it accelerates. Moving the fitted exponent across one therefore
+reverses the age dependence assigned to the same measurement (Figure~\ref{fig:7kernel}).\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.78\textwidth]{Chapter7/Figs/retention_tunable_trace.png}}
-    \caption[The transient as a retention-tunable eligibility trace.]{Normalised eligibility trace $e(t)$ following a pre--post coincidence at $t=0$, from the trap-cascade-plus-leakage model of Equations~\ref{eq:7.1}--\ref{eq:7.3}, for three retention time constants $\tau_{leak} = R_{leak}C$ spanning an order of magnitude.}
-    \label{fig:7a}
-\end{figure}
-
-\noindent Figure~\ref{fig:7a} shows the resulting trace for three retention settings: a sigmoidal rise of seconds followed by a relaxation whose duration is set by $\tau_{leak}$. Two elements are imposed by the surrounding circuit rather than intrinsic to the device. The coincidence drive $d_{ij}(t)$ and the reward gating below are encodings placed around a two-terminal device that does not itself compute coincidence or sense reward; the device supplies the \emph{trace dynamics}, the network the \emph{three-factor structure}.\\
-
-\noindent The gold-device fits span $\tau_r\approx1.9$--$14.5$\,s and $\tau_d\approx36$--$537$\,s. The primary \abbrev{ITO} held-bias median is 1.390\,s, the field-law zero-bias extrapolation is 2.55\,s $[1.73,3.85]$, and the two supplementary 1\,mV reads are 4.31 and 9.20\,s. These definitions must not be pooled as one measured band. They overlap the seconds-scale biological eligibility literature \cite{yagishita2014timewindow, he2015eligibility}, but dynamical overlap is not chemical equivalence.\\
-
-\noindent The learning values $\tau_{leak}=1$, 5, 10 and 20\,s are model settings, not separately programmed devices. The 1-s point is near the held-bias distribution, 5--10\,s overlap the two preliminary near-zero reads, and 20\,s is a synthetic target. The primary sequential comparison below declares $\tau_{leak}=10$\,s explicitly as synthetic.\\
-
-\subsection[Kernel Theory and Representation Identifiability]{Kernel Theory and Representation Identifiability}
-\label{sec:7p1p3}
-
-\noindent The linear cascade admits an exact small-signal result that separates rise from leakage. For an impulse-like deposit its final state is proportional to
-\begin{align}
-    e(t) &\propto t^{k-1}\exp(-\lambda t), &
-    \lambda &= \frac{k}{\tau_r}+\frac{1}{\tau_{leak}}, &
-    t^\ast &= \frac{k-1}{\lambda}. \label{eq:7.8a}
-\end{align}
-Writing $\rho=(k/\tau_r)\tau_{leak}$ gives a leakage-limited peak $t^\ast\approx(k-1)\tau_{leak}$ for $\rho\ll1$ and a fill-limited peak $t^\ast\approx(k-1)\tau_r/k$ for $\rho\gg1$. A finite rectangular coincidence is the difference of two Erlang step responses; its peak is obtained from the unique deterministic derivative root. The impulse expression is therefore the short-pulse limit rather than the equation used for the plotted finite deposit.\\
-
-\noindent The nonlinear headroom equation is not globally a Gamma kernel. It approaches the downstream Gamma envelope only at low occupancy after drive-off; finite deposits introduce saturation and shift the preferred lag. Numerical integration over voltage, retention, depth, deposit duration and $V_{max}$ verifies the analytic linear result and quantifies the nonlinear departure (Figure~\ref{fig:7kernel}a,b). The voltage axis is a bias-conditioned model prediction, not evidence that a measured circuit can program its preferred interval.\\
-
-\noindent Grouped leave-one-bias-out prediction provides the primary representation test on the six in-domain Au biases, with 1.7 and 1.8\,V reserved as untouched extrapolation diagnostics. Linear Erlang $k=3$ gives the lowest NRMSE, 0.0548, but KWW and every linear depth $k=2$--5 remain within 5\% of that score in all 2,000 repeat-stratified held-out-prediction rescores. The nonlinear candidates are worse (NRMSE 0.1315--0.1318) and receive zero within-tolerance support. Separately, 2,000 full KWW refits give $\beta_{fill}=2.60$ [2.44, 2.78], resolving a compressed rise but not an integer stage count. A Gaussian AICc/BIC working likelihood selects linear $k=2$ and is kept secondary because the fitted residuals are temporally correlated and the primary fits use robust loss.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.96\textwidth]{Chapter7/Figs/fig_kernel_identifiability.png}}
-    \caption[Kernel theory and representation identifiability.]{Kernel theory and representation identifiability. (a) Exact finite-pulse preferred lag of the linear cascade across the leakage--fill crossover. (b) Departure of the nonlinear preferred lag from its low-occupancy limit as headroom fills. (c) Grouped leave-one-bias-out NRMSE with repeat-bootstrap intervals. (d) Frequency of lying within 5\% of the best held-out candidate across 2,000 rescores. The supported linear depths are not distinguishable, and the nonlinear equation is retained as the equation-matching learning model rather than the best descriptive fit.}
+    \centerline{\includegraphics[width=\textwidth,trim=0 179 0 0,clip]{Chapter7/Figs/kernel_reliability.pdf}}
+    \caption[Sensitivity of kernel identification to the observation window.]{\emph{Measured and fitted}:
+    \textbf{(a)} nine normalised decays with their $226$\,s and $30$\,s fits; the dashed line extrapolates the
+    short fit beyond its shaded interval. \textbf{(b)} Mean $\beta_{leak}$ across the nine measurements for each
+    background definition and interval. Error bars are standard deviations, and the dashed line marks
+    $\beta_{leak}=1$.}
     \label{fig:7kernel}
 \end{figure}
 
-\noindent This distinction reconciles physical motivation with empirical model selection. The nonlinear equation matches the proposed device-level headroom mechanism and remains the primary learning abstraction; the linear cascade and KWW form describe the measured Au transient better. None of those representations identifies a microscopic sequence of traps, and their fitted scores are not used to tune a downstream learning or dopamine-replay parameter.\\
+\noindent Variation between repeated measurements describes repeatability, and the uncertainty in a single fitted
+parameter pair requires a separate calculation. A joint $95\,\%$ profile-likelihood region was therefore calculated
+for each measurement, with amplitude and background profiled out and the sample count replaced by an autoregressive
+effective size to account for correlated
+residuals \cite{wilks1938large, bayley1946effective}. Each pointwise region contains the
+$(\tau_{leak},\beta_{leak})$ pairs compatible with that measurement under the stated approximation.\\
 
-\subsection[The Three-Factor Learning Rule]{The Three-Factor Learning Rule}
-\label{sec:7p1p2}
+\noindent The later measurements test the short fit directly: under the selected-interval-tail rule, the $30$\,s and
+$226$\,s fits return $\beta_{leak}=1.07$ and $0.622$, respectively, and both exceed mean $R^2=0.99$ within their
+own intervals. Beyond $30$\,s the short fit departs from the subsequently measured decay
+(Figure~\ref{fig:7kernel}a), so its exponent above unity reflects incomplete observation and not a second
+physical description of the complete relaxation.\\
 
-\noindent The device trace serves as the eligibility term $e_{ij}(t)$ of a three-factor rule. A pre--post coincidence drives the device state; a delayed global reward then gates the surviving trace into a weight change,
-\begin{align}
-    \Delta w_{ij} = \eta \left( R - b \right) e_{ij}(t_R), \label{eq:7.8}
-\end{align}
-where $t_R$ is the reward time, $R$ the reward on the trial, $b$ a slowly adapting reward baseline (an advantage estimate), and $\eta$ the learning rate. The reward enters as a global scalar setting both the sign and magnitude of plasticity. On under-reward ($R<b$) the active synapses are depressed \cite{fremaux2016neuromodulated, florian2007reinforcement}.\\
-
-\noindent A selective trace alone does not yield selective weights: reward-uncorrelated synapses that happen to be active also accumulate eligibility, and without a counterbalancing term every weight drifts together. Following the canonical resolution of the distal-reward problem \cite{izhikevich2007solving}, the coincidence kernel driving the device state is made \emph{leak-dominant} (signed): a causal pre-then-post coincidence contributes positively, while presynaptic activity that does not drive the postsynaptic neuron contributes a smaller negative term,
-\begin{align}
-    d_{ij}(t) = x^{pre}_i(t) \left[ \mathbf{1}\!\left( x^{post}_j(t) \right) - \lambda_d \left( 1 - \mathbf{1}\!\left( x^{post}_j(t) \right) \right) \right], \label{eq:7.9}
-\end{align}
-where $x^{pre}_i$ and $x^{post}_j$ are the pre- and postsynaptic spike trains, $\mathbf{1}(\cdot)$ indicates a postsynaptic spike in the time step, and $\lambda_d \in (0,1)$ sets the acausal-depression weight. A reward-correlated cue produces mostly causal coincidences and a net-positive trace. An uncorrelated distractor produces mostly acausal activity and a net-negative trace that decays rather than drifting up. This signed eligibility, rather than weight normalisation, makes the rewarded synapse win.\\
-
-\noindent In the spiking network the postsynaptic neuron follows the \abbrev{LIF} unit of Chapter~\ref{ch:bio} (Equations~\ref{eq:6.1}--\ref{eq:6.2}), here with an explicit leakage and an added membrane-noise term,
-\begin{align}
-    V^{m}_j(t + \Delta t) = V^{m}_j(t) + \sum_i w_{ij}\, x^{pre}_i(t) - \frac{\Delta t}{\tau_m} V^{m}_j(t) + \sigma\, \xi_j(t), \label{eq:7.10}
-\end{align}
-emitting a spike and resetting when $V^{m}_j \ge V_{th}$. Here $\xi_j \sim \mathcal{N}(0,1)$ is per-neuron noise of scale $\sigma$ providing exploration, and $\tau_m$ is the membrane time constant. The architecture and per-synapse mechanism are shown in Figure~\ref{fig:7b}.
+\noindent An external check asks whether shortening the observation also increases the fitted exponent in independent
+measurements. Five deposited decays from mesoporous-silica diffusive memristors last $19.9$\,s
+\cite{zhang2024mesoporous}, and the comparison uses the complete interval and its first $30/226$, approximately
+$2.64$\,s, which preserves the fractional observation used above. Fitting the background freely in both intervals keeps
+the short fit free of any information from the later decay.\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/three_factor_architecture.png}}
-    \caption[Architecture and three-factor learning mechanism.]{Architecture and learning mechanism. (a) The spiking network on the distal-reward task, with a delayed global reward broadcast to all synapses (timeline below). (b) The per-synapse three-factor mechanism: signed coincidence (Equation~\ref{eq:7.9}) $\to$ device transient gate (Equation~\ref{eq:7.1}) $\to$ reward-gated update (Equation~\ref{eq:7.8}).}
-    \label{fig:7b}
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/window_external.png}}
+    \caption[Fit-window sensitivity in an independent dataset.]{\emph{Measured and refitted}: independent
+    mesoporous-SiO$_2$ decays \cite{zhang2024mesoporous}. \textbf{(a)} Five normalised decays with complete-interval
+    fits; shading marks the first $30/226$ of each measurement. \textbf{(b)} Fitted exponent over the complete and
+    truncated intervals. All five exponents increase and remain below unity.}
+    \label{fig:7ext}
 \end{figure}
 
-\section[Closed-Loop Reinforcement Learning]{Closed-Loop Reinforcement Learning}
-\label{sec:7p2}
+\noindent The fitted exponent increases in all five external decays, by $0.0834$ to $0.1594$
+(Figure~\ref{fig:7ext}). Every exponent nonetheless remains below unity, so these measurements support the direction of
+the window effect without reproducing the crossing observed for the SiO$_x$ fit. Because the five decays
+belong to a single deposited dataset, they support no shared mechanism and no learning claim.\\
 
-\noindent The rule is evaluated first in a reduced trace-level model isolating the credit-assignment function, then in a full \abbrev{LIF} spiking network in which the device state is integrated online from real spike coincidences, and finally in a closed reinforcement-learning loop. All three use the canonical distal-reward task. A cue synapse undergoes a coincidence, a reward is delivered after an action--reward delay $D$ with interleaved unrewarded catch trials, and reward-uncorrelated distractor synapses are active throughout. A correct learner raises the cue weight and leaves the distractors near baseline despite the delay. Success is measured as in the established literature \cite{izhikevich2007solving, legenstein2008learning}: at the trace level by the cue-to-distractor weight ratio, and in the spiking network by saturation of the cue synapse toward its conductance bound while distractors stay at baseline.
-
-\subsection[Retention as a Credit-Assignment Window]{Retention as a Credit-Assignment Window}
-\label{sec:7p2p1}
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.6\textwidth]{Chapter7/Figs/credit_window_vs_retention.png}}
-    \caption[Retention tunes the credit-assignment window.]{Retention tunes the credit-assignment window at the trace level: learned cue-to-distractor weight ratio against action--reward delay $D$ (mean of 20 seeds, shaded 95\% confidence interval), for three retention times and a no-trace control. The dotted line marks the learned threshold.}
-    \label{fig:7c}
-\end{figure}
-
-\noindent Figure~\ref{fig:7c} reports the trace-level result. The no-trace control never learns (ratio at unity for all delays), confirming the trace is necessary. The device trace assigns credit, and the maximum learnable delay scales monotonically with retention: $\tau_{leak} = 1$, $5$, and $20$\,s learn delays up to roughly $5$, $40$, and $100$\,s respectively. The long-retention trace is, as expected, weaker at the shortest delays, because its sigmoidal rise has not yet peaked when a near-immediate reward arrives. Retention therefore trades short-delay against long-delay performance, a tunable device property rather than a fixed kernel. This short-delay weakness is the visible edge of a more general property, examined next: the rise makes the trace \emph{peaked} rather than monotone, so it does not merely bridge a delay but selects a preferred one.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/fig_interval_fair.png}}
-    \par\vspace{2mm}
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/fig_codesign.png}}
-    \caption[Interval selectivity and its resource-matched boundary.]{Interval selectivity and its co-design boundary. (a,b) Physical-headroom primary and linear-Erlang sensitivity across $\eta=\{0.01,0.1,0.5\}$; each exponential is decay matched independently. (c) Held-out four-event temporal attribution after label-free pilot RMS normalisation. The learned signed three-state basis is fitted on disjoint pilot blocks. (d) Overall held-out loss versus externally stored dynamic-state bits per synapse at 16-bit precision. Counts are structural lower bounds, not measured energy or area.}
-    \label{fig:7o}
-\end{figure}
-
-\noindent This peakedness is a qualitative difference from the canonical trace, with a behavioural consequence so far left implicit. The exponential trace of reward-modulated \abbrev{STDP} is monotone, largest at lag zero and decaying thereafter. It is \emph{recency}-weighted, crediting whatever coincided just before the reward. The device trace, built from the trap-cascade rise of Equation~\ref{eq:7.1}, instead peaks at a non-zero lag $t^\ast$ and falls away on both sides (Figure~\ref{fig:7o}a). It is a band-pass in time: it credits a coincidence at its \emph{preferred interval} and suppresses one at lag zero.\\
-
-\noindent To test whether this changes what is learned, two perfectly reward-correlated synapses were placed in competition. One fired at the model's preferred interval before reward and the other near reward. Across $\eta=0.01$, 0.1 and 0.5, the physical primary gave $S=w_{\rm pref}/w_{\rm late}$ of 3.98, 3.95 and 3.88, while its independently decay-matched exponential gave 0.62, 0.78 and 0.79. The linear sensitivity showed the same direction (device 3.76, 3.64, 3.58; exponential 0.58, 0.72, 0.73). Device $S>1$ and exponential $S<1$ therefore survive the learning-rate and representation sweeps. This amplitude-robust direction, not the older shared-rate comparison, is the primary kernel-shape evidence.\\
-
-\noindent This does not make the frozen kernel universally useful. A second benchmark presents four candidate event lags in four predeclared timing families: physical-aligned, early-delay, recency and broad-delay. Candidate-score amplitude is normalised from pilot inputs without labels. The fixed physical and linear kernels and matched exponential are compared with a signed three-exponential basis having the same three dynamic states, whose shape is fitted on disjoint pilot blocks. At the physical kernel's synthetic preferred lag of 19.36\,s, physical log loss is 0.845 (top-one 0.672), close to the learned basis at 0.720 (0.688) and well ahead of the matched exponential at 2.491. Across heterogeneous families the learned basis is better overall (0.708 versus 2.041; paired physical-minus-learned 1.333 [0.700, 2.003]). The device is therefore a specialised temporal prior, not a generally preferable three-state filter.\\
-
-\noindent The structural comparison states what this specialisation could buy. At 16-bit precision a digital exponential stores 16 dynamic-state bits per synapse, while the linear and learned three-state filters store 48. Under an in-material relaxation assumption the physical row stores no \emph{external} eligibility-state word; the learned basis additionally requires 6 shared decay/readout coefficients. This lower bound excludes cells, selectors, sensing, programming, reward routing, refresh and memory traffic. It therefore supports state locality, not a measured energy, area or throughput advantage. The representation/depth/voltage/retention model envelope places preferred lag between 0.55 and 31.95\,s; it is not a confidence interval.\\
-
-\noindent A second amplitude-controlled battery removes the kernel-selected target interval. Four frozen shapes---nonlinear headroom, linear cascade, the linear cascade's Gamma limit and a post-peak decay-matched exponential---are compared under the same raw drive, unit peak, unit $L^1$ area and label-free pilot RMS scaling. Only one scalar temperature and intercept are fitted on pilot scenarios; learning-rate or readout fitting is kept separate from kernel matching. The four scale treatments agree to numerical tolerance, so update magnitude cannot create a timing advantage.\\
-
-\noindent Across the combined four-event interval-attribution and two-cue temporal-order battery, the RMS-normalised nonlinear trace gives held-out loss 0.949, compared with 0.534 for the matched exponential. On interval attribution alone, their losses are 1.329 and 1.334 and their top-one accuracies 0.387 and 0.367; the paired loss difference is $-0.005$ [$-0.265$, $0.329$] and is unresolved across the predeclared absolute-delay grid. The scalar temporal-order task exposes the complementary limitation: the nonlinear trace reaches accuracy 0.478, whereas the monotone linear, Gamma and exponential readouts reach 1.000. Equal scalar values on the rising and falling limbs alias early and late events. Reading the internal stage vector resolves the construction in simulation, but that state is unavailable from the present two-terminal readout.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.96\textwidth]{Chapter7/Figs/fig_timing_falsification.png}}
-    \caption[Amplitude-controlled timing and frozen physical predictions.]{Amplitude-controlled timing and frozen physical predictions. (a) Frozen kernel shapes at unit peak. (b) Held-out interval-attribution loss across a model-independent target-delay grid after label-free RMS normalisation and pilot-only scalar fitting. (c) Scalar temporal-order accuracy, exposing the rising/falling-limb alias. (d) Bias-conditioned preferred lag with uncertainty propagated from the KWW parameter refits. Panel (d) is an untested compact-model prediction, not demonstrated programmability.}
-    \label{fig:7timing}
-\end{figure}
-
-\noindent The tracked prediction artifact freezes three future tests before any new measurement: normalised pulse-off eligibility versus delay, preferred lag versus bias, and departure from the low-occupancy limit as headroom fills. A reproducible zero-lag maximum would falsify the resolved peak; preferred-lag intervals outside the simultaneous bias-conditioned band at adjacent biases would reject the field-acceleration mapping; failure of low-drive responses to converge, or an opposite occupancy trend, would reject the stated small-signal limit. These are untested predictions requiring independently identified devices, not additional validation.\\
-
-\noindent To confirm the mechanism is not an artefact of the trace-level reduction, the device state is embedded as an online per-synapse trace in the spiking network of Figure~\ref{fig:7b}(a). Here $N=8$ Poisson inputs project through plastic synapses to one \abbrev{LIF} output neuron, each synapse integrating the leak-dominant coincidence kernel through the fitted device dynamics at every time step. Because the device relaxes on a seconds timescale, it integrates the coincidence \emph{rate} rather than resolving millisecond spike pairs. The action it marks is a sustained epoch of correlated firing, the regime where a slow trace is the appropriate primitive.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.6\textwidth]{Chapter7/Figs/spiking_network_credit.png}}
-    \caption[Credit assignment in a full spiking network.]{The result in a full spiking network: saturation of the cue synapse toward its conductance bound (mean of 20 seeds, shaded 95\% confidence interval) against action--reward delay $D$, for three retention times. Long retention ($\tau_{leak} = 10$\,s) saturates the cue across $D \approx 5$--$20$\,s; shorter retention does not.}
-    \label{fig:7d}
-\end{figure}
-
-\noindent Figure~\ref{fig:7d} reports the outcome by the saturation measure standard in this literature \cite{izhikevich2007solving}. With long retention ($\tau_{leak} = 10$\,s) the rewarded cue synapse is driven to its conductance bound across action--reward delays of $\sim$5--20\,s while the seven distractor synapses remain at baseline, the near-total separation that defines successful distal-reward learning. Shorter retention ($\tau_{leak} = 2$ and $0.5$\,s) fails to bridge these delays, reproducing the retention-tunable window of the trace level, and the dip at the shortest delay again reflects the slow sigmoidal rise.\\
-
-\noindent The preceding tasks fix the reward schedule externally. To close the loop, the reward is made contingent on the network's own action, realising the contextual bandit of Section~\ref{subsec:learning-paradigms} in spiking hardware. A stimulus selects the state. Two \abbrev{LIF} action neurons compete and the one that spikes more is taken, the stochastic spiking of Equation~\ref{eq:7.10} providing exploration. The reward, after delay $D$, is given only when the chosen action matches the rewarding action for that state. The four plastic synapses carry the device trace, updated at reward by the signed rule of Equation~\ref{eq:7.8}.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.6\textwidth]{Chapter7/Figs/closed_loop_learning_curve.png}}
-    \caption[Closed-loop reinforcement learning.]{Closed-loop reinforcement learning on a two-state contextual spiking bandit ($D=5$\,s): reward rate (running mean, window 50; mean with shaded 95\% confidence interval over 20 seeds) for the device trace and a no-trace control.}
-    \label{fig:7e}
-\end{figure}
-
-\noindent Figure~\ref{fig:7e} shows the learning curve. With the device trace the reward rate climbs from chance to near unity ($0.99$, 95\% confidence interval $[0.98, 0.99]$ over 20 seeds) within roughly one hundred trials, while the no-trace control remains at chance ($0.51$, $[0.48, 0.54]$). The retention dependence carries over. Long retention ($\tau_{leak} = 10$\,s) learns the policy across delays of $1$--$20$\,s, whereas shorter retention ($\tau_{leak} = 2$\,s) succeeds only at short delays and falls to chance by $D = 20$\,s. The device trace therefore not only assigns credit but closes a reinforcement-learning loop, its retention time setting the action--reward delay over which a policy can be learned.
-
-\subsection[Sequential Credit Assignment and a Benchmark]{Sequential Credit Assignment and a Benchmark}
-\label{sec:7p2p3}
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/fig_sequential_fair.png}}
-    \caption[Learning-rate-fair sequential benchmark.]{Learning-rate-fair four-decision cue-conditioned sequence benchmark. (a) Held-out AULC over 20 evaluation seeds; chance is $0.5^4$. (b) Per-method learning rates selected on 20 disjoint pilot seeds after reward-time update-RMS calibration. Error bars are bootstrap 95\% confidence intervals.}
-    \label{fig:7j}
-\end{figure}
-
-\noindent The primary sequential test is an explicitly synthetic four-decision cue-conditioned sequence task, with $\tau_{leak}=10$\,s, $D=12$\,s, $V=1.5$\,V, $k=3$ and $\beta_{leak}=1$. Successful episodes require all four binary decisions, giving chance AULC $0.5^4$. This replaces the earlier shared-rate T-maze comparison as the quantitative benchmark.\\
-
-\noindent The central fairness problem is that equal numerical $\eta$ does not give equal update magnitude when reward-time eligibility differs by orders of magnitude. The repaired protocol first calibrates reward-time effective-update RMS on 256 fixed balanced trajectories. Each learned method then selects $\eta$ by mean unsmoothed per-seed AULC on pilot seeds 1000--1019, with grid expansion driven only by pilot boundaries, and is evaluated once for 300 episodes on seeds 2000--2019. The physical and linear device representations, an independently decay-matched exponential, conventional pair-based R-STDP, a shallow e-prop-style policy trace and no trace are distinct conditions.\\
-
-\noindent The nonlinear physical primary reaches AULC 0.445. It is below the matched exponential (0.773), linear sensitivity (0.939) and e-prop-style control (0.862). Physical minus exponential is -0.328 [-0.379, -0.276], and physical minus linear is -0.495 [-0.531, -0.459]. Conventional pair-based R-STDP and no trace each reach 0.066, close to the four-decision chance level. The matched exponential condition, not conventional pair-based R-STDP, is the direct same-drive kernel comparator. These results withdraw the former claim that a shared-$\eta$ device score demonstrated mechanism superiority.\\
+\noindent Table~\ref{table:7a} surveys measured volatile relaxations proposed as eligibility traces or short-term
+memory for learning, with one entry per device technology. The final columns ask whether the fitted interval and the
+background convention were declared. A stated measurement duration answers neither question: two surveyed
+studies report how long they measured but give no fitting choice
+\cite{legallo2018collective, covi2021switching}. Within this illustrative set, only the present analysis varies these
+conventions, and two entries report no timescale and no exponent.\\
 
 \begin{table}[!t]
-    \caption[Learning-rate-fair sequential benchmark.]{Artifact-derived sequential AULC after balanced update-scale calibration and pilot-only rate selection. Values are means over 20 untouched evaluation seeds.}
+    \caption[Reporting of volatile relaxations offered as eligibility traces.]{\emph{Illustrative literature survey}:
+    measured volatile relaxations proposed as eligibility traces or short-term-memory states. The final columns state
+    whether the fitted interval and background convention were declared.}
     \begin{center}
-    \begin{tabularx}{\textwidth}{@{}l X c c@{}}
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.2}
+    \makebox[\textwidth][c]{%
+    \begin{tabular}{@{}>{\centering\arraybackslash}p{0.24\textwidth}
+                       >{\centering\arraybackslash}p{0.19\textwidth}
+                       >{\centering\arraybackslash}p{0.13\textwidth}
+                       >{\centering\arraybackslash}p{0.09\textwidth}
+                       >{\centering\arraybackslash}p{0.10\textwidth}
+                       >{\centering\arraybackslash}p{0.10\textwidth}@{}}
     \toprule
-    Method & Eligibility trace formed by & Selected $\eta$ & AULC \\
+    Source & Mechanism & Form & Reported & Window declared & Floor declared \\
     \midrule
-    Physical headroom & nonlinear equation-matching gate & 0.03 & 0.445 \\
-    Linear Erlang sensitivity & empirical state-space gate & 0.03 & 0.939 \\
-    Matched exponential & same-drive decay control & 0.03 & 0.773 \\
-    Conventional R-STDP & pre/post pair eligibility & 0.001 & 0.066 \\
-    Shallow e-prop-style & feed-forward policy trace & 0.01 & 0.862 \\
-    No trace & zero eligibility & 0 & 0.066 \\
+    This work & dispersive relaxation & stretched exp. & $\tau,\beta$ & Yes & Yes \\
+    Mesoporous SiO\textsubscript{2}~\cite{zhang2024mesoporous} & filament dissolution & stretched exp. & $\tau$ & No & No \\
+    GST drift~\cite{legallo2018collective} & structural relaxation & power law & $\nu$ & No & N/A \\
+    PCM trace~\cite{demirag2021pcmtrace} & structural relaxation & power law & neither & No & N/A \\
+    VO\textsubscript{2} relaxation~\cite{galloni2024vo2} & phase relaxation & single exp. & $\tau$ & No & No \\
+    FeS-FET trace~\cite{wang2026ferroelectric} & polarisation & not fitted & $\tau$ & No & No \\
+    FeFET trace~\cite{luo2024energy} & depolarisation & not fitted & neither & No & N/A \\
+    Ag/SiO$_x$ diffusive~\cite{covi2021switching} & filament dissolution & not fitted & lifetime & No & N/A \\
+    ReRAM thermal~\cite{pande2026neohebbian} & thermal decay & first-order & neither & No & N/A \\
     \bottomrule
-    \end{tabularx}
+    \end{tabular}}
     \label{table:7a}
     \end{center}
-    \vspace*{-\baselineskip}
 \end{table}
 
-\noindent The e-prop-style comparator is a repository-specific shallow feed-forward policy trace, not the complete recurrent e-prop algorithm. The result therefore does not rank the physical device against recurrent e-prop generally. It establishes that the benchmark is no longer learning-rate starved and that, at this operating point, fixed physical headroom is not the best algorithmic trace. Its value must instead be judged as a demonstrable in-material prior with circuit-dependent implementation costs.
-
-\section[Scaling and Hardware Realisation]{Scaling and Hardware Realisation}
-\label{sec:7p3}
-
-\noindent The closed-loop demonstration uses a minimal two-action network. This section asks how far the simulated primitive reaches: how it scales as state and action spaces grow, what structural state it could save, and how the archived linear representation interacts with feedback alignment and homeostasis. It then separates a synthetic Frank-task check from the DANDI 001340 logged replay; no measured signal is resampled into a counterfactual closed-loop learner.
-
-\subsection[Crossbar Realisation and Scaling to Depth]{Crossbar Realisation and Scaling to Depth}
-\label{sec:7p3p1}
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/closed_loop_crossbar.png}}
-    \caption[Crossbar realisation of the closed-loop task.]{Crossbar realisation of the closed-loop task. (a) The contextual bandit mapped onto an $S \times A$ memristive array, with a single global third-factor line broadcasting $(R-b)$ to every crosspoint. (b) One crosspoint: a differential pair encoding the signed weight, the device transient supplying the local eligibility trace, and the reward-gated local update.}
-    \label{fig:7f}
-\end{figure}
-
-\noindent Figure~\ref{fig:7f} is a proposed crossbar mapping, not a fabricated learning circuit. State inputs drive array rows and action neurons read bitline currents. Each signed weight $w_{ij}$ is encoded as a differential conductance pair $(G^{+}_{ij},G^{-}_{ij})$ on two bitlines (Equation~\ref{eq:6.28}), so the idealised current read by action neuron $j$ is
-\begin{align}
-    I_j = \sum_i \left( G^{+}_{ij} - G^{-}_{ij} \right) V^{in}_i, \qquad w_{ij} \propto G^{+}_{ij} - G^{-}_{ij}, \label{eq:7.11}
-\end{align}
-Kirchhoff summation along the column, the same ideal in-memory product used for inference in Chapter~\ref{ch:bio}. The proposed advantage is that material relaxation carries the eligibility state locally. Under this in-material assumption the structural accounting assigns zero externally stored eligibility-state bits to the physical row, versus 16 for a digital exponential and 48 for either three-state digital comparator at 16-bit precision. This excludes cells, selectors, sensing and routing; it is not a claim of zero memory or zero circuit cost.\\
-
-\noindent The proposed weight update is locally addressable once the global reward is routed. Discretising Equation~\ref{eq:7.8} gives
-\begin{align}
-    \Delta G^{\pm}_{ij} = \pm\, \eta\, \big( R - b \big)\, e_{ij}(t_R), \label{eq:7.12}
-\end{align}
-applied as complementary potentiation/depression pulses. The rule needs neither a transposed weight matrix nor a per-synapse error signal \cite{bellec2020solution,zhou2022memprop}, but it does need coincidence generation, local eligibility sensing, reward-line gating and selective programming. A digital implementation of the model would update
-\begin{align}
-    v^{(m)}_{ij}(t{+}\Delta t) = v^{(m)}_{ij}(t) + \Delta t \left[ \alpha\, p^{(m)}_{ij} \big( V_{max} - |v^{(m)}_{ij}| \big) - \frac{v^{(m)}_{ij}}{\tau_{leak}} \right] \label{eq:7.13}
-\end{align}
-whereas the physical proposal replaces externally stored recurrence state with material relaxation. Whether the omitted peripheral costs outweigh that state saving requires circuit design and measurement.
-
-\noindent Two implementation costs are specific to the two-terminal device. First, delivering the reward factor $(R-b)$ requires gating the programming pulse of Equation~\ref{eq:7.12} by a global signal, which a 1T1R cell or shared row/column driver supplies but a three-terminal synaptic transistor would provide natively through its gate, trading the two-terminal cell's density against cleaner third-factor routing. Second, the eligibility must persist between coincidence and reward, which the measured $\tau_{leak}$ provides over its seconds-scale window; longer delays would need a longer-retention variant or a refreshed capacitive hold. Both are circuit-design choices rather than obstacles to the rule, which is agnostic to how $e_{ij}$ and $(R-b)$ are physically realised.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/closed_loop_scaling_remedies.png}}
-    \caption[Scaling of the closed-loop result, and remedies.]{Scaling of the closed-loop result, and remedies. (a) Final reward rate (mean, 95\% confidence-interval error bars, 20 seeds, fixed $1500$-trial budget) against $S \times A$ array size, for the device trace and a no-trace control, with the chance ($1/A$) and convergence-criterion [$0.5(1+1/A)$] lines; green rings mark cells that converge within budget. (b) Remedies on the failing $8\times8$ case (device gate and rule fixed unless labelled ``abstract''): larger budget (R1), directed exploration (R2), an abstract trace at the original budget (R3), and budget with directed exploration (R4).}
-    \label{fig:7g}
-\end{figure}
-
-\noindent A cheap update is not the same as a learnable policy. Generalising the bandit to an $S \times A$ array separates the two (Figure~\ref{fig:7g}a). The device trace is necessary and learns at every size tested, above chance while the no-trace control stays at chance. Within a fixed budget, however, it reaches the convergence criterion only up to about four actions, with trials-to-criterion growing steeply ($\sim$290, $\sim$460, and $\sim$820 trials for two, three, and four actions). This is the expected sample-efficiency cost of a larger action space under the undirected (membrane-noise) exploration used here, where a random action is rewarded with probability $1/A$.\\
-
-\noindent Standard remedies remove the wall (Figure~\ref{fig:7g}b). Holding the device gate and learning rule fixed on the failing $8\times8$ case, quadrupling the budget restores convergence (from $0.31$ to $0.70$), and adding directed (annealed) exploration reaches $0.97$. Directed exploration alone at the original budget is insufficient. Substituting an abstract exponential trace for the device at the original budget also clears the criterion ($0.75$) where the device does not, confirming the wall is one of samples rather than of the rule. This also exposes a genuine device cost: the slow sigmoidal rise has not peaked when a near-immediate reward arrives (the low-delay dip of Figures~\ref{fig:7c}--\ref{fig:7d}), a real but surmountable sample-efficiency penalty. Reaching large action spaces thus calls for the usual reinforcement-learning machinery, directed exploration, reward shaping, hierarchy, or function approximation across states, layered on this primitive rather than replacing it.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/hybrid_perception_decision.png}}
-    \caption[A hybrid perception--decision agent.]{A hybrid perception--decision agent. (a) A gradient-trained convolutional spiking perception front-end feeds its low-dimensional class readout to the slow device-eligibility decision layer, on which the bandit reward loop runs. (b) Final reward rate (mean, 95\% confidence-interval error bars, 20 seeds) for the hybrid, a raw-pixel decision layer with no front-end, and a no-trace control.}
-    \label{fig:7h}
-\end{figure}
-
-\noindent The last of those remedies, function approximation across states, can be supplied without violating the device timescale, resolving the scaling wall rather than sidestepping it. The construction is a hybrid network (Figure~\ref{fig:7h}) dividing labour by timescale. A convolutional spiking perception front-end, trained by backpropagation through time as in Chapter~\ref{ch:bio}, classifies a high-dimensional noisy stimulus, $256$-pixel oriented gratings at four orientations, reaching $86.7\%$ accuracy, and is frozen. Its low-dimensional class readout becomes the state seen by the shallow device-eligibility decision layer, on which the same signed three-factor bandit of Section~\ref{sec:7p2p1} runs. The slow transient is thus confined to the decision layer where the action--reward loop lives, rather than threaded through a network whose millisecond inference its seconds-scale dynamics could not match. The gradient-trained stage does the perceptual work the eligibility rule cannot, the device the credit assignment the front-end is not wired for.\\
-
-\noindent Three conditions were compared at an equal reinforcement-learning budget, with criteria fixed before the run as throughout this chapter (Table~\ref{table:7c}). With the front-end the decision layer learns the policy, reaching the $0.625$ criterion, whereas the same rule and device trace on the raw pixels, and a no-trace control with the full hybrid wiring but the device eligibility zeroed, both stay at chance. The two controls answer separate questions. The raw-pixel control shows the bottleneck is perceptual rather than a limitation of the rule, the $+0.40$ gap to the hybrid being the front-end's contribution. The no-trace control shows the eligibility primitive remains necessary even with the front-end in place, since removing it collapses the policy despite the learned features. The perception stage therefore enables the device primitive on high-dimensional input but does not replace it.\\
-
-\begin{table}[!t]
-    \caption[The hybrid perception--decision agent and its controls.]{Final reward rate of the hybrid perception--decision agent and its two controls (mean, 20 seeds; four-way bandit over learned features, chance $0.25$, convergence criterion $0.625$; Figure~\ref{fig:7h}).}
-    \begin{center}
-    \begin{tabularx}{\textwidth}{@{}X c c@{}}
-    \toprule
-    Condition & Reward rate & 95\% CI \\
-    \midrule
-    Hybrid (front-end $+$ device trace)        & $0.65$ & $[0.63, 0.67]$ \\
-    Raw pixels (device trace, no front-end)    & $0.25$ & $[0.24, 0.27]$ \\
-    No-trace (front-end, eligibility zeroed)   & $0.26$ & $[0.24, 0.28]$ \\
-    \bottomrule
-    \end{tabularx}
-    \label{table:7c}
-    \end{center}
-    \vspace*{-\baselineskip}
-\end{table}
-
-\noindent This is a feasibility demonstration rather than a deep reinforcement-learning agent. The task is a four-way bandit over learned features, and the front-end is trained separately and frozen rather than end-to-end with the reward signal. What it establishes is narrower but sufficient: the device trace composes with a gradient-trained perception stage to extend reward-modulated learning to high-dimensional input, joining the perception half of Chapter~\ref{ch:bio} to the dynamic half, and points to end-to-end training as the natural next step.\\
-
-\noindent The same hybrid stack also holds at array scale under the measured device-fault prior (Figure~\ref{fig:7hs}). Sweeping the hidden width $H$ and the stuck-device fraction behind the real frozen front-end, the full local stack (trace, feedback alignment, and homeostasis) reaches $0.48$--$0.56$ across $H=32$--$512$ and stuck fractions up to $50\%$, disjoint throughout from the eligibility-zeroed control at chance ($1/A=0.25$). The device trace therefore carries credit behind a realistic high-dimensional front-end without collapsing under width scaling or faults. It does not reach the front-end's classification accuracy, so the figure establishes robustness of the credit-assignment stage, not locality of perception.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.78\textwidth]{Chapter7/Figs/hybrid_array_scale_faults.png}}
-    \caption[The hybrid stack at array scale under the measured fault prior.]{The all-local stack behind a real frozen perception front-end, at array scale under the measured \abbrev{SiOx} fault prior (four-way task, $A=4$, chance $0.25$; 12 seeds, 95\% confidence intervals). Final reward rate against hidden width $H$ and stuck-device fraction for the full stack (trace $+$ feedback alignment $+$ homeostasis) and the eligibility-zeroed no-trace control. The stack reaches $0.48$--$0.56$ across all widths and fault levels, disjoint from the control at chance throughout; it does not match the front-end's classification accuracy, so the figure shows credit-assignment robustness, not that the perception stage is local.}
-    \label{fig:7hs}
-\end{figure}
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/deep_all_local_learning.png}}
-    \caption[Archived linear-model deep all-local sensitivity.]{Archived linear-cascade deep-XOR sensitivity (two trained layers, 20 seeds). The result demonstrates a synthetic all-local construction with feedback alignment and homeostasis; it is not a rerun of the nonlinear physical primary or a biological-learning result.}
-    \label{fig:7m}
-\end{figure}
-
-\noindent The hybrid agent confines the device trace to a shallow decision layer behind a separately-trained front-end. A sharper question is whether the trace can instead train a network of more than one plastic layer entirely locally, carrying credit through depth as well as time. The experiment establishes that the deep agent learns but unreliably, then diagnoses the cause and removes it with a local mechanism already developed in this thesis, ending in a reliable deep all-local learner within bounded scope.\\
-
-\noindent The task is an exclusive-or (XOR) contextual bandit: two binary cue features, the rewarded action their XOR, encoded so the four cue patterns carry equal total input drive. XOR is not linearly separable \cite{rumelhart1986learning}. The archived network uses two layers of signed synapses and the linear-Erlang eligibility representation on both weight matrices. What varies between conditions is the spatial-credit pathway. Because the nonlinear physical default changed after this archive was produced, these values remain sensitivity evidence only.\\
-
-\noindent The global-scalar rule broadcasts the same advantage $(R-b)$ of Equation~\ref{eq:7.8} to every synapse in both layers, as in the single-layer tasks. Direct feedback alignment (\abbrevdef{DFA}) instead gives the hidden layer a \emph{per-neuron} learning signal, projecting the output error through a fixed random feedback matrix \cite{lillicrap2016random}. Because that matrix is fixed and independent of the forward weights, the update needs no weight transport and stays as local and crossbar-compatible as the global rule. Three controls bound the result: a single trained layer (shallow), a fixed-random hidden layer with only the output trained (an extreme-learning-machine, or \abbrevdef{ELM}, measuring what a random projection alone buys), and a no-trace control.\\
-
-\noindent The archived controls show the expected task requirements (Figure~\ref{fig:7m}). The shallow network cannot represent XOR and sits below chance ($0.31$, $95\%$ confidence interval $[0.28, 0.35]$ over $20$ seeds), confirming the task demands depth. The no-trace control fails ($0.54$, $[0.47, 0.61]$), confirming the eligibility is still necessary. The random-feature \abbrev{ELM} does not solve the task ($0.50$, $[0.40, 0.61]$).\\
-
-\noindent The decisive archived comparison is between the two deep, fully-trained rules. The pure global scalar stays at chance ($0.50$, $[0.49,0.52]$), while direct feedback alignment reaches $0.73$ ($[0.60,0.86]$) and eleven of twenty seeds solve exactly. This shows that the linear representation can participate in a fully local synthetic deep rule. It does not establish the same result for the nonlinear physical primary.\\
-
-\noindent As first run the result was a possibility rather than a reliable method. It did not reach the criterion on average ($0.73<0.75$), performance being sharply bimodal, the solving seeds at $1.00$ and the rest near chance. Two natural explanations are ruled out. It is not a feedback-alignment failure (the forward and feedback matrices stay near orthogonal for solving and failing seeds alike), nor a failure of hidden-layer learning (the hidden weights move just as far in failures as in successes). The failing seeds instead \emph{collapse} onto a constant policy, locking onto a noise-favoured action before the annealed exploration could discover that the other action is needed for half the cues.\\
-
-\noindent This is an exploration failure, the same one met in the action-space scaling above. The bottleneck is neither the device trace nor the per-layer credit, both of which work, but the undirected exploration of the closed loop, and raising the exploration floor barely helps. Making that exploration robust is an open problem under the all-local constraint. The constraint permits each synapse only its own eligibility trace and a single broadcast scalar, yet every effective directed-exploration method needs non-local information, a visitation count, a learned predictor, an ensemble disagreement, or a policy-entropy gradient, each re-importing the per-state memory or weight transport the crossbar-native rule was built to avoid. The collapse is moreover a self-reinforcing attractor: the eligibility-gated update strengthens the prematurely-chosen action while no local signal reports the vanishing policy entropy a global critic would catch. A \emph{direct} attack on the exploration problem is therefore blocked. The collapse it produces, however, admits a weaker local remedy.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/deep_all_local_crossbar.png}}
-    \caption[Crossbar realisation of the deep all-local agent.]{Crossbar realisation of the deep all-local agent, extending the single-layer mapping of Figure~\ref{fig:7f}. (a) Two stacked memristive arrays ($W_1$, $W_2$) flank a hidden leaky integrate-and-fire layer, with the device eligibility at every crosspoint and the reward $(R-b)$ broadcast on one wire. A \emph{fixed random} feedback array (purple) projects the output signal back, $L_h = B L_a$, giving per-neuron credit with no weight transport, and a \emph{local homeostatic} regulator (orange) holds each hidden neuron's firing rate near a shared target. (b) One hidden crosspoint, as the single-layer cell of Figure~\ref{fig:7f} but with the local update summing the feedback-aligned credit (purple) and the homeostatic term (orange) of Equation~\ref{eq:7.14}.}
-    \label{fig:7n}
-\end{figure}
-
-\noindent That remedy prevents the collapse rather than directing the exploration. The self-reinforcing slide onto a constant action has a purely local signature: a hidden unit that locks the network into one action does so by firing far above its peers, an imbalance each neuron can sense in its own activity with no global information. This is exactly the quantity the homeostatic plasticity of Chapter~\ref{ch:bio} regulates. A local homeostatic term is therefore added to the hidden layer, so each neuron keeps a slow estimate of its own firing rate and nudges its incoming weights to hold that rate near a shared target. This opposes the winner-take-all collapse while leaving the credit-assignment signal untouched (Figure~\ref{fig:7n}).\\
-
-\noindent The mechanism is principled, not a tuned correction. The correct exclusive-or policy has balanced marginal activity across the two actions, so regulating hidden activity toward balance resists the collapse without resisting the solution. It is also local, a per-row activity integrator rather than a global computation. The hidden-layer update of Figure~\ref{fig:7n}(b) is then the sum of two local terms,
-\begin{align}
-    \Delta w_{ij} = \underbrace{\eta\,(R-b)\,[B\mathbf{L}]_j\, e_{ij}(t_R)}_{\text{per-neuron credit (\abbrev{DFA})}} \;+\; \underbrace{\eta_h\,(\rho^{\ast} - \bar{\rho}_j)\, w_{ij}}_{\text{local homeostasis}}, \label{eq:7.14}
-\end{align}
-where $[B\mathbf{L}]_j$ is the fixed-random feedback projection of the output learning signal $\mathbf{L}$ onto hidden neuron $j$ (the per-neuron credit the global scalar lacks), $\bar{\rho}_j$ that neuron's slow running estimate of its own firing rate, $\rho^{\ast}$ the shared target rate, and $\eta_h$ the homeostatic rate. Every quantity is local, so the update needs neither a transposed weight matrix nor a per-synapse gradient.\\
-
-\noindent The set-point term is motivated by the linearised fill--emission balance of Chapter~\ref{ch:model}. The idealised occupancy has steady state $v^{\ast}=\rho V_{max}$, $\rho=f/(f+g)$. This latent fraction is not identified with the fitted current offset. Linearising about it,
-\begin{align}
-\frac{dv}{dt} = -(f+g)\,(v - v^{\ast}), \label{eq:7homeo}
-\end{align}
-the occupancy relaxes toward a set point with negative feedback. Equation~\ref{eq:7.14} is a synaptic-scaling implementation inspired by that sign and locality; its target, gain and multiplicative weight dependence are modelling choices. The result therefore demonstrates reuse of one device-inspired dynamical motif, not that a measured cell autonomously supplies the complete homeostatic rule.\\
-
-\noindent With this stabiliser the archived linear-model agent reaches $1.00$ over 20 seeds, against $0.73$ without it (Figure~\ref{fig:7m}). The internal diagnosis supports a stability interpretation within this synthetic configuration. A physical-primary rerun and circuit realisation would be needed before promoting it to a device result.\\
-
-\noindent That the credit term alone collapses and homeostasis rescues it is consistent with the principle that associative plasticity needs a stabilising counterpart \cite{abbott2000taming,zenke2013homeostasis,zenke2015orchestrated}. The defensible unifying message is that the same fitted dynamical family motivates both eligibility and homeostatic constructions. Autonomous co-realisation in one device has not been demonstrated.\\
-
-\noindent The shallow delayed-match-to-sample task \cite{miller1996neural} was rerun with balanced update-scale calibration, pilot-only rate selection and 20 untouched evaluation seeds over 2,500 trials. Physical headroom, matched exponential and linear sensitivity all reach 1.000 in the final 300 trials. Their AULCs are 0.996, 0.997 and 0.997; physical minus exponential is -0.001 [-0.002, 0.000] and is unresolved. No trace remains near chance (0.497). The earlier claim that the exponential was limited because it over-credited the near-reward distractor is withdrawn.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.72\textwidth]{Chapter7/Figs/fig_shallow_dms_fair.png}}
-    \caption[Learning-rate-fair shallow delayed match.]{Held-out shallow-DMS AULC after balanced update-scale calibration and pilot-only rate selection. The learned trace conditions converge similarly; no trace remains near chance.}
-    \label{fig:7sdms}
-\end{figure}
-
-\noindent The archived linear-Erlang deep-XOR sensitivity also survives a synthetic temporal distractor at 1.00 with homeostasis, while the unstabilised condition collapses. This panel remains useful for analysing interaction between temporal credit and stability, but it is not part of the learning-rate-fair physical-primary comparison and is not a biological claim.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter7/Figs/temporal_spatial_credit.png}}
-    \caption[Archived temporal and spatial-credit sensitivity.]{Archived linear-cascade deep-XOR sensitivity with a temporal distractor (20 seeds). It analyses interaction between eligibility, feedback alignment and homeostasis; it is not a physical-primary or biological result.}
-    \label{fig:7dms}
-\end{figure}
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.96\textwidth]{Chapter7/Figs/homeostasis_stabilisation.png}}
-    \caption[Why homeostasis stabilises the archived deep learner.]{Conceptual stability schematic for the archived linear-model deep learner. Without homeostasis associative positive feedback can drive a constant policy; with a local rate target the activity remains bounded. This illustrates the synthetic result of Figure~\ref{fig:7m}, not a response to measured dopamine.}
-    \label{fig:7u}
-\end{figure}
-
-\noindent The scope of this resolution is narrow: homeostasis sidesteps directed exploration rather than solving it. The archived linear-Erlang result shows that a local stability signal can rescue one synthetic deep learner. It does not establish reliable deep reinforcement learning with the nonlinear physical primary, nor a crossbar implementation.\\
-
-\noindent The archived linear-model rule was also swept across hidden width and a measured-inspired stuck-open prior (Figure~\ref{fig:7as}). Wider synthetic networks tolerate the imposed faults better. This is a model sensitivity using the measured conductance distribution, not an array experiment or proof that peripherals and correlated faults scale similarly.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.62\textwidth]{Chapter7/Figs/array_scale_fault_tolerance.png}}
-    \caption[Archived array-scale fault sensitivity.]{Archived linear-model sensitivity to hidden width and a measured-inspired stuck-open prior (12 seeds). It omits peripheral and correlated array failures and is not a hardware-array result.}
-    \label{fig:7as}
-\end{figure}
-
-\subsection[Grounding in Dopaminergic Learning]{Grounding in Dopaminergic Learning}
-\label{sec:7p2p4}
-
-\noindent The Frank probabilistic-selection task establishes the expected choose-A/avoid-B direction in a controlled synthetic setting \cite{frank2004carrot}. Biological grounding is then treated as a distinct evidence layer, using interventions to test dopamine's causal role in policy acquisition and logged replay to test whether intact recorded dopamine can enter the proposed action-contingent update. This separation keeps the synthetic learner, causal biology and waveform replay mutually interpretable.
-
-\noindent The strongest causal link comes from the public Coddington, Lindo and Dudman closed-loop experiment \cite{coddington2023mesolimbic}. The frozen reanalysis retains the source control ($n=9$), stimulation-after-low-preparatory-licking ($n=6$) and stimulation-after-high-preparatory-licking ($n=5$) groups and follows preparatory licking above baseline through eight 100-trial blocks. The two action-contingent groups separate by 0.727\,Hz in the predicted direction; every blockwise contrast is positive and the source-style contingency-by-block analysis gives $F_{1,72}=12.03$ ($p=0.00089$). Stimulated trials increase reward-aligned dopamine by 1.15 and 1.24 standard units in the respective groups. The mouse-only bootstrap assigns 96.6\% probability to a positive contrast [-0.061, 1.519]\,Hz. This is positive causal evidence for the thesis's biological third-factor premise: dopamine changes subsequent learning according to the preceding behavioural contingency.
-
-\noindent Jeong \emph{et al.} provide an independent causal-inhibition check \cite{jeong2022mesolimbic}. A 428-asset DANDI 000351 manifest pins the mutable draft before the authors' public Figure~6 cohort and lick definition are reproduced across 13 mice and 82 conditioning sessions. Controls acquire 2.04 more anticipatory licks than inhibited animals [mouse-bootstrap -2.27, 6.17] and finish 2.41 licks higher [-1.60, 5.97]. The intervals include zero, so this is a directionally consistent secondary replication, not a second confirmatory test. Its value is cross-dataset coherence: dopamine enhancement and inhibition move learning in complementary directions.
-
-\begin{figure}[p]
-    \centering
-    \includegraphics[width=0.94\textwidth]{Chapter7/Figs/fig_coddington_causal.png}
-    \par\vspace{3mm}
-    \includegraphics[width=0.88\textwidth]{Chapter7/Figs/fig_jeong_directional.png}
-    \caption[Causal dopamine grounding in two public interventions.]{Causal dopamine grounding in two public interventions. Top, Coddington action-contingent stimulation produces divergent policy-learning trajectories, a positive blockwise contrast and verified dopamine delivery. Bottom, independent range-read analysis of the Jeong/DANDI 000351 cohort recovers the reported direction: controls acquire more anticipatory licking than dopamine-inhibited animals. Mouse-level uncertainty is shown explicitly. Internal letters belong to the panels within each source-specific analysis.}
-    \label{fig:7causaldopamine}
-\end{figure}
-
-\noindent The replacement uses the published instrumental-learning release DANDI 001340 (version 0.250221.0527) \cite{qu2025nucleus}. Triage finds 58,590 valid behavioural trials across 69 NWB files. Twenty-one behaviour-only sessions and truncated BSD016/p118 and BSD016/p119 are rejected explicitly, leaving 46 substantive photometry sessions and 39,020 aligned trials. The predeclared reward--stochastic-omission rule selects 38 sessions, all five mice and 33,330 trials at each of the 30, 60 and 120\,s detrending windows; this sensitivity set is not substituted for the all-session primary analysis.
-
-\noindent Each choice is predicted before the current outcome or waveform is read. The recorded action is then teacher-forced at centre-out, and its intact centre-out--to--outcome+1\,s dLight segment supplies $\int M(t)e(t)\,dt$. Weights reset by session; leave-one-mouse-out parameters are fitted on the other four mice; hidden rewarded-port state never enters a cache or learner interface. The physical headroom gate at $V=0.9$\,V, $\tau_{leak}=10$\,s, $k=3$ and $\beta_{leak}=1$ is primary, with a linear-Erlang sensitivity and independent decay-matched controls.
-
-\noindent At the primary 60\,s window, held-out log loss is 0.509644 for the previous-choice baseline, 0.509559 for plain dLight, 0.509518 for the physical device, 0.509563 for its matched exponential, 0.509519 for the linear device and 0.509570 for its matched exponential. Shuffled physical dLight gives 0.509644, shifted physical dLight 0.509680 and binary-outcome Q-learning 0.435047. Physical minus shuffled is $-1.30\times10^{-4}$ [$-2.40\times10^{-4}$, $-2.91\times10^{-5}$], providing a small but reproducible advantage over the label-free randomisation control. Physical-minus-plain, physical-minus-matched-exponential and physical-minus-linear intervals include zero, locating the remaining uncertainty specifically in kernel identity rather than in the integrity of the replay. Reward-versus-stochastic-omission receiver-operating-characteristic area under the curve (\abbrevdef{AUC}) is 0.817 for physical and 0.818 for linear; device/matched-exponential overlap correlations are 0.872 and 0.912.
-
-\noindent The logged replay establishes a reproducible waveform-level bridge: recorded dopamine modulates the eligibility assigned to the recorded action without exposing outcome or hidden state before prediction, and the resulting learner outperforms its shuffled-waveform control. Read together, Coddington supplies causal action-contingent policy learning, Jeong supplies the complementary inhibition direction, and DANDI 001340 supplies trial-complete continuous dopamine. The remaining question is kernel identification: passive data do not distinguish the physical, linear and matched-exponential shapes. Outcome-based Q-learning is a positive control only, and deep-XOR remains a separate synthetic sensitivity.
-
-\begin{figure}[p]
-    \centering
-    \includegraphics[width=0.96\textwidth]{Chapter7/Figs/fig_dopamine_triage.png}
-    \par\vspace{3mm}
-    \includegraphics[width=0.96\textwidth]{Chapter7/Figs/fig_dopamine_replay.png}
-    \caption[DANDI 001340 logged dopamine replay.]{DANDI 001340 logged dopamine replay. Top, deterministic session disposition and outcome-debased reward/omission response under the independently reconstructed preprocessing. Bottom, session-paired change in pre-outcome held-out choice log loss relative to the previous-choice baseline (negative is better): intact physical dLight improves on the shuffled-waveform control, while discrimination among closely matched kernels remains unresolved.}
-    \label{fig:7dopamine}
-\end{figure}
+\noindent A physical eligibility kernel should therefore be reported with its fitted function, observation interval,
+background-current treatment, and sensing conditions. The nine measurements establish repeatability within one contact
+and session. Over the observed range the complete interval supports the stretched-exponential description and rejects
+the $30$\,s extrapolation, while leaving later decay and microscopic mechanism unresolved. Whether the identification
+difference alters learned temporal credit is the subject of the next section.
 
 \FloatBarrier
 
-\subsection[A Scaling Relation for Temporal Credit Assignment]{A Scaling Relation for Temporal Credit Assignment}
-\label{sec:7p3p3}
+\section[Kernel Shape Changes Temporal Credit]{Kernel Shape Changes Temporal Credit}
+\label{sec:7p2}
+
+\noindent The fitted kernel weights each event by the eligibility that remains when reward arrives, and a threshold
+derived from that kernel predicts the relative strength at which credit changes between an older and a newer event. A
+role-swap task then tests whether the predicted ordering persists after repeated reward-gated updates, and the same task
+compares the complete $226$\,s identification with the kernel inferred from its first $30$\,s.
+
+\subsection[Credit Prediction and Role-Swap Test]{Credit Prediction and Role-Swap Test}
+\label{sec:7p2p1}
+
+\noindent The role-swap task separates event age from event identity: each trial contains a predictive event and a
+competing event at fixed delays before reward. One input line carries each event, and both lines project to both action
+neurons. Output spikes produced during the predictive event select the action, and while the competing event does not
+enter that count, it deposits eligibility on the opposing pathway. Target labels vary across trials, so a pathway that
+competes on one trial can become predictive on a later trial. These two events therefore compete for reward-gated updates
+to future choices, not for the action already selected on the current trial.\\
+
+\noindent Each action channel contains a leaky integrate-and-fire neuron with a $20$\,ms membrane time constant, a unit
+firing threshold, and Gaussian membrane noise of scale $0.15$. Older and newer events are each $0.3$\,s spike trains
+at $200$\,Hz. The two input lines and two action neurons form four plastic weights, each initialised at $0.5$ and
+bounded within $[0,1.5]$. Selection takes the channel with the larger output spike count during the predictive event,
+with ties broken at random, and the selected action then remains fixed until reward.\\
+
+\noindent At each $5$\,ms step containing an input spike, the two synapses from the active line receive separate signed
+drives: a simultaneous spike from the corresponding output neuron contributes $+1$, while its absence contributes
+$-0.6$. Reward is $1$ when the selected action matches the target and $0$ otherwise, and at reward the prediction error
+$R_n-b_n$ gates the eligibility on all four synapses. This running baseline $b_n$ starts at the chance rate,
+$b_1=0.5$, and follows $b_{n+1}=b_n+0.02(R_n-b_n)$; eligibility is cleared between trials.\\
+
+\noindent Signed drive, event duration, membrane noise, time step, and weight bounds are simulation choices. The
+$+1$ and $-0.6$ contributions balance coincident potentiation against non-coincident depression, preventing unrelated
+activity from accumulating only positive eligibility. One global learning rate of $10^{-3}$ is used throughout the
+role-swap experiment, and Figure~\ref{fig:7task} shows the complete sequence from eligibility deposition to action,
+reward, and weight update.\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.85\textwidth]{Chapter7/Figs/retention_delay_scaling_law.png}}
-    \caption[Archived linear-model retention sensitivity.]{Archived linear-Erlang sensitivity of maximum learnable delay to the model retention parameter on the sequential task (20 seeds). The apparent proportionality is task- and threshold-specific and partly built in because the same parameter sets trace decay. It is not a measured fabrication law.}
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/role_swap_task.pdf}}
+    \caption[The closed-loop role-swap task.]{\emph{Schematic}: green denotes the predictor and grey the competitor.
+    \textbf{(a)} The older and newer events exchange roles at fixed times. \textbf{(b)} Predictor-period output spikes
+    select the action, while each input spike adds $+1$ or $-0.6$ to the corresponding eligibility.
+    \textbf{(c)} At reward, $\delta_n=R_n-b_n$ gates the eligibility surviving on both pathways.
+    \textbf{(d)} The role-swap effect $g$ compares $500$-trial mean reward between the two assignments.}
+    \label{fig:7task}
+\end{figure}
+
+\noindent Dividing one reward between two events makes the ratio of their surviving eligibility the relevant quantity.
+Each nominal delay is the age of an event's onset when reward arrives. Because deposition continues throughout the
+$0.3$\,s event, the simulated eligibility sums contributions that are slightly younger than the nominal onset delay. A
+point-event calculation predicts the ordering before the learner is run. Writing
+$t_{\mathrm{newer}}<t_{\mathrm{older}}$ for the two delays, the threshold is
+\begin{align}
+    r^{\ast} &= \frac{q(t_{\mathrm{newer}})}{q(t_{\mathrm{older}})} \label{eq:7.6}
+\end{align}
+\noindent where $r^{\ast}$ is the older-to-newer deposit ratio that leaves equal eligibility from the two events at
+reward. Since $q$ decreases with age, $r^{\ast}>1$: equal deposits favour the newer event, and the older event contributes
+more only when its initial deposit is greater by more than $r^{\ast}$. A larger threshold therefore means stronger
+relative weighting of the newer event, and integrating over the finite event duration changes the numerical value
+slightly while preserving the ordering.\\
+
+\noindent Both the kernel and the event delays enter the threshold, so it is a task-specific prediction, not an
+intrinsic device credit window, and $\tau_{leak}$ alone cannot determine it. Kernels with different
+$\beta_{leak}$ can share the same mean retention yet return different thresholds, assigning the same pair of deposits
+to different events.\\
+
+\noindent Five example kernels hold the mean retention at $23.0$\,s while varying $\beta_{leak}$ and solving for the
+corresponding $\tau_{leak}$. Their thresholds at event delays of $1$ and $10$\,s span $1.332$ to $1.874$
+(Figure~\ref{fig:7w}). At an older-to-newer deposit ratio of $1.60$, two kernels assign more surviving eligibility to
+the newer event, and three assign more to the older event; equal mean retention therefore leaves temporal credit
+undetermined. These five kernels provide an analytical example, and the learning comparison uses the calibrated
+exponential defined below.\\
+
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=0.62\textwidth]{Chapter7/Figs/credit_threshold_witness.png}}
+    \caption[Equal mean retention does not fix temporal credit.]{Five kernels share
+    $\langle t\rangle=23.0$\,s while $\beta_{leak}$ varies and $\tau_{leak}$ is adjusted accordingly. Their thresholds
+    at event delays of $1$ and $10$\,s span the marked range. At a deposit ratio of $1.60$, two kernels favour the newer
+    event, and three favour the older event.}
+    \label{fig:7w}
+\end{figure}
+
+\noindent Summarising the learning outcome takes two levels: within one kernel, the role-swap effect $g$ is the
+difference in $500$-trial mean reward between the assignment with the newer predictor and the assignment with the older
+predictor. A second quantity, the contrast $\Delta g$, compares that role-swap effect between the
+SiO$_x$ kernel and the exponential,
+\begin{align}
+    g(q) &= \bar{R}_{\mathrm{newer}}(q) - \bar{R}_{\mathrm{older}}(q), \qquad
+    \Delta g = g(q_{\mathrm{SiO}_x}) - g(q_{\exp}). \label{eq:7.6b}
+\end{align}
+\noindent A positive $g$ means that mean reward is higher when the newer event is predictive. A positive $\Delta g$
+means that this newer-predictor advantage is larger with the SiO$_x$ kernel; a negative value means that it
+is larger with the exponential. These three quantities therefore form a sequence: $r^{\ast}$ predicts the relative
+weighting before learning, $g$ measures the role-swap outcome within one kernel, and $\Delta g$ compares the two
+kernels.\\
+
+\noindent The control kernel is the canonical single-timescale exponential
+$q_{\exp}(\ell)=\exp(-\ell/\tau_{r^{\ast}})$, whose time constant is chosen to approximate the
+SiO$_x$ thresholds jointly at the calibration timings $(1,10)$ and $(3,20)$\,s, giving
+$\tau_{r^{\ast}}=19.86$\,s. One time constant cannot reproduce both thresholds exactly: the control returns $1.573$
+against $1.765$ at $(1,10)$\,s, and $2.354$ against $2.215$ at $(3,20)$\,s. This control therefore tests whether an
+exponential tuned at known delays preserves the SiO$_x$ ordering at new delays.\\
+
+\noindent Equation~\ref{eq:7.6} selected the evaluation timings, $(1.5,11)$ and $(3.5,19)$\,s, on opposite
+sides of the predicted crossover, and both timings were excluded from control calibration and learning-rate selection.
+Because the exponential was fixed before these simulations, a change in the sign of $\Delta g$ was a prospective
+prediction.\\
+
+\noindent Different kernels can also produce different total update magnitudes, which would confound a comparison of
+temporal weighting. Each kernel therefore received one fixed normalisation factor, estimated from $200$ balanced trials
+at each calibration timing with prescribed actions and learning disabled, and these trials supplied the unscaled signal
+$(R-b)e(t_R)$. A common learning rate was then chosen as the smallest prespecified value at which both kernels learned
+without saturating their weights, and the factors and that learning rate remained fixed for evaluation.\\
+
+\noindent The measurement and learning analyses use different evidence units: Section~\ref{sec:7p1} fits nine repeated
+measurements, while the learner uses one aggregate kernel formed from their mean parameter values.
+Measurement-to-measurement variation is therefore not propagated through the learning simulations. Replication on the
+learning side comes from $16$ paired simulations at each evaluation timing, with the two kernels receiving identical
+target labels and input spike trains within each pair.\\
+
+\noindent An exact paired sign-flip test on the within-pair difference
+$\Delta g(1.5,11)-\Delta g(3.5,19)$ tests the predicted reversal
+\cite{ernst2004permutation}. This planned contrast asks whether the relative ordering of the two kernels changes with
+timing. The three truncation contrasts reported below address a separate comparison and are adjusted together using
+Holm's procedure \cite{holm1979simple}.
+
+\subsection[Learned Credit from Full and Truncated Kernels]{Learned Credit from Full and Truncated Kernels}
+\label{sec:7p2p2}
+
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/learned_credit.pdf}}
+    \caption[Learned credit under the measured kernel and calibrated exponential.]{\emph{Simulated}, $n=16$ paired
+    runs per timing. Boxes show the interquartile range and median; whiskers span the observed range.
+    \textbf{(a)} Role-swap effect $g$ for the aggregate SiO$_x$ kernel and exponential control.
+    \textbf{(b)} $\Delta g=g(q_{\mathrm{SiO}_x})-g(q_{\exp})$; zero marks equal role-swap effects.}
     \label{fig:7l}
 \end{figure}
 
-\noindent In the archived linear representation, maximum learnable delay grows with the model retention parameter. This is an expected simulation sensitivity, because the same parameter sets how long eligibility survives. It motivates a hardware hypothesis but does not establish a fabrication-set behavioural law.\\
+\noindent Thresholds evaluated at the two timings predict opposite kernel orderings. At $(1.5,11)$\,s, the
+SiO$_x$ kernel has the larger threshold, $1.755$ against $1.613$, and therefore predicts $\Delta g>0$.
+At $(3.5,19)$\,s, the exponential has the larger threshold, $2.182$ against $2.062$, and predicts $\Delta g<0$.
+This prediction concerns which kernel produces the larger newer-predictor advantage; it does not require either kernel
+to favour the older event in absolute terms.\\
 
-\noindent A dense sweep of the sequential T-maze over thirteen retention values (Figure~\ref{fig:7l}), all resolving a finite $D_{\max}$ on an extended delay grid (from $D_{\max}=7$\,s at $\tau_{leak}=1$\,s to $638$\,s at $\tau_{leak}=40$\,s), gives its form as a proportionality,
+\noindent Both kernels produced positive $g$ at both timings, so mean reward was higher when the newer event served as
+the predictor (Figure~\ref{fig:7l}a). This advantage changed in size between kernels as predicted: mean
+$\Delta g$ was $+0.0133\pm0.0082$ at $(1.5,11)$\,s and $-0.0356\pm0.0094$ at $(3.5,19)$\,s, with standard errors over
+the $16$ paired simulations (Figure~\ref{fig:7l}b). Their planned within-pair difference was
+$+0.0489\pm0.0123$, with $p=0.00269$, supporting the predicted change in kernel ordering
+(Table~\ref{table:7credit}).\\
+
+\noindent In the truncation comparison, $q_{30}$ denotes the kernel fitted over the first $30$\,s and $q_{226}$ the
+kernel fitted over the complete $226$\,s. Both fits take the background from the final tenth of their selected interval,
+so the observation length is the only changed analysis choice. The comparison tests the learning consequence of
+identifying the same relaxation before its slow tail has been observed.\\
+
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=\textwidth,trim=0 0 0 174,clip]{Chapter7/Figs/kernel_reliability_lower.pdf}}
+    \caption[Identification uncertainty and its learned consequence.]{\textbf{(a)} \emph{Fitted}:
+    autocorrelation-adjusted $95\,\%$ intervals for $r^{\ast}$ at $(3,20)$\,s, with the background profiled separately
+    over the $226$\,s and $30$\,s intervals; eight of nine pairs do not overlap. \textbf{(b)} \emph{Simulated}:
+    $\Delta g_{\mathrm{trunc}}=g(q_{30})-g(q_{226})$ for $16$ paired runs at each evaluation timing.}
+    \label{fig:7trunc}
+\end{figure}
+
+\noindent Mapping each profile-likelihood region through Equation~\ref{eq:7.6} gives an interval for the credit
+threshold. At $(3,20)$\,s, the intervals from the complete and truncated fits do not overlap in eight of the nine
+measurements (Figure~\ref{fig:7trunc}a). This uncertainty analysis estimates the background within each fitting interval,
+whereas the learning comparison fixes it from the interval tail. The two analyses therefore ask related but distinct
+questions: whether the fitted thresholds are distinguishable, and whether the declared truncation convention changes
+learning.\\
+
+\noindent Replacing $q_{226}$ with $q_{30}$ increased the newer-predictor advantage at both evaluation timings.
+$\Delta g_{\mathrm{trunc}}=g(q_{30})-g(q_{226})$ was $+0.0636\pm0.0077$ at $(1.5,11)$\,s and
+$+0.0951\pm0.0110$ at $(3.5,19)$\,s (Figure~\ref{fig:7trunc}b), and all $16$ paired values were positive at both
+timings. Between timings, the truncation effect differed by $-0.0315\pm0.0130$, showing that the shift was larger at
+$(3.5,19)$\,s (Table~\ref{table:7credit}). Truncating the observation therefore changed both the fitted age dependence
+and the learned distribution of temporal credit.\\
+
+\noindent The threshold compares two surviving deposits at one reward, while $g$ emerges after $500$ trials of feedback
+between weight updates and later choices. Agreement between the predicted and learned ordering therefore shows that the
+kernel's relative temporal weighting survives the closed loop. The SiO$_x$ kernel loses a decreasing
+fraction of its surviving state as it ages, whereas the exponential loses a constant fraction over equal intervals, so
+their ordering changes with event timing, and neither kernel is uniformly larger.\\
+
+\noindent The truncation comparison addresses identification rather than kernel superiority: fitting only the early
+decay raises the inferred exponent, places more relative weight on newer events, and shifts the closed-loop learning
+outcome in the same direction. These results use one material, one aggregate kernel per fit, and a small two-action
+task. They establish that the declared measurement and fitting choices can alter learned temporal credit, without
+showing an advantage over a separately tuned generic trace or the same effect in another device family.
+
+\begin{table}[H]
+    \caption[Learned-credit contrasts at the two evaluation timings.]{\emph{Simulated}: means and standard errors over
+    $16$ paired runs. Positive values indicate a larger newer-predictor advantage for the first kernel named. The
+    cross-timing $\Delta g$ test is unadjusted; the three $\Delta g_{\mathrm{trunc}}$ tests are Holm-adjusted together.}
+    \begin{center}
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X c r c c@{}}
+    \toprule
+    Comparison & Timing (newer, older) & Mean & SE & $p$ \\
+    \midrule
+    $\Delta g=g(q_{\mathrm{SiO}_x})-g(q_{\exp})$ & $(1.5,11)$\,s & $+0.0133$ & $0.0082$ & -- \\
+    $\Delta g=g(q_{\mathrm{SiO}_x})-g(q_{\exp})$ & $(3.5,19)$\,s & $-0.0356$ & $0.0094$ & -- \\
+    $\Delta g(1.5,11)-\Delta g(3.5,19)$ & between timings & $+0.0489$ & $0.0123$ & $0.00269$ \\
+    \addlinespace
+    $\Delta g_{\mathrm{trunc}}=g(q_{30})-g(q_{226})$ & $(1.5,11)$\,s & $+0.0636$ & $0.0077$ & $9.16\times10^{-5}$ \\
+    $\Delta g_{\mathrm{trunc}}=g(q_{30})-g(q_{226})$ & $(3.5,19)$\,s & $+0.0951$ & $0.0110$ & $9.16\times10^{-5}$ \\
+    $\Delta g_{\mathrm{trunc}}(1.5,11)-\Delta g_{\mathrm{trunc}}(3.5,19)$ & between timings & $-0.0315$ & $0.0130$ & $0.02875$ \\
+    \bottomrule
+    \end{tabularx}
+    \label{table:7credit}
+    \end{center}
+\end{table}
+
+\FloatBarrier
+
+\section[From Local Eligibility to Learning Systems]{From Local Eligibility to Learning Systems}
+\label{sec:7p3}
+
+\noindent Within one plastic layer, the role-swap task isolates temporal credit; a multilayer network adds spatial
+credit, because the reward signal must also distinguish the hidden neurons and layers that contributed to the action.
+The learning rule below addresses that requirement, using direct feedback alignment to distribute the
+learning signal without transporting the forward weights, and a two-layer exclusive-or task then tests whether the
+measured decay still supports learning once credit must be divided between layers.
+
+\subsection[Coincidence Drive and Projected Credit]{Coincidence Drive and Projected Credit}
+\label{sec:7p3p1}
+
+\noindent Eligibility must distinguish reward-correlated activity from input spikes that fail to drive the
+postsynaptic neuron. Section~\ref{sec:7p2p1} introduced a signed drive for that purpose, giving a positive contribution
+to same-step pre- and postsynaptic spikes and a smaller negative contribution when only the presynaptic spike occurs
+\cite{izhikevich2007solving}. In indexed form, with $\lambda_d=0.6$, the drive is
 \begin{align}
-    D_{\max} \approx s_D\,\tau, \label{eq:7.15}
+    d_{ij}(t) = x^{pre}_i(t) \left[ \mathbf{1}\!\left( x^{post}_j(t) \right) - \lambda_d \left( 1 - \mathbf{1}\!\left( x^{post}_j(t) \right) \right) \right], \label{eq:7.7}
 \end{align}
-where $\tau$ is the simulated eligibility lifetime. A descriptive line through the thirteen points gives $s_D\approx15$ ($R^2=0.99$), but $s_D$ is specific to the task, representation, exploration policy, budget and success threshold.\\
+\noindent where $x^{pre}_i$ and $x^{post}_j$ are the pre- and postsynaptic spike trains, and
+$\mathbf{1}(x^{post}_j)$ indicates a postsynaptic spike in the same $5$\,ms step, within which the rule does not resolve
+spike order. Reward-correlated input produces more coincidences and a net-positive eligibility, while uncorrelated
+input produces more negative contributions. This signed drive supplies selectivity between the two cases without
+normalising the weights.\\
 
-\noindent The local slope rises from approximately 7 to a plateau near 16 because the fixed rise time consumes a smaller fraction of long retentions. This is consistent with established three-factor theory, where trace decay bounds the credit window \cite{izhikevich2007solving,fremaux2016neuromodulated,gerstner2018eligibility}. The simulation quantifies that dependence for this harness; it is neither a novel universal law nor a measurement.\\
-
-\noindent Read in reverse, Equation~\ref{eq:7.15} can guide a \emph{candidate} retention range for a target task, but only after fixing the model, criterion and circuit. The sweep does not show that fabricated devices can be programmed to those values, nor that a hardware learner follows the same curve. It is best treated as a co-design hypothesis whose decisive test is unavailable in this thesis.\\
-
-\noindent A fixed-budget long-versus-short control confirms the expected internal mechanism: in the archived linear deep model, $\tau_{leak}=20$\,s bridges 1--25\,s gaps whereas $\tau_{leak}=1.5$\,s and no trace fail beyond short gaps, including under the declared stuck-off prior (Figure~\ref{fig:7dc}). This isolates retention within the simulation, not a fabricated device advantage.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.9\textwidth]{Chapter7/Figs/retention_as_asset_distal_cue.png}}
-    \caption[Archived long-versus-short retention sensitivity.]{Archived linear-model deep distal-cue sensitivity (20 seeds). Long model retention bridges the declared delay while short retention and no trace fail, including under the stuck-off prior. This validates the simulation mechanism, not a physical retention-programming result.}
-    \label{fig:7dc}
-\end{figure}
-
-\noindent A historical sensitivity at $\beta_{leak}=1$, 0.85 and 0.54 leaves the coarse retention trend unchanged (Figure~\ref{fig:7bs}). The current refit instead gives held-bias $0.470\pm0.090$ and two near-zero values 0.836 and 0.814. The historical sweep therefore supports qualitative robustness only; it does not validate a unique field-free single-rate reduction.\\
+\noindent The postsynaptic units are \abbrev{LIF} neurons on this task's own time step, with Gaussian membrane
+noise providing exploration. Their spikes supply the coincidence term in Equation~\ref{eq:7.7}, the measured kernel
+decays the resulting eligibility, and the broadcast prediction error commits the surviving value through
+Equation~\ref{eq:7.3}. Figure~\ref{fig:7b} translates this sequence into a proposed physical process at one synapse, of
+which only the post-drive decay has been measured; coincidence-dependent deposition and reward-gated programming remain
+circuit functions.\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.85\textwidth]{Chapter7/Figs/single_rate_reduction_validation.png}}
-    \caption[Historical dispersion sensitivity.]{Historical linear-model sensitivity at $\beta_{leak}=1$, 0.85 and 0.54. The current refit changes the empirical summaries, so this panel establishes qualitative model robustness only.}
-    \label{fig:7bs}
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/three_factor_physics.png}}
+    \caption[The proposed eligibility process at one synapse.]{\emph{Conceptual}: \textbf{(a)} coincident input and
+    output activity deposits a local state. \textbf{(b)} The measured kernel decays that state until reward.
+    \textbf{(c)} The broadcast prediction error gates the surviving eligibility into a weight update. Trap filling is a
+    working interpretation; the deposition and programming circuits are not measured here.}
+    \label{fig:7b}
 \end{figure}
 
-\noindent The decisive device test would fabricate or select cells with different directly measured drive-off retentions and test whether a hardware learner's delay range shifts. It is not performed here. The available held-bias law is $\tau_{leak}(V)\approx2.55e^{-0.665\sqrt{V}}$\,s with a zero-bias extrapolation $[1.73,3.85]$\,s, plus two preliminary 1\,mV reads at 4.31 and 9.20\,s. These observations constrain, but do not demonstrate, fabrication tunability.\\
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=\textwidth]{Chapter7/Figs/multilayer_agent.png}}
+    \caption[Proposed mapping of the multilayer learner.]{\emph{Conceptual}: two arrays carry the weights and local
+    eligibility, while the prediction error reaches both layers. A fixed random matrix projects the output learning
+    signal to hidden neurons, and each hidden neuron also receives a local firing-rate correction. Equation~\ref{eq:7.11}
+    combines these two hidden-layer terms.}
+    \label{fig:7n}
+\end{figure}
 
-\noindent In biology, $\tau$ is the neuromodulator-gated synaptic eligibility window, itself tunable: dopamine acts on dendritic spines within $\sim$0.3--2\,s \cite{yagishita2014timewindow}, cortical and striatal eligibility traces persist for seconds \cite{he2015eligibility, fisher2017reward, shindou2019silent}, and hippocampal traces extend to tens of seconds \cite{brzosko2015retroactive}. Equation~\ref{eq:7.15} therefore predicts that manipulating the molecular eligibility lifetime, for instance by a Yagishita-style optogenetic shift of the dopamine timing window, should rescale the maximum bridgeable cue--reward interval proportionally within the trace-dominated regime. This arm is a prediction the model makes, not a result obtained here, and the correspondence remains dynamical (a matched relaxation timescale) rather than chemical, as flagged in Section~\ref{sec:7p1p1}.\\
+\noindent In the proposed crossbar mapping, state inputs drive the rows, action neurons read the bitline currents, and
+each signed weight is stored as the differential conductance pair $(G^{+}_{ij},G^{-}_{ij})$ of
+Equation~\ref{eq:6.33}. A separate volatile state at the same logical crosspoint carries eligibility
+(Figure~\ref{fig:7n}). Discretising
+Equation~\ref{eq:7.3} gives the complementary conductance update
+\begin{align}
+    \Delta G^{\pm}_{ij} = \pm\, \eta\, \big( R - b \big)\, e_{ij}(t_R), \label{eq:7.10}
+\end{align}
+\noindent applied as potentiation and depression pulses. This mapping avoids a transposed weight matrix and a
+per-synapse error signal \cite{bellec2020solution,zhou2022memprop}, but it still requires coincidence generation,
+eligibility sensing, reward-gated programming, and selective access to each conductance pair. Material relaxation could
+remove the need to store and numerically decay one eligibility value per synapse. Whether that saving outweighs the
+peripheral circuitry requires a fabricated implementation and is not resolved by the present simulation.\\
 
-\noindent The electrode substitution of Section~\ref{sec:5p-ito} is a complementary experiment that should not be mistaken for this $R_{leak}C$ test. Gold and \abbrev{ITO} stacks share the same intrinsic trap discharge $\tau_{leak}$. The electrode changes only its visibility, gold superimposing the slow proton branch that masks it and \abbrev{ITO} stripping that branch away to expose the bare relaxation (the few-second discharge measured in Section~\ref{sec:5p-ito}). That exposure is what makes $\tau_{leak}$ measurable, grounding the eligibility window in a measured constant rather than a hand-set one. It does not itself shift the retention, however, and is a measurement enabler, not the tunability knob. The decisive test of Equation~\ref{eq:7.15} remains a series of devices engineered to differing $\tau_{leak}$ through trap energetics.\\
+\noindent A single broadcast prediction error gives hidden synapses no information about which hidden neuron
+contributed to the chosen action. Direct feedback alignment (\abbrevdef{DFA}) instead projects the output learning
+signal through a fixed random matrix \cite{lillicrap2016random,nokland2016direct}; since this matrix is independent of
+the forward weights, the update avoids weight transport. Eligibility remains synapse-local, while all synapses entering
+one hidden neuron share its projected signal; the resulting credit is neuron-local, not fully synapse-specific.\\
 
-\noindent The slow space-charge branch ($\tau_d$, tens to hundreds of seconds) is not a longer-delay alternative. It is the ionic screening \abbrev{ITO} removes, monotonic rather than coincidence-peaked, so driving credit from it would lose temporal selectivity by crediting in-window distractors and would leave the biological window. The eligibility is the electronic trap discharge alone.\\
+\noindent Direct feedback alignment supplies spatial credit but does not regulate hidden-neuron activity, so a separate
+homeostatic term adjusts each hidden neuron's incoming weights according to its own firing-rate estimate and contains no
+reward information. The hidden-layer update combines the projected reward term with this local stabiliser,
+\begin{align}
+    \Delta w_{ij} = \underbrace{\eta\,(R-b)\,[B\mathbf{L}]_j\, e_{ij}(t_R)}_{\text{per-neuron credit (\abbrev{DFA})}} \;+\; \underbrace{\eta_h\,(\rho^{\ast} - \bar{\rho}_j)\, w_{ij}}_{\text{local homeostasis}}, \label{eq:7.11}
+\end{align}
+\noindent where $[B\mathbf{L}]_j$ is the fixed-random projection onto hidden neuron $j$, $\bar{\rho}_j$ is that
+neuron's firing-rate estimate, $\rho^{\ast}$ is the shared target, and $\eta_h$ is the homeostatic rate. Each action
+neuron contributes one component to the output learning signal,
+$L_a=\mathbf{1}(a=a_{\mathrm{chosen}})-\pi_a$, with $\pi$ obtained from a softmax over output spike counts.
+Output-layer synapses retain Equation~\ref{eq:7.3} and hidden-layer synapses use Equation~\ref{eq:7.11}, so the measured
+decay supplies eligibility in both layers, while the homeostatic target, gain, and weight dependence remain modelling
+choices.
 
-\noindent The claim is bounded by the Chapter~5 audit: workbook/run is the experimental unit, true zero-field retention is not directly measured, and electrode substitution shows visibility rather than tunability. Electrode-engineered control of eligibility time remains a hypothesis.\\
+\subsection[Multilayer Learning and the Homeostatic Requirement]{Multilayer Learning and the Homeostatic
+Requirement}
+\label{sec:7p3p2}
 
-\noindent The idea that a device's own relaxation can serve as an eligibility trace is not new, and the contribution is best stated against its precedents. The earliest is PCM-trace, which reduces the resistivity-drift power law of a two-terminal phase-change cell to the eligibility-trace decay equation \cite{demiraug2021pcm}. The closest concurrent work is Wang \emph{et al.}, who use the ferroelectric polarisation relaxation of a three-terminal $\alpha$-In$_2$Se$_3$ synaptic transistor as an eligibility trace for on-device spiking reinforcement learning \cite{wang2026ferroelectric}. An analogue-memristor actor--critic network performs reward-based learning on the same two-terminal oxide device class as this chapter, but writes its weights with explicit voltage pulses and leaves eligibility traces to future work \cite{portner2025actorcritic}. A two-terminal second-order oxide memristor drives continual reinforcement learning from an intrinsic oxygen gradient, framed as a physically modulated learning rate rather than a relaxation eligibility trace \cite{ming2026oxygen}.\\
+\noindent A two-layer exclusive-or (XOR) contextual bandit tests temporal and spatial credit together. Two binary
+features are encoded one-hot onto four input lines, with exactly two active lines on every trial. Action $1$ is correct
+when the features differ, and action $0$ when they agree. Because XOR is not linearly separable
+\cite{rumelhart1986learning}, the learner contains eight hidden \abbrev{LIF} neurons and two action neurons, connected by
+$4\times8$ and $8\times2$ weight matrices, both of which carry eligibility through the measured kernel.\\
 
-\noindent The construction is distinct in using a fitted silicon-oxide charge-trap transient whose rise and discharge form an interval-selective kernel. The strongest current evidence is the learning-rate-robust selectivity direction and the explicit state-locality trade-off against an equal-state learned basis. The retention--delay curve is a model sensitivity, biological overlap is timescale-level only, and electrode choice improves observability rather than demonstrating retention control.
+\noindent The predictive cue precedes reward, while an independent $0.3$\,s competing spike train appears closer to
+reward on randomly chosen cue lines. This competing input contains no information about the correct action, so a learner
+that follows recency alone credits the wrong pathway. Inputs use $200$\,Hz spike trains on the $5$\,ms step, and each
+condition comprises $20$ paired simulation runs of $2{,}000$ trials, with each pair sharing its cue sequence, membrane
+noise, feedback matrix, and weight initialisation. Final reward rate is the mean over the last $100$ trials.\\
+
+\noindent The simulations retain $\lambda_d=0.6$, membrane-noise scale $0.15$, and weight bounds $[0,1.5]$. Each hidden
+neuron also tracks its firing rate over a $200$\,s window against the shared target $\rho^{\ast}=0.35$, and the
+feedback matrix
+$\mathbf{B}$ is drawn once for each simulation and then held fixed. These settings are common to every condition, and
+no parameter is selected using the reported final reward rate.\\
+
+\noindent Without homeostasis, several simulations converged on one action and failed to solve the XOR task. Adding the
+local firing-rate term prevented individual hidden neurons from dominating the response and raised final reward rate
+from $0.436$ to $0.876$ over $20$ paired runs. The mean paired increase was $+0.4402$, with an exact sign-flip
+$p<0.0001$. This dependence on activity regulation is consistent with the need to stabilise associative plasticity
+\cite{abbott2000taming,zenke2013homeostasis,zenke2015orchestrated}, and the present evidence for that stabilisation
+extends only to this learner and task.\\
+
+\noindent A zero-eligibility control retained the architecture and homeostatic term while preventing reward from using
+the measured decay. Its final reward rate was $0.536$, giving a paired difference of $+0.3403$ from the full learner,
+again with $p<0.0001$ (Figure~\ref{fig:7m}), so homeostasis on its own does not account for the learned performance.
+These two terms are held as separate eligibility and homeostatic states in the simulation, and autonomous physical
+implementation of both in one device has not been demonstrated.\\
+
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=0.96\textwidth]{Chapter7/Figs/multilayer_homeostasis.png}}
+    \caption[Homeostasis stabilises multilayer local credit.]{\emph{Simulated}: the two-layer XOR learner with a
+    competing event and the measured decay kernel. \textbf{(a)} Final reward rate against chance.
+    \textbf{(b)} Paired effects of adding homeostasis and restoring eligibility. Bars are means over $20$ paired runs,
+    whiskers are standard errors, and both exact sign-flip tests give $p<0.0001$.}
+    \label{fig:7m}
+\end{figure}
+
+\noindent This experiment moves the measured decay out of the single-layer setting. It places the kernel within a
+weight-transport-free learning rule and shows that the tested network also needs an independent local stabiliser to
+reach the task. The learner remains a simulation throughout, so it tests system compatibility without observing
+learning in biological tissue.
+
+\FloatBarrier
 
 \section[Summary]{Summary}
 
-\noindent This chapter established the silicon-oxide current transient as an eligibility-state primitive under the proposed circuit abstraction. Its equation family reduces to the canonical trace in the single-state small-signal limit, while the exact linear theory and nonlinear phase map predict a preferred credit interval and define where that approximation holds. Held-out Au prediction identifies a compressed rise and an empirically supported family of KWW and linear state-space descriptions rather than a unique stage count. Across trace-level, spiking-network and closed-bandit experiments, the state assigns distal-reward credit; across the declared learning-rate sweep, its rise--decay shape consistently selects the preferred interval while a decay-matched exponential favours the near-reward event. The fair sequential benchmark places this specialisation in context: tuned generic filters can learn faster at the frozen operating point, whereas the physical proposal supplies its temporal prior without an externally stored eligibility word.\\
+\noindent The normalised \abbrev{ITO} relaxation supplies the decay kernel of a canonical three-factor learning rule,
+and its measured exponent gives a dispersive extension of the standard exponential eligibility equation. This
+identification holds for the complete measurement, while the $30$\,s fit departs from the later measured tail.
+Observation length and background-current treatment moved the fitted exponent across the exponential value of unity,
+which reverses the age dependence assigned to one measurement and shifts the temporal credit predicted from it. A device
+proposed for this role must therefore be reported by its complete decay profile and measurement conditions, not by one
+retention time.\\
 
-\noindent The Frank task and archived deep-XOR, distractor and array-scale experiments show how the learning rule composes with behavioural choice, spatial credit and homeostasis in controlled synthetic systems. Biological grounding is now triangulated: Coddington provides positive causal action-contingent dopamine learning, Jeong independently recovers the causal-inhibition direction, and DANDI 001340 preserves the complete action--outcome--waveform record while yielding a positive physical-versus-shuffled held-out likelihood difference. The next question is which eligibility shape biology uses; resolving it is separate from the demonstrated third-factor learning link. Together with the frozen pulse-off predictions and task-specific retention--delay design relation, these results provide a measured, mathematically explicit and experimentally falsifiable route from a material transient to all-local reinforcement learning.
+\noindent In the learning simulations, the role-swap learner preserved the kernel's predicted timing-dependent ordering,
+and the truncated identification shifted learned credit towards newer events. That same measured decay supported a
+two-layer learner without weight transport when combined with a separate local stabiliser. Within the thesis's
+definition of biorealistic learning, the material provides the fading local state,
+while simulated circuitry provides activity-dependent deposition, reward gating, and persistent weight updates. An
+integrated device implementation remains outside the evidence presented here.

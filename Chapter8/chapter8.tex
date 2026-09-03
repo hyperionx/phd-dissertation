@@ -6,138 +6,121 @@
 \chapter{Conclusion}
 \label{ch:conclusion}
 
-\section[Future Directions]{Future Directions}
+\section[Closing Remarks]{Closing Remarks}
 \label{sec:8p1}
 
-\noindent The thesis built one pipeline end to end: fabricated silicon-oxide memristors (Chapters~\ref{ch:fab}--\ref{ch:transients}) condensed into a compact \abbrev{SPICE} model (Chapter~\ref{ch:model}), serving first as the device-physics forward map of a hardware-aware spiking-network training framework stabilised by a homeostatic regulariser (Chapter~\ref{ch:bio}), then as the eligibility trace of a reward-modulated learning rule (Chapter~\ref{ch:learning}). This section gathers the work pointing beyond that pipeline rather than within it.\\
 
-\noindent It has three parts. The first is a set of exploratory closed-loop probes that map the edges of the device primitive, each with its bounding caveat. The second is a predicted device-internal mechanism that folds the reward-gated write into the cell itself. The third is the on-chip learning programme the whole thesis builds toward, where the ex-situ model, the homeostatic stabiliser, and the device eligibility trace would meet on real hardware. None is load-bearing. Each records a direction the work opens.
+\noindent Biorealistic learning here is a matter of where information is held and how each synapse updates. Recent
+activity stays local to the synapse, a delayed scalar signal turns the surviving state into a weight change, multilayer
+credit needs no exact copy of downstream weights, and each neuron's firing rate is regulated. Measured device dynamics
+hold that activity in the material and fix how long it survives, while the measured static current response carries the
+weighted sum. The rest is simulated circuitry, from depositing and sensing the state to programming the persistent
+weight.\\
 
-\subsection[Exploratory Closed-Loop Extensions]{Exploratory Closed-Loop Extensions}
-\label{sec:8p1p1}
 
-\noindent Five further probes map the boundaries of the closed-loop primitive of Chapter~\ref{ch:learning}. They run under the same pre-registration as the main results but are kept separate, each with a stated caveat. Two are positive-with-caveat, one is suggestive, and two are positive only in simulation. They establish where the device trace extends cleanly and where it does not.\\
+\noindent Silicon-rich SiO$_x$ supplies persistent and volatile states, each reached by its own preparation route.
+Electroforming establishes non-volatile conductance levels that survive the removal of power. Constant-current
+conditioning of pristine devices instead produces a current transient which rises or falls under a single
+voltage polarity and then relaxes once the drive is withdrawn. A compact model reproduces that
+transient through separate filling and leakage branches, both of them empirical descriptions fitted to the measured
+current.\\
 
-\noindent The first asks whether credit reaches over a longer trajectory. In an archived linear-model exploration, the trace holds across $L=3$--12 while an e-prop-style comparator declines and no trace stays at chance (Figure~\ref{fig:8a}). Because this probe predates the fair per-method rate protocol, it is retained as a hypothesis-generating sensitivity rather than a method ranking.\\
+\noindent Static and temporal measurements supply different quantities to the network simulations. The electroformed
+Ti/Au devices define the nonlinear current response and the state-to-state variation across the resistance states of a
+single device. Carrying those statistics into training costs $9.2$ and $10.4$ percentage points of accuracy in the
+dense and convolutional networks, which nonetheless learn under the measured forward model, whereas the homeostatic
+regulariser improves generalisation only for the dense networks tested at zero fault probability.\\
 
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter8/Figs/long_horizon.png}}
-    \caption[Archived longer-horizon sensitivity.]{Archived linear-model longer-horizon sensitivity (12 seeds). The comparison predates per-method update calibration and is not a fair method-ranking result.}
-    \label{fig:8a}
-\end{figure}
+\noindent Volatile state comes instead from the \abbrev{ITO} relaxation, which carries classification across an
+input-free interval. Clearing that state removes the delayed decision, and an exponential of the same implemented mean
+lifetime supports $5.3$ and $6.4$~s more usable delay than the measured profile at the primary criterion. Layer-wise
+interventions show further that the delayed decision depends on volatile state distributed across the network. These
+results make the complete decay profile, and not a scalar retention time alone, part of the device specification.\\
 
-\noindent The second asks whether a signed eligibility rule can \emph{unlearn}. On a reversal task that inverts the reward contingency midway, the device trace acquires the first policy and re-acquires the inverted one to the same ceiling ($0.99$, 20 seeds), so it tracks a changing contingency rather than acting as a one-shot associator. Re-acquisition is roughly $13\times$ slower than for a memoryless abstract trace ($\approx$1570 against $\approx$120 trials), because the retention that bridges delay also preserves the now-stale association it must overwrite (Figure~\ref{fig:8b}). Retention thus buys credit-assignment reach at a measurable cost in flexibility, a trade-off intrinsic to a slow physical trace rather than a defect of the implementation.\\
+\noindent Two estimates of that decay rest on different protocols. Under a held sensing bias the fitted
+scale stays of order seconds, and its field-free value follows by extrapolating the square-root bias dependence
+fitted in Equation~\ref{eq:5.11}. The relaxations that define the eligibility kernel were instead observed at
+near-zero bias over a far longer interval, and they give a scale several times larger. Protocol and observation length
+both separate the two estimates, and neither is shown to account for the whole difference between them.\\
 
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter8/Figs/reversal.png}}
-    \caption[Reversal learning and the retention--flexibility trade-off.]{Reversal learning (20 seeds). (a) The device trace acquires, then re-acquires the inverted contingency after the reversal (dashed line) to the same ceiling ($0.99$); the no-trace control stays at chance. (b) Post-reversal recovery: the device trace re-acquires $\approx$$13\times$ more slowly than a memoryless abstract trace, the cost of the retention bridging delay.}
-    \label{fig:8b}
-\end{figure}
+\noindent In reward-modulated learning, the normalised \abbrev{ITO} relaxation supplies the eligibility-decay kernel.
+Unit dispersion recovers the standard exponential rule, while the measured exponent gives a dispersive extension whose
+weighting of newer against older events changes with their delays to reward, a predicted ordering that the role-swap
+learner preserves. Identification of that kernel depends on the measurement conditions, because shortening the fitted
+interval and changing the background-current treatment alter the fitted dispersion, and the truncated fit shifts
+learned credit towards newer events.\\
 
-\noindent The third asks whether the measured device-to-device spread of retention times is itself usable. A population of device traces drawn from the \emph{measured} $\tau_{leak}$ distribution learns poorly in raw form ($0.55$, 20 seeds), because the distribution is short-skewed and, through a device-physics coupling, the cascade's steady-state eligibility scales with retention ($e_{ss}\propto\tau_{leak}$), so short-$\tau$ synapses produce a weaker trace and are starved under a shared learning rate. A homeostatic regulation \emph{of the same class} as the firing-rate stabiliser of Chapter~\ref{ch:bio}, but applied to eligibility amplitude, removes the imbalance: each synapse divides its eligibility by a slow running estimate of its own trace magnitude,
-\begin{align}
-    \hat{e}_{ij} = \frac{e_{ij}}{\bar{g}_{ij}}, \qquad
-    \bar{g}_{ij} \leftarrow \bar{g}_{ij} + \frac{|e_{ij}| - \bar{g}_{ij}}{\tau_{\mathrm{homeo}}}, \label{eq:8.1}
-\end{align}
-with $\bar{g}_{ij}$ a per-synapse exponential moving average of $|e_{ij}|$. This is the eligibility-magnitude analogue of synaptic scaling and divisive normalisation \cite{turrigiano1999homeostatic, carandini2012normalization}, and the first-moment form of adaptive-gradient optimisers such as RMSprop \cite{tieleman2012rmsprop}; the contribution claimed is not the rule but the $e_{ss}\propto\tau_{leak}$ coupling that makes it necessary. So applied, it recovers the task fully ($1.00$, disjoint from the raw case), close to a $\tau$-oracle ($0.99$) and above the best single retention ($0.77$; Figure~\ref{fig:8c}). The result is suggestive rather than decisive: it leans on homeostasis to compensate a distribution skewed from the useful range, so it points to a direction, not a second grounded primitive.\\
+\noindent The same kernel supports a two-layer agent without weight transport once local firing-rate homeostasis
+regulates hidden-layer activity, and the network fails the task when either the eligibility or that stabiliser is
+removed. This extension widens the setting in which the measured kernel operates without introducing a second
+measured quantity, and the learner remains a simulation throughout.\\
 
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.7\textwidth]{Chapter8/Figs/multitimescale.png}}
-    \caption[Exploratory multi-timescale sensitivity.]{Exploratory linear-model multi-timescale credit from the held-bias workbook/run retention distribution (20 seeds). Device identity is unavailable and the result is a simulation sensitivity, not a device-population experiment.}
-    \label{fig:8c}
-\end{figure}
+\noindent The evidence supports a correspondence between measured material dynamics and learning variables, and it
+bounds that correspondence too, because the two device functions come from separate families, and both the microscopic
+traps and the mobile species remain unidentified.
+The learning circuit remains simulated throughout, and the present measurements stop short of an autonomous physical
+synapse.
 
-\noindent The fourth probe follows directly from Chapter~7's interval selectivity. A non-monotone scalar trace aliases one interval on each side of its peak; a full stage vector can disambiguate them because its components peak at different lags. In the archived linear model a vector readout learns this synthetic interval discrimination while scalar and no-trace controls remain at chance (Figure~\ref{fig:8d}). This is why interval selectivity connects to Chapter~8: the scalar peak is the Chapter~7 result, while vector timing is an exploratory extension requiring internal stage access that the present two-terminal cell does not provide.\\
-
-\noindent A physical observability constraint bounds this to a simulation finding: the vector readout presupposes simultaneous access to the individual stage occupancies, whereas a two-terminal cell exposes only the single last-stage current of Equation~\ref{eq:7.1}. The intermediate stages are an internal construct of the fitted cascade, so the result motivates a multi-terminal or staged-readout device rather than a capability of the present cell. A characterisation sweep adds a practical bound: the advantage is limited by readout noise rather than stage count, so the measured $k\!\approx\!3$ already sits near the useful optimum (Figure~\ref{fig:8d}b).\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter8/Figs/vector_timer.png}}
-    \caption[A cascade-vector timer rescues scalar aliasing in simulation.]{Archived linear-cascade vector readout (20 seeds). The model vector resolves two lags that alias in the final scalar stage. Neither the lag pair nor $k=3$ identifies microscopic stages, and the present two-terminal cell does not expose the required vector.}
-    \label{fig:8d}
-\end{figure}
-
-\noindent The fifth probe asks whether one model timescale can serve working memory and eligibility under distinct drives. A common satisfying range appears in simulation (Figure~\ref{fig:8g}), with the credit role needing longer retention. The 6--10\,s settings overlap the two supplementary 1\,mV reads but are not programmed device states; the historical 3.6-s curve should be read as a synthetic setting rather than the current 2.55-s field-law extrapolation. The result is shared-timescale sufficiency in a model, not one physical signal autonomously doing both jobs.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter8/Figs/wm_stc_joint.png}}
-    \caption[One model timescale covers working memory and eligibility.]{Exploratory shared-timescale simulation (20 seeds). The 6--10\,s settings overlap the two supplementary near-zero reads but are not programmed devices; the 3.6-s point is a historical synthetic setting.}
-    \label{fig:8g}
-\end{figure}
-
-\noindent Together these probes bound the primitive without overstating it. None changes the main claims of Chapter~\ref{ch:learning}, and each carries its caveat. In particular, the cascade-vector capability holds in simulation but awaits a device exposing the stage occupancies it reads, and the single-substrate working-memory result is robust only toward the upper measured retention band.
-
-\subsection[A Predicted Device-Internal Capture Mechanism]{A Predicted Device-Internal Capture Mechanism}
-\label{sec:8p1p2}
-
-\noindent The tagging-and-capture reading of Section~\ref{sec:7p1p1} suggests a sharper on-hardware target: performing the \emph{capture} step within the device. The peripheral update of Equation~\ref{eq:7.8} keeps the volatile trace and the non-volatile weight in separate elements. A \emph{second-order} cell, where a volatile internal state gates a non-volatile write, would let the surviving tag commit its own consolidation. This is the mechanism behind short-to-long-term transitions across material systems \cite{kim2015secondorder, chang2011shortterm, ohno2011shortterm, wang2016diffusive}. The prediction is built from this work's own data, with the fitted transient as the volatile tag and the measured \abbrev{SiOx} multistate conductances of Chapter~\ref{ch:bio} as the captured weight. It is concrete: a non-volatile conductance $G_{ij}$ moves only when a reward pulse arrives, by an amount the surviving tag gates,
-\begin{align}
-    \Delta G_{ij} = \kappa\,(R-b)\, g\!\big(e_{ij}(t_R)\big)\, \Delta G_0, \qquad g(e) = \frac{|e|^{p}}{|e|^{p} + e_{1/2}^{p}}, \label{eq:8.2}
-\end{align}
-where $e_{ij}(t_R)$ is the device trace of Equation~\ref{eq:7.1} surviving at reward time, $\Delta G_0$ one measured conductance step, $\kappa$ a capture gain, and $g(\cdot)$ a monotonic saturating gate of the residual tag (half-activation $e_{1/2}$, exponent $p\ge1$). Equation~\ref{eq:8.2} is the device-internal counterpart of the three-factor write of Equation~\ref{eq:7.8}, one volatile state both holding the eligibility and gating its consolidation. The model reproduces the tagging-and-capture signature (Figure~\ref{fig:8e}). The committed change follows the surviving tag, and the capture window widens with $\tau_{leak}$, the device-level form of the retention--delay relation of Equation~\ref{eq:7.15}. Figure~\ref{fig:8f} gives the microscopic counterpart, the electron-level analogue of Figure~\ref{fig:7s}. The trapped-electron tag gates a non-volatile filament write through trap-assisted switching.\\
-
-\noindent This remains a testable prediction on two counts, not a result. First, the gate $g(\cdot)$ and its parameters $(\kappa, e_{1/2}, p)$ are assumed rather than fitted. Second, the volatile tag and the non-volatile ladder were characterised in \emph{opposite} forming states, the transient before electroforming (Chapter~\ref{ch:transients}) and the ladder after the one-time, irreversible electroforming of Chapter~\ref{ch:fab}, so their coexistence in one device is unestablished.\\
-
-\noindent The reconciliation is spatial, not a switch between regimes. The conductive filament is nanoscale \cite{buckwell2015conductance}, so the surrounding bulk oxide stays in the trap-hosting state that produces the transient. The localised filament carries the weight while the distributed bulk carries the tag. The coupling is then the filament-periphery redox that sets the switching state in Chapter~\ref{ch:fab} \cite{waser2009redox}, made dynamic: trapped charge lowers the barrier to filament growth, the trap-assisted switching of established second-order cells \cite{kim2015secondorder, wang2016diffusive}. Failing that, a compound cell pairing one \abbrev{SiOx} device in transient mode with one in switching mode realises the same write from one technology. A $\Delta G$-versus-delay measurement would decide between the two.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.92\textwidth]{Chapter8/Figs/capture.png}}
-    \caption[Predicted memristive capture by a second-order cell.]{\emph{Prediction}: memristive capture by a two-state (second-order) cell (Equation~\ref{eq:8.2}). (a) The volatile tag $v(t)$ after a coincidence (the \emph{fitted} device transient): a reward pulse within the tag lifetime commits a weight step (solid), the same pulse after the tag has decayed commits essentially nothing (dashed). (b) Committed change $\Delta G$ against action--reward delay $D$ (normalised) for three retention times. The tag is the fitted transient, the weight moves on the \emph{measured} \abbrev{SiOx} conductance ladder of Chapter~\ref{ch:bio}, and the coupling $g(\cdot)$ is the single \emph{assumed} element.}
-    \label{fig:8e}
-\end{figure}
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter8/Figs/capture_electron.png}}
-    \caption[Predicted capture step at the electron level.]{\emph{Prediction} of the capture step at the electron level (Equation~\ref{eq:8.2}), the microscopic counterpart of Figure~\ref{fig:7s}. (a) One cell holds two state variables: the volatile trapped-electron tag $e(t)$ (decaying over $\tau_{leak}$) and the non-volatile filament conductance $G$ on the measured ladder. (b) A reward pulse arriving while electrons are still trapped is gated, through the surviving tag, into a filament-growing write (\emph{trap-assisted switching}). (c) The same pulse after the traps have emptied commits nothing. (d) The assumed coupling $g(e)=|e|^{p}/(|e|^{p}+e_{1/2}^{p})$ sets the capture fraction, the single \emph{assumed} element; the tag and conductance ladder are grounded in measurement, so this is a predicted mechanism, not a result.}
-    \label{fig:8f}
-\end{figure}
-
-\subsection[Toward On-Chip Learning]{Toward On-Chip Learning}
-\label{sec:8p1p3}
-
-\noindent The natural larger step is in-situ (on-chip) training of memristive spiking networks. The ex-situ approach used here trains hardware-aware models offline then programs the weights, which works well but separates learning from the operating hardware. In-situ learning would let memristive \abbrev{SNN}s adapt to real-time data directly on the device, closer to biological learning. It requires progress on three fronts: device fabrication, circuit design, and algorithms.\\
-
-\noindent At the device level, current memristors still suffer device-to-device variability, cycle-to-cycle conductance fluctuations, limited endurance, and imprecise multi-level programming. Mitigating these calls for material stacks with more linear and symmetric conductance modulation, more uniform switching, and scalable, high-yield fabrication. Devices whose switching is inherently differentiable, or whose physics can be exploited for gradient computation, would move beyond synaptic emulation to active participation in learning.\\
-
-\noindent The circuit level is harder still. The backward pass conventionally transposes weight matrices and propagates per-synapse error signals. Realising this in hardware will need analogue architectures that compute and route those signals efficiently, perhaps through bidirectional devices or time-multiplexed peripheral circuitry, without prohibitive area or power. The non-differentiable spiking nonlinearity calls for neuron circuits with built-in surrogate-gradient functions robust to noise and thermal drift, while storing intermediate activations strains on-chip memory.\\
-
-\noindent At the algorithmic level, in-situ operation will favour more biologically plausible approximations. The eligibility-trace rule of Chapter~\ref{ch:learning} is a first step. Its three-factor update is local, needing only a per-synapse trace, from the device's own physics rather than stored activations, and a single globally broadcast reward signal rather than a transposed weight matrix or per-synapse error. Chapter~\ref{ch:learning} already takes the next step in simulation, pairing the trace with direct feedback alignment to carry credit through a deep network without weight transport. The binding limit is exploration. The deep all-local agent learns reliably only where its challenge is stability. Making robust, directed exploration work under the all-local constraint, without re-importing the non-local state the constraint forbids, remains an open problem.\\
-
-\noindent The rule of Chapter~\ref{ch:learning} uses reward minus a scalar baseline. An exploratory actor--critic instead learns $V(s)$ and uses $\delta=r+\gamma V(s')-V(s)$. Setting $\gamma=\exp(-\Delta t/\tau_{leak})$ is a device-motivated modelling choice, not a parameter-free consequence: the physical kernel is rise-peaked and dispersive rather than a geometric discount, and a critic still requires another weight bank and arithmetic. In the corridor simulation this construction tracks but does not outperform the simpler policy-gradient rule (Figure~\ref{fig:8h}). It is therefore a future architecture hypothesis, not a demonstrated device-native dopamine circuit.\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.8\textwidth]{Chapter8/Figs/device_td.png}}
-    \caption[A device-motivated actor--critic sensitivity.]{Exploratory actor--critic simulation against the policy-gradient rule (20 seeds). Setting $\gamma=\exp(-\Delta t/\tau_{leak})$ is a modelling choice and the critic requires a second weight bank. The rule is stable but does not outperform the simpler baseline; it is not an implemented device-native circuit.}
-    \label{fig:8h}
-\end{figure}
-
-\noindent The locality argument is structural rather than a speed or energy benchmark. At 16-bit precision the co-design audit counts 16 external state bits per synapse for a digital exponential and 48 for three-state linear or learned filters, versus no externally stored eligibility word if material relaxation is used in situ. This saving excludes the two weight cells, selectors, sensing, coincidence generation, reward routing, programming, refresh and memory traffic. Without a circuit those omitted terms may dominate, so no CPU--GPU or absolute hardware-efficiency conclusion follows.\\
-
-\noindent The retention--delay scaling relation of Section~\ref{sec:7p3p3} sets a second agenda, its decisive tests on-hardware and biological rather than the in-simulation sweep. The electrode substitution of Chapter~5 makes that retention measurable. The gold contact retains the slow proton branch while the indium tin oxide contact removes it, exposing the bare trap discharge, whose rate follows a Poole--Frenkel field law (Equation~\ref{eq:5.11}) extrapolating to a field-free retention of a few seconds. Because the two electrodes share the same intrinsic discharge and differ only in whether it is masked, the decisive test is not the gold-versus-\abbrev{ITO} comparison but a series of devices engineered to differing $\tau_{leak}$ through their trap energetics.\\
-
-\noindent A nearer gap is the device characterisation grounding this law. Retention is fitted from held-bias relaxations, so the field-free value is reached by extrapolation rather than direct measurement (Chapter~5). The trace decays at zero drive, yet a conduction current cannot be read without a sensing field. Three measurements would close this. An interrupted-bias pulsed read lets the device relax at zero bias for a chosen interval, then samples the surviving state with a single brief, weak pulse, building the decay curve point by point. A low-field temperature sweep separates the thermal and field parts of the Poole--Frenkel emission rate, so an Arrhenius fit returns the zero-field trap depth and pins the retention directly. And a contactless probe, such as Kelvin-probe force microscopy or time-resolved photoluminescence enabled by the transparent \abbrev{ITO} electrode, tracks the trapped charge with no transport current.\\
-
-\noindent The more ambitious version drives a single \abbrev{SiOx} cell with a pre--post coincidence, waits a variable delay, then applies a reward-gated programming pulse and records the committed conductance change against delay. The eligibility-trace identification predicts the \emph{shape} and characteristic window of this delay dependence from the measured transient, while its absolute update scale and any trace-to-write coupling remain circuit- and device-dependent. The same experiment asks whether one cell can act as the \emph{second-order} synapse of Section~\ref{sec:8p1p2}, holding the volatile trace and taking the reward-gated write together rather than across two devices. This would turn the central claim from a simulation reduction into one a bench can settle.\\
-
-\noindent Beyond these, further local rules such as Equilibrium Propagation deserve study, as does how all such rules interact with device noise and non-idealities. Device stochasticity may even prove a useful component of learning rather than only an obstacle. In-situ biorealistic learning will ultimately demand co-design across all three fronts.
-
-\section[Closing Remarks]{Closing Remarks}
+\section[Future Directions]{Future Directions}
 \label{sec:8p2}
 
-\noindent Chapter 1 set out the claims this thesis would defend. The chapters since supplied the mechanism, evidence, and limitations behind each. This section draws them together, from the single device to the systems built on it.\\
 
-\noindent The foundation is the device and its model. The work characterised fabricated silicon-oxide memristors, documenting their resistive switching, multi-level states, gradual conductance changes, and conduction mechanisms. Operating them below the switching threshold exposed the central phenomenon of the thesis: a slow, tunable current transient showing combined potentiation and depression under a single voltage polarity and behaving homeostatically. This was condensed into a \abbrev{SPICE}-compatible compact model. The model captures the transient and separates its trap-cascade rise from its space-charge relaxation. It also predicts how modified stacks alter the dynamics, which enables circuit-level design before fabrication.\\
+\noindent Direct measurement of field-free relaxation is the first requirement, because the state keeps decaying once
+the drive is removed and no conduction current can be read without a sensing field. An interrupted-bias experiment
+would let the device relax at zero bias for a chosen interval before one brief, weak pulse samples the surviving state.
+Repeating that sequence over a range of delays would construct the decay with far less read disturbance than either set
+of measurements behind the present retention values. The state would still be inferred through current, though only
+during each short read.\\
 
-\noindent On this foundation the thesis built two system-level simulation programmes. The first is a hardware-aware training framework for memristive \abbrev{SNN}s. It injects empirical Poole--Frenkel I--V statistics into training and finds that architecture determines whether suppressing or exploiting the transient helps. Using declared retention settings as a membrane leak yields working-memory sensitivities and capability results on recognised neuromorphic and biosignal benchmarks; the near-zero measurements constrain those settings but do not make them fabricated network demonstrations.\\
+\noindent Attributing the relaxation to the contact then requires replicated, matched devices. The \abbrev{ITO}- and
+Ti/Au-contacted families differ in oxide thickness, molybdenum thickness, and the presence of the titanium adhesion
+layer, as well as in their top contact. A matched-stack electrode series would isolate whether the contact changes the
+relaxation. Measurements across contacts and devices could then determine whether that dependence is reproducible,
+whether $\tau_{leak}$ can be controlled, and whether the present uncertainty, which describes repeated measurements of
+one contact, extends to device-to-device variation. Replication beyond the single devices tested is likewise required
+for the pulse-train results.\\
 
-\noindent The second turned from steady state to slow dynamics. The trap-cascade equation family reduces to the canonical eligibility trace in a limiting case, while its fitted rise makes the full kernel interval-selective rather than purely recency-weighted. Exact small-signal theory, nonlinear phase mapping and held-out Au prediction show that the compressed rise is real but its representation and integer depth are not uniquely identified. The trace supports distal-reward, spiking and contextual-bandit simulations. Learning-rate-fair sequential and shallow-DMS benchmarks do not show a general physical-device advantage: tuned exponential, linear and e-prop-style controls equal or exceed the nonlinear physical primary. The surviving evidence is the amplitude-robust selectivity direction and a specialised-prior trade-off against an equal-state learned temporal basis; a scalar temporal-order task makes the two-terminal readout limitation explicit.\\
+\noindent Temperature dependence and contactless potential measurements would each test a different part of the
+working interpretation of the relaxation. A low-field temperature sweep could separate the thermal from the field contribution to the relaxation
+rate. An Arrhenius fit would then return an activation energy associated with relaxation, a quantity that becomes a
+trap depth only once a specific emission mechanism is established. Kelvin-probe force microscopy would instead follow
+the surface potential without a transport current or a sensing field. This measurement must use the
+\abbrev{ITO}-contacted stack on which the kernel was identified, and the shadow-masked pads of
+Section~\ref{sec:matstack} leave accessible oxide between the contacts.\\
 
-\noindent Archived linear-cascade experiments explore how deep feedback alignment, homeostasis, distractors and fault scaling compose with the local rule, while the Frank task provides a synthetic behavioural check. Biological evaluation is supplied independently by complementary public evidence. Coddington gives a positive causal demonstration that action-contingent dopamine changes policy learning; Jeong recovers the direction of dopamine-inhibition effects; and DANDI 001340 preserves recorded action, outcome, timing and continuous dLight in a logged replay that improves on shuffled waveforms. Eligibility-kernel shape remains the unresolved biological question. The retention--delay curve supplies a task-specific candidate co-design hypothesis for physical testing.\\
+\noindent A variable-delay, reward-gated write is the central functional experiment here. Activity would deposit a
+volatile state in one device, which would relax for a controlled delay before a reward pulse programs the persistent
+conductance. The resulting conductance change against delay would test whether the identified relaxation sets the
+consolidation window. Repeated deposition, non-disturbing sensing, endurance, and coexistence with persistent storage
+must all be measured together. Coexistence is the principal device constraint, because the transient was characterised
+before electroforming, whereas the conductance ladder follows the irreversible forming event of
+Section~\ref{sec:4p-switch}.\\
 
-\noindent Read together, the chapters form an end-to-end modelling pipeline: fabrication and measurement feed parameter extraction, a compact model, hardware-aware training and local learning simulations. The shared homeostatic and eligibility motifs provide conceptual integration, but their joint autonomous implementation is not measured. The principal contribution is the auditable co-design link and its boundaries, not a claim that the complete learning system already exists in hardware.\\
+\noindent A second-order cell could combine these functions by allowing a volatile internal state to gate a
+non-volatile update \cite{kim2015secondorder, chang2011shortterm, ohno2011shortterm, wang2017memristors}.
+Equation~\ref{eq:7.10} computes the conductance update outside the cell from a sensed state, whereas in a second-order
+cell the surviving state would gate the write itself,
+\begin{align}
+    \Delta G_{ij} = \kappa\,(R-b)\, g\!\big(e_{ij}(t_R)\big)\, \Delta G_0, \qquad
+    g(e) = \frac{|e|^{p}}{|e|^{p} + e_{1/2}^{p}}, \label{eq:8.1}
+\end{align}
+where $\Delta G_{ij}$ is the persistent conductance change written to synapse $ij$, $R-b$ is the reward prediction error
+of Equation~\ref{eq:7.3}, $e_{ij}(t_R)$ is the volatile state surviving when reward arrives, $\Delta G_0$ is one
+measured conductance step of Chapter~\ref{ch:transients}, and $\kappa$ is a capture gain setting what fraction of that
+step a single write attempts. The gate $g(\cdot)$ rises from zero towards one as the surviving state grows, with
+$e_{1/2}$ the state at which it reaches half its maximum and the exponent $p \ge 1$ fixing how sharply it turns. A
+state decayed well below $e_{1/2}$ writes almost nothing, whereas one still near its deposited value writes close to a
+full step. No measurement fixes that gate or its three parameters, so Equation~\ref{eq:8.1} sets out what a
+variable-delay write would measure and not a characterised device response.\\
 
-\noindent The work also speaks to a broader trajectory in the field. Fully integrated compute-in-memory chips have shown that memristive crossbars are now a viable substrate for general machine-learning workloads at the million-device scale~\cite{wan2022compute, ambrogio2023analog}, and adjacent platforms have extended the paradigm to probabilistic inference~\cite{le2024memristor} and physics-trained networks more broadly~\cite{wright2022deep}. Recent roadmaps argue that the next decade of progress depends on closing the gap between rapidly maturing device physics and the system-level frameworks that must absorb it~\cite{mehonic2024review}. They name hardware-aware training, biorealistic regulatory mechanisms, and validated simulation pipelines as key enablers, the three this thesis supplies. The remaining gap, translating this ex-situ pipeline into on-chip learning, is the subject of Section~\ref{sec:8p1}.\\
+\noindent Should one cell prove unable to support both regimes, a compound synapse could pair one \abbrev{SiOx} device
+operated in transient mode with another operated in switching mode, realising the same write within a single material
+system. Both arrangements lead to the same measurable quantity, the persistent conductance change as a function of the
+delay between activity and reward, so the variable-delay write tests either of them.\\
 
-\noindent A companion methodological point runs through every results chapter: the most trustworthy memristive machine-learning simulations are those whose noise priors are parameterised by, rather than parallel to, the physical devices they represent. The clearest example is the Poole--Frenkel regression of Chapter 6, sampled from 53 incremental sweeps on fabricated \abbrev{SiOx} devices and reused unchanged for every simulated synapse.\\
-
-\noindent The central claim can therefore be stated positively and precisely. Measured silicon-oxide relaxation provides a physically grounded, interval-selective temporal prior that can replace externally stored eligibility state when used in the stated circuit abstraction. Fair digital controls define its domain of specialisation, held-out model comparison defines the supported representation family, and public dopamine interventions plus logged replay ground the learning rule biologically. The thesis contribution is the resulting material--algorithm correspondence: measured dynamics, a local three-factor rule, demonstrated timing consequences, and frozen tests that specify the path to an integrated on-device implementation.
+\noindent An array implementation would finally expose device-to-device variation, peripheral circuitry, update energy,
+and latency during in-situ learning. These costs belong in any comparison between material eligibility and a digitally
+stored trace, since sensing, routing, and weight programming are required by both approaches. The present work shows
+that measured SiO$_x$ relaxation can set a local learning timescale otherwise chosen as an algorithmic parameter.
+A direct variable-delay write must now decide whether that volatile state can also gate a persistent update in
+hardware.

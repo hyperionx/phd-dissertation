@@ -944,6 +944,9 @@ wish to left align your text}
 \vspace*{1em}
 
 % Supervisor
+% The supervisor and advisor lines form one supervision block. Two 0.5em skips used to fall
+% between the names -- one here and one inside \PHD@supervisor -- which separated them more
+% than the block is separated from the department below. One skip is kept, not both.
 \ifPHD@supervisor%
 {\usebox{\PHD@supervisor}}
 \vspace*{0.5em}
@@ -1186,7 +1189,6 @@ wish to left align your text}
           \@supervisorrole \parbox[t]{\@supervisorlinewidth}{\@supervisor}
         }
       \end{center}
-      \vspace{0.5em}
     } % supervisor is defined
   \end{minipage}
 \end{lrbox}

@@ -103,6 +103,15 @@
 % \FloatBarrier prevents floats from drifting past section boundaries.
 \usepackage{placeins}
 
+% ****************************** Vector schematics ******************************
+% TikZ supplies the apparatus and process schematics of Chapter~\ref{ch:fab}, which
+% are drawn inline rather than imported as bitmaps so that their type matches the
+% body text. Only libraries present in texlive-basic are loaded: `arrows.meta' is
+% NOT available in this installation, so the classic `arrows' tips are used.
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,calc,fit,patterns,shapes.geometric,shapes.misc,
+  decorations.pathmorphing,backgrounds}
+
 % Float placement: relax the LaTeX defaults so large figures share a page with
 % text instead of being exiled to half-empty float-only pages. Raise the share
 % of a page that floats may occupy, require float pages to be nearly full, and
@@ -242,7 +251,11 @@
 \DeclareRobustCommand{\abbrevdef}[1]{\hypertarget{abbrev:#1}{\hyperlink{nom:#1}{#1}}}
 \DeclareRobustCommand{\abbrev}[1]{\hyperlink{nom:#1}{#1}}
 \newcommand{\abbrevref}[2]{\hyperlink{abbrev:#1}{#2}}
-\newcommand{\nomrow}[2]{\hypertarget{nom:#1}{#1} & \abbrevref{#1}{#2} \\}
+% The anchor is placed in a zero-size box so that hyperref's raised link does not
+% carry the visible acronym below the baseline of its own row: with the anchor and the
+% text in one \hypertarget group, the left column rendered half a line under the right.
+\newcommand{\nomrow}[2]{%
+  \raisebox{0pt}[0pt][0pt]{\hypertarget{nom:#1}{}}#1 & \abbrevref{#1}{#2} \\}
 
 
 % ********************************* Appendix ***********************************

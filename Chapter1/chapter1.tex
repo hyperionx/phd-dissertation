@@ -3,28 +3,63 @@
 %*********************************** First Chapter *****************************
 %*******************************************************************************
 
-\chapter{Introduction}  %Title of the First Chapter
+\chapter{Introduction}\label{ch:introduction}  %Title of the First Chapter
 
-\section[Motivation]{Motivation}
+\section[Motivation and Aims]{Motivation and Aims}
 
-\noindent Neuromorphic computing aims to bridge neuroscience and artificial intelligence by emulating the principles of biological neural systems. It poses a central research question: how can biorealistic learning be implemented on memristive networks to build energy-efficient, scalable, and adaptive computing architectures? \\
+\noindent Synaptic learning links activity to a consequence that may become known only after the responsible
+spikes have passed. Each participating synapse therefore needs a temporary state that preserves recent activity
+until feedback arrives \cite{izhikevich2007solving}, and whatever survives of that state then determines the
+persistent weight change. Most spiking neural network (\abbrevdef{SNN}) models represent the temporary state as
+a numerical variable with a chosen lifetime, and software advances that variable between activity and feedback
+even where spikes carry the signals between neurons. A physical synapse could instead retain and release the
+same information through its material dynamics.\\
 
-\noindent Traditional von Neumann architectures \cite{von1993first} separate memory from processing. They therefore handle inefficiently the tasks the brain performs effortlessly, such as pattern recognition, sensory integration, and decision making. The brain achieves these at remarkable energy efficiency because computation and memory are tightly coupled in its circuits. Mimicking this coupling in silicon is the guiding principle of neuromorphic engineering \cite{saighi2015plasticity}. Memristors, or memory resistors, are two-terminal non-volatile devices that emulate synaptic plasticity by adjusting their conductance according to the history of applied voltage and current. This suits learning rules such as Hebbian learning \cite{hebb2005organization} and spike-timing-dependent plasticity (\abbrevdef{STDP}) \cite{markram1997regulation}. In crossbar arrays they perform in-memory computation that cuts the power and latency of conventional data transfer. \\
+\noindent Memristive devices exhibit persistent conductance and volatile state in different operating regimes.
+Programmed conductance stores a crossbar weight and contributes directly to weighted sums
+\cite{von1993first, saighi2015plasticity}, and timed pulses can change that weight through Hebbian learning
+\cite{hebb2005organization} or spike-timing-dependent plasticity (\abbrevdef{STDP})
+\cite{markram1997regulation}. Below non-volatile switching, silicon-rich, sub-stoichiometric silicon oxide
+(\abbrevdef{SiOx}) also produces a current transient that relaxes after electrical stimulation, a response
+previously studied mainly in oxide reliability \cite{ghibaudo1999emerging, saha2001transient}. This decay, and
+not the switching event above it, provides a measured candidate for the temporary synaptic state.\\
 
-\noindent This thesis examines biorealistic learning and its physical realisation on such networks. Here biorealism means that local learning and homeostatic state equations are constrained by measured device dynamics; it does not imply chemical equivalence to a biological synapse. The central argument is that intrinsic silicon-oxide dynamics can carry physical analogues of state variables otherwise stored and updated numerically. Learning behaviour then depends jointly on material, circuit abstraction and task rather than being imposed entirely in software.
+\noindent Biorealistic learning here is defined by where information is held and how each synapse updates.
+Recent activity remains local to the synapse, a delayed scalar signal converts the surviving state into a
+weight change, and multilayer learning proceeds without an exact copy of downstream weights
+\cite{grossberg1987competitive, lillicrap2016random}. Any workable scheme must also regulate each neuron's
+firing activity, since neither the surviving state nor the delayed signal carries usable information once a
+population saturates or falls silent. The measured device relaxation sets the time course of the
+synapse-local state.\\
 
-\section[Key Contributions]{Key Contributions}
+\noindent The material and surrounding circuitry supply different parts of this process
+\cite{zhang2020brain, mehonic2024review}. Device measurements define the static current response and the decay
+of the volatile state, while circuits must write and sense the state, distribute the delayed signal, and program
+the persistent weight \cite{chicca2020recipe, payvand2019spike}. The static response and volatile relaxation come
+from related but separate SiO$_x$ device families, and they enter the simulations as different quantities. These
+simulations therefore test measured device dynamics within learning systems rather than demonstrate an integrated
+hardware learner \cite{prezioso2015training, valentian2019fully}.\\
 
-\noindent The contributions build in four stages, from device to learning system. Chapter 2 lays the conceptual groundwork. It reviews neuronal physiology, neuron models, and the device physics that links biological synapses to memristive crossbars. The substantive work begins in Chapter 3.\\
+\noindent This thesis asks whether intrinsic SiO$_x$ dynamics can provide the local temporary state through
+which a network learns from spike history. The device studies distinguish electroformed switching from the
+conditioned subthreshold transient, constrain the contact-associated changes, and reduce the transient to a
+compact model. Network studies then place measured static non-idealities and volatile relaxation into spiking
+simulations, testing classification, delayed memory, and the distribution of temporary state across layers. The
+learning studies identify the relaxation as an eligibility kernel and test how its shape assigns delayed credit
+in local and multilayer reinforcement learning (\abbrevdef{RL}) without exact weight transport.
 
-\noindent The experimental core comes first. Chapter 3 fabricates and characterises silicon-rich \abbrevdef{SiOx} memristors in a metal--insulator--metal (\abbrevdef{MIM}) stack deposited by radio-frequency (\abbrevdef{RF}) sputtering. It establishes reproducible unipolar and bipolar switching, multi-level states, and a trap-assisted-tunnelling account of transport. Chapter 4 then isolates the subthreshold current transient as a distinct operating mode. The transient supports analogue potentiation and depression under a \emph{single} voltage polarity. This removes the bipolar-pulse requirement that conventional memristive synapses inherit from non-volatile switching \cite{mannion2023unipolar}.\\
+\section[Thesis Outline]{Thesis Outline}
 
-\noindent Chapter 5 turns this into a model. Electrode substitution and X-ray photoelectron spectroscopy (\abbrev{XPS}) depth profiling trace the transient to a proton-driven electrochemical reduction at the top interface. This reduction decouples the fast charge-trapping rise from the slower space-charge decay. On that basis the chapter extends the earlier empirical Simulation Program with Integrated Circuit Emphasis (\abbrevdef{SPICE}) compatible compact model \cite{mannion2023compact} into a dispersive trap-cascade form. The extended model reproduces the measured transients from a single coefficient set across 0.8--1.5\,V (median $R^2 = 0.93$). It thus gives a circuit-level handle on a regime previously treated as device noise.\\
+\noindent Chapter~\ref{ch:foundations} defines the neural, device, and system concepts used throughout the
+thesis. Chapter~\ref{ch:fab} describes the four device families and their shared fabrication,
+characterisation, and analysis methods. Chapter~\ref{ch:transients} separates electroformed switching from the
+conditioned transient and measures how pulse amplitude and pulse spacing control its response.
+Chapter~\ref{ch:model} then uses contact comparison, spectroscopy, and compact modelling to represent the
+transient's rise and decay.\\
 
-\noindent The final two chapters put the transient's slow relaxation to work in opposite ways. Chapter 6 builds a hardware-aware training framework for memristive spiking neural networks (\abbrevdef{SNN}s), and finds that whether the transient helps depends on the network architecture. It injects the empirical Poole--Frenkel I--V nonlinearity into both passes of a surrogate-gradient backpropagation-through-time (\abbrevdef{BPTT}) learner. A homeostatic gain regulariser then suppresses the transient's variability, improving generalisation on fully connected networks but reversing to a cost once the network is temporal. The opposite strategy uses the transient: measured trap-discharge times constrain the leak settings of a leaky integrate-and-fire membrane, whose simulated retention establishes working-memory capability on recognised neuromorphic and biosignal benchmarks.\\
-
-\noindent Chapter 7 puts that same slow relaxation to a different use. The trap-cascade dynamics of the Chapter 5 model reduce to the canonical eligibility trace of reward-modulated learning. The measured trap-discharge family therefore constrains a candidate credit-assignment window, while the trap-filling rise makes the trace interval-selective rather than recency-weighted. Held-out Au prediction resolves the compressed rise but not an integer cascade depth, and the nonlinear equation is retained for mechanism matching rather than as the best descriptive fit. On this footing the device model assigns distal-reward credit in a leaky integrate-and-fire network, closes a contextual spiking-bandit reinforcement-learning (\abbrevdef{RL}) loop, and learns a cue-conditioned sequential policy. Learning-rate-fair controls remove the earlier claim of broad superiority: tuned exponential, linear and e-prop-style comparators equal or exceed the nonlinear physical primary on the sequential and shallow delayed-match benchmarks. Interval selectivity across learning rates and representations is the amplitude-robust kernel-shape result, while a scalar temporal-order task exposes what the two-terminal readout cannot encode.\\
-
-\noindent Paired with a per-neuron feedback-alignment signal, the trace then carries credit through a synthetic deep, two-layer network with no weight transport. It reuses the Chapter 6 homeostatic mechanism to keep this all-local learner reliable, while the Frank task supplies a complementary synthetic behavioural demonstration. Biological evaluation is triangulated rather than inferred from those simulations: Coddington provides positive causal evidence for action-contingent dopamine policy learning, Jeong independently recovers the direction of dopamine-inhibition effects, and DANDI 001340 preserves each animal's action, outcome, timing and continuous dLight waveform in a leakage-safe replay that improves on shuffled waveforms. A resource-matched attribution analysis defines the hardware trade-off: the fixed physical kernel provides a specialised temporal prior without externally stored eligibility state under an in-material assumption, while an equal-state learned filter adapts better across timing regimes. Retention--delay scaling supplies a task-specific prediction for the next physical test.\\
-
-\noindent These contributions trace a single thread. A regime earlier work treated as device noise is recast as a usable computational primitive (Chapter 4), characterised and modelled at circuit level (Chapter 5), and then exploited algorithmically, both through hardware-aware training (Chapter 6) and as an eligibility trace for reinforcement learning (Chapter 7). The thread closes on itself. The homeostatic regulariser introduced in Chapter 6 to stabilise inference returns in Chapter 7 as what makes deep, fully local reward learning reliable. Underlying it all is a single proposition. Learning rules need not merely be implemented in hardware but can emerge from the intrinsic dynamics of matter, the device's own trap relaxation serving as an eligibility trace rather than a stored weight. The full record of publications, presentations, and awards is given in the Impact section. Chapter 8 returns to this thread to revisit each contribution and identify the remaining gap towards on-chip learning.
+\noindent Chapter~\ref{ch:bio} incorporates measured static and volatile device behaviour into spiking-network
+simulations, including delayed classification and layer-wise tests of the temporary state.
+Chapter~\ref{ch:learning} identifies the relaxation as an eligibility kernel, applies it to temporal and
+multilayer reinforcement learning, and establishes how far the observation window and the background convention
+move both the fitted dispersion and the learned credit. Chapter~\ref{ch:conclusion} states the supported
+conclusions and the integrated experiment needed to test the complete physical learning process.

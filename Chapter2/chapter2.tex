@@ -3,239 +3,229 @@
 %*********************************** Second Chapter ****************************
 %*******************************************************************************
 
-\chapter{Theoretical Foundations}\label{ch:foundations}
+\chapter{Biorealistic Learning Foundations}\label{ch:foundations}
 
-\noindent This chapter assembles the theory the rest of the thesis draws on, across the three layers the later chapters work at. It begins with neural computation and learning: the biological neuron, the synapse and its plasticity, and the supervised, unsupervised, and reinforcement paradigms. It then turns to the memristor as a device, its physics, charge transport, and the subthreshold regime this work operates in. It closes on the systems built from arrays of such devices: the crossbar, hardware plasticity, and benchmarking. The treatment is selective rather than exhaustive, retaining only what the results chapters build on directly. \\
+\noindent Spiking neural networks communicate through discrete events, but learning depends on quantities that
+persist between them. Synaptic current drives the membrane, the weight stores learned changes, and a volatile state
+preserves recent activity for a later update. This chapter defines those three roles and connects each of them to the
+persistent and volatile states available in a memristive device.\\
 
-\noindent The review draws on the established literature throughout, with sources cited at each point. The synthesis and the emphasis are the author's own, particularly the framing of the subthreshold transient and the three-factor eligibility trace as the connective threads of the thesis.
+\noindent The chapter's contribution is a common framework for the experimental and simulation results that follow.
+It distinguishes persistent weight, volatile synaptic state, measured current, and eligibility; defines how each is
+written, held, read, or updated; and separates device physics from the circuitry that converts these quantities into
+network computation and learning.
 
-\section[Neural Computation and Learning]{Neural Computation and Learning}
+\section[Synaptic Learning from Spike History]{Synaptic Learning from Spike History}\label{sec:spike-history}
 
-\noindent The brain computes through two fundamental units: neurons and synapses. A neuron integrates inputs and emits voltage spikes. A synapse transfers the resulting signal from a presynaptic to a postsynaptic neuron, and by changing its strength it stores what the network has learned. This thesis builds memristive hardware that emulates both functions, so this section establishes the biology and learning theory it draws on. It moves from the spiking neuron, through the synapse and its plasticity, to the supervised, unsupervised, and reinforcement paradigms. The models are deliberately simplified relative to the biological evidence \cite{kandel2000principles}, retaining only what the later chapters build on.
+\noindent Synapses convert input spikes into current, neurons convert that current into output spikes, and plasticity
+either changes the weight or stores activity for a later update. The models retain these functions while omitting
+biological detail that the analysis does not use \cite{kandel2000principles}. This section follows that sequence from
+spike generation to the persistent and volatile synaptic states, and then to learning from delayed reward.
 
-\subsection[Neurons and Spiking Dynamics]{Neurons and Spiking Dynamics}\label{subsec:neuronal-modelling}
+\subsection[Spiking-Network Abstraction]{Spiking-Network Abstraction}\label{subsec:neuronal-modelling}
 
-\noindent A neuron is a specialised cell that processes and transmits information through electrical and chemical signals \cite{mel1994information}. It receives input from other neurons, and sufficient stimulation triggers an action potential, a voltage spike, which propagates to connected cells. Figure \ref{fig:2a} shows the basic structure. Dendrites receive input voltage and carry it to the soma (cell body), which integrates it. If the membrane depolarises past a threshold, a spike travels down the axon and releases neurotransmitter at the synapses onto downstream neurons. \\
+\noindent Biological neurons integrate synaptic current and emit action potentials when their membrane voltage
+crosses a threshold \cite{mel1994information, johnston1996active}. Hodgkin--Huxley-type models reproduce the
+underlying ion-channel kinetics \cite{hodgkin1952quantitative}, but the models used here require only integration,
+leakage, thresholding, and reset. A single-compartment model therefore separates spike generation from subthreshold
+membrane dynamics \cite{abbott1999lapicque}.\\
 
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/neuron_anatomy.png}
-    \caption[Labelled diagram of the neuron.]{Labelled diagram of the neuron. The gaps between axons and dendrites are synapses that accept input from other neurons. The dendrites carry current to the soma, which integrates the charge. If the membrane becomes sufficiently polarised, an action potential travels down the axon, releasing neurotransmitters at synapses and inducing voltage in the dendrites of postsynaptic neurons.}
-    \label{fig:2a}
+\noindent Figure~\ref{fig:2v1} represents the membrane as a capacitance $C$ in parallel with a resistance $R$.
+Incoming current charges $C$, while $R$ returns the membrane towards its resting potential in the absence of input.
+This circuit gives the leaky integrate-and-fire (\abbrevdef{LIF}) description of the membrane potential
+\cite{lapicque1907louis, knight1972dynamics, koch2004biophysics},
+\begin{align}
+    \tau_{\abbrevdef{RC}} \frac{dV}{dt} = R\,J(t) - V + V_{rest}, \qquad \tau_{\abbrev{RC}} = R\,C, \label{eq:2.1}
+\end{align}
+
+\noindent where $J(t)$ is the summed synaptic current, $V_{rest}$ is the resting potential, and
+$\tau_{\abbrev{RC}}=RC$ is the membrane time constant. When $V$ reaches the threshold $V_{th}$, the neuron emits a
+spike, resets to $V_{rest}$, and remains inactive for a refractory interval. The later simulations set $V_{rest}=0$ and
+$V_{th}=1$, giving the normalised form $\tau_m\dot V=J-V$, with $\tau_m=\tau_{\abbrev{RC}}$. The network
+architecture fixes which neurons are connected, while the synaptic weights set the strengths of those connections.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Chapter2/Figs/fig2_neuron_abstraction.pdf}
+\caption[The input pipeline, from spikes to membrane.]{The signal path used in the spiking-network models.
+\textbf{(a)} Synaptic inputs arrive as spike trains. \textbf{(b)} Each spike contributes a filtered current described
+by Equation~\ref{eq:2.2}, and the contributions sum into $J(t)$. \textbf{(c)} The membrane follows
+Equation~\ref{eq:2.1}, emits a spike on reaching $V_{th}$, resets, and remains inactive during the refractory interval.
+}
+\label{fig:2v1}
 \end{figure}
 
-\noindent At rest, the soma holds a negative voltage through ion pumps that regulate intracellular concentrations of sodium ($Na^+$), potassium ($K^+$), and calcium ($Ca^{2+}$) \cite{polsky2004computational}. Incoming dendritic currents depolarise the cell \cite{johnston1996active}. When the somatic voltage reaches threshold, voltage-activated sodium channels open and admit a rapid influx that depolarises the membrane further. Substantial depolarisation then opens voltage-gated potassium channels, which repolarise the cell and briefly drive it below the resting level (hyperpolarisation) while the sodium channels inactivate. \\
+\noindent Every network input must first be represented as spike times. In rate coding, signal intensity sets the
+firing rate or spike probability over a presentation window; in latency coding, it sets the time of a spike
+\cite{gerstner1997neural, chase2006spike, dayan2005theoretical, eshraghian2023training}. Static images carry no
+timing of their own and therefore require an encoder, while event-based sensors produce asynchronous events as their
+input changes \cite{amir2017dvsgesture, cramer2020shd}. Moving such a sensor across a static image dataset can give
+its samples physical event times \cite{orchard2015nmnist}.\\
 
-\noindent Three gating variables describe these channel states: $m$ and $h$, the $Na^+$ activation and inactivation gates, and $n$, the $K^+$ activation gate, each the probability that the corresponding gate is open. The $m$ gate rises rapidly while $h$ closes more slowly, so the $Na^+$ channels conduct only during the brief window in which $m$ and $h$ are simultaneously elevated. The slower $n$ gate opens later and stays open, sustaining the $K^+$ conductance that repolarises the membrane (Figure \ref{fig:2b}). The resulting absolute refractory period, during which no second spike can fire, sets a floor on the neuron's inter-spike interval. \\
+\noindent Output spikes must then be converted into a decision, and common readouts take the spike count over the
+presentation window, the first-spike latency, or the final membrane potential \cite{eshraghian2023training}.
+\emph{Classification accuracy} throughout this thesis is the fraction of samples assigned to the correct class. The
+readout determines which part of a time-dependent synaptic response affects that decision: spike counts integrate
+across the window, whereas first-spike readout depends most strongly on the early response.
 
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Chapter2/Figs/neuron_spiking_dynamics.png}
-    \caption[Spiking dynamics of a neuron.]{The action potential and its underlying ionic mechanisms, simulated from the Hodgkin--Huxley model \cite{hodgkin1952quantitative}; conceptual layout after \cite{squire2012fundamental}, with time referenced to the spike peak. (a) Membrane potential. (b) The rapid $Na^+$ conductance ($G_{Na}$) precedes the slower, sustained $K^+$ conductance ($G_K$). (c) The corresponding inward $Na^+$ ($I_{Na}$) and outward $K^+$ ($I_{K}$) currents. (d) The gating variables $m$, $h$, and $n$.}
-    \label{fig:2b}
+\subsection[Persistent Weight and Temporary State]{Persistent Weight and Temporary State}\label{subsec:plasticity}
+
+\noindent A synapse separates transmission from learning: its persistent weight sets how strongly an input spike
+drives the postsynaptic neuron \cite{bastos2022motor}. The same spike also produces a temporary postsynaptic current,
+and a separate volatile state can preserve recent activity for a later update. In this thesis, programmed conductance
+supplies the persistent weight, and device relaxation supplies the volatile state.\\
+
+\noindent The postsynaptic current extends the effect of a spike beyond its arrival time, and a causal first-order
+filter gives the impulse response
+\begin{align}
+    h(t) = \begin{cases}
+    \dfrac{1}{\tau_s}\, e^{-t/\tau_s}, & t \ge 0, \\[4pt]
+    0, & t < 0,
+\end{cases} \label{eq:2.2}
+\end{align}
+
+\noindent where $\tau_s$ sets the duration of the current and $h(t)=0$ for $t<0$ enforces causality. Convolving the
+presynaptic spike train with $h(t)$ gives the current $J(t)$ in Equation~\ref{eq:2.1}, as shown in
+Figure~\ref{fig:2v1}(b). An alpha function can reproduce measured postsynaptic currents more closely
+\cite{mainen1995reliability}, but the first-order filter is sufficient for the network abstraction used here. This
+time constant $\tau_s$ therefore sets how long a single spike drives the neuron, while the volatile state treated
+below keeps a lifetime of its own.\\
+
+\noindent Local plasticity rules act on the persistent weight, and spike-timing-dependent plasticity
+(\abbrev{STDP}) strengthens or weakens a synapse according to the order of its pre- and postsynaptic spikes
+\cite{zheng2018learning, markram1997regulation}. In memristive pulse pairing, the pulse amplitudes and their relative
+timing set the voltage across the device, whose nonlinear response produces the conductance change. Both forms use
+signals available at the synapse and apply the update at the spike coincidence. Because the conductance changes at
+that coincidence, delayed evaluation requires an additional volatile state.
+
+\subsection[Delayed Reward and Eligibility]{Delayed Reward and Eligibility}\label{subsec:learning-paradigms}
+
+\noindent Reinforcement learning trains an agent from the consequences of its actions. The agent observes a state,
+selects an action according to its policy, and receives a scalar reward that evaluates the outcome
+\cite{sutton2018reinforcement}. Because that reward may arrive after the synaptic activity that produced the action has
+ended, temporal credit assignment asks which earlier activity contributed to the outcome and should therefore change.
+This is the distal-reward problem of a spiking network \cite{izhikevich2007solving}: the relevant spikes have passed
+before the reward arrives.\\
+
+\noindent An eligibility trace preserves the missing local information: pre--post activity writes a temporary state
+$e_{ij}$ at the synapse from neuron $i$ to neuron $j$, without immediately changing its weight. In the canonical
+neo-Hebbian rule \cite{fremaux2016neuromodulated, gerstner2018eligibility}, that state follows
+\begin{align}
+    \frac{de_{ij}}{dt} = -\frac{e_{ij}}{\tau_e} + c_{ij}(t), \label{eq:2.3}
+\end{align}
+
+\noindent where $c_{ij}(t)$ is the local coincidence signal and $\tau_e$ is the eligibility decay time. In this
+canonical form, $\tau_e$ is a chosen single-timescale model parameter; the device-based model developed in this
+thesis instead takes its decay profile from a measured relaxation.\\
+
+\noindent A delayed scalar signal then converts the surviving eligibility into a persistent weight change,
+\begin{align}
+    \Delta w_{ij} = \eta\,(R - b)\, e_{ij}(t_R), \label{eq:2.4}
+\end{align}
+
+\noindent evaluated when reward $R$ arrives at time $t_R$. The running baseline $b$ estimates expected reward, so
+$R-b$ indicates whether the outcome was better or worse than expected, and the learning rate $\eta$ scales the update
+\cite{sutton2018reinforcement}. Presynaptic and postsynaptic activity form $c_{ij}(t)$, while the
+broadcast reward supplies the third factor, and at reward Equation~\ref{eq:2.4} scales each synapse's update by
+the eligibility that survives to $t_R$.\\
+
+\noindent The decay time $\tau_e$ sets how long spike history remains available to reward, bridging millisecond
+spikes and slower behavioural outcomes \cite{florian2007reinforcement}. This time constant serves a different function
+from the other network time constants: $\tau_s$ shapes the postsynaptic current, $\tau_m$ sets membrane leakage, and
+$\tau_e$ sets the interval over which activity remains eligible for learning. Figure~\ref{fig:2v2} shows the resulting
+sequence of coincidence, decay, and reward-gated update.\\
+
+\noindent Both the local tag and the delayed broadcast of this rule have functional precedents in biology. In synaptic
+tagging and capture, activity leaves a temporary molecular tag at the stimulated synapse, and later plasticity-related
+products stabilise a change while that tag persists \cite{frey1997synaptic, redondo2011making}. Diffuse dopamine
+release supplies the corresponding precedent for the delayed broadcast signal
+\cite{fremaux2016neuromodulated, gerstner2018eligibility}. These correspondences are functional: biological tags
+involve calcium- and protein-based processes lasting minutes to hours, and no shared chemistry or timescale with the
+device state is assumed.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Chapter2/Figs/fig2_eligibility_trace.pdf}
+\caption[Three-factor learning and the eligibility trace.]{Canonical three-factor learning sequence.
+\textbf{(a)} A pre--post spike coincidence occurs at the synapse. \textbf{(b)} That coincidence writes an eligibility
+trace $e_{ij}(t)$, which decays until reward arrives at $t_R$. \textbf{(c)} The reward gates the surviving
+$e_{ij}(t_R)$ and writes a persistent weight change.
+}
+\label{fig:2v2}
 \end{figure}
 
-\noindent Neuron models range from simple binary threshold units \cite{stocks2001information} to detailed multi-compartmental reconstructions of dendritic morphology \cite{markram2015reconstruction}. For large networks reproducing high-level behaviour, single-compartment models remain prevalent. They treat the neuron as one electrical entity and model the spike separately from the subthreshold dynamics, which separates time scales and conserves computation \cite{abbott1999lapicque}. The most influential detailed model is that of Hodgkin and Huxley (\abbrevdef{HH}) for the squid giant axon \cite{hodgkin1952quantitative}, whose nonlinear differential equations reproduce the membrane potential accurately \cite{chua2012hodgkin}. In the equivalent circuit of Figure \ref{fig:2c}(a), time-varying nonlinear conductances $G_{Na}$ and $G_K$ represent the sodium and potassium channels, a linear leak $G_L$ the passive channels, and $C_m$ the membrane capacitance. The total membrane current is
+\noindent Eligibility retains the synapse-specific information that a scalar reward lacks
+\cite{he2015eligibility, shindou2019silent}. It addresses temporal credit at each synapse while leaving a separate
+spatial-credit problem, because the reward does not identify how hidden neurons contributed to the outcome
+\cite{lillicrap2016random, sacramento2018dendritic}. A physical eligibility state must therefore remain local,
+survive until reward, and be available to the circuit that applies the persistent update
+\cite{demirag2021pcmtrace, sarwat2022chalcogenide}.
+
+\section[Physical Requirements for Storing Spike History]{Physical Requirements for Storing Spike
+History}\label{sec:physical-requirements}
+
+\noindent Memristive SiO$_x$ enters a learning system through two distinct physical quantities. Non-volatile
+switching stores programmed conductance as a persistent weight, while subthreshold relaxation provides a temporary
+state that preserves recent activity. The evidence assigns these roles to different device families and
+preparation routes, and the analysis treats them as separate quantities. In both regimes, current is measured while the
+internal state must be inferred, so transport physics links the electrical readout to the physical state.
+
+\subsection[Memristive State and Operating Regimes]{Memristive State and Operating
+Regimes}\label{subsec:regimes}
+
+\noindent A memristive device is a two-terminal element whose present current depends on the applied voltage and
+its electrical history \cite{chua1971memristor, strukov2008missing}, with an internal state $s$ representing that
+history.
+At circuit level, a conduction law gives the current from the present state and voltage, while a state equation
+describes how the state evolves,
 \begin{align}
-    I_m(t) = C_m \frac{dV_m(t)}{dt} + \sum_{k} I_k(t), \label{eq:2.1}
+    I = g(s, V), \qquad \frac{ds}{dt} = f(s, V), \label{eq:2.5}
 \end{align}
 
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=1\textwidth]{Chapter2/Figs/hodgkin_huxley_model.png}
-    \caption[Hodgkin-Huxley neuron model.]{(a) An equivalent circuit for the Hodgkin--Huxley (\abbrev{HH}) model \cite{hodgkin1952quantitative}. (b) An action potential waveform, demonstrating the resting, threshold, and reset potentials \cite{chua2012hodgkin}.}
-    \label{fig:2c}
-\end{figure}
+\noindent Here, $g(s,V)$ gives the terminal current and $f(s,V)$ gives the rate of state change; the symbol $w$
+denotes a synaptic weight throughout the network and learning chapters, and carries a subscripted index elsewhere
+only where it labels the coefficients of a fitted expansion. The state $s$ may represent oxygen-vacancy concentration, trapped-charge occupancy,
+or filament extent. Device structure and operating conditions determine the forms of $g$ and $f$, which electrical
+measurements constrain through the terminal current. Use of \emph{memristive} follows the broader
+resistance-switching sense, because real cells include ionic and thermal dynamics beyond the ideal charge--flux
+relation \cite{chua2019resistance}.\\
 
-\noindent where $V_m$ is the membrane potential and $\sum_k I_k$ the sum of the ionic currents, decomposed into potassium, sodium, and leak terms gated by $m$, $h$, and $n$:
-\begin{align}
-    \sum_{k}I_k &= G_K n^4 (V_m - V_K) + G_{Na} m^3 h (V_m - V_{Na}) + G_L (V_m - V_L), \label{eq:2.2} \\
-    \frac{dn}{dt} &= \alpha_n(V_m)(1-n)-\beta_n(V_m)n, \label{eq:2.3} \\
-    \frac{dm}{dt} &= \alpha_m(V_m)(1-m) - \beta_m(V_m)m, \label{eq:2.4} \\
-    \frac{dh}{dt} &= \alpha_h(V_m)(1-h)-\beta_h(V_m)h. \label{eq:2.5}
-\end{align}
-
-\noindent Here $V_K$, $V_{Na}$, and $V_L$ are reversal potentials, $G_K$, $G_{Na}$, and $G_L$ maximal conductances, and the voltage-dependent rate constants $\alpha_i$ and $\beta_i$ describe each channel. The formalism generalises well beyond the squid axon. Noble adapted it to the pacemaker potentials of cardiac Purkinje fibres \cite{noble1962modification}. Moreover, $G_{Na}$ and $G_K$ have themselves been shown to be memristive \cite{chua1976memristive}, an early hint of the device--biology correspondence this thesis exploits. \\
-
-\noindent For network-scale work the \abbrev{HH} detail is usually unnecessary, and the integrate-and-fire family is preferred. The integrate-and-fire (IF) neuron \cite{lapicque1907louis} models the membrane as a capacitor that integrates input current and fires when its voltage reaches threshold \cite{abbott1999lapicque}. Writing the stored charge as $Q = CV$ and differentiating gives
-\begin{align}
-    C \frac{dV(t)}{dt} = J(t), \label{eq:2.6}
-\end{align}
-
-\noindent where $J(t)$ is the input current and $C$ the membrane capacitance. When $V$ crosses a threshold $V_{th}$ the neuron emits a spike and resets to $V_{rest}$, mirroring the irreversibility of biological spike initiation. Adding a leak, a resistor $R$ in parallel with the capacitor, lets charge dissipate so that the membrane "forgets" in the absence of input. This gives the leaky integrate-and-fire (\abbrevdef{LIF}) model \cite{knight1972dynamics, koch2004biophysics}:
-\begin{align}
-    C \frac{dV(t)}{dt} = J(t) - \frac{1}{R}\,(V - V_{rest}). \label{eq:2.7}
-\end{align}
-
-\noindent Multiplying through by $R$ and collecting terms defines the membrane time constant and casts the model in its standard single-parameter form,
-\begin{align}
-    \tau_{\abbrevdef{RC}} \frac{dV}{dt} &= R\,J(t) - V + V_{rest}, \label{eq:2.8} \\
-    \tau_{\abbrev{RC}} &= R\,C, \label{eq:2.9}
-\end{align}
-
-\noindent which, after normalising the voltage to a unit threshold and zero rest, reduces to the dimensionless $\tau_{\abbrev{RC}}\,\dot{V} = J - V$ used throughout the spiking-network chapters, where this membrane time constant is written $\tau_m$. The \abbrev{LIF} model is the workhorse of large-scale spiking networks \cite{lapicque1907louis}. Figure \ref{fig:2d}(a) shows its circuit: synaptic current $I(t)$ charges $C$ while $R$ leaks it away, and a spike fires and resets the potential when $V$ reaches threshold. \\
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=1\textwidth]{Chapter2/Figs/lif_neuron_model.png}
-    \caption[The Leaky Integrate-and-Fire neuron model.]{(a) Schematic of the \abbrev{LIF} electrical model. Spiking behaviour follows from comparing the membrane potential with a threshold at each time step; on a spike a voltage-controlled switch discharges $C$ for a refractory duration $t_0$ \cite{tal1997computing}. (b) An input synaptic current in the form of an alpha function \cite{teeter2018generalized}.}
-    \label{fig:2d}
-\end{figure}
-
-\noindent During the refractory period $t_0$ spiking is disabled, and without input the potential settles back to $V_{rest}$. The synaptic current $I(t)$ that drives the neuron is itself a filtered version of the presynaptic spikes, taken up next. Neurons vary in dynamics and connectivity. They fall broadly into three classes: excitatory, which promote activity; inhibitory, which suppress it to maintain stability; and interneurons, which wire local circuits together.
-
-\subsection[Synaptic Plasticity and Coding]{Synaptic Plasticity and Coding}\label{subsec:plasticity}
-
-\noindent A synapse behaves as a low-pass filter: a presynaptic spike elicits an extended postsynaptic current that is a smoothed version of the impulse. The simplest model is a first-order filter whose impulse response decays exponentially,
-\begin{align}
-    h(t) = \frac{1}{\tau_s}\, e^{-t/\tau_s}, \label{eq:2.10}
-\end{align}
-
-\noindent where the synaptic time constant $\tau_s$ sets the spread of the postsynaptic current. A second-order filter is a closer fit \cite{mainen1995reliability}; its impulse response is the alpha function,
-\begin{align}
-    h(t) = \frac{t}{\tau_s^2}\, e^{-t/\tau_s}, \label{eq:2.11}
-\end{align}
-
-\noindent shown in Figure \ref{fig:2d}(b). Both are current-based models, describing the current a spike injects into the postsynaptic neuron. \\
-
-\noindent How spikes encode information is a central question. Rate coding considers only the firing rate over a window, as in the peripheral motor neurons that grade muscle contraction \cite{gerstner1997neural}. Temporal coding instead uses the precise timing of individual spikes, as in the sub-millisecond cues the auditory system uses for sound localisation \cite{chase2006spike}. The boundary between the two is debated \cite{dayan2005theoretical}. Population coding extends both to groups of neurons, distributing a quantity across many cells. For example, head direction is encoded by neurons each tuned to a preferred orientation \cite{georgopoulos1982relations}, a redundancy that confers robustness. \\
-
-\noindent Beyond carrying signals, synapses are the locus of learning: their strength \cite{bastos2022motor} sets the magnitude of a connection, and \emph{synaptic plasticity} is the capacity to modify it. Plasticity is classified by its persistence. Short-Term Plasticity (\abbrevdef{STP}) produces transient changes lasting milliseconds to seconds, while Long-Term Potentiation (\abbrevdef{LTP}) and Long-Term Depression (\abbrevdef{LTD}) are sustained increases and decreases in strength. The governing principle, Hebbian learning, is summarised as "neurons that fire together wire together." Spike-Timing-Dependent Plasticity (\abbrev{STDP}) \cite{zheng2018learning} makes this temporally precise: a synapse strengthens when the presynaptic neuron fires shortly before the postsynaptic one, and weakens when the order reverses,
-\begin{align}
-    \Delta w = \begin{cases}
-    A_+\, e^{-\Delta t/\tau_+},  & \Delta t > 0, \\
-    -A_-\, e^{\Delta t/\tau_-},  & \Delta t < 0,
-\end{cases} \label{eq:2.12}
-\end{align}
-
-\noindent where $\Delta t = t_{post} - t_{pre}$, the amplitudes $A_+, A_-$ are learning rates, and $\tau_+, \tau_-$ are decay constants. This asymmetric window, observed experimentally, is the canonical timing-based learning rule and recurs throughout the thesis. \\
-
-\noindent Memristive devices provide a natural electronic synapse, with tunable, history-dependent conductance. A timed pair of voltage pulses applied across a memristor changes its conductance by an amount set by their relative timing, realising \abbrev{STDP} directly in device physics,
-\begin{align}
-    \Delta G = f(V_{pre}, V_{post}, \Delta t), \label{eq:2.13}
-\end{align}
-
-\noindent where $f$ is a device-specific function set by the material and the pulse shapes. The same nonlinear, history-dependent response that complicates memristors as digital memory is what makes them faithful analogues of biological synapses, emulating \abbrev{LTP} and \abbrev{LTD} through gradual conductance change. The hardware realisation of this mechanism is detailed in Section~\ref{sec:neuro-hardware}.
-
-\subsection[Learning Paradigms and Reinforcement Learning]{Learning Paradigms and Reinforcement Learning}\label{subsec:learning-paradigms}
-
-\noindent Machine learning is conventionally divided into three paradigms \cite{stone2019artificial}. \emph{Supervised} learning fits a mapping from inputs to labelled targets by minimising an error, and underlies the digit- and biosignal-classification of Chapter~\ref{ch:bio}. \emph{Unsupervised} learning extracts structure from unlabelled data and, in its local Hebbian form, aligns most closely with biology. \emph{Reinforcement} learning (\abbrev{RL}) sits between the two: rather than being told the correct action, the agent receives a scalar reward that evaluates its behaviour, and must discover a policy that maximises reward over time. Chapter~\ref{ch:learning} realises this last paradigm on the device transient, so the rest of this subsection introduces it from first principles. \\
-
-\noindent The unsupervised, local end of the spectrum is captured by Hebbian learning \cite{kempter1999hebbian}, in which a synapse is strengthened in proportion to the joint activity of the neurons it connects,
-\begin{align}
-    \Delta w_{ij} = \eta\, x_i\, y_j, \label{eq:2.14}
-\end{align}
-
-\noindent where $x_i$ and $y_j$ are the pre- and postsynaptic activities and $\eta$ is the learning rate \cite{frenkel2019morphic}. \abbrev{STDP} (Equation~\ref{eq:2.12}) is its spike-timing-resolved form. Such two-factor rules, depending only on local activity, extract correlation well but cannot by themselves learn behaviour judged by a delayed external outcome. \\
-
-\noindent Reinforcement learning formalises that setting \cite{sutton2018reinforcement}. An \emph{agent} interacts with an \emph{environment} in discrete steps: it observes a \emph{state}, selects an \emph{action} according to its \emph{policy}, and receives a scalar \emph{reward} together with the next state. The goal is a policy that maximises the return, the cumulative (and often time-discounted) reward, rather than the reward of any single step. Because the agent is never told which action was correct, it must balance \emph{exploration}, trying actions to discover their value, against \emph{exploitation}, taking the action currently believed best. The simplest non-trivial instance is the \emph{contextual bandit}, in which each state is presented independently and a single action yields an immediate reward. It isolates credit assignment from the further complication of long state sequences, and is the entry point used in Chapter~\ref{ch:learning}. That chapter then extends to a sequential multi-step task, where credit must bridge a whole trajectory. \\
-
-\noindent The central difficulty is \emph{temporal credit assignment}, sharpened in spiking systems as the \emph{distal-reward problem} \cite{izhikevich2007solving}. The reward that evaluates an action arrives well after the spike coincidences that produced it, by which time the responsible activity has passed. A purely Hebbian two-factor rule keeps no record of which synapses were recently active and so cannot bridge the delay. Biology resolves this with a \emph{three-factor}, or neo-Hebbian, learning rule \cite{fremaux2016neuromodulated, gerstner2018eligibility}. This rule is the computational expression of a mechanism neurobiology describes directly as \emph{synaptic tagging and capture} \cite{frey1997synaptic, redondo2011making}: a burst of activity sets a transient molecular \emph{tag} at the stimulated synapse, and a later neuromodulator converts that tag into a lasting change only if it arrives while the tag survives. In the rule, a fast pre--post coincidence does not change the weight directly but sets a slowly decaying \emph{eligibility trace} $e_{ij}$ on the synapse,
-\begin{align}
-    \frac{de_{ij}}{dt} = -\frac{e_{ij}}{\tau_e} + c_{ij}(t), \label{eq:2.15}
-\end{align}
-
-\noindent where $c_{ij}(t)$ is the Hebbian coincidence signal and $\tau_e$ the trace time constant. A delayed, global third factor, a neuromodulator encoding reward or a reward-minus-baseline advantage, then gates the surviving trace into a weight change,
-\begin{align}
-    \Delta w_{ij} = \eta\,(R - b)\, e_{ij}(t_R), \label{eq:2.16}
-\end{align}
-
-\noindent evaluated when the reward $R$ arrives at time $t_R$, with $b$ a baseline. The trace is the memory that bridges the millisecond timescale of spikes and the seconds-to-minutes timescale of behaviour. Its time constant $\tau_e$ sets the longest action--reward delay the synapse can learn \cite{florian2007reinforcement}, a dependence Chapter~\ref{ch:learning} makes quantitative and testable when $\tau_e$ is supplied by the device's own retention. The same eligibility-trace idea underpins the hardware-friendly learning rules that approximate backpropagation through time without weight transport, such as e-prop \cite{bellec2020solution}, which Chapter~\ref{ch:learning} adopts as an algorithmic benchmark. Figure~\ref{fig:2k} summarises the three-factor structure. \\
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{Chapter2/Figs/three_factor_eligibility_trace.png}
-    \caption[The three-factor learning rule and the eligibility trace.]{The three-factor (neo-Hebbian) learning rule. (a) A pre--post spike coincidence sets a slowly decaying eligibility trace $e(t)$ on the synapse (factors~1 and~2); a delayed global reward, or neuromodulator (factor~3), then multiplies the surviving trace to produce the weight change $\Delta w = \eta\,(R-b)\,e(t)$. (b) The trace bridges the delay between the coincidence at $t=0$ and the reward at $t_R$: the weight change is proportional to the eligibility $e(t_R)$ still present when the reward arrives, so a slow trace solves the distal-reward credit-assignment problem.}
-    \label{fig:2k}
-\end{figure}
-
-\noindent Such reward-modulated plasticity has been realised directly in device hardware. A bio-inspired recurrent network (\abbrevdef{RNN}) with self-adaptive neurons and phase-change synapses has solved reinforcement-learning tasks on-chip \cite{bianchi2020bio} through a local update of the general form
-\begin{align}
-    \Delta w_{ij} = \eta\,(r_i - \alpha\, w_{ij}), \label{eq:2.17}
-\end{align}
-
-\noindent where $r_i$ is a reward-related signal and $\alpha$ a decay factor that bounds the weights. On mixed-signal neuromorphic hardware, reward-based meta-plasticity has even let a network "learn to learn", adapting its own rule across a family of tasks \cite{bohnstingl2019learns}. These demonstrations show that local, reward-driven learning can run within the array rather than on an external host. \\
-
-\noindent The term \emph{biorealistic learning} carries a specific sense throughout this thesis, worth fixing before it recurs. It denotes learning in which the physical dynamics of the device map onto an identified biological synaptic or regulatory mechanism, rather than learning whose optimisation algorithm is itself biological. The distinction matters because some of the training in this work uses backpropagation through time, which is not a biological algorithm. What is biorealistic is the substrate it acts on, the memristive synapse whose conductance dynamics emulate potentiation, depression, homeostatic regulation, and an eligibility trace. Biorealism is therefore a property of the device-to-synapse mapping and the learning \emph{rule} it supports, and it lies on a spectrum rather than a binary. A surrogate-gradient classifier \cite{neftci2019surrogate} trained on physically grounded device statistics sits at the weaker end, while a local three-factor rule whose eligibility trace is supplied by the device's own relaxation (a physical realisation of the synaptic tag of tagging and capture) sits at the stronger end.
-
-\section[Memristive Devices]{Memristive Devices}
-
-\noindent Extensive research in device physics and materials science explores new memory materials and retention mechanisms \cite{indiveri2021introducing, mehonic2024review}. The term "neuromorphic" describes systems whose behaviour is comparable to biological synapses and neurons, increasingly important as a substrate for large artificial-intelligence (\abbrevdef{AI}) networks \cite{di2009circuit}. Using nanoscale "memristors" as synapses that hold their weights locally gained traction \cite{jo2010nanoscale}, and recent fully integrated compute-in-memory chips have demonstrated the paradigm at the scale of millions of devices \cite{wan2022compute, ambrogio2023analog}. This section introduces the single device: the origin and physics of the memristor, the charge-transport mechanisms that carry current through it, and the subthreshold regime in which this thesis operates. Section \ref{sec:neuro-hardware} takes up the systems built from arrays of such devices.
-
-\subsection[Memristor Device Physics]{Memristor Device Physics}
-
-\noindent Memristive devices, or memory resistors, retain a resistive state set by their electrical history, co-locating memory and computation as biological synapses do. Circuit theory relates four variables, voltage, current, charge, and magnetic flux, through pairwise relationships. The three classical passive elements (resistor, capacitor, inductor) capture only three of these. In 1971, Leon Chua identified the missing link between charge and flux and introduced the memristor \cite{chua1971memristor}:
-\begin{align}
-    M(q) = \frac{d\phi}{dq}, \label{eq:2.18}
-\end{align}
-
-\noindent where $M$ is the memristance, a value that depends on the device's accumulated charge and so on its history. The element remained theoretical until 2008, when Strukov et al. reported a TiO$_2$ thin-film device whose resistance switching matched Chua's model \cite{strukov2008missing}. Figure \ref{fig:2e} shows the conceptual symmetry it completes. \\
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/circuit_element_symmetries.png}
-    \caption[Conceptual symmetries of resistor, capacitor, inductor, and memristor]{Conceptual symmetries of the resistor, capacitor, inductor, and memristor \cite{du2017metal}. The four fundamental variables, voltage ($v$), current ($i$), charge ($q$), and magnetic flux ($\phi$), are linked pairwise: each device relates one pair, while the remaining relations follow from the definitions $q = \int i\,dt$ and $\phi = \int v\,dt$. The memristor completes the symmetry by relating charge and flux.}
-    \label{fig:2e}
-\end{figure}
-
-\noindent Since current is the time-derivative of charge, the accumulated charge is
-\begin{align}
-    q(t) = \int_{-\infty}^{t} i(t')\,dt', \label{eq:2.19}
-\end{align}
-
-\noindent so the memristance is determined by the history of current flow. If the current is interrupted, the state persists until flow resumes, the defining property of a "memristor". Physically, such devices are modelled as two-terminal elements whose resistance varies with an internal state $s(t)$,
-\begin{align}
-    V(t) = R(s(t))\, I(t), \label{eq:2.20}
-\end{align}
-
-\noindent where $s(t)$ often represents a physical quantity such as oxygen-vacancy concentration or filament length, and the symbol $w$ is reserved throughout for synaptic weights. Its evolution is governed by some $f(s, I) = ds/dt$. \\
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Chapter2/Figs/memristor_iv_characteristic.png}
-    \caption[Typical I-V characteristic of a memristor]{The typical I--V characteristic of a memristor is a pinched hysteresis loop, arising from the nonlinear, history-dependent relationship between current and voltage \cite{chua2019resistance}.}
-    \label{fig:2f}
-\end{figure}
-
-\noindent The pinched hysteresis loop is the visual signature of a memristor (Figure \ref{fig:2f}). The loop is frequency-dependent: it shrinks as the input frequency rises, and at infinite frequency the device approximates a linear resistor \cite{chua2019resistance}. Among non-volatile memories, including magnetoresistive (\abbrevdef{MRAM}), phase-change (\abbrevdef{PRAM}), ferroelectric (FeRAM), and resistive random-access memory (\abbrevdef{RRAM}), this study focuses on memristive \abbrev{RRAM} \cite{wang2017memristors}. Whether resistance-switching devices are strictly memristors in Chua's original sense is debated, since a physical \abbrev{RRAM} cell involves coupled ionic and thermal dynamics beyond the idealised charge-flux relation. The identification adopted here follows the broader reading under which they are taken as a subclass of memristive systems \cite{chua2019resistance}, and nothing in this thesis depends on the stricter definition. These devices are defined by resistive switching, a reversible, non-volatile resistance change driven by electrical signalling and material properties \cite{mehonic2018silicon, liu2010controllable}. An \abbrev{RRAM} cell is an insulating thin film, typically a metal oxide, sandwiched between two electrodes, where switching occurs. \\
+\noindent In the non-volatile regime, an applied bias above the switching threshold changes the dominant state, and
+that change remains after the bias is removed. Resistive switching is therefore a reversible change
+between a high-resistance state (\abbrevdef{HRS}) and a low-resistance state (\abbrevdef{LRS})
+\cite{mehonic2018silicon, liu2010controllable}. A one-time electroforming step converts the pristine film into a
+switchable cell, and thereafter Set changes the device from \abbrev{HRS} to \abbrev{LRS} while Reset returns it to
+\abbrev{HRS}. Devices with an insulating active layer, typically a metal oxide, between two electrodes form the
+resistive random-access memory (\abbrevdef{RRAM}) family \cite{wang2017memristors}. Because the programmed state
+remains without power, its conductance can represent a persistent synaptic weight.\\
 
 \begin{figure}[htbp!]
     \centering
     \includegraphics[width=0.9\textwidth]{Chapter2/Figs/rram_types.png}
-    \caption[The main RRAM types.]{The main \abbrev{RRAM} types, from left to right: electrochemical metallisation memory (\abbrev{ECM}), in which a filament of metal cations (e.g. Ag$^+$) bridges the electrodes; valence change memory (\abbrev{VCM}), in which the filament forms from oxygen vacancies in the oxide (highlighted); and thermochemical memory (\abbrev{TCM}), driven by local Joule heating \cite{goux2016electrochemical}.}
+    \caption[The main RRAM types.]{The main \abbrev{RRAM} types, from left to right: electrochemical
+    metallisation memory (\abbrevdef{ECM}), in which a filament of metal cations (e.g. Ag$^+$) bridges the
+    electrodes; valence change memory (\abbrevdef{VCM}), in which the filament forms from oxygen vacancies in the
+    oxide (highlighted); and thermochemical memory (\abbrevdef{TCM}), driven by local Joule heating
+    \cite{goux2016electrochemical, liu2015categorization}.}
     \label{fig:2g}
 \end{figure}
 
-\noindent Despite a shared metal--insulator--metal (\abbrev{MIM}) architecture, \abbrev{RRAM} resists a single classification. Switching mechanism groups the devices into electrochemical metallisation (\abbrevdef{ECM}), valence change memory (\abbrevdef{VCM}), and thermochemical memory (\abbrevdef{TCM}) \cite{goux2016electrochemical, liu2015categorization} (Figure \ref{fig:2g}). A device cycles between a high-resistance state (\abbrevdef{HRS}) and a low-resistance state (\abbrevdef{LRS}). The \abbrev{HRS}-to-\abbrev{LRS} transition is "Set" and the reverse is "Reset", with an initial electroforming step converting the pristine device to a switchable state. In devices that switch gradually rather than abruptly, the internal state evolves continuously with the stimulus, a simple model being
-\begin{align}
-    \frac{ds}{dt} = \mu\, I(t), \label{eq:2.21}
-\end{align}
-where $\mu$ is a material-dependent mobility. Because the conductance follows the state, the conductance change scales with the integrated current,
-\begin{align}
-    \Delta G \propto \int I(t)\,dt = Q, \label{eq:2.22}
-\end{align}
+\noindent Below the switching threshold, stimulation changes a volatile component of the state without producing
+the persistent transition. This component relaxes after the stimulus ends, so the conductance retains recent activity
+for a finite interval. Similar volatile conductance changes occur in other material systems
+\cite{chang2011shortterm, ohno2011shortterm} and are measured in the silicon-oxide devices studied here. This subthreshold
+relaxation supplies the fading volatile state required for delayed reward in
+Subsection~\ref{subsec:learning-paradigms}.
 
-\noindent where $Q$ is the accumulated charge. This charge dependence underlies the incremental, analogue conductance changes that distinguish memristive switching from abrupt binary transitions. \\
+\subsection[Transport and Trapping]{Transport and Trapping}\label{subsec:transport}
 
-\noindent These devices are not ideal \cite{govoreanu2013vacancy}. Conductance range, switching thresholds, and cycle-to-cycle behaviour vary even among nominally identical devices; updates often saturate non-linearly or asymmetrically; and relaxation produces drift or retention loss. Neuromorphic systems counter these with redundancy, error-tolerant algorithms, and closed-loop calibration. Some variability is in fact biologically realistic, and synaptic stochasticity can aid generalisation. Compact models, from physics-based to empirical, are essential for design. The linear ion-drift model \cite{cai2011abel}, popular for early TiO$_2$ devices, writes
-\begin{align}
-    s(t) = s_0 + \frac{\mu_v R_{ON}}{D} \int_{0}^{t} I(\tau)\, d\tau, \label{eq:2.23}
-\end{align}
-
-\noindent where $\mu_v$ is the ion mobility, $R_{ON}$ the low-resistance state, and $D$ the device thickness, so that $s$ is a normalised internal state confined to $[0, 1]$, the fraction of the device in the low-resistance phase. A window function keeps $s$ in range by forcing $ds/dt \to 0$ at the boundaries,
-\begin{align}
-    \frac{ds}{dt} = \mu\, I(t)\, f(s), \qquad f(s) = 1 - (2s - 1)^{2p}, \label{eq:2.24}
-\end{align}
-
-\noindent with $p$ controlling the boundary non-linearity; $f(s)$ vanishes at $s = 0$ and $s = 1$, preventing the state from exceeding its physical limits. Such compact models enable software prototyping before hardware, but grow increasingly insufficient as device physics advances. Recent reviews set criteria for well-posed, predictive compact models \cite{woo2024localized} and consolidate the emerging proton-conducting paradigm, in which mobile protons modulate barrier heights on biologically relevant timescales \cite{yuan2024proton}. A recent roadmap frames the broader tension between maturing device physics and the system-level frameworks needed to absorb it \cite{mehonic2024review}.
-
-\subsection[Charge Transport Mechanisms]{Charge Transport Mechanisms}\label{subsec:transport}
-
-\noindent The compact models above describe how the internal state evolves, but not how charge is physically carried through the oxide in a given state. Identifying the dominant transport mechanism is what lets a measured current--voltage characteristic be interpreted in terms of device physics, and the same framework is applied to the fabricated devices in Chapter \ref{ch:fab}. The electric field and temperature govern conduction in a thin insulating film. Assuming negligible fixed oxide charge and a flat-band condition, the field across a film of thickness $d$ under bias $V$ is
-\begin{align}
-    E = \frac{V}{d} \label{eq:ct-field}
-\end{align}
-\noindent though in real devices these assumptions hold only approximately. Transport is conventionally divided into \emph{electrode-limited} mechanisms, set by the injecting barrier at the metal--oxide interface (direct and Fowler--Nordheim tunnelling, thermionic emission), and \emph{bulk-limited} mechanisms, set by the oxide interior and its defects (ohmic, ionic, space-charge-limited, Poole--Frenkel, and trap-assisted conduction) \cite{sze2021physics}. Each leaves a characteristic signature in the current density $J$, so plotting the data in suitably linearised coordinates and testing for a straight line discriminates between them. Figure \ref{fig:2j} summarises the energy-band pictures of the principal mechanisms. \\
+\noindent Terminal current is the measured quantity, and the internal device state is inferred from it rather than
+observed directly. Transport analysis relates a change in that current to the state that may preserve recent
+activity. \emph{Electrode-limited} mechanisms depend on the injection barrier at the metal--oxide interface, whereas
+\emph{bulk-limited} mechanisms depend on the oxide interior and its defects \cite{sze2021physics}. Each class predicts a characteristic dependence
+on voltage, field, or temperature. The measured data are tested against these predictions using linearised plots and
+physically admissible fitted parameters. Figure~\ref{fig:2j} illustrates the energy-band diagrams of the principal
+electronic candidates.\\
 
 \begin{figure}[htbp!]
     \centering
@@ -244,158 +234,240 @@ where $\mu$ is a material-dependent mobility. Because the conductance follows th
     \label{fig:2j}
 \end{figure}
 
-\subsubsection[Direct Tunnelling]{Direct Tunnelling}
+\begin{table}[htbp!]
+    \caption[Basic conduction mechanisms for insulators.]{Basic conduction mechanisms for insulators \cite{sze2021physics}, with the simplified voltage and temperature dependence of each; symbols are defined in the text.}
+    \label{table:2trans}
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{5pt}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{@{}>{\centering\arraybackslash}p{0.155\textwidth} >{\centering\arraybackslash}p{0.375\textwidth} >{\centering\arraybackslash}p{0.275\textwidth}@{}}
+    \toprule
+    Process & Expression & Voltage and temperature \\
+    \midrule
+    Direct tunnelling
+      & $J \propto V \exp\!\left[ -\frac{2d\sqrt{2m^{*} q\phi_B}}{\hslash} \right]$
+      & $J \propto V \exp\!\left( -b_1 d \right)$ \\
+    Fowler--Nordheim tunnelling
+      & $J = \frac{q^2 E^2}{16\pi^2 \hslash \phi_B} \exp\!\left[ -\frac{4\sqrt{2m^{*}}(q\phi_B)^{3/2}}{3q\hslash E} \right]$
+      & $J \propto V^{2} \exp\!\left( -\frac{b_2}{V} \right)$ \\
+    Thermionic (Schottky) emission
+      & $J = A^{**} T^2 \exp\!\left[ -\frac{q\left(\phi_B - \sqrt{qE/4\pi \varepsilon_i}\right)}{k_B T} \right]$
+      & $J \propto T^{2} \exp\!\left[ \frac{q}{k_B T} \left( a\sqrt{V} - \phi_B \right) \right]$ \\
+    Poole--Frenkel emission
+      & $J \propto E \exp\!\left[ -\frac{q\left(\phi_B - \sqrt{qE/\pi \varepsilon_i}\right)}{k_B T} \right]$
+      & $J \propto V \exp\!\left[ \frac{q}{k_B T} \left( 2a\sqrt{V} - \phi_B \right) \right]$ \\
+    Trap-assisted tunnelling
+      & $J \propto \exp\!\left[ -\frac{4 \sqrt{2qm^*}}{3\hslash E}\, \phi_t^{3/2} \right]$
+      & $J \propto \exp\!\left( -\frac{b_3}{V} \right)$ \\
+    Ohmic
+      & $J \propto E \exp\!\left( -\frac{\Delta E_a}{k_B T} \right)$
+      & $J \propto V \exp\!\left( -\frac{c}{T} \right)$ \\
+    Ionic conductance
+      & $J \propto \frac{E}{T} \exp\!\left( -\frac{\Delta E_{a,ion}}{k_B T} \right)$
+      & $J \propto \frac{V}{T} \exp\!\left( -\frac{c'}{T} \right)$ \\
+    Space-charge-limited current
+      & $J = \frac{9\varepsilon_i \mu V^2}{8d^3}$
+      & $J \propto V^2$ \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 
-\noindent When the oxide is thin enough (typically below $\sim$1\,nm) and the field is strong, carriers tunnel directly across the full barrier width. The current density depends exponentially on the barrier height $\phi_B$ and effective mass $m^{*}$,
-\begin{align}
-    J &\propto E^{2} \exp\left[ -\frac{4\sqrt{2m^{*}}(q\phi_B)^{3/2}}{3q\hslash E} \right] \label{eq:ct-dt1} \\
-    J &\propto V^2 \exp\left( -\frac{b}{V} \right) \label{eq:ct-dt2}
-\end{align}
-\noindent and is essentially temperature-independent, reflecting the quantum-mechanical nature of the process.
+\noindent Table~\ref{table:2trans} lists the candidate mechanisms, their current-density equations, and their
+simplified voltage and temperature dependences. The measured variables are current density $J$, field $E$, applied
+voltage $V$, and absolute temperature $T$. The material parameters are barrier thickness $d$, barrier height
+$\phi_B$, trap depth $\phi_t$, effective mass $m^*$, permittivity $\varepsilon_i$, carrier mobility $\mu$, and the
+electronic and ionic activation energies $\Delta E_a$ and $\Delta E_{a,ion}$. The remaining symbols are physical
+constants or grouped factors: $q$, $k_B$, $\hslash$, $A^{**}$, $a$, and $b_1$ to $b_3$, with
+$c=\Delta E_a/k_B$ and $c'=\Delta E_{a,ion}/k_B$. Where a simplified expression carries no explicit $T$, that model
+predicts no temperature dependence.\\
 
-\subsubsection[Fowler--Nordheim Tunnelling]{Fowler--Nordheim Tunnelling}
+\noindent Each candidate mechanism predicts a straight line in particular linearised coordinates, and the measured
+data are tested against that prediction. Poole--Frenkel emission gives a straight line for $\ln(J/E)$ against
+$\sqrt{E}$, whose slope gives a relative permittivity. Trap-assisted tunnelling gives a straight line for $\ln J$
+against $1/E$, whose slope gives a trap depth, while Fowler--Nordheim tunnelling is linear in $\ln(J/E^2)$ against
+$1/E$. Linearity alone does not identify a mechanism: the parameter obtained from the slope must also be physically
+plausible. This second criterion rejects a Poole--Frenkel fit implying a relative permittivity below unity. Direct
+tunnelling depends exponentially on barrier width and is negligible across the full 25 to 35\,nm oxide thickness
+used here.\\
 
-\noindent At high field the barrier is deformed into a triangle and carriers need only tunnel through its narrowed tip before entering the conduction band:
-\begin{align}
-    J &= \frac{q^2 E^2}{8\pi \hslash \phi_B} \exp\left[ -\frac{4\sqrt{2m^{*}}(q\phi_B)^{3/2}}{3q\hslash E} \right] \label{eq:ct-fn1}
-\end{align}
-\noindent A Fowler--Nordheim plot of $\ln(J/E^2)$ against $1/E$ linearises Equation (\ref{eq:ct-fn1}); its gradient yields the barrier height $\phi_B$ and the intercept reflects the emission efficiency. The mechanism requires $V > \phi_B$; below this, direct tunnelling dominates.
+\noindent In a trap-mediated conduction model, terminal current varies with the concentration of occupied traps, so
+gradual trap filling or release produces a gradual change in measured current
+\cite{many1962theory, houng1999current}. Ionic redistribution can also change the current by modifying the internal
+field, even when electronic carriers cross the device \cite{waser2009redox, meyer2005oxygen}. This ionic contribution
+lies outside an electronic-current fit, which therefore cannot recover the activation energy for ionic hopping
+\cite{bucci1966ionic}, and the electrode material may determine which contribution appears in the measured response
+\cite{ge2014electrode}. Because the SiO$_x$ contacts contain no active-metal source, vacancy redistribution is used
+as a working interpretation, while the mobile species remains unidentified
+\cite{mehonic2015structural, kenyon2019interplay}.
 
-\subsubsection[Ohmic Conduction]{Ohmic Conduction}
+\subsection[Required Operations and Timescales]{Required Operations and Timescales}\label{subsec:subthreshold}
 
-\noindent A small population of thermally generated free carriers in the oxide drifts under the field, giving
-\begin{align}
-    J &\propto E \exp\left( -\frac{\Delta E_a}{k_B T} \right) \label{eq:ct-ohm1} \\
-    J &\propto \frac{V}{T} \exp\left( -\frac{c}{T} \right) \label{eq:ct-ohm2}
-\end{align}
-\noindent The current density is proportional to the field $E$, so at fixed temperature it is linear in the applied voltage; the exponential factor captures the thermally activated carrier density, not any voltage non-linearity. Ohmic conduction therefore dominates at low field and high temperature.
+\noindent A volatile state must support three operations in sequence: a write, an input-free hold, and a later read
+\cite{chang2011shortterm, ohno2011shortterm, zhang2017emulating}. Writing changes the state, which then relaxes without
+further input for the duration of the hold. A small read probe returns an electrical quantity that depends on the
+elapsed hold time, so the decay itself can be measured \cite{covi2021switching}.\\
 
-\subsubsection[Ionic Conduction]{Ionic Conduction}
-
-\noindent Charge can also be carried by the drift of mobile ions, such as oxygen vacancies, rather than electrons:
-\begin{align}
-    J &\propto \frac{E}{T} \exp\left( -\frac{\Delta E_{a,ion}}{k_B T} \right) \label{eq:ct-ion1} \\
-    J &\propto \frac{V}{T} \exp\left( -\frac{c'}{T} \right) \label{eq:ct-ion2}
-\end{align}
-\noindent Here the activation energy $\Delta E_{a,ion}$ is that for ion hopping through the lattice, typically far larger than the electronic activation energy $\Delta E_a$ of Equation (\ref{eq:ct-ohm1}). The two should not be conflated. Ions accumulating at an interface build a space-charge region and internal field that can drive current even after the external field is removed.
-
-\subsubsection[Space-Charge-Limited Current]{Space-Charge-Limited Current}
-
-\noindent When carrier injection from an electrode outpaces the rate at which the bulk can transport them, injected charge accumulates and limits the current. In the trap-free Mott--Gurney regime,
-\begin{align}
-    J &= \frac{9\varepsilon_i \mu V^2}{8d^3} \label{eq:ct-sclc1} \\
-    J &\propto V^2 \label{eq:ct-sclc2}
-\end{align}
-\noindent so space-charge-limited current is identified by a quadratic dependence on voltage.
-
-\subsubsection[Poole--Frenkel Hopping]{Poole--Frenkel Hopping}
-
-\noindent In a defect-rich oxide, electrons trapped at localised states are thermally excited into the conduction band, with the field lowering the trap barrier:
-\begin{align}
-    J &\propto E \exp\left[ -\frac{q\left(\phi_B - \sqrt{qE / \pi \varepsilon_i}\right)}{k_B T} \right] \label{eq:ct-pf1} \\
-    J &\propto V \exp\left[ \frac{q}{k_B T} \left( 2a\sqrt{V} - \phi_B \right) \right] \label{eq:ct-pf2}
-\end{align}
-\noindent The current depends on the trap depth $\phi_B$, the permittivity $\varepsilon$, and temperature $T$; a non-ideality factor between 1 and 2 accounts for fabrication variations. A plot of $\ln(J/E)$ against $\sqrt{E}$ is linear, and its slope yields the dynamic dielectric constant $\varepsilon_r$.
-
-\subsubsection[Thermionic (Schottky) Emission]{Thermionic (Schottky) Emission}
-
-\noindent At a metal--oxide contact, carriers with thermal energy exceeding the interface barrier are emitted over it, as the Schottky diode model describes:
-\begin{align}
-    J &= A^{**} T^2 \exp\left[ -\frac{q\left(\phi_B - \sqrt{qE / 4\pi \varepsilon_i}\right)}{k_B T} \right] \label{eq:ct-te1} \\
-    J &\propto \exp\left[ \frac{q}{k_B T} \left( a\sqrt{V} - \phi_B \right) \right] \label{eq:ct-te2} \\
-    A^{**} &= \frac{4\pi q m^* k_B^2}{h^3} \label{eq:ct-te3} \\
-    a &= \sqrt{\frac{q}{4\pi \varepsilon_i d}} \label{eq:ct-te4}
-\end{align}
-\noindent with $A^{**}$ the effective Richardson constant (Equation \ref{eq:ct-te3}) and $a$ the field-lowering coefficient (Equation \ref{eq:ct-te4}). The current depends on temperature both through the $T^2$ prefactor and through the exponent, giving it a stronger temperature dependence than the other mechanisms. Forward bias lowers the interface barrier and enhances emission, whereas reverse bias raises it, so thermionic emission produces rectifying, asymmetric characteristics.
-
-\subsubsection[Trap-Assisted Tunnelling]{Trap-Assisted Tunnelling}
-
-\noindent Where defect states are dense, carriers tunnel in multiple steps via intermediate traps that divide the barrier and raise the overall transmission probability:
-\begin{align}
-    J \propto \exp\left[ -\frac{8\pi \sqrt{2qm^*}}{3\hslash E} \phi_t^{3/2} \right] \label{eq:ct-tat}
-\end{align}
-\noindent where $\phi_t$ is the trap barrier height. The process is elastic if the carrier conserves its energy at the trap and inelastic if it loses energy, for example to phonons. In disordered, defect-rich films such as the silicon-rich oxides studied here, trap-assisted tunnelling is often the dominant channel, as the analysis in Chapter \ref{ch:fab} confirms.
-
-\subsection[The Subthreshold Regime]{The Subthreshold Regime}\label{subsec:subthreshold}
-
-\noindent The mechanisms above describe conduction in a device that has been formed and is switching between resistance states, and the compact and plasticity models all assume this conventional switching between distinct states. This thesis, however, operates the device in a different mode. In the \emph{subthreshold regime}, the applied bias is held below the threshold for non-volatile switching, so the device does not toggle between high- and low-resistance states but instead shows small, volatile, analogue conductance changes well suited to synaptic emulation \cite{mannion2023unipolar}. \\
-
-\noindent This regime is the operating point of the rest of the thesis and gives rise to the central phenomenon studied here. Under a sustained subthreshold stimulus the current does not settle immediately but evolves over seconds to minutes. This slow transient is produced by the trapping and de-trapping of charge and the build-up and dissipation of space charge described above, rather than by filament formation. Chapter \ref{ch:transients} characterises this transient in fabricated silicon-oxide devices and shows that the top-electrode material selects which of these processes dominate. Chapter~\ref{ch:model} then condenses the dynamics into a compact, discretisable model. Because the trapping and space-charge processes occur on the timescale of behaviour rather than of spikes, this slow transient, often a limitation for static memory, is the phenomenon the later results chapters build on.
-
-\section[Neuromorphic Computing Hardware]{Neuromorphic Computing Hardware}\label{sec:neuro-hardware}
-
-\noindent Individual memristive devices become a computing substrate only when assembled into arrays and driven by supporting circuitry. This section moves from the single device to the system: how crossbar arrays perform in-memory computation, how plasticity rules are realised in hardware, and how the resulting systems are integrated and benchmarked.
-
-\subsection[Crossbar In-Memory Computing]{Crossbar In-Memory Computing}
-
-\noindent Neuromorphic computing takes its inspiration from biological neural systems. Unlike conventional architectures that separate memory and processing, incurring the data-movement cost of the von Neumann bottleneck, neuromorphic systems co-locate them in distributed, parallel structures that mimic the brain. The field began with Carver Mead in the 1980s \cite{mead1989analog}, who proposed analogue electronics to emulate neurons and synapses, and now spans both analogue and digital brain-inspired circuits. Event-driven processing, in which circuits activate only when needed, sharply reduces power. The same memristive elements serve as both memory and computational units, supporting local plasticity rules such as \abbrev{STDP}. \\
+\noindent These operations give the volatile state a specific role in delayed learning. Local spike activity writes
+the state, the delay to reward provides the hold interval, and reward-gated circuitry uses the surviving state to
+change the persistent weight. Figure~\ref{fig:2v3} places that sequence beside the non-volatile case, in which one
+programmed conductance holds a weight indefinitely. Eligibility must survive until reward arrives, while the updated
+weight must remain afterwards; the present work does not establish both functions in one physical device.\\
 
 \begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/crossbar_architecture.png}
-    \caption[The memristor-based crossbar architecture.]{A memristor crossbar array \cite{truong2014new}. Input voltages $V_1,\dots,V_N$ drive the word lines (rows), a memristive element of conductance $G_{i,j}$ sits at each crosspoint, and the output currents $I_1,\dots,I_M$ are read from the bit lines (columns). Each element contributes a current $V_i G_{i,j}$ (Ohm's law), and these sum along each bit line (Kirchhoff's current law), so the array evaluates the vector--matrix product $\mathbf{I} = \mathbf{G}\mathbf{V}$ in a single step.}
-    \label{fig:2h}
+\centering
+\includegraphics[width=\textwidth]{Chapter2/Figs/fig2_persistent_volatile.pdf}
+\caption[Persistent and volatile memristive state.]{Two operating roles of memristive state. \textbf{(a)} An
+above-threshold write produces a persistent conductance $G$ that stores a weight. \textbf{(b)} A subthreshold write
+produces a volatile state that decays during an input-free hold, so the later read depends on the elapsed time.
+}
+\label{fig:2v3}
 \end{figure}
 
-\noindent Neuromorphic architectures fall into two categories \cite{ceolini2020hand}: digital systems (e.g. IBM TrueNorth, Intel Loihi) that simulate spiking neurons with programmable connectivity, and analogue or mixed-signal systems, including memristive arrays, that more closely mimic continuous biological dynamics. The crossbar array (Figure \ref{fig:2h}) is the key analogue unit. For an input voltage vector $\mathbf{V}$ and a conductance matrix $\mathbf{G}$, the output current vector is
+\noindent The learning task sets the interval that the state must bridge, and the material supplies the realised
+lifetime. Individual spikes last about a millisecond, while an action may be evaluated seconds later
+\cite{gerstner2018eligibility}. A volatile state must therefore outlast the membrane
+response without becoming persistent, covering the interval over which dopamine can reinforce a recently stimulated
+synapse \cite{yagishita2014timewindow, he2015eligibility}. Measurement of the relaxation that follows a subthreshold
+write shows whether a given device supplies that interval.\\
+
+\noindent The decay profile matters as well as its timescale: mean lifetime is the area beneath a normalised decay,
+but two profiles with the same area can retain different fractions of state at a given reward delay. Disordered
+materials can release charge over a distribution of rates and therefore relax non-exponentially
+\cite{scher1975anomalous, kakalios1987stretched}. These profiles must consequently be measured in full and under
+stated conditions, because their shape changes the retained state and the resulting temporal credit
+\cite{legallo2018collective, zhang2024mesoporous}.\\
+
+\noindent Trap occupancy and space charge provide two candidate physical states behind a relaxing conductance.
+Trapping and release alter the population of occupied traps and therefore the trap-mediated current, with the decay
+set by the distribution of release energies \cite{lang1974deep, libsch1993bias}. Space charge instead changes the
+internal field and can persist after the applied field is removed \cite{el2006space, boikov2002near}. Because
+terminal current may contain both contributions, the transient measurements must test which interpretation the
+observed voltage and time dependence support.
+
+\section[From Device State to Learning System]{From Device State to Learning
+System}\label{sec:neuro-hardware}
+
+\noindent Arrays and peripheral circuits assign each device a system-level function
+\cite{mead1989analog, ceolini2020hand}. The crossbar maps positive conductances onto weighted sums, while peripheral
+circuits recover signed results, generate spikes, and apply updates. Where the update is calculated then
+determines whether device physics constrains a trained network or participates directly in learning.
+
+\subsection[Crossbar Computation and Weight Mapping]{Crossbar Computation and Weight
+Mapping}\label{subsec:crossbar}
+
+\noindent A crossbar stores one conductance at each intersection of its word and bit lines. Applying a voltage vector
+to the word lines produces crosspoint currents that sum along the bit lines,
 \begin{align}
-    \mathbf{I} = \mathbf{G}\,\mathbf{V}, \label{eq:2.44}
+    \mathbf{I} = \mathbf{G}\,\mathbf{V}, \label{eq:2.6}
 \end{align}
 
-\noindent computed in a single physical step: Ohm's law performs the multiplication ($V \times G$) and Kirchhoff's current law the accumulation along each bit line, eliminating data movement and yielding the energy efficiency of in-memory computing. A network layer $\mathbf{y} = \mathbf{x}^\intercal \mathbf{W}$ therefore maps directly onto the array, the input $\mathbf{x}$ encoded as voltages and the weights $\mathbf{W}$ as conductances. The choice of device depends on the workload. Training repeatedly updates the weights and so demands linear, repeatable programming, whereas inference fixes them after an initial write. This is why much crossbar research targets inference. \\
+\noindent where $\mathbf{V}$ is the applied voltage vector, $\mathbf{G}$ is the conductance matrix, and $\mathbf{I}$
+is the resulting bit-line current vector. Ohm's law supplies each product, and Kirchhoff's current law supplies the
+sum. The array therefore performs the matrix--vector product of a network layer in one physical operation
+\cite{hu2016dot, xia2019memristive}.\\
 
-\noindent Because conductance is positive and bounded to a range $[G_{off}, G_{on}]$, signed weights require a differential pair, encoding each weight $w$ as the difference between two conductances $G^+$ and $G^-$ on separate bit lines \cite{joksas2022nonideality}. The two are chosen symmetrically about a mean value \cite{kim20214k}, and their bit-line currents are subtracted to give $\mathbf{I}^+ - \mathbf{I}^-$. The positive and negative lines are placed close together to mitigate line-resistance effects \cite{joksas2020committee}. This differential mapping is the scheme used for the memristive networks of Chapter~\ref{ch:bio}.
-
-\subsection[Hardware Plasticity Mechanisms]{Hardware Plasticity Mechanisms}
-
-\noindent Realising the plasticity rules of Section~\ref{subsec:plasticity} in hardware is central to memristive learning. Pulse-pairing schemes encode spike timing as overlapping voltage pulses, so that the device's own conductance modulation physically computes the learning rule \cite{campbell2016pulse}. Both the pre- and post-synaptic neurons apply identically shaped pulses of the same polarity, one to each terminal. The device experiences their difference, and because the two pulses are offset by the spike-timing difference, this difference is signed,
+\noindent Device conductance is positive and bounded by $[G_{off},G_{on}]$, while a network weight can be positive
+or negative. A differential pair represents the sign by placing two conductances on separate bit lines
+\cite{joksas2022nonideality},
 \begin{align}
-    V_{mem}(t) = V_{pre}(t) - V_{post}(t). \label{eq:2.45}
+    w \propto G^{+} - G^{-}, \label{eq:2.7}
 \end{align}
 
-\noindent When the pulses coincide ($\Delta t = 0$) they cancel and $V_{mem} \approx 0$. When the presynaptic pulse leads, there is an interval in which only $V_{pre}$ is active, so $V_{mem} > 0$ exceeds the potentiation threshold and conductance increases. When the postsynaptic pulse leads, $V_{mem} < 0$ drives depression. The conductance then evolves by a windowed integration of this effective voltage,
-\begin{align}
-    \Delta G = \int_{-\infty}^{\infty} \gamma\big(V_{mem}(t)\big)\, dt, \label{eq:2.46}
-\end{align}
-
-\noindent where $\gamma(\cdot)$ maps voltage to conductance change non-linearly, physically realising the \abbrev{STDP} window of Equation~\ref{eq:2.12}. Configured with \abbrev{LIF} neuron layers and spike-timing detection circuitry, a crossbar of such synapses learns from the temporal correlations in its inputs. \\
-
-\noindent Unbounded synaptic growth destabilises learning, so biological systems use homeostasis to keep activity within a functional range \cite{turrigiano1999homeostatic}, and analogous mechanisms are indispensable in memristive networks. Synaptic normalisation bounds the total conductance,
-\begin{align}
-    \sum_{i} G_i = G_{max}, \label{eq:2.47}
-\end{align}
-
-\noindent while weight decay models biological forgetting,
-\begin{align}
-    G_i(t + \Delta t) = (1 - \alpha)\, G_i(t) + \Delta G_i, \label{eq:2.48}
-\end{align}
-
-\noindent where $\alpha$ is a decay factor. These mechanisms ensure stability and enable continual learning; a homeostatic regulariser of this kind is developed for the spiking networks of Chapter~\ref{ch:bio}.
-
-\subsection[Neuromorphic Systems and Benchmarks]{Neuromorphic Systems and Benchmarks}
-
-\noindent Scaling individual devices and crossbars into complete systems requires hierarchical integration. This brings its own challenges: variability, inconsistent behaviour, write-endurance degradation, and non-linear dynamics, all managed through the co-design of algorithms and devices. Practical crossbars must also contend with sneak paths, line resistance, and noise, addressed by selector devices, resistive isolation, and adaptive calibration. \\
+\noindent where $G^+$ and $G^-$ encode the positive and negative parts of the weight. Choosing the pair symmetrically
+about a mean conductance uses the available range on both devices \cite{kim20214k}, and placing the two devices close
+together limits differences in line resistance \cite{joksas2020committee}. Figure~\ref{fig:2v4} shows the resulting
+mapping, in which each logical synapse occupies two crosspoints on adjacent bit lines.\\
 
 \begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Chapter2/Figs/address_event_representation.png}
-    \caption[The address-event representation.]{The address-event representation \cite{deiss1999pulse}. Self-timed neurons on the sending chip generate trains of action potentials and request bus control when they spike; multiplexing circuitry encodes and transmits their addresses sequentially, and the receiver reconstructs the spike trains for the postsynaptic targets. Relative event timing is preserved, provided source neurons do not spike too close together.}
-    \label{fig:2i}
+\centering
+\includegraphics[width=\textwidth]{Chapter2/Figs/fig2_crossbar_state.pdf}
+\caption[Crossbar computation with persistent and volatile synaptic quantities.]{A crossbar with differential
+conductance pairs. Input voltages produce currents $VG$ that sum along each bit line, and subtracting the paired
+currents gives the signed contribution $V(G^+-G^-)$. The volatile state $s_{ij}$ belongs to the same logical synapse
+but may be supplied by a separate physical element.}
+\label{fig:2v4}
 \end{figure}
 
-\noindent Neocortical modularity inspires hierarchical architectures in which each "core" comprises spiking neurons, a local memristive crossbar, peripheral circuitry, and optional learning engines. Cores communicate over event-driven networks that mimic axonal signalling, typically using the Address-Event Representation (\abbrevdef{AER}), which preserves sparse, asynchronous activity while scaling the system (Figure \ref{fig:2i}). Hybrid designs such as Neurogrid \cite{khodagholy2015neurogrid} combine analogue dendritic computation with digital routing, and memristive variants replace charge-based memory with conductance-based synapses. Unlike batch-trained deep learning, biorealistic learning of this kind is online and local. Pulse-modulation circuits set each conductance update from the measured pre--post timing difference $\Delta t$, so that closely correlated synapses receive larger updates, at high parallelism and low power. \\
+\noindent A presynaptic spike reaches the word line as a voltage pulse. Each conductance scales that pulse, the
+bit-line current sums the crosspoint contributions, and a subtraction circuit recovers the signed result from the two
+columns. A neuron circuit integrates this current and generates the spikes sent to the next layer, so the array
+follows the biological sequence of presynaptic spike, postsynaptic current, and output spike
+\cite{kandel2000principles, koch2004biophysics}. Row drivers, subtraction circuits, and neuron circuits therefore
+form part of the computing path, although their physical implementation lies outside the present scope.\\
 
-\noindent Recent fully integrated compute-in-memory chips have moved the field beyond proof-of-concept. The NeuRRAM chip of Wan et al.~\cite{wan2022compute} integrates more than three million devices across 48 cores and reaches CIFAR-class accuracy competitive with software. IBM's analogue-AI chip performs energy-efficient speech recognition at commercially relevant scale \cite{ambrogio2023analog}. The paradigm extends further, to probabilistic computation with a memristor-based Bayesian machine \cite{le2024memristor} and to deep \emph{physical} networks trained by a backpropagation-compatible procedure \cite{wright2022deep}. Together these establish memristive crossbars as a viable substrate for general machine-learning workloads. They share one limitation, however: each programs or trains around device non-idealities rather than folding the measured device statistics into training, and none exploits the slow dynamics of the subthreshold regime. These are the two gaps that this thesis addresses: hardware-aware training that samples the device's own conductance statistics, and the slow transient as a computational resource. \\
+\noindent Programmed conductance and volatile state remain separate variables at each logical synapse. Conductance
+stores the persistent weight, while recent activity sets a temporary state that can modulate transmission until it
+relaxes. These two variables may be carried by separate physical elements, and they constrain a network in different
+ways: static conductance non-idealities affect the weight mapping, whereas volatile relaxation determines how long the
+temporary state remains available.
 
-\noindent Such systems are evaluated against standard benchmarks. The Modified National Institute of Standards and Technology (\abbrevdef{MNIST}) dataset of handwritten digits \cite{lecun1998gradient} remains a common first test, though no longer challenging for state-of-the-art methods. The Canadian Institute for Advanced Research (\abbrevdef{CIFAR}) datasets, \abbrev{CIFAR}-10 and \abbrev{CIFAR}-100 \cite{krizhevsky2009learning}, probe more complex colour images. Beyond classification, memory tasks evaluate storage and recall, and reinforcement-learning tasks, such as learning to play Atari games from pixels, evaluate the acquisition of reward-driven policies, the setting of Chapter~\ref{ch:learning}. Regression and sequence performance is commonly quantified by a mean-absolute error over $N$ samples,
+\subsection[Hardware-Aware and Local Learning]{Hardware-Aware and Local Learning}\label{subsec:hardware-aware}
+
+\noindent Device physics can determine an immediate weight update at the cell itself. Pulse-pairing schemes make that
+dependence explicit: the pre- and postsynaptic neurons apply the same voltage waveform to opposite terminals, and
+their relative timing sets the net device voltage \cite{campbell2016pulse},
 \begin{align}
-    E = \frac{1}{N} \sum_{i=1}^{N} \left| y_i - \hat{y}_i \right|, \label{eq:2.49}
+    V_{dev}(t) = V_{pre}(t) - V_{post}(t - \Delta t), \qquad \Delta t = t_{post} - t_{pre}. \label{eq:2.8}
 \end{align}
 
-\noindent where $y_i$ and $\hat{y}_i$ are the true and predicted outputs. \\
+\noindent Here, $\Delta t$ is the postsynaptic spike time relative to the presynaptic spike, and it changes the
+overlap, amplitude, and duration of $V_{dev}$. The nonlinear device response converts that waveform into a
+timing-dependent conductance change, so the device supplies the immediate weight update. Delayed reward
+requires an additional operation: recent activity must first write a fading state that remains available when reward
+later gates the persistent update.\\
 
-\noindent Memristive \abbrev{SNN}s report classification accuracies approaching equivalent software networks, aided by conversion techniques that map trained deep networks onto low-latency spiking ones \cite{diehl2015fast}. A fully hardware memristor convolutional network has classified \abbrev{MNIST} on-chip at over two orders of magnitude better energy efficiency than a graphics processing unit (\abbrevdef{GPU}) \cite{yao2020fully}. Fully memristive networks have performed unsupervised classification within the array \cite{wang2018fully}, and the first in-situ-trained crossbar classifier established the feasibility of array training on a conventional host \cite{prezioso2015training}. Such on-device local learning suits edge \abbrev{AI}, removing the dependence on the cloud. Realising it requires software co-design, so that limited conductance resolution, stochasticity, and drift are reflected when models map to the array. This is supported by mature spiking-network simulators such as Brian2 \cite{stimberg2019brian}, NEST \cite{gewaltig2007nest}, and BindsNET \cite{hazan2018bindsnet}.
+\noindent Hardware-aware offline training and local in-device learning differ in where the update is calculated.
+Offline training includes measured device behaviour in the network model and calculates the weight changes in
+software through backpropagation, while in-device learning forms the update from signals available at the physical
+synapse. Both routes are used here: the first tests trained networks under measured device dynamics, and the second
+tests reward-modulated local learning.\\
 
-\section[Summary]{Summary}
+\noindent Both routes must accommodate device variation, which enters in several distinct forms: conductance updates
+may be nonlinear or asymmetric, nominally identical cells may differ in range and threshold, read noise limits
+resolution, and volatile state changes after writing. The available corrections are calibration and closed-loop
+write-and-verify, which improve programming precision at the cost of additional time. These corrections act at the
+device level, and network activity can still drift once they are applied, so homeostatic regulation provides a separate
+control by keeping firing within a functional range \cite{turrigiano1999homeostatic}.\\
 
-\noindent This chapter established the foundations underpinning the rest of the thesis along three threads. It began with neural computation and learning: the biological neuron and the action potential, the neuron models that abstract them from the Hodgkin--Huxley description to the leaky integrate-and-fire model, the synapse and its plasticity, and the three learning paradigms the results chapters realise. The reinforcement-learning paradigm was given a first-principles account, covering the distal-reward problem and the three-factor eligibility-trace rule. It then introduced the memristor: its origin as the fourth circuit element, its realisation in resistive-switching \abbrev{RRAM}, the charge-transport mechanisms that carry current through the oxide, and the subthreshold regime operated throughout this work, whose slow current transient is the central phenomenon of Chapters~\ref{ch:transients} and~\ref{ch:model}. Finally, it moved from the single device to the system: how crossbar arrays perform in-memory vector--matrix multiplication, how plasticity and homeostasis map onto device conductance, and how complete neuromorphic systems are integrated and benchmarked. It closed on the non-idealities, variability, limited resolution, and drift, that motivate the hardware-aware approaches developed in the chapters that follow.
+\noindent Local synaptic updates determine where a weight changes, but a hidden neuron does not directly know
+how its activity affected the network output. Backpropagation assigns that spatial credit by sending the output error
+through the transpose of the downstream weight matrix. The required copy of the forward weights creates the
+weight-transport problem, and feedback alignment replaces the transpose with a fixed random projection, giving
+\begin{align}
+    \boldsymbol{\delta}^{hidden} = \begin{cases}
+    \mathbf{W}^{\top} \boldsymbol{\delta}^{out}, & \text{backpropagation}, \\[2pt]
+    \mathbf{B}\, \boldsymbol{\delta}^{out},      & \text{feedback alignment},
+\end{cases} \label{eq:2.9}
+\end{align}
+
+\noindent where $\boldsymbol{\delta}^{out}$ is the output error, $\mathbf{W}$ is the forward weight matrix, and
+$\mathbf{B}$ is a fixed random matrix with the shape of $\mathbf{W}^{\top}$. No known biological mechanism supplies
+an exact transported copy of the forward weights \cite{grossberg1987competitive}. Feedback alignment avoids that
+copy \cite{lillicrap2016random}, and direct feedback alignment sends the projected error directly to each hidden
+neuron \cite{nokland2016direct}. This projected feedback remains neuron-specific, even though it no longer depends on
+the downstream weights.\\
+
+\noindent Existing hardware assigns device physics several learning functions, and phase-change and mixed-signal
+systems perform reward-modulated weight updates locally \cite{bianchi2020bio, bohnstingl2019learns}. An analogue
+oxide network programs persistent weights through explicit voltage pulses \cite{portner2025actorcritic}, while a
+second-order oxide device uses its internal state to modulate the learning rate \cite{ming2026oxygen}. These systems
+provide persistent storage, immediate updates, or control of the rate of plasticity.\\
+
+\noindent Physical eligibility supplies the temporary state needed before the update, and two relaxation processes
+have already been used this way. Phase-change resistance drift has been mapped onto eligibility decay
+\cite{demirag2021pcmtrace}, and ferroelectric polarisation relaxation has served as an eligibility state in spiking
+reinforcement learning \cite{wang2026ferroelectric}. In this role, device physics preserves recent activity through
+the reward delay instead of writing the persistent weight immediately.
+
+\section[Summary]{Summary}\label{sec:2p4}
+
+\noindent Memristive SiO$_x$ supplies two learning variables: non-volatile conductance stores a persistent weight,
+and subthreshold relaxation preserves recent activity. This volatile state must support write, hold, and read
+operations, and it must survive the relevant delay. Its measured decay profile therefore specifies the state, because
+that profile determines what remains.\\
+
+\noindent Crossbar circuits map conductance pairs onto signed weights and convert spikes into neural output.
+Hardware-aware training includes measured device behaviour but calculates the updates in software, while local
+reward-modulated learning keeps the activity trace at each synapse, broadcasts reward, and avoids weight transport.
+Biorealistic learning connects these system requirements to intrinsic material dynamics.

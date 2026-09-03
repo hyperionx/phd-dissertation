@@ -2,17 +2,19 @@
 
 \begin{impact}      
 
-\noindent This thesis shows how memristive silicon-oxide devices can support biorealistic learning through physical dynamics rather than only stored numerical state. Subthreshold characterisation points towards low-voltage synapses supporting potentiation and depression, while the compact models let engineers simulate candidate circuits before fabrication. No circuit-level energy or area comparison is claimed. \\
+\noindent This thesis asks whether a material's intrinsic physics can enable synaptic learning from spike history rather than have it imposed through an abstract algorithm. The slow current transient of silicon oxide devices is taken as that learning state rather than as a defect, so the impact falls in how such materials are characterised and reported, and in how learning systems built from them are designed.\\
 
-\noindent At system level, simulated spiking networks learn on these hardware-aware rules, with architecture determining how the slow transient is used: homeostatic suppression aids fully connected networks, while device-constrained retention serves as neuronal leak. The transient also acts as a device-local analogue of an eligibility state. Fair controls identify its distinctive contribution as an interval-selective temporal prior that can avoid an externally stored eligibility trajectory under an in-material implementation. \\
+\noindent At the device level, the work appears in three peer-reviewed venues and three conference presentations listed below, with a best presentation award at IEEE SEAI 2025. Subthreshold characterisation points towards low-voltage
+synapses that both potentiate and depress under a single polarity, and the compact model developed here lets others simulate candidate circuits before committing to fabrication.\\
 
-\noindent Two features speak to on-chip learning. Local feedback alignment carries credit through a synthetic deep network without weight transport, stabilised by the same homeostatic mechanism used for static inference. Separately, public biological data provide a coherent dopamine-learning spine: Coddington supplies positive causal policy-learning evidence, Jeong recovers the inhibition direction, and leakage-safe DANDI 001340 replay improves held-out prediction over shuffled waveforms. \\
+\noindent The methodological contribution reaches further. Where a material supplies the learning variable, that variable cannot be reported alone, because the observation window and baseline convention used to obtain it change what the material is taken to compute. Refitting the same measurements under different conventions moves the fitted shape across a qualitative boundary. That explains disagreements between published fits of one phenomenon, and it gives other groups a route to falsification, since the conditions travel with the parameter.\\
 
-\noindent Reframing device physics as a computational resource folds physical constraints into learning-system design. Model comparison resolves a compressed rise without identifying cascade depth, and frozen pulse-off predictions state how the material--algorithm link can be falsified. The immediate value is a testable framework for matching material timescales to temporal-credit problems; low-power edge or robotics benefits remain implementation targets rather than measured outcomes. \\
+\noindent At the system level, measured device dynamics constrain not only the local learning state but the behaviour a task produces, and that state can be held in the material rather than stored externally. Credit
+is carried through a simulated two-layer network without weight transport. Neither the comparison nor the simulations claim that biology learns this way, and edge and robotics gains remain implementation targets. What the thesis establishes is a measured, falsifiable correspondence between material and learning, since intrinsic dynamics decide what spike history a synapse retains, and so what a delayed reward can reinforce.\\
 
 \clearpage
 \thispagestyle{empty}
-\section*{\centering Contributions}
+\section*{\centering Publications and Awards}
 
 \subsection*{Academic Award}
 \begin{itemize}

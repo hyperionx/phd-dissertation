@@ -1,12 +1,32 @@
 % ************************** Thesis Abstract *****************************
 % Use `abstract' as an option in the document class to print only the titlepage and the abstract.
 \begin{abstract}
+\noindent A synapse learns from its own spike history, yet the consequence of a spike usually arrives after
+the spike has gone. Something local must hold what was recently active until that consequence is
+known, and spiking networks normally hold it as an abstraction with a chosen lifetime. This thesis
+holds it in the material instead, in the slow current transient a memristive silicon oxide device
+shows below its switching threshold, a response usually dismissed as degradation. The transient is
+measured across gold and indium tin oxide contacts, traced to dispersive trap filling and
+discharge, and reduced to a compact model.\\
 
-\noindent This thesis develops biorealistic learning models grounded in memristive silicon-oxide devices. Biorealism denotes local learning structure constrained by measured dynamics, not chemical equivalence to a synapse. The slow subthreshold current transient becomes a computational resource for spiking neural networks (SNNs). Measurements support a SPICE-compatible compact model and hardware-aware surrogate-gradient training with sampled Poole--Frenkel conductance statistics. Whether the transient helps depends on architecture: suppressing it through homeostasis aids fully connected networks but harms temporal ones, whereas using device-constrained retention as neuronal leak produces working-memory sensitivities on recognised neuromorphic benchmarks.\\
+\noindent Made into a synapse, the device is trained with its own Poole--Frenkel conductance statistics
+folded into training rather than compensated for afterwards, and a homeostatic regulariser
+recovers part of that cost. Held instead as a volatile state, the same transient carries a
+classification across an interval with no input, so spike history stays readable after the input
+has gone. How long it stays readable depends on more than the average lifetime of the decay.
+Replacing the measured decay with a single exponential of the same average lifetime changes that
+interval by a fifth to a third. Clearing the state one layer at a time shows that no single layer
+is sufficient. A retention time alone therefore does not specify what a task can still use.\\
 
-\noindent The final contribution recasts the transient as a learning primitive. In a limiting case the trap-cascade dynamics reduce to the canonical eligibility-trace equation, so measured discharge times constrain a candidate reward-credit window. The model assigns distal-reward credit, closes a contextual spiking bandit, and learns a cue-conditioned sequence. Held-out Au prediction resolves a compressed rise and an empirically supported family of compact representations. Fair controls define where that material prior is useful: interval selectivity survives learning-rate and amplitude matching, favouring a non-zero lag, while a learned equal-state filter gains flexibility through external state and readout. Amplitude-controlled temporal-order tests also expose the architectural boundary of a scalar two-terminal readout.\\
-
-\noindent With per-neuron feedback alignment, the trace supports a synthetic two-layer demonstration without weight transport. Biological grounding comes from three complementary public datasets: a Coddington closed-loop intervention gives positive causal evidence that action-contingent dopamine changes policy learning; an independent Jeong analysis recovers the direction of dopamine-inhibition effects; and leakage-safe replay of \abbrevdef{DANDI} 001340 connects intact continuous dLight to the recorded-action update and improves held-out likelihood over shuffled waveforms. These results retain the demonstrated dopamine-learning connection while identifying eligibility-kernel shape as the next question. Measured material dynamics therefore supply a biologically grounded, interval-selective local temporal prior whose implementation value depends on matching device, task and circuit timescales.
-
-
+\noindent Learning from spike history asks more of the transient, because a late reward must find which
+coincidences earned it. The measured discharge is that eligibility term, and the canonical
+exponential rule its narrow-dispersion limit, so the credit window is measured rather than
+assumed. The material does not settle that kernel by itself, since the same measurements fitted
+under different conditions credit opposite events even at equal mean retention. A relaxation
+offered as a learning variable must therefore be reported with the conditions that produced it. On
+that kernel a signed coincidence rule learns a two-layer policy in simulation. Fixed random
+feedback stands in for weight transport, and local homeostasis keeps the learner stable.
+Biorealistic learning here means
+learning from spike history, so what a material intrinsically remembers sets what a synapse can
+learn. A rule then becomes something matter holds rather than something imposed on it.
 \end{abstract}

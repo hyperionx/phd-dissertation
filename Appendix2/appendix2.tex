@@ -1,0 +1,356 @@
+%!TEX root = ../thesis.tex
+% ******************************* Thesis Appendix B ********************************
+\chapter{Training-Loop Pseudocode}
+\label{app:pseudocode}
+
+\noindent This appendix gives the training procedures of the reinforcement-learning
+experiments of Chapters~\ref{ch:learning} and~\ref{ch:conclusion} at a level of detail
+sufficient to re-implement them; the executable reference implementation of the same
+procedures is the \texttt{siox-eligibility-trace} package printed verbatim in
+Appendix~\ref{app:code-nn}. Each algorithm below names the module and function of that
+snapshot that realises it, so a reader can move directly from the procedure to its code;
+the neural-network models of Chapter~\ref{ch:bio} are realised by the \texttt{mnn-torch}
+snapshot of Appendix~\ref{app:code}. The equations referenced are those of
+Chapter~\ref{ch:learning}: the trap-cascade eligibility gate
+(Equations~\ref{eq:7.1}--\ref{eq:7.3}, discretised in Equation~\ref{eq:7.13}), the
+signed leak-dominant coincidence (Equation~\ref{eq:7.9}), the leaky integrate-and-fire
+membrane with exploration noise (Equation~\ref{eq:7.10}), and the three-factor weight
+update (Equation~\ref{eq:7.8}). Numerical values for every symbol are in
+Appendix~\ref{app:hyperparameters}. Throughout, $\textsc{GateStep}$
+advances one eligibility gate by a single forward-Euler step of Equation~\ref{eq:7.13}
+under a signed drive and returns the normalised final-stage occupancy $e = v^{(k)}/V_{max}$;
+each cascade stage $j$ integrates from the previous stage's old value with the
+saturating headroom factor $(V_{max}-|v^{(j)}|)$ and is clipped to $[-V_{max},V_{max}]$,
+so the returned $e$ is bounded in $[-1,1]$ and carries the leak-dominant (\abbrev{LTD})
+wing as well as the potentiating one. $\textsc{LifStep}$ advances one membrane by
+Equation~\ref{eq:7.10} and emits a spike when $V^m \ge v_{th}$, resetting to $v_{reset}$.
+Both operate elementwise over an array of synapses or neurons, so the loops below are
+written for a single seed but run as a batched ensemble over the $20$ seeds without
+change. The reward baseline $b$ is tracked between trials by
+$b \leftarrow b + 0.02\,(R-b)$, and the membrane exploration noise $\sigma$ is either
+fixed or annealed linearly $\sigma_0\!\to\!\sigma_1$ across training where noted.
+
+\paragraph{Device reductions.} The gate retention $\tau_{leak}$ may be a single scalar
+(the default used for every headline result) or a per-synapse array; when it is an array
+of shape $S\times A$ it is broadcast against the cascade state so each synapse decays at
+its own rate, which is what the multi-timescale experiment
+(Algorithm~\ref{alg:multitau}) exercises. Likewise the leak is mono-exponential
+($\beta_{leak}\!=\!1$) throughout unless stated: setting $\beta_{leak}\!<\!1$ replaces the
+constant rate $1/\tau_{leak}$ with the measured dispersive (stretched-exponential)
+instantaneous rate $(\beta_{leak}/\tau_{leak})(t_{since}/\tau_{leak})^{\beta_{leak}-1}$,
+whose per-synapse clock resets on each coincidence; $\beta_{leak}\!=\!1$ is bit-identical
+to the single-rate gate, so the single-rate loops below are the exact reduction of the
+dispersive device at the field-free value $\beta_{leak}\!\approx\!0.85$.
+
+% ===========================================================================
+\section{Closed-loop contextual bandit}
+\label{app:alg-bandit}
+
+\noindent Algorithm~\ref{alg:bandit} is the closed-loop reinforcement-learning task
+of Section~\ref{sec:7p2p3} (Figure~\ref{fig:7e}): a state selects one of $S$ input
+lines, $A$ leaky integrate-and-fire action neurons compete under membrane noise, the
+winner is taken, and a reward contingent on that action arriving after a delay $D$
+gates the surviving eligibility into the $S\times A$ device synapses. The
+device-necessity control zeroes the drive (so no eligibility persists); the
+abstract-trace control replaces $\textsc{GateStep}$ with a single leaky integrator of
+matched time constant. Both are omitted from the listing for clarity. \emph{Reference
+code:} \texttt{train} (with $\textsc{GateStep}$ as \texttt{GateBankBatched} and
+$\textsc{LifStep}$ as \texttt{lif\_step\_batched}) in Listing~\ref{lst:siox-src-bandit},
+driven by \texttt{run\_learning\_and\_window}/\texttt{run\_scaling} of the same module.
+
+\begin{algorithm}[htbp!]
+\caption{Three-factor closed-loop contextual bandit (one seed).}
+\label{alg:bandit}
+\begin{algorithmic}[1]
+\Require states $S$, actions $A$, retention $\tau_{leak}$, delay $D$, rate $\eta$
+\Ensure trained weights $w \in \mathbb{R}^{S\times A}$
+\State $w \gets w_{init}\,\mathbf{1}$; \quad $b \gets 1/A$; \quad rewarded action $c_s \gets s \bmod A$
+\State reward step index $r_i \gets \lfloor (t_{cue}^{\text{end}} + D)/\Delta t \rfloor$
+\For{each trial}
+    \State reset gate states $v^{(m)}, u \gets 0$; \quad membranes $V^m \gets 0$; \quad spike counts $\gets 0$
+    \State sample state $s \in \{0,\dots,S-1\}$
+    \For{$n = 0$ \textbf{to} $r_i + 1$}
+        \State $x^{pre} \gets$ Poisson spikes at rate $r_{in}$ on line $s$ during the cue epoch, else $0$
+        \State charge $\gets \sum_i w_{i,:}\,x^{pre}_i$ \Comment{bitline current, Kirchhoff sum}
+        \State $V^m, \textit{spk} \gets \textsc{LifStep}(V^m, \text{charge};\ \sigma)$ \Comment{Equation~\ref{eq:7.10}}
+        \State $d_{s,a} \gets x^{pre}_s\,[\,\mathbf{1}(\textit{spk}_a) - \lambda_d\,(1-\mathbf{1}(\textit{spk}_a))\,]$ \Comment{Equation~\ref{eq:7.9}}
+        \State $e \gets \textsc{GateStep}(d)$ \Comment{Equations~\ref{eq:7.1}--\ref{eq:7.3},\,\ref{eq:7.13}}
+        \If{$n = r_i$} \quad $e^{\ast} \gets e$ \Comment{snapshot eligibility at reward time}
+        \EndIf
+    \EndFor
+    \State chosen action $\gets \arg\max_a \textit{spkcount}_a$ (ties broken at random)
+    \State $R \gets \mathbf{1}(\text{chosen} = c_s)$
+    \State $w \gets \operatorname{clip}\!\big(w + \eta\,(R-b)\,e^{\ast},\ 0,\ w_{max}\big)$ \Comment{Equation~\ref{eq:7.8}}
+    \State $b \gets b + 0.02\,(R-b)$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\noindent The trace-level and full-spiking distal-reward tasks of
+Section~\ref{sec:7p2p1} (Figures~\ref{fig:7c},~\ref{fig:7d}) are the open-loop
+reductions of Algorithm~\ref{alg:bandit}, given as Algorithm~\ref{alg:distal}: the reward
+schedule is fixed externally rather than made contingent on the action, a single cue
+synapse must be separated from reward-uncorrelated distractors across the delay, and
+success is the cue-to-distractor weight ratio (trace level) or the saturation of the cue
+synapse toward its bound (full spiking). The eligibility gate, signed drive, and
+three-factor update are identical. \emph{Reference code:} \texttt{train\_trace\_level}
+and \texttt{train\_spiking} in Listing~\ref{lst:siox-src-distal_reward}, exercised by
+\texttt{run\_trace\_window} of the same module.
+
+\begin{algorithm}[htbp!]
+\caption{Open-loop distal-reward credit assignment (one seed).}
+\label{alg:distal}
+\begin{algorithmic}[1]
+\Require synapses $N$ (one cue, $N\!-\!1$ distractors), retention $\tau_{leak}$, delay $D$, rate $\eta$
+\State $w \gets w_{init}\,\mathbf{1}$; \quad $b \gets 0$
+\For{each trial}
+    \State reset the gate; \ decide this trial's reward $R\in\{0,1\}$ from the fixed schedule (not the action)
+    \For{each timestep of the cue epoch}
+        \State fire the cue synapse coincidentally with reward trials; fire distractors independently
+        \State $e \gets \textsc{GateStep}(\text{signed drive})$ on every synapse \Comment{Equations~\ref{eq:7.1}--\ref{eq:7.3},\,\ref{eq:7.13}}
+    \EndFor
+    \State relax the gate (undriven) for $D$ seconds; snapshot $e^{\ast}$ on every synapse
+    \State $w \gets \operatorname{clip}\!\big(w + \eta\,(R-b)\,e^{\ast},\ 0,\ w_{max}\big)$; \quad $b \gets b + 0.02\,(R-b)$
+\EndFor
+\State \textbf{score:} cue-to-distractor weight ratio (trace level), or cue saturation toward $w_{max}$ (full spiking)
+\end{algorithmic}
+\end{algorithm}
+
+% ===========================================================================
+\section{Sequential trajectory (T-maze)}
+\label{app:alg-maze}
+
+\noindent Algorithm~\ref{alg:maze} is the multi-step credit-assignment task of
+Section~\ref{sec:7p2p3} (Table~\ref{table:7a}): an $L$-state stem leads to a junction
+with two arms, one rewarded per episode. The distinguishing feature is that the
+eligibility gate is \emph{not} reset between steps of an episode; it integrates
+continuously across the whole trajectory, so eligibility from early (distal) steps has
+decayed more than from late steps when the single goal reward lands. Bridging the
+trajectory therefore requires a retention long enough to span it, which is what makes
+the task a genuine test of the trace rather than a relabelled bandit. \emph{Reference
+code:} \texttt{TMaze} and \texttt{train\_sequential} in Listing~\ref{lst:siox-src-maze},
+driven by \texttt{run\_sequential}/\texttt{run\_dmax\_law} of the same module.
+
+\begin{algorithm}[htbp!]
+\caption{Sequential trajectory credit assignment on the T-maze (one seed).}
+\label{alg:maze}
+\begin{algorithmic}[1]
+\Require stem length $L$, arms $A_{\text{goal}}$, retention $\tau_{leak}$, delay $D$, rate $\eta$, dwell $\Delta t_{\text{state}}$
+\Ensure trained weights $w \in \mathbb{R}^{S\times A}$
+\State $w \gets w_{init}\,\mathbf{1}$; \quad $b \gets 1/A$
+\For{each episode}
+    \State reset gate states; \quad sample rewarded arm; \quad position $\gets 0$
+    \While{episode not terminated}
+        \State encode current state into the active input line (cue arm at the junction)
+        \For{each timestep of the $\Delta t_{\text{state}}$ dwell}
+            \State drive action neurons, $\textsc{LifStep}$, form signed coincidence $d$ (Equation~\ref{eq:7.9})
+            \State $e \gets \textsc{GateStep}(d)$ \Comment{gate persists across states, not reset}
+        \EndFor
+        \State action $\gets \arg\max_a \textit{spkcount}_a$ (ties at random); advance/terminate per the environment
+    \EndWhile
+    \State relax the gate (undriven) for $D$ seconds, then snapshot $e^{\ast}$ on every synapse
+    \State $R \gets \mathbf{1}(\text{chosen arm} = \text{rewarded arm})$
+    \State $w \gets \operatorname{clip}\!\big(w + \eta\,(R-b)\,e^{\ast},\ 0,\ w_{max}\big)$ \Comment{one reward gates the whole trajectory}
+    \State $b \gets b + 0.02\,(R-b)$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+% ===========================================================================
+\section{Deep all-local network (feedback alignment and homeostasis)}
+\label{app:alg-deep}
+
+\noindent Algorithm~\ref{alg:deep} is the two-layer all-local network of
+Section~\ref{sec:7p3p1} (Figures~\ref{fig:7m},~\ref{fig:7n}), trained without
+backpropagation on the non-linearly-separable exclusive-or task. The device supplies
+the \emph{temporal} credit (an eligibility gate on each of the two weight matrices,
+identical to the single-layer case); the additions are the \emph{spatial}-credit
+pathway and stability. The output layer uses the same global three-factor scalar
+$(R-b)$ as the bandit. The hidden layer receives a per-neuron learning signal formed by
+projecting the output error through a \emph{fixed random} feedback matrix
+$\mathbf{B}$ (direct feedback alignment: no transpose of $W_2$, no gradient transport),
+and a local homeostatic term nudges each hidden neuron's slow firing-rate estimate
+$\bar\rho_j$ toward a shared set-point $\rho^{\ast}$ (Equation~\ref{eq:7.14}). Setting
+the feedback term to the global scalar recovers the pure-global-scalar control; freezing
+$W_1$ recovers the fixed-random-hidden (ELM) control; zeroing the homeostatic gain
+recovers plain feedback alignment. \emph{Reference code:} \texttt{train\_deep} in
+Listing~\ref{lst:siox-src-deep}, exercised by \texttt{run\_deep\_local},
+\texttt{run\_deep\_dms} and \texttt{run\_array\_scale} of the same module; the stuck-fault
+prior it optionally applies is \texttt{siox\_fault\_stack} of
+Listing~\ref{lst:siox-src-device_faults}.
+
+\begin{algorithm}[htbp!]
+\caption{Deep all-local update with feedback alignment and homeostasis (one seed).}
+\label{alg:deep}
+\begin{algorithmic}[1]
+\Require inputs $F$, hidden $H$, actions $A$, retention $\tau_{leak}$, delay $D$, rates $\eta,\eta_h$, gain $\eta_h^{homeo}$, set-point $\rho^{\ast}$
+\Ensure trained weights $W_1 \in \mathbb{R}^{F\times H}$, $W_2 \in \mathbb{R}^{H\times A}$
+\State initialise $W_1, W_2$ as independent Gaussians of per-layer scale $s_1, s_2$ (with $s_2<s_1$, so the $\sim\!H/2$-active output fan-in sits near threshold rather than saturating), clipped to $[-w_{max},w_{max}]$
+\State draw feedback matrix $\mathbf{B} \in \mathbb{R}^{A\times H}$, fixed random (drawn once, never updated)
+\State $b \gets 1/A$; \quad $\bar\rho \gets \rho^{\ast}\mathbf{1}$
+\For{each trial}
+    \State reset both gates and both membranes; sample XOR pattern $\to$ input lines, correct action
+    \State $\widehat{W}_1,\widehat{W}_2 \gets$ one fixed device-fault realisation of $W_1,W_2$ for this trial \Comment{read faulted, learn clean; identity if no fault prior}
+    \For{each timestep of the cue epoch}
+        \State $\textit{spk}_h \gets \textsc{LifStep}(\widehat{W}_1^{\!\top} x^{pre})$; \quad $\textit{spk}_o \gets \textsc{LifStep}(\widehat{W}_2^{\!\top} \textit{spk}_h + c_{bias})$
+        \State $e_1 \gets \textsc{GateStep}\big(\text{signed coincidence}(x^{pre},\textit{spk}_h)\big)$
+        \State $e_o \gets \textsc{GateStep}\big(\text{signed coincidence}(\textit{spk}_h,\textit{spk}_o)\big)$
+    \EndFor
+    \State relax both gates for $D$ seconds; snapshot $e_1^{\ast}, e_o^{\ast}$
+    \State chosen $\gets \arg\max_a \textit{spkcount}_{o,a}$; \quad $R \gets \mathbf{1}(\text{chosen}=\text{correct})$; \quad advantage $\gets R-b$
+    \State \textbf{output update:}\ \ $W_2 \gets \operatorname{clip}\!\big(W_2 + \eta\,(\text{advantage})\,e_o^{\ast},\ \pm w_{max}\big)$
+    \State per-action error $L_a \gets (\text{advantage})\,(\text{onehot}(\text{chosen}) - \boldsymbol{\pi})$, \ $\boldsymbol{\pi}=\text{softmax of output spike counts}$
+    \State hidden learning signal $L_h \gets \mathbf{B}^{\!\top} L_a$ \Comment{DFA: fixed random projection}
+    \State $\bar\rho \gets \bar\rho + (\rho_{\text{trial}} - \bar\rho)/\tau_h$ \Comment{slow firing-rate estimate}
+    \State \textbf{hidden update:}\ \ $W_1 \gets \operatorname{clip}\!\big(W_1 + \eta_h\,L_h\,e_1^{\ast} + \eta_h^{homeo}\,(\rho^{\ast}-\bar\rho)\,W_1,\ \pm w_{max}\big)$ \Comment{Equation~\ref{eq:7.14}}
+    \State $b \gets b + 0.02\,(R-b)$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\noindent The capstone experiments of Section~\ref{sec:7p2p4}
+(Figures~\ref{fig:7w},~\ref{fig:7q}) run Algorithm~\ref{alg:deep} unchanged except that
+the scalar reward $R$ gating the update is replaced by a value decoded from a measured
+biological signal: the frontocentral reward-positivity of a human electroencephalogram
+(dataset ds003474) or a nucleus-accumbens dopamine transient (DANDI~000351). The
+task-performance reward that scores the agent remains the true outcome; only the signal
+driving plasticity is the noisy decoded one. The array-scale fault study
+(Figure~\ref{fig:7hs}) further applies a fixed per-trial device-fault realisation to the
+conductances read during the forward pass, while learning continues to target the clean
+weight (the $\widehat{W}$ split above), exactly as a programmed physical array would
+behave; the realisation is the stuck-at-plus-asymmetric device-to-device prior of
+\texttt{siox\_fault\_stack}, whose measured asymmetry $(0.05,0.5)$ is what the network
+tolerates (a symmetric high-spread prior instead collapses it, and is reported only as a
+labelled stress point). The homeostatic term is load-bearing only where its
+winner-take-all mechanism bites: at moderate hidden width $H$ under interference and
+faults it rescues the collapsed baseline, whereas at large (overcomplete) $H$ spare units
+make it correctly inert, so the ablation is run at moderate $H$ rather than the widest
+array.
+
+% ===========================================================================
+\section{Chapter~\ref{ch:conclusion} extensions}
+\label{app:alg-extensions}
+
+\noindent The exploratory experiments of Chapter~\ref{ch:conclusion}
+(Figures~\ref{fig:8a}--\ref{fig:8h}) are variants of the three algorithms above, built
+on the same eligibility gate ($\textsc{GateStep}$), signed coincidence
+(Equation~\ref{eq:7.9}) and three-factor update (Equation~\ref{eq:7.8}). Each is given
+below as pseudocode expressing its departure from the base loop; the shared inner
+machinery (input encoding, $\textsc{LifStep}$, $\textsc{GateStep}$, baseline tracking)
+is written as calls to the corresponding step of Algorithms~\ref{alg:bandit}--\ref{alg:deep}.
+Settings are in Table~\ref{table:A7}. \emph{Reference code:} the long-horizon sweep is
+\texttt{run\_long\_horizon} of Listing~\ref{lst:siox-src-maze}; reversal (\texttt{run\_reversal})
+lives with the bandit in Listing~\ref{lst:siox-src-bandit}; the interval-selectivity and
+vector-timer constructions are \texttt{run\_interval\_selectivity}/\texttt{run\_vector\_timer}
+in Listing~\ref{lst:siox-src-selectivity}; and multi-timescale credit, WM$+$STC and the
+device-native temporal-difference rule are \texttt{run\_multitimescale},
+\texttt{run\_wm\_stc} and \texttt{run\_device\_td} in Listing~\ref{lst:siox-src-extensions}.
+Two implementation points recur below: the eligibility-magnitude homeostasis
+$e^{\ast}\!\gets\!e^{\ast}/\bar g$ (a divisive normalisation by a slow per-row estimate
+$\bar g$ of the trace's own magnitude) is shared by the multi-timescale and
+temporal-difference variants; and the undriven inter-event delays are advanced by a coarse
+strided relaxation of the gate (an inflated step over the blank interval) rather than a
+full forward-Euler sweep, which is exact for the mono-exponential leak and is used
+throughout the sequential loops.
+
+% --------------------------- long horizon ---------------------------
+\begin{algorithm}[htbp!]
+\caption{Long-horizon credit on a length-$L$ trajectory (Figure~\ref{fig:8a}).}
+\label{alg:longhorizon}
+\begin{algorithmic}[1]
+\Require stem length $L$, retention $\tau_{leak}$, delay $D$, rate $\eta$
+\State run Algorithm~\ref{alg:maze} on a linear track of $L$ states leading to a $2$-arm goal
+\State \Comment{the gate integrates across all $L$ steps without reset; only the goal reward gates the update}
+\State sweep $L$ upward; record the largest $L$ reaching criterion as $L_{\max}(\tau_{leak})$
+\State \textbf{expect} $L_{\max}$ to grow with $\tau_{leak}$ (sequential analogue of $D_{\max}\!\approx\!s_D\tau$)
+\end{algorithmic}
+\end{algorithm}
+
+% --------------------------- reversal ---------------------------
+\begin{algorithm}[htbp!]
+\caption{Reversal learning (Figure~\ref{fig:8b}).}
+\label{alg:reversal}
+\begin{algorithmic}[1]
+\Require states $S$, actions $A$, phases $P$, trials-per-phase $T_p$, retention $\tau_{leak}$
+\State initialise $w, b$ as in Algorithm~\ref{alg:bandit}; \ rewarded map $c_s \gets s \bmod A$
+\For{phase $p = 1$ \textbf{to} $P$}
+    \If{$p > 1$} \ $c_s \gets (c_s + 1) \bmod A$ \quad\Comment{swap the contingency; keep $w,b$, gate}
+    \EndIf
+    \For{$T_p$ trials} run one trial of Algorithm~\ref{alg:bandit} under the current $c_s$
+    \EndFor
+\EndFor
+\State \textbf{report} trials-to-re-criterion after each swap
+\end{algorithmic}
+\end{algorithm}
+
+% --------------------------- multi-timescale ---------------------------
+\begin{algorithm}[htbp!]
+\caption{Multi-timescale credit from the measured retention spread (Figure~\ref{fig:8c}).}
+\label{alg:multitau}
+\begin{algorithmic}[1]
+\Require states $S$, actions $A$, measured retention set $\{\tau^{(m)}\}_{m=1}^{53}$, short/long delays $D_s, D_l$, homeostatic estimator rate $\tau_{homeo}$
+\State sort the retention draws and assign per \emph{state row} (short-delay states get the smallest $\tau$, long-delay states the largest; identical across actions)
+\State route short-delay ($D_s$) rewards to one state group, long-delay ($D_l$) to another; fire a near-reward distractor line on short trials only (so an over-long $\tau$ mis-credits)
+\State $\bar g \gets \text{small}$ \Comment{per-row running estimate of eligibility magnitude}
+\For{each trial}
+    \State run Algorithm~\ref{alg:bandit}, but $\textsc{GateStep}$ uses each synapse's own $\tau_{leak}^{(i)}$
+    \State \textbf{eligibility homeostasis:}\ \ $e^{\ast} \gets e^{\ast}/(\bar g + \varepsilon)$; \ then $\bar g \gets \bar g + (|e^{\ast}|_{\text{row}} - \bar g)/\tau_{homeo}$ on rows that fired \Comment{divisive normalisation of the tau-dependent gain}
+\EndFor
+\State \textbf{expect} the raw per-synapse spread to fail (short-$\tau$ eligibility $\sim\tau_{leak}$, starved by the shared $\eta$); the homeostasis to recover it to the level of a $\tau$-aware oracle
+\end{algorithmic}
+\end{algorithm}
+
+% --------------------------- vector timer ---------------------------
+\begin{algorithm}[htbp!]
+\caption{Vector-timer cascade readout (Figure~\ref{fig:8d}).}
+\label{alg:vectortimer}
+\begin{algorithmic}[1]
+\Require cascade stages $k$, retention $\tau_{leak}$, readout $\in\{\text{vector},\text{scalar},\text{no-trace}\}$
+\State choose the aliasing pair $t_A, t_B$ \emph{from the device model} so the last-stage occupancy is equal at both (the scalar cannot separate them)
+\For{each trial}
+    \State cue at $t=0$; after the elapsed interval ($t_A$ or $t_B$) read the cascade state $x$ under multiplicative read noise
+    \State $x \gets (v^{(1)},\dots,v^{(k)})$ (vector), or $v^{(k)}$ only (scalar), or $0$ (no-trace)
+    \State action logits $\gets x^{\!\top}M$; \ act; \ reward iff the action matches \emph{which} interval elapsed
+    \State update readout $M$ by the same signed three-factor rule (\textsc{reinforce}-style, $M$ clipped)
+\EndFor
+\State \textbf{expect} the full vector to separate the aliased pair where the scalar last stage cannot (a closed-loop, state-driven policy, not an open-loop readout)
+\end{algorithmic}
+\end{algorithm}
+
+% --------------------------- WM + STC ---------------------------
+\begin{algorithm}[htbp!]
+\caption{One device serving working memory and eligibility (Figure~\ref{fig:8g}).}
+\label{alg:wmstc}
+\begin{algorithmic}[1]
+\Require retention $\tau_{leak}$, working-memory delay $D_{wm}$, credit delay $D_{stc}$, mode $\in\{\text{shared},\text{two-device}\}$
+\For{each trial}
+    \State present a sample cue; accrue eligibility on the trap-cascade gate ($\textsc{GateStep}$, not a plain membrane)
+    \State \textbf{working-memory read:} in \emph{shared} mode read the cue off the \emph{same} \abbrev{LTD}-biased eligibility trace after $D_{wm}$ (one physical state, no clean hold); in \emph{two-device} mode a separate positive-drive gate of $\tau_{wm}$ holds it
+    \State decide from the held read; then tag the chosen action's eligibility and relax across $D_{stc}$, split $\tfrac{1}{2}D_{stc}$ $+$ a competing distractor $+$ remainder, before snapshotting $e^{\ast}$
+    \State gate the three-factor update by the surviving $e^{\ast}$
+\EndFor
+\State \textbf{expect} one retention $\tau_{leak}$ to serve both roles above chance; the credit role, not the hold, sets the retention actually required
+\end{algorithmic}
+\end{algorithm}
+
+% --------------------------- device-native TD ---------------------------
+\begin{algorithm}[htbp!]
+\caption{Device-native temporal-difference (actor--critic) rule (Figure~\ref{fig:8h}).}
+\label{alg:devtd}
+\begin{algorithmic}[1]
+\Require stem length $L$, retention $\tau_{leak}$, dwell $\Delta t_{\text{state}}$, actor rate $\eta$, critic rate $\eta_V$, estimator rate $\tau_{homeo}$
+\State initialise actor weights $w$ (as Algorithm~\ref{alg:maze}) and on-device critic values $V(s) \gets 0$; \ $\bar g \gets \mathbf{1}$
+\State device discount $\gamma \gets e^{-\Delta t_{\text{state}}/\tau_{leak}}$ \quad\Comment{one material constant sets both trace lifetime and RL horizon}
+\For{each episode}
+    \State one shared gate across the trajectory (reset once); snapshot $e^{\ast}$ once at the goal
+    \State normalise $e^{\ast} \gets e^{\ast}/\max(\bar g,\varepsilon)$; \ $\bar g \gets \bar g + (|e^{\ast}| - \bar g)/\tau_{homeo}$ \Comment{eligibility homeostasis; the \textsc{td-no-homeo} control omits this}
+    \For{each visited state $s$ with successor $s'$}
+        \State step reward $r \gets R$ only at the terminal goal step, else $0$; \ $V(s')\gets 0$ past the terminal step
+        \State TD error $\delta \gets r + \gamma\,V(s') - V(s)$
+        \State $V(s) \gets \operatorname{clip}(V(s) + \eta_V\,\delta,\ 0,\ V_{max})$; \quad gate the actor update by $\delta$, masked to state $s$'s own row (not the whole-episode return)
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\FloatBarrier

@@ -2,337 +2,618 @@
 %*******************************************************************************
 %****************************** Third Chapter **********************************
 %*******************************************************************************
-\chapter{Fabrication and Characterisation Methodologies}\label{ch:fab}
+\chapter{Experimental Methods}\label{ch:fab}
 
-\noindent With the device physics of Chapter~\ref{ch:foundations} in place, this chapter grounds it in fabricated hardware. It details how the silicon-rich \abbrev{SiOx} memristors are made and measured. It characterises their resistive switching across unipolar, bipolar, multilevel, and threshold modes. It fits the measured current--voltage data to identify trap-assisted tunnelling as the dominant transport channel. The result is the empirical foundation on which the modelling and neuromorphic chapters that follow depend: the stable, state-dependent conductance changes and their underlying mechanism. \\
+\noindent Four silicon-rich \abbrev{SiOx} device families provide the experimental basis for this thesis. Their
+layer stacks, fabrication batches, contact geometries, and preparation routes differ, so each family remains a
+separate evidence unit. The fabrication and characterisation methods also differ between batches, and each
+experiment therefore identifies both the device family and the measurement route on which its evidence rests.\\
 
-\noindent The devices were fabricated within the UCL Electronic Materials and Devices group. The full process is described here for completeness, although group members other than the author carried out some of the fabrication steps. The electrical characterisation and the conduction-mechanism fitting are the author's own.
+\noindent Devices were fabricated by the UCL Electronic Materials and Devices group, which also performed the
+spectroscopic ellipsometry, and collaborators at the University of Oxford performed X-ray photoelectron
+spectroscopy (\abbrevdef{XPS}). The author carried
+out the electrical characterisation and interpreted the spectroscopic measurements. This account of the fabrication is limited to the
+process information documented for each device batch, which differs in detail between the batches described below.
 
-\section[Fabrication and Measurement]{Fabrication and Measurement}
+\section[Device Fabrication and Sample Definition]{Device Fabrication and Sample Definition}
 
-\noindent This section sets out the device stack and geometry, the sputter-deposition process that produces it, and the electrical probing setup used for every measurement reported in the thesis.
+\noindent Layer stack, fabrication batch, contact geometry, and preparation route together define each evidence
+unit. The four device families are distinguished first, and the fabrication, patterning, and film-verification
+procedures they share follow. Nominal dimensions taken from the process documentation are kept separate throughout
+from the thicknesses measured directly on witness specimens.
 
-\subsection[Material Stack and Geometry]{Material Stack and Geometry}
+\subsection[Device Families]{Device Families}
 \label{sec:matstack}
 
-\noindent The device is a metal-insulator-metal (\abbrev{MIM}) structure fabricated on a silicon wafer. It comprises a molybdenum bottom electrode, a silicon oxide (SiO$_x$) switching layer, and a gold top contact with a thin titanium adhesion layer. Commercially pre-oxidised wafers bear a thick thermally grown silicon dioxide layer, which electrically isolates the bottom electrode from the underlying silicon substrate. Sputtering deposits the molybdenum bottom electrode and SiO$_x$ thin film unpatterned across the sample. A contact mask then patterns the gold top contacts into squares with sides of $200\mu m$ to $800\mu m$ during deposition (Figure \ref{fig:3a}), avoiding photolithography. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter3/Figs/device_structure.png}
-    \caption[Device Structure]{Contact (shadow) mask (left) and the top electrical contacts (right), patterned as square pads of $200\times200$, $400\times400$, $600\times600$, and $800\times800$\,$\mu$m.}
-    \label{fig:3a}
-\end{figure}
-
-\noindent A titanium buffer layer between the top metal contact and the oxide improves adhesion. This layer is non-ideal: by scavenging oxygen at the interface it can introduce additional oxygen-vacancy defects in the oxide. However, electron energy loss spectroscopy (\abbrevdef{EELS}) and transmission electron microscopy (\abbrevdef{TEM}) studies show no evidence of titanium interface migration in these devices \cite{mehonic2017intrinsic}.\\
-
-\noindent Gold forms the top contact. Although gold can diffuse into amorphous SiO$_x$, this occurs only at elevated temperatures (for example at $390^{\circ}$C over four hours, with no migration below $370^{\circ}$C \cite{madams1974migration}). The present devices undergo no such thermal treatment, so gold diffusion through the film is not a concern here. Gold therefore behaves as an inert electrode, as it does in electrochemical metallisation cells (a form of conductive-bridge \abbrev{RRAM}, \abbrevdef{CBRAM}). There it is paired with an active electrode, and only the active species migrates \cite{kozicki2016electrochemical}.\\
-
-\noindent Prior studies on high-performance resistance switching memory guided this asymmetric pairing of a reactive molybdenum bottom electrode with an inert gold top contact. As Cox et al.~\cite{cox2021nanoscale} show, electrode selection directly influences conductive filament formation, stability, oxygen exchange dynamics, and device endurance. The asymmetry employed here enables the controlled redox reactions at the active electrode that reliable resistive switching requires. A profilometer measures layer thickness. The molybdenum bottom electrode is 300 nm thick to ensure high conductivity, the SiO$_x$ thin film is 35 nm thick, and the gold top contact is 110 nm thick. Two variants of this stack are studied (Figure \ref{fig:3stack}). The first is a symmetric Mo/SiO$_x$/Au device, which exhibits unipolar switching. The second is an asymmetric Mo/SiO$_x$/Ti/Au device, in which a thin (3 nm) titanium adhesion layer beneath the gold top contact yields bipolar switching.\\
+\noindent Every device has a metal-insulator-metal (\abbrevdef{MIM}) structure comprising a molybdenum bottom
+electrode, a sub-stoichiometric silicon-oxide layer, and a gold or indium-tin-oxide top contact, and two of the
+families additionally include a titanium adhesion layer. All devices were fabricated on pre-oxidised silicon wafers,
+whose thermal silicon-dioxide layer isolates the bottom electrode from the substrate. Figure~\ref{fig:3v1} defines the four layer stacks and their preparation routes.\\
 
 \begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{Chapter3/Figs/mim_stack_cross_section.png}
-    \caption[Cross-section of the MIM device stacks.]{Cross-sections of the two metal--insulator--metal device stacks studied in this chapter: (a) the symmetric Mo/SiO$_x$/Au stack used for unipolar switching and (b) the asymmetric Mo/SiO$_x$/Ti/Au stack used for bipolar switching, with the thin titanium adhesion layer between the oxide and the gold top contact. Layer thicknesses are as labelled; the vertical scale is compressed so that the thin titanium and oxide layers remain visible, so the schematic is not to scale.}
-    \label{fig:3stack}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize]
+% ---- layer geometry (bottom-up), shared by all four stacks -------------------
+\def\sw{3.2}                    % stack width
+\def\lyr#1#2#3#4#5{%            % centre x, y bottom, y top, fill, label
+  \draw[fill=#4,draw=black!70,line width=0.3pt]
+    (#1-\sw/2,#2) rectangle (#1+\sw/2,#3);
+  \node[font=\scriptsize] at (#1,{(#2+#3)/2}) {#5};}
+\def\thinlyr#1#2#3#4#5{%
+  \draw[fill=#4,draw=black!70,line width=0.3pt]
+    (#1-\sw/2,#2) rectangle (#1+\sw/2,#3);
+  \node[font=\tiny] at (#1,{(#2+#3)/2}) {#5};}
+\def\substrate#1{%
+  \thinlyr{#1}{0}{0.42}{black!12}{Si wafer}
+  \thinlyr{#1}{0.42}{0.76}{black!5}{SiO$_2$ (thermal)}}
+% ---- (a) symmetric switching -------------------------------------------------
+\substrate{0}
+\lyr{0}{0.76}{1.50}{black!35}{Mo 280--300\,nm}
+\lyr{0}{1.50}{2.06}{blue!12}{SiO$_x$ 35\,nm}
+\lyr{0}{2.06}{2.62}{yellow!60}{Au}
+% ---- (b) asymmetric switching ------------------------------------------------
+\substrate{3.7}
+\lyr{3.7}{0.76}{1.50}{black!35}{Mo 280--300\,nm}
+\lyr{3.7}{1.50}{2.06}{blue!12}{SiO$_x$ 35\,nm}
+\thinlyr{3.7}{2.06}{2.30}{orange!45}{Ti}
+\lyr{3.7}{2.30}{2.86}{yellow!60}{Au}
+% ---- (c) transient (gold) ----------------------------------------------------
+\substrate{7.4}
+\lyr{7.4}{0.76}{1.50}{black!35}{Mo 280--300\,nm}
+\lyr{7.4}{1.50}{2.06}{blue!12}{SiO$_x$ 35\,nm}
+\thinlyr{7.4}{2.06}{2.30}{orange!45}{Ti}
+\lyr{7.4}{2.30}{2.86}{yellow!60}{Au}
+% ---- (d) ITO -----------------------------------------------------------------
+\substrate{11.1}
+\lyr{11.1}{0.76}{1.50}{black!35}{Mo 150\,nm}
+\lyr{11.1}{1.50}{2.06}{blue!12}{SiO$_x$ 25\,nm}
+\lyr{11.1}{2.06}{2.62}{cyan!30}{\abbrev{ITO} 50\,nm}
+% ---- conditioning route ------------------------------------------------------
+\def\route#1#2#3{%
+  \node[draw,rounded corners=2pt,fill=black!3,align=center,inner sep=2pt,
+        text width=3.05cm,font=\scriptsize,anchor=south] (r#2) at (#1,3.25) {#3};
+  \draw[->,>=latex,line width=0.5pt] (#1,3.22) -- (#1,2.96);}
+\route{0}{a}{Electroformed once\\ dual sweep to $+18$\,V}
+\route{3.7}{b}{Electroformed once\\ dual sweep to $-10$\,V, 0.1\,mA compliance}
+\route{7.4}{c}{Constant-current conditioned\\ $-0.1$ to $-100\,\mu$A, 100\,s}
+\route{11.1}{d}{Constant-current conditioned\\ $-0.5\,\mu$A, 10\,V compliance}
+% ---- family headings ---------------------------------------------------------
+\def\hd#1#2{\node[align=center,text width=3.3cm,font=\scriptsize,anchor=north]
+   at (#1,5.55) {#2};}
+\hd{0}{\textbf{(a)} Au,\\ electroformed}
+\hd{3.7}{\textbf{(b)} Ti/Au,\\ electroformed}
+\hd{7.4}{\textbf{(c)} Ti/Au,\\ conditioned}
+\hd{11.1}{\textbf{(d)} \abbrev{ITO},\\ conditioned}
+\end{tikzpicture}
+\caption[Device families and preparation routes.]{The four device families and
+their preparation routes. Thicknesses are nominal where available, and the
+schematics are not to scale.}
+\label{fig:3v1}
+\label{fig:3stack}
 \end{figure}
 
-\subsection[Sputter Deposition Process]{Sputter Deposition Process}
-
-\noindent Radio-frequency (\abbrev{RF}) sputtering, a physical vapour deposition process, deposited all device layers. Deposition occurs at low pressure in an inert gas, where plasma bombards the target material and expels atoms. These expelled atoms reach the sample along a direct ballistic path or by a random walk, depending on chamber gas pressure. Higher pressure increases collisions and random walks, whereas lower pressure favours a direct ballistic trajectory. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter3/Figs/rf_sputtering.png}
-    \caption[RF Sputtering]{Basic configuration for depositing thin films by \abbrev{RF} sputtering. A strong radio-frequency electric field ionises argon gas to produce a plasma. High-energy collisions between the ionised argon and the target eject target atoms with high kinetic energy. These atoms traverse the chamber and deposit onto the sample over time, forming an amorphous thin film.}
-    \label{fig:3b}
-\end{figure}
-
-\noindent Figure \ref{fig:3b} illustrates a simplified sputtering system. The sample connects to the \abbrev{RF} power source anode, the target sits before the cathode, and the sputtering gas is injected into the chamber. The plasma consists of positively charged argon ions, which the negatively charged cathode (target) attracts. High-energy collisions between these ions and the target surface eject target atoms.\\
-
-\noindent The solid target provides the deposition material, and a strong electric field applied to the sputtering gas (argon) creates the plasma. The target's electrical properties dictate the choice between direct-current (\abbrevdef{DC}) and alternating-current (\abbrevdef{AC}) fields. Conductive targets, such as metals, require only a \abbrev{DC} field. For insulating targets like $SiO_2$, however, a \abbrev{DC} field causes charge buildup that quenches the plasma. An \abbrev{AC} field, oscillating at radio frequency (typically 13.56 MHz), alternates polarity to prevent charge accumulation and sustain continuous sputtering of dielectrics. Stable plasma and efficient deposition therefore follow for both conductive and insulating targets.\\
-
-\noindent Reactive sputtering introduces a reactive gas such as oxygen alongside argon, so the target reacts to form an oxide film on the substrate. This gives precise control over film composition and stoichiometry. Sputtering often yields amorphous films with sub-stoichiometric oxides. The devices' SiOx oxide has a stoichiometry of $SiO_{1.9}$, and the root mean square (\abbrevdef{RMS}) roughness of the underlying molybdenum layer (0.9 to 1.5 nm) sets the film's roughness \cite{kenyon2019interplay}.\\
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.75\textwidth]{Chapter3/Figs/stylus_profilometer.png}
-    \caption[Stylus profilometer for thin-film thickness measurement.]{Schematic of a contact stylus profilometer (Dektak). A weighted diamond stylus is dragged laterally across the sample at constant force; its vertical deflection is transduced by a linear variable differential transformer (\abbrevdef{LVDT}) and recorded against position. Masking part of the substrate during deposition leaves a step at the film edge, whose height the stylus reads off directly as the film thickness. This is distinct from an atomic force microscope (\abbrevdef{AFM}), which uses a microcantilever and optical-lever feedback for nanometre-scale surface imaging.}
-    \label{fig:3c}
-\end{figure}
-
-\noindent Each SiOx sputtering run includes two Si substrate specimens for thickness measurement. A patterned photoresist masks a region of the first specimen. Removing it after deposition leaves a step at the SiOx/Si interface, which a Dektak XT contact profilometer (Figure \ref{fig:3c}) profiles to a few nanometres' resolution. Ellipsometry measures the second specimen. It infers film thickness from changes in the polarisation of reflected light, independently verifying the deposited layer.
-
-\subsection[Electrical Probing Setup]{Electrical Probing Setup}
-
-\noindent Current magnitude is the primary measured quantity, reporting on oxide-layer conductivity and interface barrier heights. The challenge is to minimise measurement artefacts such as probe contact resistance. The device electrodes must first be connected, either by wire bonding inside a chip carrier or by direct probing with micromanipulators. Direct probing with tungsten probes was adopted, because the small exposed electrode pads and thin oxide layers make the devices vulnerable to wire-bonding damage. Ultrasonic bonding melts gold or aluminium wire onto the contact under pressure, which can compress the internal layers and short the electrodes. The probe tip is lowered carefully, with a low test voltage applied to detect contact.\\
-
-\noindent Contact is detected by monitoring the current: before contact no current flows, and upon contact the applied voltage drives a measurable current of matching polarity. The gentle approach and low test voltage prevent damage to the sample.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.95\textwidth]{Chapter3/Figs/kelvin_four_wire_measurement.png}
-    \caption[Two-wire versus four-wire (Kelvin) measurement.]{Two-wire versus four-wire (Kelvin) measurement. (a) In the two-wire configuration the same pair of leads both sources the current and senses the voltage, so the measured voltage includes the drop across the contact resistance $R_c$ at each probe, $V_{meas} = I\,(R_{dev} + 2R_c)$. (b) In the four-wire (Kelvin) configuration a separate force pair carries the current while a high-impedance voltmeter senses the voltage on a second pair of leads tapped at the device terminals; negligible current flows in the sense leads, so the drop across their contact resistance is negligible and $V_{meas} \approx I\,R_{dev}$.}
-    \label{fig:3d}
-\end{figure}
-
-\noindent The choice between 2-wire and 4-wire measurement (Figure \ref{fig:3d}) is set by sample conductivity. The 2-wire method places a voltage source, ammeter, and device in series and applies Ohm's law to the set voltage and total current. However, it assumes all resistance resides in the device, neglecting the wire, instrument, and contact resistances in series with it. When device resistance dominates these parasitics the method is valid. For low-resistance devices a 4-wire (Kelvin) measurement is needed, in which two probes force a constant current while two high-impedance sense probes read the voltage drop, so negligible current flows through the sensing contacts. The studied devices are high-resistance (kilo- to mega-ohms), so the parasitics are negligible and 2-wire measurement suffices, with a picoammeter to reach the sub-nanoamp range. \\
-
-\noindent A digital multimeter (\abbrevdef{DMM}) ammeter reads the voltage drop across a shunt resistor. This suffices for milliamp currents but fails at smaller ones, where the larger shunt then needed adds thermal noise and a voltage burden that grows comparable to the applied voltage. Picoammeters avoid this by using a transimpedance amplifier to convert input current to voltage. \\
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter3/Figs/transimpedance_amplifier.png}
-    \caption[Transimpedance amplifier circuit.]{Transimpedance amplifier circuit. The input current ($I_{in}$) is amplified and converted into an output voltage ($V_{out}$) via the op-amp. The gain is set by the feedback resistor ($R_f$). The voltage/current ratio ($V_{out}/I_{in}$) equals the negative of the measured resistance ($-R_f = V_{out} / I_{in}$).}
-    \label{fig:3e}
-\end{figure}
-
-\noindent In the transimpedance amplifier (Figure \ref{fig:3e}), grounding the non-inverting input holds the inverting input at a virtual ground. The op-amp then drives the input current through the feedback resistor $R_f$ to give $V_{out} = -R_f \cdot I_{in}$. With the input held at virtual ground no series shunt is needed. This removes the voltage burden that limits a \abbrev{DMM} and enables the small-current measurements required here. The Keithley 6430 sourcemeter, combining a picoammeter with a low-noise voltage source, performed the current--time measurements and current--voltage sweeps. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter3/Figs/spike_train_setup.png}
-    \caption[Experimental setup of spike-train measurements.]{Experimental setup of spike-train measurements. An arbitrary signal generator applies the voltage spike train $V(t)$ across the memristive device under test (DUT). Because the Stanford Research Systems SR570 current preamplifier holds its input at a virtual ground ($\approx 0$\,V), essentially the full applied voltage drops across the device, and the resulting through-current $I_{in}$ is converted by the SR570 to an output voltage $V_{out}$ captured by the oscilloscope. All instruments share a common ground return.}
-    \label{fig:3f}
-\end{figure}
-
-\noindent The Keithley's limited sampling frequency means that complex voltage transients (pulses, spike trains) require an arbitrary signal generator. In this arrangement (Figure \ref{fig:3f}), a series Stanford Research Systems SR570 current preamplifier amplifies the device current, and an oscilloscope (Rigol DS4024) captures the output.
-
-\section[Resistive Switching Behaviour]{Resistive Switching Behaviour}
-
-\noindent Resistive switching is a reversible, non-volatile change in resistance induced by electrical stimuli. A large resistance difference distinguishes the high resistance state (\abbrev{HRS}, "OFF") from the low resistance state (\abbrev{LRS}, "ON"). "Set" transitions from \abbrev{HRS} to \abbrev{LRS}, and "Reset" transitions back. Two sample sets are studied: symmetric Mo/SiO$_x$/Au devices, which exhibit unipolar switching, and asymmetric Mo/SiO$_x$/Ti/Au devices, which exhibit bipolar switching. The fundamental I-V characteristics of both sets were measured across all electrode pad sizes using the dual-sweep functionality of a Keithley 4200-SCS with two 10\,$\mu$m diameter tungsten tip probes. \\
-
-\noindent Both sample sets must first be electroformed. This one-time preconditioning step is common to unipolar and bipolar operation, and it converts the pristine, high-resistance film into a reversibly switchable state. Electroforming is a controlled, current-limited electrical breakdown. The source-measure unit's current compliance bounds the breakdown to preserve switching functionality, although a slow analyser response can produce transient overshoot spikes. It is applied once to each fresh device, and the resulting structural change is permanent, so the pristine state is never recovered. Only the forming sweep amplitude and polarity differ between the two device types, as shown for the unipolar case in Figure \ref{fig:3g} and the bipolar case in Figure \ref{fig:3l}.
-
-\subsection[Unipolar Switching]{Unipolar Switching}
-
-\noindent The symmetric Mo/SiO$_x$/Au devices are electroformed under a positive voltage sweep (Figure \ref{fig:3g}), after which the device switches reversibly between two stable states. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/electroforming_double_sweep.png}
-    \caption[Initial electroforming step via a double sweep curve.]{Initial electroforming step via a double sweep curve. Double sweeping refers to applying a voltage sweep in both forward and reverse directions to capture the device's switching behaviour during electroforming.}
-    \label{fig:3g}
-\end{figure}
-
-\noindent For these symmetric devices, forming proceeds by programming the Keithley-SCS to sweep up to 18\,V (Figure \ref{fig:3g}). Current peaks and an unstable I-V curve appear during the sweep, and at approximately 14\,V the device abruptly switches to \abbrev{LRS}. Subsequent sweeps are smoother. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/unipolar_nonvolatile_switching.png}
-    \caption[Non-volatile switching behaviour for unipolar device under current compliance.]{Non-volatile switching behaviour for a unipolar device. Current compliance is applied only during Set to limit the current and preserve switching functionality.}
-    \label{fig:3h}
-\end{figure}
-
-\noindent The structural change during forming, likely oxygen removal creating vacancies, drives the conductance change. The resulting \abbrev{LRS} is stable and non-volatile. Figure \ref{fig:3h} shows the unipolar switching mechanism in symmetrical \abbrev{MIM} devices. The blue plot marks the Set process (Off to On) at a threshold of approximately 2.3\,V, and a 3\,V sweep with 3\,mA compliance suffices to switch. Reducing the voltage below the threshold does not reverse the state \cite{mehonic2016silicon}.\\
-
-\noindent Reset requires a critical current. Unlike the voltage-triggered Set, it depends on exceeding a current level, and the orange plot shows the Reset current to be an order of magnitude greater than the Set compliance. This current induces localised Joule heating that ruptures the conductive filament and restores \abbrev{HRS}. Without current compliance, hard breakdown or multiple transitions may occur. The switching sequence is repeatable. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/set_reset_sweeps.png}
-    \caption[Observation of the Set and Reset process under forward and reverse sweeps.]{Observation of the Set and Reset process under forward and reverse sweeps.}
-    \label{fig:3i}
-\end{figure}
-
-\noindent \abbrev{HRS} conductance lies between that of the \abbrev{LRS} and the pristine state. Transitions are abrupt and independent of the sweeping parameters. An elevated electric field sets the device (\abbrev{LRS}), whereas high Joule heating resets it (\abbrev{HRS}). Figure \ref{fig:3i} shows an alternative unipolar mode in which the device sets at a lower voltage ($\sim$1.15\,V) than it resets ($\sim$2.85\,V). This mode requires no current compliance. Reset occurs once the current exceeds the Joule-heating threshold and ruptures the filament, so switching is self-limiting. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/unipolar_cycling_stress.png}
-    \caption[Cycling stress test for unipolar device.]{Cycling stress test for unipolar device.}
-    \label{fig:3j}
-\end{figure}
-
-\noindent Figure \ref{fig:3j} illustrates unipolar device cycling under stress. The blue spikes are positive bias voltage pulses. A 100 ns, 4.5 V pulse sets the device, and a longer 2 ms, 2.5 V pulse resets it to accommodate Joule heating. A 1 ms, 0.7 V reading pulse follows each set or reset. The orange plot shows the read resistances separating into two well-defined bands spanning roughly two orders of magnitude, the \abbrev{LRS} reading near 50\,k$\Omega$ and the \abbrev{HRS} near 3\,M$\Omega$ (a median \abbrev{HRS}/\abbrev{LRS} ratio of about 60, with individual cycles reaching beyond 200). \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/unipolar_electrode_size.png}
-    \caption[Switching in unipolar devices across different electrode sizes.]{Switching in unipolar devices across different electrode sizes.}
-    \label{fig:3k}
-\end{figure}
-
-\noindent Unipolar switching is independent of electrode size. Figure \ref{fig:3k} shows comparable switching for contacts from 200 x 200 $\mu m$ to 800 x 800 $\mu m$: devices consistently switch at ~3.5 V (3 mA compliance) and reset at ~5 mA.
-
-\subsection[Bipolar Switching]{Bipolar Switching}
-
-\noindent The asymmetric Mo/SiO$_x$/Ti/Au devices, whose stack is shown in Figure \ref{fig:3stack}(b), yielded bipolar switching. They undergo the same one-time electroforming step described above, but under a negative dual voltage sweep to $-10$\,V at 0.1\,mA compliance (Figure \ref{fig:3l}). The sample spikes unstably as it transitions from the pristine \abbrev{HRS} to \abbrev{LRS} \cite{mehonic2012resistive}.
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/bipolar_electroforming.png}
-    \caption[Electroforming step for the bipolar sample via a double sweep curve.]{Electroforming step for the bipolar sample via a double sweep curve.}
-    \label{fig:3l}
-\end{figure}
-
-
-\noindent After electroforming, the device transitions reliably between stable states. Figure \ref{fig:3m} illustrates switching by opposite-polarity stimuli: a negative voltage sweep to $-2$\,V sets the device. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/bipolar_switching_asymmetric.png}
-    \caption[Observation of bipolar switching in an asymmetric device.]{Observation of bipolar switching in an asymmetric device with $-2$\,V Set and $+2$\,V Reset sweeps.}
-    \label{fig:3m}
-\end{figure}
-
-\noindent The 100 mA compliance used here is a deliberately high ceiling, chosen to display a clear transition with two orders of magnitude of conductance change rather than for routine operation. At this current the device endures only a few tens of cycles before irreversible breakdown (Figure \ref{fig:3n}), so endurance testing uses a much lower compliance, trading conductance contrast against device lifespan. A positive 2\,V dual sweep resets the device. This intrinsic bipolar switching belongs to the valence change mechanism class. Electroforming causes local reduction, forming a conductive pathway of oxygen vacancies, and an applied electric field then drives oxygen ion migration \cite{waser2007redox}. Local redox at the filament-electrode interface likely defines the resistance state by modulating the effective tunnelling barrier height \cite{waser2009redox}. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.6\textwidth]{Chapter3/Figs/bipolar_cycling_stress.png}
-    \caption[Cycling stress test for bipolar devices.]{Cycling stress test for bipolar devices. Initial device cycles (top) show stable switching between high resistance state (\abbrev{HRS}) and low resistance state (\abbrev{LRS}). Over repeated cycling, the \abbrev{LRS} gradually converges to a narrower, lower resistance range (middle), indicating that the conductive filament strengthens and stabilises with cycling. Eventually, after extensive cycling, the device undergoes hard breakdown (bottom), where the resistance irreversibly increases and the device fails to switch, marking the end of operational endurance.}
-    \label{fig:3n}
-\end{figure}
-
-
-\noindent Suitable voltage pulses drive the transitions reliably. Figure \ref{fig:3n} shows switching under $-2$\,V Set and $+2$\,V Reset pulses, each followed by five $\pm0.1$\,V reading pulses chosen to measure the resistance without triggering switching. Here the \abbrev{HRS} is $\sim$300\,$\Omega$ and the \abbrev{LRS} $\sim$100\,$\Omega$. In a separate long-duration endurance run (not plotted here), the device sustained over 4500 cycles at 10 mA compliance, the \abbrev{LRS} converging from 200\,$\Omega$ towards 150\,$\Omega$. At 100 mA compliance it failed after $\sim$40 cycles, locking into a 200\,k$\Omega$ \abbrev{HRS}. \\
-
-
-\noindent Figure \ref{fig:3o} demonstrates bipolar switching across contact sizes (200 x 200$\mu m$ to 800 x 800$\mu m$). Set sweeps used $-2$\,V (5\,mA compliance) and reset used $+2$\,V (100\,mA compliance). The switching voltages and contrast ratios vary, suggesting a need for statistical analysis, but consistent switching confirms that the mechanism is largely independent of contact area.
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/bipolar_electrode_size.png}
-    \caption[Switching in bipolar devices across different electrode sizes.]{Switching in bipolar devices across different electrode sizes. The figure compares the switching behaviour for devices with electrode pads ranging from 200 x 200 $\mu m$ to 800 x 800 $\mu m$. All devices exhibit clear transitions between high and low resistance states under similar voltage and current compliance conditions.}
-    \label{fig:3o}
-\end{figure}
-
-\subsection[Multilevel and Threshold Modes]{Multilevel and Threshold Modes}
-
-\noindent Reliable switching occurs under specific conditions. The \abbrev{LRS} current does not scale with contact area, indicating filamentary transport. Some devices nonetheless switch gradually and at multiple levels, as parallel conductive filaments open multiple independent switching channels and yield gradual I-V behaviour. Figure \ref{fig:3p} illustrates this multilevel switching. The initial transition to \abbrev{LRS} can be followed by a stable transition to a lower \abbrev{LRS}, both \abbrev{LRS} states being stable. The 3\,V and 5\,V sweeps generated the primary and secondary \abbrev{LRS} respectively. \\
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/multilevel_iv.png}
-    \caption[Multi-levels I-V characteristics in MIM devices.]{Multi-levels I-V characteristics in \abbrev{MIM} devices during the Set (left) and Reset (right) process.}
-    \label{fig:3p}
-\end{figure}
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter3/Figs/bipolar_conductance_modulation.png}
-    \caption[Gradual increase (left) and decrease (right) in conductivity for bipolar device.]{Gradual increase (left) and decrease (right) in conductivity for bipolar device.}
-    \label{fig:3q}
-\end{figure}
-
-\noindent In bipolar samples, multilevel reset occurs at 1 V and 1.8 V over a narrower range, switching remaining stable with significant contrast. These samples can change abruptly or gradually (Figure \ref{fig:3q}). Sweeping the set voltage from -2.0 V to -2.3 V with 100 mA compliance produces a gradual conductance increase, the controlled current limiting filament growth and enabling intermediate states. During Reset (1.5 V to 1.8 V), conductance often falls in steps until abrupt rupture. The degree of gradualness varies and its quantification requires further study. \\
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/resistive_state_transitions.png}
-    \caption[Current-time plots showing transitions between resistive states.]{Current-time plots showing transitions between resistive states (left) and voltage-dependent relaxation (right). Left: representative current traces under a constant $2$\,V bias, showing a rapid set spike followed by an exponential decay (reset). Right: current-relaxation traces under three constant biases ($1.4$, $1.6$, $1.8$\,V); the decay accelerates with increasing voltage, corresponding to fitted recovery time constants of roughly $t = 7$\,s at $1.4$\,V down to $t = 1$\,s at $1.8$\,V, indicating faster filament rupture at higher bias.}
-    \label{fig:3r}
-\end{figure}
-
-
-\noindent Neuromorphic computation relies on temporal signals. Figure \ref{fig:3r} plots current versus time for unipolar samples under constant bias. A 2 V bias produces a set spike followed by exponential decay (reset). The decay time constant $\tau$ decreases with higher bias (7 s at 1.4 V vs. 1 s at 1.8 V), indicating faster filament rupture. \\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/volatile_constant_current.png}
-    \caption[Volatile activities observed under different constant current inputs.]{Volatile activities observed under different constant current inputs for unipolar device (left) and switching at sufficiently high input current bias in bipolar device (right).}
-    \label{fig:3s}
-\end{figure}
-
-\noindent Constant current induces volatile spikes through repeated filament formation and rupture (Figure \ref{fig:3s}). Higher current (for example $10\,\mu$A) accelerates formation and Joule heating, raising spike amplitude and frequency. Stochastic trap filling, thermally assisted rupture, and ionic motion produce these voltage bursts, which persist until the bias triggers a transition. At -10 mA, the bipolar device switches after a large spike, reducing subsequent spiking activity.
-
-\section[Conduction and Switching Mechanisms]{Conduction and Switching Mechanisms}
-
-\noindent This section applies the charge-transport framework of Section \ref{subsec:transport} to the measured current--voltage characteristics. It identifies the dominant conduction mechanism in the fabricated silicon-rich silica devices and builds a phenomenological picture of resistance switching that distinguishes the unipolar and bipolar modes \cite{zhuge2013advances}. Unipolar switching is polarity-independent, typical of the symmetric devices, and relies on current compliance to prevent hard breakdown. Bipolar switching requires opposing polarities for Set and Reset, and it is driven by the field-induced migration of charged species such as oxygen vacancies, the valence change mechanism (\abbrev{VCM}) \cite{waser2007redox}. Ionic drift then controls filament formation and rupture, often localised at an electrode interface \cite{waser2009redox}. The unipolar reset is therefore current-driven, through Joule heating, whereas the bipolar reset is field-driven. \\
-
-\noindent Silicon oxide ($SiO_x$) is the primary switching material. Doping with mobile metal ions (Ag, Cu) enables switching \cite{mehonic2012resistive}, the conductive-bridge (\abbrev{CBRAM}) mechanism introduced in Section~\ref{sec:matstack}, but compromises complementary metal-oxide-semiconductor (\abbrevdef{CMOS}) compatibility. This research focuses on intrinsic switching in silicon-rich silica, which avoids problematic metal ions and suits \abbrev{CMOS} technology. Conduction may proceed either through a localised filament in the bulk oxide or through a switching layer at the electrode interface (Figure \ref{fig:3t}). A single dominant filament makes switching largely independent of electrode size and oxide thickness, whereas interface-limited transport, governed by a Schottky barrier or by bulk oxygen-vacancy redistribution, scales with electrode area. \\
+\noindent The two electroformed families use Mo/SiO$_x$/Au and Mo/SiO$_x$/Ti/Au stacks. A separate conditioned
+family has the same nominal Ti/Au layer sequence as the second of those stacks, but it comes from a different
+fabrication batch and was not electroformed. For all three gold-contacted families, the available fabrication
+record gives a molybdenum thickness of 280--300\,nm without resolving their individual values, so stack
+composition and preparation history define the separate families used throughout this thesis.\\
+
+\noindent The conditioned indium tin oxide (\abbrevdef{ITO}) family uses a 50\,nm \abbrev{ITO}/25\,nm SiO$_x$/150\,nm Mo stack without
+titanium. Since it differs from the conditioned gold-contacted family in several layers at once, it cannot serve as
+a single-variable electrode control, and comparisons between the two are read as comparisons between stacks. Each
+experiment therefore reports its sample count and evidence unit.
+
+\subsection[Fabrication, Patterning and Film Verification]{Fabrication, Patterning and Film Verification}
+
+\noindent Figure~\ref{fig:3v2} summarises the fabrication workflow shared across several process generations.
+Radio-frequency (\abbrevdef{RF}) magnetron sputtering deposited the SiO$_x$ layers, whereas molybdenum was
+deposited by sputtering or by evaporation depending on the batch, and the conditioned gold-contacted batch pairs
+sputtered molybdenum with an electron-beam-evaporated gold contact. These layer sequences and thicknesses, shown in
+Figure~\ref{fig:3v1}, are the ones the available process records fix.\\
+
+\noindent In sputtering, a plasma struck in an inert gas bombards a solid target and ejects atoms that condense on
+the sample. An insulating target such as SiO$_2$ accumulates surface charge under a direct-current
+(\abbrevdef{DC}) field until the plasma is quenched, so an alternating-current (\abbrevdef{AC}) field at radio
+frequency, conventionally 13.56\,MHz, is used instead. Composition was controlled either by admitting oxygen
+alongside the argon or by co-sputtering silicon with silicon dioxide in pure argon, and the resulting films are in
+either case amorphous and deliberately sub-stoichiometric
+\cite{mehonic2012electrically, munde2017intrinsic}. Both routes were used on this platform, and the
+fabrication record does not preserve which of them produced the oxide of each family.\\
+
+\noindent Molybdenum provides the bottom conductor, and earlier reports on this platform give its roughness as
+0.9--1.5\,nm root mean square (\abbrevdef{RMS}) and show that the electrode microstructure influences the roughness
+of the SiO$_x$ deposited on it \cite{kenyon2019interplay}. The same reports give the oxide composition as
+approximately SiO$_{1.9}$; neither quantity was remeasured on the four families used here, so both are carried over
+from the process generation those reports characterise.\\
+
+\noindent The thin titanium layer improves adhesion and can getter oxygen, so whether titanium enters the oxide is a
+relevant question for the families that include it. Transmission electron microscopy (\abbrevdef{TEM}) with electron
+energy loss spectroscopy (\abbrevdef{EELS}) found no titanium migration into the SiO$_x$ on this platform
+\cite{mehonic2017intrinsic}. Gold provides a comparatively inert top contact, while \abbrev{ITO} provides a
+transparent conducting contact without the titanium layer.\\
 
 \begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/filamentary_interface_regions.png}
-    \caption[Conductive regions for filamentary and interface switching.]{Conductive regions for filamentary switching (left) and interface switching (right).}
-    \label{fig:3t}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  stp/.style={draw,rounded corners=2pt,fill=black!3,align=center,
+              text width=2.25cm,minimum height=1.25cm,inner sep=2pt},
+  opt/.style={stp,dashed,fill=white},
+  aux/.style={draw,rounded corners=2pt,fill=blue!5,align=center,inner sep=3pt},
+  fl/.style={->,>=latex,line width=0.6pt}]
+% ---- process chain -----------------------------------------------------------
+\node[stp] (s1) at (0,3.0)    {Pre-oxidised\\ Si wafer};
+\node[stp] (s2) at (3.1,3.0)  {Mo bottom\\ electrode};
+\node[stp] (s3) at (6.2,3.0)  {SiO$_x$ active\\ layer};
+\node[opt] (s4) at (9.3,3.0)  {Ti interlayer\\ \emph{optional}};
+\node[stp] (s5) at (12.4,3.0) {Au or \abbrev{ITO}\\ top contact\\ through mask};
+\draw[fl] (s1) -- (s2);  \draw[fl] (s2) -- (s3);
+\draw[fl] (s3) -- (s4);  \draw[fl] (s4) -- (s5);
+% ---- witness-specimen branch -------------------------------------------------
+\node[aux,text width=4.0cm] (wit) at (3.1,1.25) {Two witness specimens\\ per documented SiO$_x$ run};
+\draw[fl] (s3.south) |- (wit.east);
+\node[aux,text width=2.9cm] (prof) at (0.5,-0.35) {Stylus profilometry\\ (step height)};
+\node[aux,text width=2.9cm] (elli) at (5.7,-0.35) {Spectroscopic ellipsometry\\ (optical thickness)};
+\draw[fl] (wit.south) -- ++(0,-0.20) -| (prof.north);
+\draw[fl] (wit.south) -- ++(0,-0.20) -| (elli.north);
+\draw[<->,>=latex,line width=0.5pt] (prof.east) -- (elli.west)
+   node[midway,font=\tiny,fill=white,inner sep=1pt] {cross-check};
+% ---- shadow-mask inset -------------------------------------------------------
+\node[draw=black!60,inner sep=1pt,anchor=north east] (msk) at (13.75,1.75)
+   {\includegraphics[width=5.0cm]{Chapter3/Figs/device_structure.png}};
+\node[font=\tiny,anchor=north,align=center,text width=5.0cm] at (msk.south)
+   {one mask design and its\\ pads, 200 to 800\,$\mu$m square};
+\draw[fl] (s5.south) -- (12.4,2.1) -| (msk.north);
+\end{tikzpicture}
+\caption[Fabrication and film verification.]{Shared fabrication workflow and
+film verification. The top contact is defined through a shadow mask, shown
+inset for one design. Witness specimens provide independent physical and
+optical thickness measurements. Not to scale.}
+\label{fig:3v2}
+\label{fig:3a}
 \end{figure}
 
-\subsection[Dominant Mechanism Identification]{Dominant Mechanism Identification}
+\noindent Top contacts were patterned during deposition through a shadow mask. This defined the square pads without
+photolithography, resist, or etching, and the aperture set the nominal active area. Pads on the electroformed
+gold-contacted devices were 200, 400, 600, and 800\,$\mu$m squares, and the conditioned gold-contacted batch used the
+200 and 400\,$\mu$m sizes. The \abbrev{ITO} devices used pads from 100 to 800\,$\mu$m, a range wider at its lower end
+than the mask design shown inset in Figure~\ref{fig:3v2}. Shadow masking avoids exposing the oxide to solvents and
+developers but gives less precise edges than photolithography, so the pad boundary follows the mask aperture and not
+a lithographically defined edge.\\
 
-\noindent To identify the dominant transport channel, the candidate mechanisms set out in Section \ref{subsec:transport} (ohmic, Poole--Frenkel hopping, thermionic (Schottky) emission, Fowler--Nordheim and trap-assisted tunnelling) were each fitted to the measured I--V data (Figures \ref{fig:3u}--\ref{fig:3w}). Each mechanism predicts a straight line in its own linearised coordinates (for example $\ln(J/E)$ versus $\sqrt{E}$ for Poole--Frenkel, $\ln J$ versus $1/E$ for trap-assisted tunnelling). The quality of each fit was therefore judged by how closely the transformed data followed that line. The slope and intercept then yield the corresponding parameter: the relative dielectric constant $\epsilon_r$ (Poole--Frenkel, thermionic) or the trap barrier height $\phi_t$ (trap-assisted tunnelling). \\
+\noindent Thickness was measured on witness specimens instead of completed devices, and each documented SiO$_x$ run
+carried two silicon witnesses through deposition \cite{cox2021nanoscale}. A patterned resist mask protected part of
+the first witness; removing it after deposition left a step measured with a Dektak XT stylus profilometer.
+Spectroscopic ellipsometry measured the second witness without contacting the film, giving an optical thickness that
+depends on the layer model assumed in the fit. These two determinations, the physical step height and the
+optical thickness, are independent, and their agreement provided the cross-check.
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter3/Figs/poole_frenkel_fit.png}
-    \caption[Poole-Frenkel Hopping mechanism fittings]{Poole-Frenkel Hopping mechanism fittings with raw data (blue), forward fit (orange) and reverse fit (yellow).}
-    \label{fig:3u}
-\end{figure}
+\section[Electrical Measurement and Conditioning]{Electrical Measurement and Conditioning}\label{sec:3elec}
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter3/Figs/thermionic_emission_fit.png}
-    \caption[Thermionic Emission mechanism fittings]{Thermionic Emission mechanism fittings with raw data (blue), forward fit (orange) and reverse fit (yellow).}
-    \label{fig:3v}
-\end{figure}
+\noindent Measured current depends on the electrical reference, acquisition path, and device preparation. The
+top-contact reference fixes the stimulus polarity, the instrument determines whether current is measured directly or
+reconstructed from a preamplifier voltage, and the preparation route selects the switching or transient regime.
+Unless otherwise stated, electrical measurements were performed at room temperature under ambient laboratory
+conditions.
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.8\textwidth]{Chapter3/Figs/trap_assisted_tunnelling_fit.png}
-    \caption[Trap-Assisted Tunnelling mechanism fittings]{Trap-Assisted Tunnelling mechanism fittings with raw data (blue), forward fit (orange) and reverse fit (yellow).}
-    \label{fig:3w}
-\end{figure}
+\subsection[Electrical Contact and Instrumentation]{Electrical Contact and Instrumentation}
 
-\noindent To keep the analysis representative, measurements were repeated on 25 different samples for each switching mechanism. Fowler-Nordheim plots gave markedly inferior linear agreement and are therefore not included. Each I-V sweep contains a forward and a reverse branch, fitted separately. The forward branch probes the \abbrev{HRS} during a Set sweep and the \abbrev{LRS} during a Reset sweep, while the reverse branch probes the opposite state in each case. Table \ref{table:3a} summarises the resulting fit parameters for both unipolar and bipolar devices.\\
+\noindent Current is the primary measured quantity and reflects device conduction and the barriers at its
+interfaces. Tungsten probes contacted the devices directly because wire bonding had previously damaged or shorted
+the thin stacks. Each probe tip was lowered slowly under a low test voltage, and contact was detected from the
+departure from the open-circuit baseline.\\
 
-\begin{table}[ht]
-    \caption{Curve fitting results for the conduction mechanism analysis.}
-    \centering
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|c|c|cc|cc|}
-    \hline
-    \multirow{2}{*}{Conduction Mechanism}     & \multirow{2}{*}{Process} & \multicolumn{2}{c|}{Unipolar Device}                           & \multicolumn{2}{c|}{Bipolar Device}                            \\ \cline{3-6} 
-                                              &                          & \multicolumn{1}{c|}{\abbrev{HRS}}                 & \abbrev{LRS}                 & \multicolumn{1}{c|}{\abbrev{HRS}}                 & \abbrev{LRS}                 \\ \hline
-    \multirow{2}{*}{Poole-Frenkel Hopping}    & Setting                  & \multicolumn{1}{c|}{$\epsilon_r = 15$}   & $\epsilon_r = 11$   & \multicolumn{1}{c|}{$\epsilon_r = 12$}   & $\epsilon_r = 9.1$  \\ \cline{2-6} 
-                                              & Resetting                & \multicolumn{1}{c|}{$\epsilon_r = 13$}   & $\epsilon_r = 10$   & \multicolumn{1}{c|}{$\epsilon_r = 7.8$}  & $\epsilon_r = 5.8$  \\ \hline
-    \multirow{2}{*}{Thermionic Emission}      & Setting                  & \multicolumn{1}{c|}{$\epsilon_r = 1.4$}  & $\epsilon_r = 0.9$  & \multicolumn{1}{c|}{$\epsilon_r = 1.5$}  & $\epsilon_r = 1.0$  \\ \cline{2-6} 
-                                              & Resetting                & \multicolumn{1}{c|}{$\epsilon_r = 1.3$}  & $\epsilon_r = 0.2$  & \multicolumn{1}{c|}{$\epsilon_r = 1.9$}  & $\epsilon_r = 1.5$  \\ \hline
-    \multirow{2}{*}{Trap-Assisted Tunnelling} & Setting                  & \multicolumn{1}{c|}{$\phi_t = 0.26$\,eV} & $\phi_t = 0.15$\,eV & \multicolumn{1}{c|}{$\phi_t = 0.21$\,eV} & $\phi_t = 0.09$\,eV \\ \cline{2-6}
-                                              & Resetting                & \multicolumn{1}{c|}{$\phi_t = 0.41$\,eV} & $\phi_t = 0.21$\,eV & \multicolumn{1}{c|}{$\phi_t = 0.14$\,eV} & $\phi_t = 0.10$\,eV \\ \hline
-    \end{tabular}%
-    }
-    \label{table:3a}
-\end{table}
+\noindent All measurements are two-terminal, with one probe on a top pad and one on an exposed region of the
+molybdenum. Every electrical stimulus was applied to the top contact relative to molybdenum, so negative voltage or
+current drives the top contact negative. During source-measure acquisition, molybdenum returned to instrument
+common; during pulse acquisition, it connected to the current preamplifier's virtual-ground input. This convention
+matters throughout the electrical results because the transient is polarity selective.\\
 
-\noindent In Table \ref{table:3a}, the relative dielectric constants extracted for Poole--Frenkel conduction exceed the theoretical silicon-dioxide value ($\epsilon_r \approx 3.9$) and approach, in two cases modestly exceeding, that of pure silicon ($\epsilon_r \approx 12$). This is consistent with conduction through silicon-rich regions within the sub-stoichiometric film. The thermionic-emission fits, by contrast, return relative permittivities of order unity, two below unity ($\epsilon_r = 0.2$--$1.9$). Since a physical dielectric constant cannot fall below unity, these values are unphysical. They show that thermionic emission does not describe the transport, rather than competing with Poole--Frenkel hopping. Each branch reflects a fixed resistance state (the \abbrev{HRS} or \abbrev{LRS} held during a Set or Reset sweep) rather than the transition itself. The extracted parameters therefore characterise steady-state transport in each state, not the switching event. \\
+\noindent Two-wire measurement assigns the measured resistance to the device and therefore includes the lead,
+instrument, and probe-contact resistances. These contributions are negligible for the unipolar states, which range
+from tens of kilo-ohms to megohms, and for the still higher resistances of the subthreshold regime. The asymmetric
+family was measured through the same two-terminal arrangement, so its 100--300\,$\Omega$ bipolar values include
+lead, probe, and contact contributions that only a four-wire Kelvin measurement would separate.\\
 
-\noindent Across all 25 samples the trap-assisted tunnelling model gave the closest linear agreement for both unipolar and bipolar devices, particularly at high fields. This indicates that carrier tunnelling through defect states is the dominant channel, and the other mechanisms may coexist but fit less well. The original analysis recorded only the slope and intercept of each linearised plot, without a goodness-of-fit statistic, so a coefficient of determination cannot be reconstructed for the full sample set. To illustrate the procedure, refitting a representative bipolar device for which the raw sweep is available gives a coefficient of determination of $R^2 \approx 0.98$ for the trap-assisted tunnelling linearisation. The thermionic linearisation of the same data also reaches $R^2 \approx 0.98$. This shows that a high $R^2$ alone does not validate a mechanism: the fit is statistically good yet returns the unphysical sub-unity permittivity noted above. Trap-assisted tunnelling is therefore preferred on the combined grounds of fit quality \emph{and} a physically meaningful extracted parameter.
-
-\subsection[Proposed Switching Model]{Proposed Switching Model}
-
-\noindent The dominance of trap-assisted tunnelling places the conduction path in a discontinuous chain of oxygen vacancies. This microscopic picture, together with the state-dependent parameters of Table \ref{table:3a}, supports the phenomenological switching model set out below. The starting point is silicon-rich silica, in which the applied field phase-separates oxygen vacancies into silicon dioxide and silicon, with oxygen drift driving the separation. Figure \ref{fig:3x} contrasts the resulting bipolar and unipolar modes schematically. \\
+\noindent Two circuit arrangements draw on three instrument systems (Figure~\ref{fig:3v3}), and in every case the
+top contact was driven. Switching, \abbrev{ITO}, and illumination measurements used a Keithley 4200-SCS parameter
+analyser. Gold-contacted conditioning and step-voltage measurements used a Keithley 6430 sourcemeter, whose
+picoammeter front end reaches the small currents the subthreshold regime demands and avoids the burden voltage a
+shunt-based ammeter would develop against the applied bias. Pulse trains were generated externally and measured
+through an SR570 current preamplifier and a Rigol DS4024 oscilloscope because the sourcemeter could not resolve their
+timing. Section~\ref{sec:3pulse} defines the quantities extracted from these measurements.\\
 
 \begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{Chapter3/Figs/siox_switching_mechanism.png}
-    \caption[Schematic of switching mechanism in SiOx devices.]{Schematic of bipolar switching in asymmetric devices (left) and of unipolar switching in symmetric devices (right).}
-    \label{fig:3x}
+\centering
+% ============================ panel (a) =======================================
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  box/.style={draw,rounded corners=2pt,fill=black!3,align=center,inner sep=3pt,
+              minimum height=1.5cm},
+  fl/.style={->,>=latex,line width=0.6pt},
+  wire/.style={line width=0.6pt}]
+\def\dut#1#2{%
+  \draw[fill=black!35,draw=black!70,line width=0.3pt](#1-0.95,#2)rectangle(#1+0.95,#2+0.32);
+  \node[font=\tiny] at (#1,#2+0.16) {Mo};
+  \draw[fill=blue!12,draw=black!70,line width=0.3pt](#1-0.95,#2+0.32)rectangle(#1+0.95,#2+0.70);
+  \node[font=\tiny] at (#1,#2+0.51) {SiO$_x$};
+  \draw[fill=yellow!60,draw=black!70,line width=0.3pt](#1-0.95,#2+0.70)rectangle(#1+0.95,#2+1.02);
+  \node[font=\tiny] at (#1,#2+0.86) {top contact};
+  \draw[wire] (#1,#2+1.02) -- (#1,#2+1.45);}
+\def\gnd#1#2{%
+  \draw[wire] (#1,#2+0.30) -- (#1,#2);
+  \draw[wire] (#1-0.22,#2) -- (#1+0.22,#2);
+  \draw[wire] (#1-0.14,#2-0.09) -- (#1+0.14,#2-0.09);
+  \draw[wire] (#1-0.06,#2-0.18) -- (#1+0.06,#2-0.18);}
+\node[anchor=west,font=\scriptsize] at (-1.0,2.55) {\textbf{(a)} sweeps and slow current--time measurements};
+% stimulus glyphs
+\draw[draw=black!55,rounded corners=2pt] (-0.95,0.30) rectangle (1.65,1.85);
+\draw[wire] (-0.80,1.28) -- (-0.50,1.62) -- (-0.20,1.28);
+\node[anchor=west,font=\scriptsize] at (-0.12,1.45) {dual sweep};
+\draw[wire] (-0.80,0.55) -- (-0.52,0.55) -- (-0.52,0.92) -- (-0.20,0.92);
+\node[anchor=west,font=\scriptsize] at (-0.12,0.74) {voltage step};
+\draw[fl] (1.70,1.08) -- (2.25,1.08);
+% source-measure unit
+\node[box,text width=3.5cm] (smu) at (4.35,1.08)
+  {Keithley 4200-SCS\\ or Keithley 6430\\[1pt] {\tiny sources $V$, measures $I$}};
+% device and wiring
+\dut{9.4}{0.40}
+\draw[wire] (smu.east) -- (6.55,1.08) -- (6.55,2.15) -- (9.40,2.15) -- (9.40,1.85);
+\node[anchor=south,font=\scriptsize] at (8.0,2.18) {bias to top contact};
+\draw[wire] (10.35,0.56) -- (11.30,0.56);
+\gnd{11.30}{0.26}
+\node[anchor=west,font=\scriptsize] at (11.45,0.30) {Mo grounded};
+\end{tikzpicture}
+
+\vspace{3mm}
+% ============================ panel (b) =======================================
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  box/.style={draw,rounded corners=2pt,fill=black!3,align=center,inner sep=3pt,
+              minimum height=1.5cm},
+  fl/.style={->,>=latex,line width=0.6pt},
+  wire/.style={line width=0.6pt}]
+\def\dut#1#2{%
+  \draw[fill=black!35,draw=black!70,line width=0.3pt](#1-0.95,#2)rectangle(#1+0.95,#2+0.32);
+  \node[font=\tiny] at (#1,#2+0.16) {Mo};
+  \draw[fill=blue!12,draw=black!70,line width=0.3pt](#1-0.95,#2+0.32)rectangle(#1+0.95,#2+0.70);
+  \node[font=\tiny] at (#1,#2+0.51) {SiO$_x$};
+  \draw[fill=yellow!60,draw=black!70,line width=0.3pt](#1-0.95,#2+0.70)rectangle(#1+0.95,#2+1.02);
+  \node[font=\tiny] at (#1,#2+0.86) {top contact};
+  \draw[wire] (#1,#2+1.02) -- (#1,#2+1.45);}
+\node[anchor=west,font=\scriptsize] at (-1.0,2.55) {\textbf{(b)} pulse trains};
+% stimulus glyph
+\draw[draw=black!55,rounded corners=2pt] (-0.95,0.30) rectangle (1.65,1.85);
+\draw[wire] (-0.80,1.28) -- (-0.66,1.28) -- (-0.56,1.66) -- (-0.46,1.28)
+        -- (-0.30,1.28) -- (-0.20,1.66) -- (-0.10,1.28) -- (0.06,1.28)
+        -- (0.16,1.66) -- (0.26,1.28) -- (0.40,1.28);
+\node[anchor=north,font=\scriptsize,align=center,text width=2.4cm] at (0.35,1.08)
+  {Gaussian pulse train};
+\draw[fl] (1.70,1.08) -- (2.25,1.08);
+% signal generator
+\node[box,text width=2.6cm] (sg) at (3.75,1.08) {Arbitrary\\ signal generator};
+% device
+\dut{7.55}{0.40}
+\draw[wire] (sg.north) -- (3.75,2.15) -- (7.55,2.15) -- (7.55,1.85);
+\node[anchor=south,font=\scriptsize] at (5.60,2.18) {$V(t)$};
+% preamplifier
+\node[box,text width=3.0cm] (pre) at (7.55,-0.85)
+  {SR570 current preamplifier\\[1pt] {\tiny input at virtual ground, $\approx0$\,V}};
+\draw[fl] (7.55,0.40) -- (7.55,-0.10);
+\node[anchor=west,font=\scriptsize] at (7.68,0.15) {$I_{in}$};
+% oscilloscope
+\node[box,text width=2.1cm] (osc) at (12.10,-0.85) {Rigol DS4024 oscilloscope};
+\draw[fl] (pre.east) -- (osc.west);
+\node[anchor=south,font=\scriptsize] at (10.55,-0.78) {$V_{out}$};
+% common ground rail
+\draw[wire] (3.75,0.30) -- (3.75,-2.05) -- (12.10,-2.05);
+\draw[wire] (7.55,-1.60) -- (7.55,-2.05);
+\draw[wire] (12.10,-1.60) -- (12.10,-2.05);
+\draw[wire] (5.10,-2.05) -- (5.10,-2.25);
+\draw[wire] (4.88,-2.25) -- (5.32,-2.25);
+\draw[wire] (4.96,-2.34) -- (5.24,-2.34);
+\draw[wire] (5.04,-2.43) -- (5.16,-2.43);
+\node[anchor=west,font=\scriptsize] at (5.45,-2.32) {common ground return};
+\end{tikzpicture}
+\caption[Electrical acquisition arrangements.]{Electrical acquisition
+arrangements. (a) Source-measure unit driving the top contact against grounded
+molybdenum. (b) Pulse-train chain with the preamplifier input at virtual ground.
+The stimulus glyphs in both panels are symbolic.}
+\label{fig:3v3}
+
 \end{figure}
 
-\noindent Field-driven oxygen ion migration describes bipolar switching (Figure \ref{fig:3x}), with intrinsic structural defects providing the conduction path without externally induced damage. Sputtered silicon suboxides grow with a columnar microstructure, and oxygen vacancies are expected to concentrate at the column boundaries and oxide--electrode interfaces, where the defect density is highest \cite{munde2017intrinsic}. Vacancy diffusion is slow at ambient temperature. Under bias, oxygen anions drift towards and accumulate at the interface, and the displaced oxygen has been proposed to form molecular $O_2$ that, under sufficiently aggressive stressing, can nucleate gas pockets there \cite{mehonic2017intrinsic}. The controlled breakdown of electroforming self-terminates once a conductive filament shunts the field, preventing the runaway hard breakdown that would otherwise destroy the device. \\
+\noindent Several sweep conventions recur throughout the electrical results and are defined here.
+\emph{Compliance} limits current while the instrument sources voltage and limits voltage while it sources current,
+and on reaching that limit the instrument holds the constrained quantity. Because the control loop responds over a
+finite time, a rapid conductance change can \emph{overshoot} a current ceiling; compliance therefore bounds the
+intended current, not every instantaneous value. A \emph{dual sweep} produces \emph{forward} and \emph{reverse}
+branches that may traverse different resistance states.
 
-\noindent Unipolar switching shares this vacancy filament but differs in its reset. Unipolar filaments are denser, resembling metallic nanowires, and their near-ohmic conduction matches the low-resistance, weakly voltage-dependent \abbrev{LRS} current. The high currents this sustains drive the Joule heating that ruptures the filament once a critical current is exceeded. The two modes therefore share a filament but differ in drive: the electric field alone resets the bipolar device (oxygen anions returning to the vacancies), while field-driven Joule heating resets the unipolar one. \\
+\subsection[Device Preparation and Recovery]{Device Preparation and Recovery}\label{sec:3cond}
 
-\noindent Silicon-rich silica ($SiO_x$) is the primary insulator \cite{mehonic2012resistive}. Wide-angle $O-Si-O$ bonds trap electrons, weakening the bonds and creating Frenkel defects (vacancies) \cite{gao2016mechanism}. Figure \ref{fig:3y} summarises the switching modes: unipolar, bipolar, and threshold. \\
+\noindent Electroforming and constant-current conditioning bring pristine devices into different operating regimes,
+with the parameters and recovery intervals of Figure~\ref{fig:3v4}. Electroforming leaves non-volatile resistance
+states, whereas constant-current conditioning leaves the subthreshold transient regime. The two recovery intervals
+shown apply only to the conditioned gold-contacted devices; electroformed devices instead retain their states between
+switching cycles.\\
 
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=1\textwidth]{Chapter3/Figs/schematic_iv_curves.png}
-    \caption[Schematic I-V curves.]{Schematic I-V curves in: a) non-volatile bipolar memory switching mode, b) non-volatile unipolar memory switching mode; and c) volatile threshold switching mode. In the SET process, a compliance current is required to avoid hard breakdown \cite{li2017resistive}.}
-    \label{fig:3y}
+\noindent Electroforming applies a strong field to induce partial breakdown, observed as a discrete jump into a
+stable low-resistance state. The field initiates the event, while compliance limits the subsequent current,
+structural damage, and filament growth. Each fresh device underwent one irreversible forming event, after which Set
+and Reset transitions were cycled reversibly. Forming polarity, amplitude, and compliance differ between the two
+switching families. These programmed amplitudes are ceilings rather than the voltages at which a device actually
+forms, so the observed forming voltages are reported with the switching results.\\
+
+\begin{figure}[htbp!]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  box/.style={draw,rounded corners=2pt,fill=black!3,align=center,inner sep=3pt,
+              minimum height=1.25cm},
+  fl/.style={->,>=latex,line width=0.6pt}]
+% ---- pristine state and the three-way branch point ---------------------------
+\node[box,text width=1.9cm,fill=black!8] (pri) at (0,0.7) {Pristine device};
+% ---- upper branch: electroforming --------------------------------------------
+\node[box,text width=3.0cm] (ef) at (3.9,3.1)
+  {Electroforming\\[1pt] {\tiny single irreversible forming event}};
+\node[box,text width=3.0cm] (sr) at (8.3,3.1)
+  {Reversible Set and Reset\\[1pt] {\tiny non-volatile states}};
+\draw[fl] (pri.north) |- (ef.west);
+\draw[fl] (ef) -- (sr) node[midway,above,font=\scriptsize] {enables};
+\draw[fl] (sr.east) -- ++(0.5,0) -- ++(0,-0.90) -| (sr.south)
+  node[pos=0.45,below,font=\scriptsize,xshift=6mm] {cycled repeatedly};
+% ---- middle branch: gold-contacted conditioning ------------------------------
+\node[box,text width=3.0cm] (ccg) at (3.9,0.7)
+  {Constant-current conditioning\\[1pt] {\tiny gold contact, $-0.1$ to $-100\,\mu$A, 100\,s}};
+\node[box,text width=1.8cm] (rx) at (7.3,0.7) {24\,h relaxation};
+\node[box,text width=2.0cm] (ms) at (10.2,0.7) {Transient measurement};
+\node[box,text width=2.2cm] (rc) at (13.0,0.7)
+  {1\,h grounded recovery\\[1pt] {\tiny or positive top-contact bias}};
+\draw[fl] (pri) -- (ccg);
+\draw[fl] (ccg) -- (rx);
+\draw[fl] (rx) -- (ms);
+\draw[fl] (ms) -- (rc);
+\draw[fl] (rc.south) -- ++(0,-0.55) -| (ms.south)
+  node[pos=0.5,below,font=\scriptsize] {repeat};
+% ---- lower branch: ITO-contacted conditioning --------------------------------
+\node[box,text width=3.0cm] (cci) at (3.9,-2.4)
+  {Constant-current conditioning\\[1pt] {\tiny \abbrev{ITO} contact, $-0.5\,\mu$A, 10\,V compliance}};
+\node[box,text width=2.1cm] (hv) at (7.6,-2.4) {Held-voltage measurement};
+\node[box,text width=2.0cm] (xp) at (11.0,-2.4) {\emph{Ex situ} \abbrev{XPS}};
+\draw[fl] (pri.south) |- (cci.west);
+\draw[fl] (cci) -- (hv);
+\draw[fl] (hv) -- (xp);
+\end{tikzpicture}
+\caption[Preparation and recovery routes.]{Preparation and recovery routes.
+Electroforming is one irreversible event that enables reversible switching.
+Both recovery intervals belong to the conditioned gold-contacted branch, and
+the diagram is not a time axis.}
+\label{fig:3v4}
 \end{figure}
 
-\noindent Bipolar switching uses opposing polarities \cite{wei2008highly}. Current compliance is required for Set but not Reset, which simplifies the system. The voltages typically fall within digital integration limits ($\pm 1$\,V) \cite{menke2009separation}. Unipolar devices allow single-supply-rail operation but need complex compliance to manage high reset currents \cite{yun2007random}. Threshold switching exhibits hysteresis \cite{adler1980threshold} shaped by heat dissipation and electrode thickness \cite{chang2008effects}. \\
+\noindent Constant-current conditioning is the second route, used for the subthreshold transient regime. A
+negative current is applied at the top contact with the molybdenum as the return, and the voltage that develops
+across the device is measured while the current is held. The gold-contacted family was conditioned from $-0.1$ to
+$-100\,\mu$A for 100\,s, and the conditioning magnitude was selected once for each device and not varied during the
+subsequent measurements.\\
 
-\noindent \abbrev{RRAM} development faces several challenges. OxRAM offers good retention but lower conductance ratios \cite{ielmini2010resistance}, whereas \abbrev{CBRAM} offers high ratios but limited endurance \cite{ambrogio2014statistical1}. Stochastic switching and filament variability hinder \abbrev{RRAM} cell design \cite{ambrogio2014statistical2}, limiting commercial density. High-density devices show promise, with low power and high endurance and retention \cite{yang2013memristive, hu2014review, cha2013nanoscale}, but resistance variation remains a barrier \cite{moore2006lithography}. Deep learning tolerates this variability better than standard memory applications, by virtue of its stochastic nature \cite{malik2013governing}. This positions \abbrev{RRAM} as a candidate for neural technologies.
+\noindent The \abbrev{ITO} family was conditioned by the same route with different parameters, at
+$-0.5\,\mu$A under a 10\,V compliance, after which held-voltage transients were measured, each voltage held
+briefly enough to avoid breakdown. That electrically characterised sample was later examined by \abbrev{XPS}, and a
+separate unstressed sample of the same stack supplied the pristine reference.\\
+
+\noindent Conditioning leaves a persistent change in baseline current, and a day-scale recovery interval followed it
+before any transient measurement began. An hour-long grounded recovery interval then separated successive runs and
+cleared the seconds-scale volatile state from that fixed baseline; applying a positive potential to the top contact
+shortened this interval. These two intervals together separate the persistent conditioned baseline from the shorter
+volatile response.
+
+\FloatBarrier
+\subsection[Voltage-Step and Pulse Acquisition]{Voltage-Step and Pulse Acquisition}\label{sec:3pulse}
+
+\noindent Both time-resolved modes report the device current, and they differ in how that current is obtained;
+Figure~\ref{fig:3v3} shows the acquisition path for each. In step-voltage acquisition a constant voltage step follows
+conditioning and its recovery interval, and the picoammeter front end reads the current directly at the instrument's
+own sampling interval. Pulse-train acquisition instead records the output voltage of the current preamplifier on the
+oscilloscope, and the selected gain converts that voltage back to a current. This second path therefore depends on the
+preamplifier gain, and no analogue filter setting is preserved in the available preamplifier record.\\
+
+\noindent The same step-voltage path also reads the post-drive relaxation, with the large step replaced by a
+near-zero sensing bias so that the read itself contributes as little drive as possible. Ten such relaxations were
+obtained in one session on one \abbrev{ITO}-contacted pad, each holding $1$\,mV on the top contact and collecting
+$500$ samples over about $226$\,s after the drive was withdrawn. A conduction current cannot be read without a field,
+so this sensing bias is a property of the measurement and not a zero-field condition.\\
+
+\noindent Three quantities specify the Gaussian pulse waveform: the full width at half maximum sets the pulse
+duration, the amplitude gives the peak negative voltage on the top contact, and the pulse rate is the reciprocal of
+the period between pulse centres. These quantities are varied one at a time, so that amplitude sweeps vary amplitude at
+fixed width and period, while rate sweeps vary period at fixed width and amplitude. Every result reports the pulse
+width, amplitude, and period at which it was obtained.\\
+
+\noindent Each pulse train can leave volatile state on the permanently conditioned baseline, so every sweep begins at
+the setting that leaves the least state behind. Amplitude sweeps run from the smallest magnitude upwards, and
+pulse-rate sweeps run from the longest inter-spike period to the shortest, so that residual state left by one train
+cannot contaminate the response to the next. Before each run the pre-stimulus baseline current is checked against the
+value measured before the previous run, and the run follows the recovery interval of Section~\ref{sec:3cond}.
+
+\section[Spectroscopic Characterisation and Data Analysis]{Spectroscopic Characterisation and Data Analysis}
+
+\noindent Optical and \abbrev{XPS} measurements characterise the \abbrev{ITO} contact and constrain the interpretation
+of changes associated with electrical stress. The first subsection defines the optical and chemical comparisons and
+their measurement limits, and the second defines the plotted electrical quantities, fit-acceptance criteria, and
+uncertainty intervals used in the results chapters.
+
+\subsection[Optical and Chemical Characterisation]{Optical and Chemical
+Characterisation}\label{sec:3optical}
+
+\noindent The transparent \abbrev{ITO} contact allows spectroscopic ellipsometry to probe the underlying stack and
+illumination to reach the device, as shown in Figure~\ref{fig:3v5}. Photoemission instead relies on a separate
+comparison between pristine and stressed samples of the same stack. A Semilab SEA analyser
+measured the change in reflected-light polarisation at $79^{\circ}$ incidence over the $450$--$760$\,nm visible
+range.\\
+
+\begin{figure}[htbp!]
+\centering
+% ============================ panel (a) =======================================
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  box/.style={draw,rounded corners=2pt,fill=black!3,align=center,inner sep=3pt,
+              minimum height=1.15cm},
+  fl/.style={->,>=latex,line width=0.6pt}]
+\node[anchor=west,font=\scriptsize] at (-0.3,2.85) {\textbf{(a)} spectroscopic ellipsometry};
+% sample
+\draw[fill=black!25,draw=black!70,line width=0.3pt] (0.15,0.05) rectangle (3.85,0.42);
+\node[font=\tiny] at (2.0,0.235) {\abbrev{ITO} / SiO$_x$ / MoO$_x$ / Mo};
+% normal and beams
+\draw[dashed,line width=0.4pt] (2.0,0.42) -- (2.0,2.05);
+\node[anchor=south,font=\scriptsize] at (2.0,2.05) {normal};
+\draw[fl] (0.55,1.52) -- (1.94,0.44);
+\draw[line width=0.6pt] (2.06,0.44) -- (3.45,1.52);
+\draw[line width=0.4pt] (2.0,1.02) arc (90:142:0.60);
+\node[font=\scriptsize] at (1.46,1.20) {$79^{\circ}$};
+\node[anchor=east,font=\scriptsize,align=right] at (0.50,1.66) {polarised\\ light in};
+\node[font=\scriptsize] at (3.40,0.68) {reflected};
+% analyser chain
+\node[box,text width=2.1cm] (an) at (5.9,1.52) {Semilab SEA analyser};
+\node[box,text width=2.1cm] (pd) at (9.2,1.52) {$\Psi$ and $\Delta$,\\ 450--760\,nm};
+\node[box,text width=2.6cm] (md) at (12.7,1.52) {Layered optical model\\[1pt] {\tiny returns \abbrev{ITO} $n$ and $k$}};
+\draw[fl] (3.45,1.52) -- (an.west);
+\draw[fl] (an) -- (pd);
+\draw[fl] (pd) -- (md);
+\end{tikzpicture}
+
+\vspace{4mm}
+% ============================ panel (b) =======================================
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  box/.style={draw,rounded corners=2pt,fill=black!3,align=center,inner sep=3pt,
+              minimum height=1.15cm},
+  seq/.style={draw,rounded corners=2pt,fill=blue!5,align=center,inner sep=3pt,
+              minimum height=0.85cm},
+  fl/.style={->,>=latex,line width=0.6pt}]
+\node[anchor=west,font=\scriptsize] at (-0.3,3.70) {\textbf{(b)} illumination sweeps};
+\node[box,text width=2.1cm] (kt) at (0.9,0.95) {Keithley 4200-SCS};
+\node[box,text width=1.6cm] (dv) at (4.4,0.95) {\abbrev{ITO} device};
+\draw[fl] (kt.east) -- (dv.west);
+\node[box,dashed,fill=white,text width=3.2cm] (ill) at (4.4,2.72)
+  {Illumination source\\[1pt] {\scriptsize \textbf{uncalibrated} in wavelength and in optical power}};
+\draw[fl,decorate,decoration={snake,amplitude=0.5mm,segment length=2mm,post length=1.6mm}]
+  (ill.south) -- (dv.north);
+% separator
+\draw[dashed,draw=black!40,line width=0.4pt] (6.55,-0.35) -- (6.55,3.45);
+% acquisition order
+\node[anchor=west,font=\scriptsize] at (7.0,2.75) {acquisition order};
+\node[seq,text width=0.9cm] (d1) at (8.0,0.95) {dark};
+\node[seq,text width=1.5cm] (li) at (10.4,0.95) {under illumination};
+\node[seq,text width=0.9cm] (d2) at (12.6,0.95) {dark};
+\draw[fl] (d1) -- (li);
+\draw[fl] (li) -- (d2);
+\node[anchor=north,font=\scriptsize,align=center,text width=6.4cm] at (10.3,0.30)
+  {forward sweeps $0\rightarrow+25$\,V at 10\,mA compliance, in close succession};
+\end{tikzpicture}
+\caption[Optical characterisation arrangements.]{Optical characterisation
+arrangements. (a) Spectroscopic ellipsometry at $79^{\circ}$ incidence.
+(b) Dark--light--dark sweeps with an illumination source uncalibrated in
+wavelength and power. Not to scale.}
+\label{fig:3v5}
+\end{figure}
+
+\noindent A layered optical model fitted the measured $\Psi$ and $\Delta$, combining a Drude free-carrier term with a
+Lorentz oscillator for the \abbrev{ITO} dielectric function and returning the refractive index $n$ and extinction
+coefficient $k$. This fitted dielectric response reproduces the measured $\Psi$ and $\Delta$ but is not derived from
+the film composition. The principal layer thicknesses were fixed from the independent measurements of
+Section~\ref{sec:matstack}, while the thickness of a thin MoO$_x$ interfacial layer was fitted. Together the fitted
+dielectric function and layer thicknesses provide the pristine optical reference for comparison with the stressed
+sample.\\
+
+\noindent Illumination sweeps followed a dark--light--dark sequence on the parameter analyser. Because the source
+wavelength and power were uncalibrated and the device also evolved under successive voltage sweeps, the experiment
+supports only a qualitative current comparison: it shows whether the current changes under the available illumination,
+without isolating a calibrated photoresponse.\\
+
+\noindent X-ray photoelectron spectroscopy identifies elements and their chemical states from the binding energies
+of ejected photoelectrons \cite{margaritondo1988100}. The technique samples the near-surface region, typically a few
+nanometres \cite{oswald2006x}, so depth profiling requires material removal between acquisitions. An Ar$^{+}$ ion
+beam milled the sample stepwise in ultra-high vacuum, and spectra were acquired after each etch step
+\cite{geng2002xps}, as shown in Figure~\ref{fig:3v6}. Instrument, X-ray source, ion-beam energy, and etch schedule are
+not preserved in the available documentation.\\
+
+\noindent At each etch step, a wide survey spectrum confirmed the expected elements and the gross stack, while
+high-resolution scans measured the indium, tin, oxygen, silicon, molybdenum, and surface-carbon core levels. Both
+samples received the same processing, in which a constant background was subtracted from the low-binding-energy side
+and no intensity normalisation was applied. Decomposition of the oxygen line into the same metal-oxide, silicon-oxide,
+and intermediate components gave the relative weights plotted against etch step. Electrical characterisation of the
+stressed sample followed Section~\ref{sec:3cond}, and a separate unstressed sample of the same stack provided the
+pristine reference.\\
+
+\begin{figure}[htbp!]
+\centering
+\includegraphics[width=0.52\textwidth]{Chapter3/Figs/xps_depth_profile_setup.png}
+\caption[XPS depth profiling.]{The \abbrev{XPS} depth-profiling arrangement.
+X-rays eject photoelectrons, which the analyser disperses by kinetic energy.
+An Ar$^+$ ion beam removes material between acquisitions. Not to scale.}
+\label{fig:3v6}
+\end{figure}
+
+\noindent The depth axis reports etch step, because sputter yield varies between layers and with local stoichiometry.
+A change between species therefore locates an interface in the etch sequence without fixing its position in
+nanometres. Argon-ion milling also removes oxygen preferentially from the oxide, and differences between the profiles
+contain contributions from intrinsic depth chemistry, beam-induced reduction, and electrical stress that the
+experiment cannot separate completely. These beam-induced changes affect the pristine profile as well, which therefore
+supplies an unstressed reference for electrical history while remaining subject to the milling. All spectra were
+acquired \emph{ex situ}, after bias removal and transfer, so the measurements do not observe the device under
+operating conditions.
+
+\subsection[Electrical Data Reduction and Uncertainty]{Electrical Data Reduction and Uncertainty}
+\label{sec:3analysis}
+
+\noindent Negative-bias transients have negative measured currents, and figures plot $|I|$ where stated so that
+increasing magnitude reads as increasing conductance. Shape comparisons divide each transient by its post-drive
+maximum, so that a comparison depends on decay shape and not on the absolute current scale. Baseline-corrected
+analyses subtract the pre-stimulus current, while the stretched-exponential relaxation fit estimates its additive
+offset $I_0$ from the decay.\\
+
+\noindent Forward and reverse branches of a dual sweep are reduced separately because they may traverse different
+resistance states. Each candidate transport mechanism is tested in its predicted linear coordinates and retained only
+when the relation is linear and the fitted parameters are physically admissible. Pulse-train reduction takes the
+maximum $|I|$ from each pulse and measures cumulative conductance change
+from the pre-train value. The mean of the final ten pulse maxima defines the operational steady state without implying
+that the device reached a converged limit.\\
+
+\noindent \abbrev{ITO} relaxations were fitted from the measured peak by least squares to
+\begin{align}
+    I(t) = A\exp\!\big[-(t/\tau_{leak})^{\beta_{leak}}\big] + I_0, \label{eq:3.1}
+\end{align}
+
+\noindent where $I(t)$ is the measured current magnitude at a time $t$ after bias removal, $A$ the fitted
+amplitude of the decaying component, $\tau_{leak}$ its retention scale in seconds, $\beta_{leak}$ a dimensionless
+exponent setting the decay shape, and $I_0$ the fitted settled-current offset.\\
+
+\noindent The acceptance criteria test the measurement before they test the fit: the peak must lie within the first
+15\% of the transient, and all five final samples must lie below 70\% of the peak. These two checks exclude
+incomplete rises and transients that did not decay within the measurement interval, neither of which offers a
+complete decay for the fit to describe. Accepted fits then require $R^2>0.70$ and
+$0.25<\beta_{leak}<1.9$, which rejects poor descriptions of the fitted interval together with exponents outside the
+range the retained population occupies.\\
+
+\noindent A tighter screen applies where one fitted relaxation supplies a decay kernel instead of joining the
+population, because a kernel must describe the complete decay and not merely the interval accepted for it. Such a
+measurement must run longer than $150$\,s, and its fit with the background held fixed must reach $R^2>0.95$.\\
+
+\noindent Field-free retention was estimated by regressing $\ln(1/\tau_{leak})$ against $\sqrt{|V|}$ and
+extrapolating to zero field. Each of $10\,000$ bootstrap samples drew 53 fits with replacement, refitted the
+field relation, and retained the zero-field intercept; the 2.5th and 97.5th percentiles of those intercepts defined
+the interval. This resampling propagated trace-level variation across the 53 accepted transients without assuming a
+parametric distribution. The interval therefore bounds the variation within that population of transients and does
+not quantify device-to-device uncertainty.
+
+\FloatBarrier
 
 \section[Summary]{Summary}
 
-\noindent This chapter established the empirical foundation of the thesis. It detailed the fabrication of silicon-rich \abbrev{MIM} devices by \abbrev{RF} sputtering and their electrical characterisation. The characterisation revealed coexisting unipolar and bipolar non-volatile switching alongside multilevel and volatile threshold modes. Curve fitting identified trap-assisted tunnelling through conductive oxygen-vacancy filaments as the dominant transport mechanism. The observed device-to-device stochasticity and variability were framed not as mere defects but as properties the later chapters exploit for probabilistic and neuromorphic computing. These operational boundaries and physical mechanisms provide the basis for the modelling and learning frameworks developed in the following chapters.
+\noindent Stack, fabrication batch, contact geometry, and preparation route together define each of the four
+\abbrev{SiOx} families. Every experiment identifies the family and the acquisition path on which its evidence rests.
+Electroforming and constant-current conditioning separate persistent switching from the conditioned relaxation, so
+the two regimes enter the later chapters as distinct evidence units, and no single element supplies both.\\
+
+\noindent Time-resolved data come from three acquisition paths: a voltage step, a pulse train, and a near-zero-bias
+read. Sweep-branch separation, fit-acceptance criteria, and bootstrap intervals then bound what each measurement
+supports. Two-wire probing assigns lead and contact
+resistance to the device, the spectroscopy is \emph{ex situ}, and the family comparisons differ in more than one layer
+at a time. These methods therefore identify no unique microscopic process, and the limits they impose travel with the
+measured quantities into the network and learning chapters.

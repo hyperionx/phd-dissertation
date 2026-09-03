@@ -5,450 +5,331 @@
 
 \chapter{Hardware-Aware Spiking Networks}\label{ch:bio}
 
-\noindent Chapter~\ref{ch:model} condensed the current transient into a compact \abbrev{SPICE} model of its full dual-phase dynamics. This chapter puts the device to work inside a trained spiking network, and finds that whether the transient helps or hinders depends on the network architecture. The chapter is organised around that principle, using two faces of the device in turn. In a static classifier, where the same input is presented at every time step, the evolving conductance of a stuck or overactive synapse is a variability to be managed. Here the network draws on the steady-state Poole--Frenkel I--V map, because time-domain integration through the diode-mediated relaxation suits gradient-based training poorly: each forward pass would demand nested ordinary-differential-equation solves at every synapse and a computation graph awkward to differentiate and unroll. A firing-rate homeostatic regulariser suppresses the variability and improves generalisation on fully connected networks, though the benefit falls away once the network is temporal.\\
+\noindent Within a crossbar, the current--voltage response sets how each presynaptic spike is transmitted, while
+volatile relaxation sets how much state from earlier activity survives until the next spike. This chapter first
+trains dense and convolutional spiking networks through the measured static nonlinearity and device variation. That
+same relaxation, measured in full, then enters the simulations as a volatile synaptic state, and the experiments test
+delayed classification, decay shape, and the distribution of retained state across layers.\\
 
-\noindent In a temporal classifier, where the network streams a signal as it unfolds, the same relaxation is instead a resource. The trap-discharge family measured in Chapter~\ref{ch:model} constrains leak settings for a leaky integrate-and-fire membrane, and the selected model retention determines how long a decision survives a stimulus-free delay. The same $\tau_{leak}$ parameter reappears in Chapter~\ref{ch:learning} as the eligibility trace of reward-modulated learning; here it sets a classifier's temporal memory, and its identification as a learning substrate is the concern of that later chapter. The hardware-aware training platform this chapter builds on was originally developed within the group in TensorFlow \cite{joksas2022nonideality}; the author reimplemented it in PyTorch and extended it from static classifiers to spiking networks, adding the homeostatic gain regulariser, the device-grounded temporal membrane, and the benchmarks reported here. In outline, the results are these: nonideality-aware training retains roughly $80\%$ accuracy against a $90\%$ ideal ceiling; the regulariser adds $+2.6$ to $+4.4$\,pp on fully connected networks but costs $8.5$\,pp once the network is temporal; and the device-constrained membrane model gives a retention-dependent hold-time, $D_{max}\approx6.1\,\tau_{leak}$, that clears recognised neuromorphic benchmarks. The foundations below are only what these results require; the spiking neuron, plasticity rules, and crossbar of Chapter~\ref{ch:foundations} are taken as given.
+\noindent Measurements from the electroformed Ti/Au family give the static current response that performs the
+weighted sum, and the \abbrev{ITO} measurements give the temporal state that decays between events: distinct
+physical quantities, not competing versions of one. The hardware-aware TensorFlow platform was developed within the
+group \cite{joksas2022nonideality}; the author reimplemented it in PyTorch, extended it to spiking networks, and
+developed the homeostatic regulariser, volatile-state model, and delayed-classification experiments. Because the two
+families are combined only within the simulation, this chapter reports a constructed synaptic model driven by
+measured device characteristics, not a hardware implementation containing both functions.
 
-\section[Spiking Neural Networks]{Spiking Neural Networks}\label{sec:6p1}
+\section[Network and Device Model]{Network and Device Model}\label{sec:6p1}
 
-\noindent This section takes the spiking neuron, its plasticity, and the memristive crossbar of Chapter~\ref{ch:foundations} as given, and recasts only what the rest of the chapter acts on directly: the discrete-time neuron equations the training loop integrates, and the device-facing forms of the local learning rules. The biological and circuit background, from the leaky integrate-and-fire neuron through spike coding to the crossbar vector--matrix product, is established in Chapter~\ref{ch:foundations} (Sections~\ref{subsec:neuronal-modelling}, \ref{subsec:plasticity}, and \ref{sec:neuro-hardware}).\\
+\noindent Simulating a memristive spiking network requires a neuron model, a differentiable training rule, and a
+mapping from numerical weights to measured device current. The first subsection defines the discrete spiking dynamics,
+input encoding, and readout, and the second maps signed weights onto differential conductance pairs and embeds the
+measured nonlinear current response and device variation in the forward pass.
 
-\subsection[Device-Facing Neuron Models]{Device-Facing Neuron Models}
+\subsection[Spiking Dynamics and Training]{Spiking Dynamics and Training}\label{sec:6p1p1}
 
-\noindent A spiking neural network builds the event-driven biology of Section~\ref{subsec:neuronal-modelling} in hardware, with \abbrev{CMOS} circuits as neurons and memristors as the synapses whose conductance stores each weight (Figure~\ref{fig:6b}) \cite{saighi2015plasticity, chang2011short}. The current reaching a neuron is the sum of the currents through its synapses, the in-memory vector--matrix multiplication of Section~\ref{sec:neuro-hardware}; when it crosses threshold the neuron fires, and the array adapts its conductances locally through the pulse-overlap \abbrev{STDP} of Section~\ref{sec:neuro-hardware}. The chemical signalling that generates the excitatory and inhibitory postsynaptic potentials underlying this process is shown in Figure~\ref{fig:6a} \cite{burr2017neuromorphic}.\\
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/synaptic_postsynaptic_potentials.png}
-    \caption[Excitatory and inhibitory postsynaptic potentials generated via chemical and electrical signalling at synapses.]{Chemical and electrical signalling at synapses generates postsynaptic potentials in the receiving neuron. These potentials can be excitatory, depolarising the membrane to increase the likelihood of firing, or inhibitory, hyperpolarising the membrane to decrease the likelihood of firing, ultimately regulating the generation of new action potentials \cite{burr2017neuromorphic}.}
-    \label{fig:6a}
-\end{figure}
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/memristor_cmos_stdp_architecture.png}
-    \caption[Hybrid memristor-CMOS architecture for STDP learning.]{A hybrid memristor-\abbrev{CMOS} architecture designed to implement Spike-Timing-Dependent Plasticity (\abbrev{STDP}) learning. The schematic illustrates a feed-forward neural network comprising three layers of \abbrev{CMOS} neurons interconnected by two fully connected memristive synaptic crossbars \cite{saighi2015plasticity}.}
-    \label{fig:6b}
-\end{figure}
-
-\subsection[Spike-Based Computation on Memristive Hardware]{Spike-Based Computation on Memristive Hardware}
-
-\noindent The training loop acts on the discrete-time leaky integrate-and-fire (\abbrev{LIF}) neuron of Section~\ref{subsec:neuronal-modelling}, not its continuous form. Figure~\ref{fig:6c} shows the neuron over time: it accumulates weighted input spikes as charge, fires and resets when the charge crosses threshold, and enters a brief refractory period \cite{wu2017enabling}. Equation~\ref{eq:6.1} is the unit-step ($\Delta t = 1$) forward-Euler discretisation of the continuous \abbrev{LIF} equation $\tau_m\,dV_m/dt = -V_m + \sum_i w_{ij} x_i$, the same explicit scheme used for the synaptic dynamics below \cite{eshraghian2023training}, so the membrane relaxes towards rest with time constant $\tau_m$. This constant is normally a free hyperparameter; Section~\ref{sec:6p5} instead sets it from a measured device relaxation, so the neuron's temporal memory becomes the device's own.
+\noindent Every network in this chapter uses the discrete leaky integrate-and-fire (\abbrev{LIF}) neuron introduced in
+Section~\ref{subsec:neuronal-modelling}. For postsynaptic neuron $j$, the binary presynaptic spike $x_i(t)$ is
+weighted by $w_{ij}$ and added to the membrane potential $V_m$, which otherwise decays towards rest. A unit-step
+forward-Euler update gives
 \begin{align}
     V_m(t) = V_m(t-1) + \sum_{i} w_{ij}\, x_i(t-1) - \frac{V_m(t-1)}{\tau_m} \label{eq:6.1}
 \end{align}
 
+\noindent This update is equivalent to a multiplicative decay factor $\lambda_m=1-1/\tau_m$, and all networks use
+$\lambda_m=0.95$, corresponding to $\tau_m=20$ timesteps, with the normalised firing threshold fixed at $V_{th}=1$.
+A neuron emits a spike when $V_m>V_{th}$ and subtracts the threshold from its membrane, preserving any excess voltage
+and permitting spikes on successive steps (Figure~\ref{fig:6c}). This neuronal time constant is a simulation
+hyperparameter; the measured volatility acts at the synapse and remains separate from it.\\
+
 \begin{figure}[htbp!]
     \centering
-    \includegraphics[width=0.95\textwidth]{Chapter6/Figs/snn_schematic.png}
-    \caption[Schematic illustration of a single-layer spiking neural network (SNN).]{Schematic illustration of a single-layer spiking neural network (\abbrev{SNN}). (a) Input spike trains $\{x_1, \ldots, x_N\}$ are weighted by synaptic efficacies $w_{ij}$ and integrated by a postsynaptic leaky integrate-and-fire (\abbrev{LIF}) neuron. (b) The membrane potential $V(t)$ evolves by leaky integration, jumps at each weighted input spike, and on crossing the threshold $V_{th}$ emits an output spike, resets to $V_{reset}$, and enters a refractory period during which subsequent inputs have reduced effect. The trajectory comes from a forward-Euler \abbrev{LIF} simulation driven by the input spikes shown.}
+    \includegraphics[width=\textwidth]{Chapter6/Figs/snn_schematic_vector.pdf}
+    \caption[Schematic illustration of a single-layer spiking neural network (SNN).]{\emph{Schematic}: discrete
+    \abbrev{LIF} dynamics. \textbf{(a)} Weighted input spikes drive an output neuron. \textbf{(b)} The membrane
+    integrates those inputs, decays between them, and emits a spike on crossing threshold. The threshold is then
+    subtracted from the membrane. The schematic uses $\lambda_m=0.86$ for visibility; the simulations use $0.95$.}
     \label{fig:6c}
 \end{figure}
 
-\noindent Equation~\ref{eq:6.2} is the firing rule: the neuron spikes when the voltage exceeds threshold and the refractory period $T_R$ has passed.
+\noindent Each sample occupies a fixed window, and all membrane states are reset at its start. Static experiments use
+the timestep only as a simulation index, whereas the temporal experiments assign it the measured sampling interval.
+Real-valued inputs use rate coding \cite{gerstner1997neural}: at each step, an input
+spikes with probability equal to its normalised amplitude. The expected spike count is therefore proportional to the
+input, while repeated presentations capture the variation introduced by the stochastic encoding.\\
+
+\noindent In every experiment, the predicted class is the output neuron with the largest spike count over the read
+window. Static classification optimises cross-entropy from the membrane output at each timestep; the homeostasis and
+delayed-memory experiments instead optimise the summed output counts,
 \begin{align}
-    x(t) = \begin{cases}
-        1, & V_m(t) > V_{th} \text{ and } t - t_{spike} > T_R \\
-        0, & \text{otherwise}
-    \end{cases} \label{eq:6.2}
+    \mathcal{L} = -\log \frac{\exp\!\big(\textstyle\sum_t x_c(t)\big)}
+                              {\sum_{c'} \exp\!\big(\textstyle\sum_t x_{c'}(t)\big)},
+    \label{eq:6ratece}
 \end{align}
 
-\noindent Real-valued inputs are converted to spikes by rate-coding \cite{gerstner1997neural}: at each step a spike $X(t)$ is emitted with probability equal to the normalised input amplitude $\hat{x}\in[0,1]$, compared to a fresh uniform draw $u\sim\mathcal{U}[0,1]$,
+\noindent for true class $c$. This objective trains the same count used for the decision. Exact ties are resolved by
+the final membrane potential among the tied classes in Section~\ref{sec:6p3p3}, with chance tie-breaking reported
+where it changes the result.\\
+
+\noindent A binary spike has no useful derivative for gradient descent, so the backward pass uses a surrogate
+\cite{neftci2019surrogate, zhou2022memristive, pfeiffer2018deep, wang2020supervised}. For the distance from threshold,
+$u=V_m-V_{th}$, dense networks use an arctangent derivative and convolutional networks use a fast sigmoid:
 \begin{align}
-    X(t) = \begin{cases}
-        1, & u < \hat{x} \\
-        0, & \text{otherwise,}
-    \end{cases} \label{eq:6.3}
-\end{align}
-so the expected spike count over the window is proportional to $\hat{x}$. Because the discrete spike is non-differentiable, the network is trained by surrogate-gradient descent through time, unrolling the neuron dynamics so gradient descent can optimise the memristive synapses against them \cite{neftci2019surrogate, zhou2022memristive, pfeiffer2018deep, wang2020supervised}; the surrogate is detailed with the training loop below. Such event-driven networks reduce energy by encoding information in spike timing rather than high-precision numbers \cite{wunderlich2019demonstrating, zhou2020towards}, and mature simulators support their acceleration on \abbrev{GPU}s \cite{pehle2021norse}. Mapping the result onto physical crossbars then requires modelling the devices' imperfections, the nonideality simulations that follow.\\
-
-\subsection[Device-Facing Plasticity Rules]{Device-Facing Plasticity Rules}
-
-\noindent The synaptic plasticity that underlies learning is introduced in Section~\ref{subsec:plasticity}: the persistence-based taxonomy of \abbrev{LTP}, \abbrev{LTD}, and \abbrev{STP}, the Hebbian principle, and the spike-timing-dependent plasticity (\abbrev{STDP}) learning window. The supervised, unsupervised, and reinforcement learning paradigms are introduced in Section~\ref{subsec:learning-paradigms}. This subsection takes those rules as given and reformulates them in the device-facing forms used by the rest of the chapter. It contrasts the long-term potentiation that non-volatile memristors emulate (long-term facilitation, \abbrevdef{LTF}, or \abbrev{LTD}) with the short-term plasticity that volatile devices express.\\
-
-\noindent The Hebbian rate model \cite{hebb2002organization, gerstner2014neuronal} for a weight $w_{ij}$ between presynaptic and postsynaptic firing rates $v_j^{prev}$ and $v_i^{post}$, gated by a neuromodulator $M$, admits a Taylor expansion whose coefficients separate the distinct activity-dependent contributions:
-\begin{align}
-\frac{dw_{ij}}{dt} = a_0(w_{ij}, M) + a_1^{prev}(w_{ij}, M)\, v_j^{prev} + a_1^{post}(w_{ij}, M)\, v_i^{post} + a_2^{corr}(w_{ij}, M)\, v_j^{prev} v_i^{post} + \cdots \label{eq:6.5}
+    \frac{\partial x}{\partial u}\bigg|_{\mathrm{dense}} = \frac{1}{1 + (\pi u)^2},
+    \qquad
+    \frac{\partial x}{\partial u}\bigg|_{\mathrm{conv}} = \frac{1}{(1 + 25\,|u|)^2}.
+    \label{eq:6surrogate}
 \end{align}
 
-\noindent Here $a_0$ is background weight decay, the first-order coefficients $a_1^{prev}$ and $a_1^{post}$ scale isolated presynaptic and postsynaptic activity, and the second-order $a_2^{corr}$ carries the Hebbian correlation between simultaneous firing. These coefficients matter because the pair-based \abbrev{STDP} rule populates exactly $a_1^{prev}$ and $a_2^{corr}$, as shown below.\\
+\noindent Both surrogates equal one at threshold and decrease away from it without altering the forward spike
+calculation. Backpropagation through time applies the surrogate at each step
+\cite{werbos1990backpropagation}, and the differentiable device-current model remains in the same computational
+graph, so training accounts for its voltage dependence and fixed device-to-device variation
+\cite{joksas2022nonideality, rasch2021flexible}.
 
-\noindent The pair-based \abbrev{STDP} learning window of Section~\ref{subsec:plasticity} (Chapter~2, Equation~\ref{eq:2.12}) is $W(\Delta t) = A_+(w)\,e^{-\Delta t/\tau_+}$ for $\Delta t = t_{post}-t_{prev} > 0$ and $A_-(w)\,e^{\Delta t/\tau_-}$ for $\Delta t < 0$, with $A_+(w)>0$ and $A_-(w)<0$ setting the magnitude of \abbrev{LTF} and \abbrev{LTD}. It can be recast as a pair of decaying biochemical traces, a form that foreshadows the eligibility trace of Section~\ref{subsec:learning-paradigms} and Chapter~\ref{ch:learning}. Expressing the presynaptic and postsynaptic spike trains as $S_j = \sum_{f} \delta( t - t_j^f )$ and $S_i = \sum_{n} \delta( t - t_i^n )$, the rule reformulates as:
-\begin{align}
-\frac{dx_j}{dt} &= S_j(t) - \frac{x_j}{\tau_+} \label{eq:6.8} \\
-\frac{dy_i}{dt} &= S_i(t) - \frac{y_i}{\tau_-} \label{eq:6.9}
-\end{align}
+\subsection[Conductance Mapping and Device Current]{Conductance Mapping and Device
+Current}\label{sec:6p1p2}
 
-\noindent The variables $x_j$ and $y_i$ act as biochemical traces left by pre- and postsynaptic spikes, corresponding to the exponential decay terms $e^{-|\Delta t| / \tau_+}$ and $e^{-|\Delta t| / \tau_-}$, yielding:
-\begin{align}
-\frac{dw_{ij}}{dt} = A_+(w_{ij})\, x_j(t)\, S_i(t) + A_-(w_{ij})\, y_i(t)\, S_j(t) \label{eq:6.10}
-\end{align}
-
-\noindent The right-hand terms denote the pre-before-post and post-before-pre effects, respectively. For independent Poisson inputs, \abbrev{STDP} aligns directly with rate models \cite{gerstner2014neuronal}:
-\begin{align}
-\frac{dw_{ij}}{dt} = v_{j}^{prev} \int_{0}^{\infty} W(-s)\, \varepsilon(s)\, ds + v_{j}^{prev} v_{i}^{post} \int_{-\infty}^{\infty} W(s)\, ds \label{eq:6.11}
-\end{align}
-
-\noindent The first term is linear in the presynaptic rate $v_j^{prev}$ alone because each presynaptic spike correlates with the postsynaptic potential $\varepsilon(s)$ it itself drives, so the learning window $W$ is sampled through the neuron's own causal response ($\varepsilon(s)$ for $s>0$); the second, bilinear term collects the rate-independent window overlap $\int W(s)\,ds$ between uncorrelated pre- and postsynaptic firing. Comparing Equations \ref{eq:6.5} and \ref{eq:6.11} shows that \abbrev{STDP} defines the $a_1^{prev}$ and $a_2^{corr}$ coefficients, nullifying the rest. Non-volatile memristors natively emulate \abbrev{LTP} synapses by retaining updated memristance states. Arranged in a crossbar, they perform the analogue vector-matrix multiplication introduced in Section~\ref{sec:neuro-hardware}, formalised for this chapter in Equations~\ref{eq:6.17}--\ref{eq:6.18}.\\
-
-\noindent Gradient backpropagation, a global optimisation algorithm updating weights via backward error propagation, dominates DNNs, while \abbrev{STDP} dominates SNNs. Memristive crossbars support both training and inference paradigms \cite{hasan2017chip, ankit2019puma}.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.5\textwidth]{Chapter6/Figs/memristor_synapse_placement.png}
-    \caption[Memristor between presynaptic and postsynaptic neurons.]{Memristor between presynaptic and postsynaptic neurons \cite{huang2018memristor}.}
-    \label{fig:6e}
-\end{figure}
-
-\noindent Backpropagation requires complex external digital circuitry to calculate gradients and sequence update pulses, introducing substantial overhead. Conversely, \abbrev{STDP} naturally maps to memristor physics \cite{maranhao2021low, yakopcic2013generalized}. Figure \ref{fig:6e} illustrates a memristor connecting two neurons. Pre- and postsynaptic spikes generate a precise voltage difference across the device, updating its memristance strictly based on the spike timing interval.\\
-
-\noindent While most research focuses on non-volatile memristors for \abbrev{LTP}, volatile memristors effectively emulate short-term plasticity (\abbrev{STP}), which governs critical functions like motion detection, speech recognition, and working memory \cite{ghanbari2017estimating}. Unlike \abbrev{LTP}, \abbrev{STP} depends heavily on presynaptic spiking activity. Defining $P_{release}$ as the fraction of neurotransmitter released lets both short-term facilitation (\abbrevdef{STF}) and \abbrev{STD} be modelled through the standard phenomenological dynamics \cite{markram1997regulation, dayan2005theoretical}:
-\begin{align}
-\frac{dP_{release}}{dt} = -\frac{P_{release} - P_0}{\tau_F} + f_F (1 - P_{release}) \sum_{f} \delta\left( t - t^f \right) \label{eq:6.12}
-\end{align}
-
-\noindent Here, $t^f$ is the presynaptic spike time, $P_0$ is the resting value, $\tau_F$ governs the recovery timescale, and $f_F$ controls facilitation. Similarly, \abbrev{STD} is defined as:
-\begin{align}
-\frac{dP_{release}}{dt} = -\frac{P_{release} - P_0}{\tau_D} - f_D\, P_{release} \sum_{f} \delta\left( t - t^f \right) \label{eq:6.13}
-\end{align}
-
-\noindent Volatile memristors naturally emulate \abbrev{STF} and \abbrev{STD} by retaining conductance changes only briefly. Paired-pulse facilitation (\abbrevdef{PPF}) and paired-pulse depression (\abbrevdef{PPD}) metrics measure these effects. The index $\frac{A_2}{A_1}$ gives \abbrev{PPF}/\abbrev{PPD} strength, where $A_1$ and $A_2$ are the absolute amplitudes of the excitatory postsynaptic current (\abbrevdef{EPSC}) or inhibitory postsynaptic current (\abbrevdef{IPSC}) from successive spikes. A single-layered molybdenum disulfide ($MoS_2$) memristor, for instance, exploits Joule heating to achieve this volatile conductance modulation \cite{sun2018synaptic}.\\
-
-\noindent Alternatively, the supervised spike-rate-dependent plasticity (\abbrev{SRDP}) rule trains SNNs with high hardware compatibility. Supervised \abbrev{SRDP} overcomes the accuracy limitations of unsupervised methods by incorporating global error signals \cite{pfeiffer2018deep}:
-\begin{align}
-\Delta_{ij} = \begin{cases}
-    +1, & f_{r_j} < f_{t_j} \text{ and } f_{s_i} > \theta \\
-    -1, & f_{r_j} < f_{t_j} \text{ and } f_{s_i} < \theta \\
-    -2, & f_{r_j} > f_{t_j} \text{ and } f_{s_i} > \theta
-\end{cases} \label{eq:6.14}
-\end{align}
-
-\noindent Here, $f_s$, $f_r$, and $f_t$ represent the output frequencies of the sensory, relay, and teaching neurons, respectively, and $\theta$ is the activity threshold. The discrete update command $\Delta_{ij}$ dictates the voltage pulses applied to the synapses connecting the $i$-th sensory and $j$-th relay neurons.\\
-
-\noindent The rule evaluates the relay neuron's output against the teaching frequency. If the relay neuron fires too slowly ($f_{r_j} < f_{t_j}$), the network strengthens pathways from highly active sensory neurons ($f_{s_i} > \theta$) via $\Delta_{ij} = +1$ and weakens pathways from insufficiently active neurons ($f_{s_i} < \theta$) via $\Delta_{ij} = -1$. If the relay neuron fires too fast ($f_{r_j} > f_{t_j}$), it has learned the wrong features, and the network aggressively erases them by decreasing the weight ($\Delta_{ij} = -2$).\\
-
-\noindent Because physical memristors strictly possess positive conductance, hardware implementations use differential pairs to encode signed weights. A $\Delta_{ij} = +1$ command pulses the 'negative' memristor to increase the effective weight, while a $-1$ or $-2$ command pulses the 'positive' memristor to decrease it. A global loss function evaluates overall training progress by measuring the normalised discrepancy between actual and target frequencies. For a single training sample $k$, the error $l_k$ across all $j$ relay neurons is:
-\begin{align}
-l_k       &= \frac{\sum_{j} \left( f_{r,j} - f_{t,j} \right)^2}{\sum_{j} f_{t,j}^2} \label{eq:6.15} \\
-\text{Loss} &= \frac{1}{N} \sum_{k=1}^{N} l_k \label{eq:6.16}
-\end{align}
-
-\noindent Here, $f_{r,j}$ and $f_{t,j}$ are the actual and target output frequencies for the $j$-th relay neuron. The system computes the individual error $l_k$ and averages it across all $N$ training samples to give the total loss. The algorithm applies local \abbrev{SRDP} updates continually and terminates once the loss falls below a set threshold.
-
-\section[Nonideality-Aware Training]{Nonideality-Aware Training}
-
-\noindent With the spiking primitives and local learning rules of Section~\ref{sec:6p1} in place, the focus turns to training networks whose synapses are physical memristors. This section maps weights onto a crossbar, characterises the device's I-V non-idealities, folds them into the forward and backward passes, and validates the resulting hardware-aware training on \abbrev{MNIST}.
-
-\subsection[Crossbar Arrays and Weight Mapping]{Crossbar Arrays and Weight Mapping}
-
-\noindent Nanoscale non-volatile memory devices arranged as \abbrev{RRAM} synapses enable highly parallel, brain-inspired computing at low state-transition energy and a compact footprint \cite{zamarreno2011spike, querlioz2012bioinspired, yu2011electronic}. Spiking convolutional architectures encode inputs as spatiotemporal spike patterns and extract features by local, competitive (winner-take-all) \abbrev{STDP} \cite{kheradpisheh2018stdp, markram2012spike}. Figure~\ref{fig:6f} illustrates an \abbrev{RRAM} crossbar array connecting two neuronal layers, in which back-propagated spikes modulate the conductances in situ \cite{wu2018dendritic}.\\
-
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.7\textwidth]{Chapter6/Figs/rram_crossbar_snn_layer.png}
-    \caption[An SNN layer utilising a crossbar array of RRAM synapses.]{An \abbrev{SNN} layer utilising a crossbar array of \abbrev{RRAM} synapses. Multiple parallel \abbrev{RRAM} devices connect each pre-synaptic and post-synaptic neuron. Following dendritic processing, back-propagated spikes enable in-situ modulation of the \abbrev{RRAM} conductance according to the \abbrev{STDP} learning rule \cite{wu2018dendritic}.}
-    \label{fig:6f}
-\end{figure}
-
-\noindent This dense 2D array mimics standard memory layouts and forms a repeatable motif that scales to deeper SNNs, extensible to 3D through-silicon-via integration \cite{jo2009programmable}. Realising \abbrev{STDP} locally in such arrays is limited by the devices themselves: experimental \abbrev{RRAM} switches abruptly and stochastically between resistance states, restricting stable synaptic resolution \cite{prakash2016multilevel, suri2013bio, soni2011stochastic, yu2012switching, li2014stochastic}, which compound multi-device synapses partly mitigate \cite{bill2014compound, gaba2013stochastic}. The same \abbrev{STDP}-like switching appears across nanoscale memristor families, including phase-change and spin-transfer-torque devices \cite{kang2015emulation, mandal2014novel, sengupta2015spin, krzysteczko2012memristive, li2013ultrafast, chen2016review}, and supports unsupervised local learning schemes such as Bayesian and stability-regularised \abbrev{STDP} \cite{nessler2013bayesian, kappel2014stdp, sprekeler2007slowness, toyoizumi2004spike}. Because purely local \abbrev{STDP} nonetheless lacks a global credit-assignment signal, scaling to deep networks instead applies gradient descent directly to the nonlinear state evolution of the memristive components \cite{zhou2022memristive, neftci2019surrogate}, the approach taken here. Physically, the neuron's voltage response drives the memristive synapses through the crossbar vector--matrix product of Section~\ref{sec:neuro-hardware}:
-\begin{align}
-\begin{bmatrix} I_1 \\ I_2 \\ \vdots \\ I_M \end{bmatrix}
-=
-\begin{bmatrix}
-    w_{1,1} & w_{1,2} & \cdots & w_{1,M} \\
-    w_{2,1} & w_{2,2} & \cdots & w_{2,M} \\
-    \vdots  & \vdots  & \ddots & \vdots  \\
-    w_{N,1} & w_{N,2} & \cdots & w_{N,M}
-\end{bmatrix}^{\!\top}
-\begin{bmatrix} V_1 \\ V_2 \\ \vdots \\ V_N \end{bmatrix} \label{eq:6.17}
-\end{align}
-
-
-\noindent Here $\mathbf{I}$ is the output-current vector, with one entry per output neuron $j=1,\dots,M$; $\mathbf{V}$ is the input-voltage vector, with one entry per input line $i=1,\dots,N$; and the weight $w_{ij}$, mapped onto device conductances, connects input line $i$ to output $j$, so that
-\begin{align}
-I_j = \sum_{i=1}^{N} V_i\, w_{ij} \label{eq:6.18}
-\end{align}
-
-\noindent The output current vector $\textbf{I}$ accumulates along the bitlines and drives the next \abbrev{LIF} neuron layer, with buffers or scaling factors mitigating resistive loading attenuation \cite{wang2020high, wang2022low}.
-\begin{align}
-\tau_{syn} \frac{dI_j}{dt} &= a_j - I_j \label{eq:6.19} \\
-\tau_{syn} \frac{da_j}{dt} &= -a_j + \tau_{syn}\sum_{i} \sum_{n} w_{ij}\, \delta\left( t - t_i^n \right) \label{eq:6.20}
-\end{align}
-
-\noindent The double sum in Equation (\ref{eq:6.20}) runs over the spikes $\{t_i^n\}_n$ emitted by each presynaptic neuron $i$ and over all presynaptic neurons projecting to postsynaptic neuron $j$. The trace $a_j$ is the synaptic activation aggregated at $j$ from weighted input spikes, decaying with time constant $\tau_{syn}$. The current $I_j$ is the alpha-shaped postsynaptic current, obtained as a low-pass filter of $a_j$ that integrates onto the downstream LIF membrane potential. The continuous alpha waveform accurately approximates biological graded potentials in the sensory periphery, effectively translating discrete spikes into analogue physical dynamics \cite{eshraghian2018formulation}.
-\begin{align}
-I_j^{t+1} &= I_j^t + \frac{a_j^t - I_j^t}{\tau_{syn}} \label{eq:6.21} \\
-a_j^{t+1} &= a_j^t - \frac{a_j^t}{\tau_{syn}} + \sum_{i} \sum_{n} w_{ij}\, \delta\left( t - t_i^n \right) \label{eq:6.22}
-\end{align}
-
-
-\noindent To train this network by gradient descent, the continuous dynamics are discretised (Equations \ref{eq:6.21} and \ref{eq:6.22}), unfolding the memristive state in a computational graph akin to a recurrent neural network (\abbrev{RNN}). Standard \abbrev{SPICE} simulators use complex solvers like backward Euler. Compatibility with backpropagation through time (\abbrev{BPTT}), however, requires the forward Euler method, which computes the next time step explicitly. The unrolled memristive SNN (\abbrevdef{MSNN}) lets gradient descent optimise memristive synapses against \abbrev{LIF} evolution, with a loss function evaluating the output layer's continuous membrane potential $v$ at each time step. \abbrev{SNN} training must retain intermediate states to guide learning accurately, making \abbrev{BPTT} preferable to memory-efficient alternatives like the continuous-time adjoint sensitivity method \cite{chen2018neural}.\\
-
-\noindent During supervised learning, the algorithm maximises the target neuron's spike frequency while suppressing incorrect outputs, applying error backpropagation directly to the continuous membrane voltages \cite{neftci2019surrogate}. \abbrev{BPTT} applies the chain rule backward through time and layers to compute synaptic gradients \cite{eshraghian2023training}, and treating mathematical weights $w$ as physical conductances maps these updates directly to the \abbrev{RRAM} crossbars. The optimiser here is backpropagation through time rather than a biological rule. Biorealism, in the sense fixed in Chapter~2, resides in the physically grounded device-to-synapse mapping the training acts on, not in the training algorithm.\\
-
-\noindent Together, these elements define one full spiking time step on the array. It is worth stating explicitly, because every result in this chapter and the reinforcement-learning chapter that follows runs on this same loop. At time step $t$, the presynaptic layer presents its spikes as a vector of row (wordline) voltages $\mathbf{V}(t)$, a spike encoded as a read pulse and no-spike as zero. The crossbar performs the analogue vector--matrix product of Equation~(\ref{eq:6.18}) in place. Each column (bitline) sums the Ohmic currents $I_j = \sum_i G_{ij} V_i(t)$ by Kirchhoff's law, so the conductance matrix is the weight matrix and the multiply costs no explicit arithmetic. Each bitline current is low-pass filtered into the alpha-shaped synaptic current of Equations~(\ref{eq:6.21})--(\ref{eq:6.22}) and integrated onto the postsynaptic membrane potential of Equation~(\ref{eq:6.1}). When that potential crosses threshold, the neuron emits a spike per Equation~(\ref{eq:6.2}), resets, and enters its refractory window. The emitted spikes become the wordline voltages driving the next layer's crossbar, and the cycle repeats.\\
-
-\noindent Signed weights are realised, as throughout this chapter, by the differential conductance pair of Equation~(\ref{eq:6.28}), $w_{ij} \propto G^{+}_{ij} - G^{-}_{ij}$, read on paired bitlines whose currents are subtracted at the neuron input, so the in-memory spiking inference and the gradient-based training share one description.\\
-
-\noindent Mathematical optimisation of \abbrev{MSNN}s typically assumes ideal components. Mapping weights onto physical crossbars is harder, because real memristors exhibit stuck-at faults, random telegraph noise (\abbrevdef{RTN}), and highly nonlinear current-voltage (I-V) characteristics. Hardware fixes for these non-idealities, such as compensation circuitry \cite{ambrogio2018equivalent, li2018analogue} or complex programming schemes \cite{xia2017stuck, chen2017accelerator, jain2019cxdnn, wang2020ssm, li2019build}, add substantial overhead \cite{amirsoleimani2020memory, cai2019fully}. \\
-
-\noindent Hardware-agnostic algorithmic solutions instead neutralise noise without device changes. Committee machines (CMs), for example, average outputs across parallel ensembles \cite{joksas2020committee}. Ex-situ training also builds resilience by modifying loss functions \cite{zhu2020statistical} or injecting noise \cite{he2019noise, joshi2020accurate}, and recent work extends these schemes to recover adversarial robustness even when test-time non-idealities are only partially known \cite{joksas2025robust}. Simple noise injection, however, cannot model complex I-V nonlinearity adequately. End-to-end compute-in-memory evaluation tools such as SpikeSim further account for time-step-accumulated crossbar non-idealities, IR drop, and \abbrevdef{ADC} quantisation \cite{moitra2023spikesim}. To develop a reliable ex-situ methodology, this research embeds empirical characteristics from a physical $SiO_x$ memristor directly into the training loop.\\
+\noindent Each signed network weight is mapped to a pair of non-negative conductances. A presynaptic spike applies a
+row-voltage pulse, the two devices produce opposing currents, and subtraction of the paired column currents gives the
+signed synaptic contribution. Column currents then sum and drive the next \abbrev{LIF} layer. These simulations
+include the measured nonlinear current--voltage response and fixed device variation, and omit line resistance, driver
+and neuron circuits, stuck-at faults, and random telegraph noise (\abbrevdef{RTN}), each of which would require
+separate circuit or programming mitigation
+\cite{ambrogio2018equivalent, li2018analogue, xia2017stuck, chen2017accelerator,
+jain2019cxdnn, wang2020ssm, li2019build}.\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=1\textwidth]{Chapter6/Figs/siox_resistance_states.png}
-\caption[Single sweeps of 53 resistance states of a $SiO_x$ device.]{Single sweeps of 53 resistance states of a $SiO_x$ device. Different states were obtained by incrementing the maximum sweep voltage by 0.05\,V. Curves are coloured by resistance-state index on a continuous scale (low index, lower maximum voltage and resistance, through to high index), the same green-blue palette used for the device data in Figure~\ref{fig:6h} \cite{Barmpatsalos2021-yn}.}
+\includegraphics[width=1\textwidth]{Chapter6/Figs/siox_state_sweeps.pdf}
+\caption[Single sweeps of 53 resistance states of a SiO$_x$ device.]{\emph{Measured}: current--voltage sweeps from 53
+resistance states of one electroformed Ti/Au-contacted SiO$_x$ device. Increasing the maximum sweep voltage in
+$0.05$-V steps produced successive states; colour denotes their order \cite{Barmpatsalos2021-yn}.}
 \label{fig:6g}
 \end{figure}
 
-\noindent The modelled $SiO_x$ device features a 35 nm amorphous silicon oxide layer between a 280 nm $Mo$ bottom electrode and a 110 nm $Au$ top electrode, with a 3 nm $Ti$ wetting layer. After electroforming and initial cyclic stress tests, positive voltage sweeps generated diverse resistance states spanning multiple orders of magnitude. Integrating these characteristics requires modifying the network's activation calculation. Standard ex-situ training assumes a perfectly linear relationship between inputs ($x_i$) and weights ($w_{ij}$):
+\noindent Measurements for the static device model come from 53 current--voltage sweeps of one electroformed
+Ti/Au-contacted SiO$_x$ device of the family defined in Section~\ref{sec:matstack}, where incrementally increasing the
+maximum sweep voltage produced the resistance states of Figure~\ref{fig:6g}. These 53 sweeps are a separate evidence
+unit from the 53 accepted \abbrev{ITO} relaxation fits of Chapter~\ref{ch:model}, which come from a different device
+family and a different measurement. Conventional training treats an input
+$x_i$ and weight $w_{ij}$ as a linear product,
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} x_i\, w_{ij} \right) \label{eq:6.23}
 \end{align}
 
-\noindent Because non-Ohmic behaviour is device-specific, a nonlinear function $g$ replaces this linear product to capture the hardware characteristics \cite{joksas2022nonideality}:
+\noindent whereas hardware-aware training replaces that product with a differentiable device function $g$
+\cite{joksas2022nonideality}:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} g\left( x_i, w_{ij} \right) \right) \label{eq:6.24}
 \end{align}
 
-\noindent Three distinct quantities recur through this mapping and are kept notationally separate: the abstract, signed synaptic weight $w_{ij}$ used by the network (lowercase $w$); the physical, non-negative device conductances $G_+, G_-$ that encode it as a differential pair; and, where the two halves are trained independently, the non-negative weight pair $W_{ij}^\pm$ (uppercase $W$). Function $g$ must also reflect this mapping from mathematical weights to physical conductances. Scaling factors $k_V$ and $k_I$ map network inputs and outputs to physical voltages and currents, while $k_G$ maps weights to the hardware's conductance range $[G_{min}, G_{max}]$:
+\noindent Throughout, the signed network weight $w_{ij}$ remains distinct from the conductances $G_+$ and $G_-$ that
+encode it. When the two sides are optimised independently, their non-negative numerical weights are denoted
+$W_{ij}^{\pm}$. Scaling factors $k_V$ and $k_I$ map network signals to device voltage and current, while $k_G$ maps
+numerical weights into the conductance window:
 \begin{align}
 V    &= k_V\, x \label{eq:6.25} \\
 y    &= \frac{I}{k_I} = \frac{I}{k_V k_G} \label{eq:6.26} \\
 k_G  &= \frac{G_{max} - G_{min}}{\max |\mathbf{W}|} = \frac{G_{on} - G_{off}}{\max |\mathbf{W}|} \label{eq:6.27}
 \end{align}
 
-\noindent Because conductances are non-negative, signed weights are encoded by the differential pair $G_+/G_-$ of Section~\ref{sec:neuro-hardware}, with the weight read as the difference of the two bitline currents. The question specific to the training mapping here is how the conductance budget $[G_{off}, G_{on}]$ is allocated to that pair. An intuitive scheme assigns the two devices symmetrically around the average conductance ($G_{avg}$):
+\noindent Here $G_{on}$ is the most conductive measured state in Figure~\ref{fig:6g}. Setting the lower mapping
+boundary to $G_{off}=G_{on}/5$ is a simulation choice, and the measured states extend below it. This interval,
+$[G_{off},G_{on}]$, therefore defines the conductance budget available to each differential pair.\\
+
+\noindent One possible mapping places the two conductances symmetrically around their average:
 \begin{align}
 G_{\pm}  &= G_{avg} \pm \frac{k_G w}{2} \label{eq:6.28} \\
 G_{avg}  &= \frac{G_{off} + G_{on}}{2} \label{eq:6.29}
 \end{align}
 
-\noindent Because infinite pairs yield the same difference \cite{kim20214k}, this ambiguity can minimise static power by keeping at least one device in its high-resistance OFF state ($G_{off}$):
-\begin{align}
-G_+ &= G_{off} + \max\left( 0, k_G w \right) \label{eq:6.30} \\
-G_- &= G_{off} - \min\left( 0, k_G w \right) \label{eq:6.31}
-\end{align}
-
-\noindent An alternative 'double weights' approach trains two distinct sets of non-negative weights, $W^+$ and $W^-$, independently \cite{kendall2020training}. The activation function computes their difference naturally:
+\noindent Instead, the mapping used here trains two non-negative weights independently and subtracts their device
+outputs \cite{joksas2022nonideality, kendall2020training}:
 \begin{align}
 y_j = f\left( \sum_{i=1}^{M} \left[ g\left( x_i, W_{ij}^+ \right) - g\left( x_i, W_{ij}^- \right) \right] \right) \label{eq:6.32}
 \end{align}
 
-\noindent These non-negative weights map linearly to physical conductances $G_+$ and $G_-$, avoiding mapping gaps:
+\noindent These paired non-negative weights map linearly onto $G_+$ and $G_-$:
 \begin{align}
 G_{\pm} = k_G W_{\pm} + G_{off} \label{eq:6.33}
 \end{align}
 
-\noindent The double-weight formulation exposes physical conductances directly to the training algorithm. If non-idealities like programming deviations \cite{kim2016voltage} dominate certain conductance ranges, gradient descent naturally selects optimal pairs to minimise these effects and maximise robustness.\\
-
-\noindent With the mapping schemes established, the method is validated by classification on the \abbrev{MNIST} handwritten-digit benchmark. Network computation relies entirely on propagating individual spike events \cite{liu2014memristor}, with input intensity translated into precise firing times so that stronger stimuli elicit earlier spikes \cite{serrano2013stdp}. Validating this event-driven classification first requires calibrating the device non-idealities that affect inference.
-
-\subsection[Device Model, Calibration, and Validation]{Device Model, Calibration, and Validation}
-
-\noindent This simulation employs experimental data from a $SiO_x$ device, simplified device breakdown models, and literature findings on programming variability. I-V measurements characterise deviations from Ohmic behaviour in memristive devices:
+\noindent Every result in this chapter uses Equation~\ref{eq:6.33}, because independent mapping allows both
+conductances to span the full window, while the symmetric scheme confines small weights near $G_{avg}$ and leaves the
+extremes inaccessible. Each mapped conductance then enters the measured nonlinear device model in the forward pass.
+A two-point ratio summarises departure from Ohmic behaviour:
 \begin{align}
-\gamma \equiv \frac{I(2 V_{ref})}{I(V_{ref})} \label{eq:6.34}
+\gamma \equiv \frac{G(2 V_{ref})}{G(V_{ref})} = \frac{I(2 V_{ref})}{2\,I(V_{ref})},
+\qquad G(V) \equiv \frac{I(V)}{V} \label{eq:6.34}
 \end{align}
 
-\noindent This approach examines two points on an I-V curve \cite{lentz2013current} to gauge conductance linearity (\ref{eq:6.34}). A value of 1 indicates Ohmic behaviour, and any deviation indicates I-V nonlinearity. Although $\gamma$ gives a snapshot of non-Ohmic behaviour at specific voltages, relying on it alone hampers accurate modelling \cite{sung2018effect}. Extrapolating the whole continuous I-V relationship from two arbitrary points imposes a rigid form. This form cannot capture highly non-linear conduction mechanisms, such as Poole-Frenkel emission or trap-assisted tunnelling, across the full operational voltage range. This empirical parameter therefore lacks the predictive physical grounding needed to simulate continuous memristive dynamics accurately during training and inference.
-\begin{align}
-I = V_{ref}\, G \left( \frac{V}{V_{ref}} \right)^{\log_2 \gamma} \label{eq:6.35}
-\end{align}
-
-\noindent Assuming the equality in (\ref{eq:6.35}) holds for all $V$, rather than just $V_{ref}$, constructs an entire I-V curve from a given nonlinearity parameter $\gamma$. In this equation, $G$ represents the conductance parameter.\\
+\noindent This ratio equals unity for Ohmic conduction \cite{lentz2013current}, and it summarises each measured sweep
+without defining the forward model, because two points cannot represent the full voltage dependence of
+Poole--Frenkel emission or trap-assisted tunnelling \cite{sung2018effect}. Its role is therefore descriptive, and
+every network calculation uses the complete fitted response derived below.\\
 
 \begin{figure}[htbp!] 
 \centering    
-\includegraphics[width=1\textwidth]{Chapter6/Figs/siox_iv_regions.png}
-\caption[I-V sweeps of a SiOx device are presented for two regions]{I-V sweeps of a SiOx device are presented for two regions: a) low-resistance region with average resistance ranging from 284.6 $\Omega$ to 1003 $\Omega$, and b) high-resistance region with average resistance ranging from 366.2 k$\Omega$ to 1.295 M$\Omega$. Only the voltage range from 0.0 V to 0.5 V was considered for all curves. The nonlinearity parameter was calculated by dividing the current at 0.5 V by the current at 0.25 V \cite{joksas2022nonideality}.}
+\includegraphics[width=1\textwidth]{Chapter6/Figs/siox_pf_nonlinearity.pdf}
+\caption[Nonlinearity of the measured SiO$_x$ conductance.]{\textbf{(a)} \emph{Measured}: conductance of
+53 states, normalised at $V_{\mathrm{ref}}=0.25$~V and coloured by $R(0.1\,\mathrm{V})$. The dashed line is Ohmic;
+the screen rejects four states. \textbf{(b)} \emph{Measured and derived}: $\gamma$ against resistance for the 49
+retained states, with the Poole--Frenkel fit and mapped conductance window. Measured $\gamma$ rises with resistance,
+$\rho=+0.76$, while the fit falls, $\rho=-0.94$.}
 \label{fig:6h}
 \end{figure}
 
-\noindent Nonlinearity parameters $\gamma$ were extracted from $SiO_x$ \abbrev{RRAM} experimental data. Incremental positive sweeps gradually reset the device from a low-resistance to a high-resistance state, yielding many states for I-V nonlinearity analysis. Low-resistance states display greater linearity and minimal variability, whereas high-resistance states exhibit greater, less predictable nonlinearity.\\
-
-\noindent $V_{ref}$ in (\ref{eq:6.34}) was set to 0.25V, half the minimum switching voltage. Devices operated within a conductance range between $G_{off} = 1/R_{off}$ and $G_{on} = 1/R_{on}$, and states were selected so the $G_{on}/G_{off}$ ratio for high-resistance devices stayed slightly larger. This guarantees that any higher error rate in the high-resistance group stems from nonlinearity and its variability, not a limited dynamic range.\\
-
-\noindent A faithful model must account for uncertainty in each device's nonlinearity. High-resistance states are generally more nonlinear, but the precise degree at any specific state remains hard to determine, as the I-V curves in Figure \ref{fig:6h} show. Each device's parameter $\gamma$ was therefore drawn from a truncated normal distribution, with values below 2 truncated to ensure realistic behaviour and numerical stability. The mean $m_\gamma$ and standard deviation $s_\gamma$ characterised the underlying normal distribution before truncation. \\
-
-\noindent Simulating nonidealities like I-V nonlinearity by conventional noise injection, which merely disturbs conductance values, is insufficient. Such injection adds random, static perturbations to synaptic weights, implicitly assuming the underlying conduction stays Ohmic (current strictly proportional to voltage). True I-V nonlinearity, however, makes a memristor's effective conductance change with the instantaneous applied voltage. Static weight perturbations cannot capture this voltage-dependent modulation. A custom forward propagation function must therefore be defined to reflect the dynamic, nonlinear relationship between input voltages and output currents.
-\begin{align}
-g(x, w_\pm) = \frac{\left( k_G w_\pm + G_{off} \right) \left( k_V x \right)^{\log_2 \gamma_\pm}}{k_V} \label{eq:6.36}
-\end{align}
-
-\noindent Equation (\ref{eq:6.36}) incorporates this I-V nonlinearity into the function $g$ proposed in Equation (\ref{eq:6.32}) by combining Equations (\ref{eq:6.24}), (\ref{eq:6.33}), and (\ref{eq:6.35}). Here $g$ returns the network-scaled output $y = I/(k_V k_G)$ of Equation~(\ref{eq:6.26}), not the raw device current: substituting $V = k_V x$ and the conductance map into Equation~(\ref{eq:6.35}) gives a numerator factor $k_V x$ and an overall $1/k_G$, with the constant $V_{ref}^{\log_2\gamma}$ base-normalisation absorbed into the prefactor. $k_V$ was set to $2V_{ref}$ according to Equation (\ref{eq:6.34}) and the resulting function was implemented using Torch.\\
-
-\noindent Training simulations require an I-V model with built-in stochasticity. A lookup table of experimental I-V measurements would let training adapt to one specific instance of nonlinear behaviour, limiting generalisation to other devices. The Poole-Frenkel conduction model \cite{joksas2022nonideality} was selected instead to describe non-Ohmic memristor behaviour. It provides a plausible physical mechanism for $SiO_x$ devices and fits the experimental I-V curves well. Its simple analytical form readily incorporates stochasticity by treating its two fitting parameters, the pre-exponential factor $c$ and the effective oxide thickness-permittivity product $d\varepsilon$, as uncertain variables.
+\noindent A curvature screen removes four sweeps containing abrupt current jumps: for each sweep, the maximum second
+numerical derivative divided by mean current must remain below $0.1$, leaving 49 states for fitting. Their measured
+nonlinearity generally increases with resistance, although individual states scatter around that trend
+(Figure~\ref{fig:6h}). A static conductance perturbation cannot reproduce this voltage dependence, and a lookup table
+would expose training to only one measured device instance. The forward model therefore uses the differentiable
+Poole--Frenkel form \cite{joksas2022nonideality}, with uncertain pre-exponential factor $c$ and
+thickness--permittivity product $d\varepsilon$:
 \begin{align}
 I = c V \exp\left( \frac{2e}{k_B T} \sqrt{\frac{e V}{4\pi d \varepsilon}} \right) \label{eq:6.37}
 \end{align}
 
-\noindent Equation (\ref{eq:6.37}) defines the Poole-Frenkel model, where $I$ is current, $V$ is voltage, $c$ is a conductance-like constant, $T$ is temperature ($20^\circ C$), $d$ is effective oxide thickness, and $\epsilon$ is permittivity. The parameter $c$ and the product $d\varepsilon$ were fitted from experimental data.\\
+\noindent Here $T=20^\circ$C, and $c$ and $d\varepsilon$ are fitted from each measured state. Smaller
+$d\varepsilon$ produces a steeper nonlinear response, while large values approximate Ohmic conduction. That
+algebraic limit has no microscopic interpretation because Poole--Frenkel transport applies near and below the
+conductance quantum, $G_0=2e^2/h\approx77.5\,\mu$S. These fitted parameters therefore provide a stochastic forward
+model of measured current variation, not a physical reconstruction of every resistance state
+\cite{joksas2022memristive}.\\
 
-\noindent The variability of $c$ and $d\varepsilon$ was modelled by predicting their values from observable variables, with deviations from these trends quantifying parameter uncertainty. Memristive behaviour varies markedly across resistance states \cite{mehonic2015structural}, often linking to the fundamental conductance quantum $G_0 = 2e^2/h$ \cite{yi2016quantized}, the minimum conductance of a single atomic-scale transport channel ($e$ is elementary charge, $h$ is Planck's constant). When programmed to high-resistance states near or below $G_0$, a memristor's conductive filament becomes atomically thin or discontinuous, and the device shifts from continuous, bulk-like conduction to a quantum point-contact regime. Carrier transport then relies heavily on tunnelling across discrete atomic gaps, generating the highly variable, non-linear I-V characteristics of high-resistance states.\\
-
-\noindent The behaviour of the fitted parameters $c$ and $d\varepsilon$ further validates the Poole-Frenkel model for $SiO_x$ devices. The parameter $c$ is a baseline conductance multiplier \cite{joksas2022memristive}. Fitting it reveals a clear distinction, with low-resistance states showing stable conductance and high-resistance states erratic deviations. The $d\varepsilon$ term sets I-V nonlinearity directly. In Equation (\ref{eq:6.37}) it sits in the denominator of the exponentiated square root, so a smaller $d\varepsilon$ drives a steeper, more non-linear current response. Low Resistance State (\abbrev{LRS}) devices accordingly yield much larger $d\varepsilon$ values, reflecting smoother, Ohmic-like conduction than the highly non-linear high-resistance states. \\
-
-\noindent Artificially large $d\varepsilon$ values in Equation (\ref{eq:6.37}) approximate Ohmic behaviour in Low Resistance States algebraically but lack physical meaning, since the Poole-Frenkel mechanism applies strictly to less conductive states near and below $G_0$. Even within physically valid higher-resistance states, $d\varepsilon$ shows no predictable trend. The extracted values are lower, reflecting inherently steep, non-linear I-V profiles, but their distribution plateaus and becomes erratic, mirroring the highly variable curves in Figure \ref{fig:6h}. These deviations limit the model in deterministic simulations. The same uncertainty, however, provides the stochastic behaviour needed to test rigorously the ex-situ training algorithm's resilience to unknown hardware non-idealities.\\
-
-\noindent Because physical characterisation yielded only a finite set of parameter pairs, these empirical points were used to build a generative multivariate distribution. This distribution synthetically produced the many unique, physically realistic synaptic parameters needed to populate and test a large-scale network. Two resistance regions were defined for evaluation. The low-resistance range interpolated parameters between the lowest resistance state and five times that resistance. The high-resistance range interpolated between the highest resistance state and one-fifth of that resistance, keeping a consistent dynamic range.\\
-
-\noindent The statistical model determined each device's output current by first interpolating initial values for $c$ and $d\varepsilon$ from resistance $R$ fits, then perturbing them with a multivariate normal distribution defined by the fit residuals' covariance matrix, and finally computing the current $I$ from Equation (\ref{eq:6.37}).\\
-
-\noindent Selecting the output function $g$ for ex-situ training with non-linear nonidealities depends on both the mapping scheme and the intrinsic device nonlinearity. Combining the linear input-output mapping (\ref{eq:6.24}), the double-weight mapping (\ref{eq:6.33}), and the current-voltage relationship characterised by $c$ and $d\varepsilon$ (\ref{eq:6.37}) yields $g$:
+\noindent Combining the paired conductance mapping with Equation~\ref{eq:6.37} gives the network-scaled device
+function
 \begin{align}
-g\left( x, W_\pm \right) &= \frac{c(W_\pm)\, (k_V x)}{k_V k_G} \exp\!\left( \dfrac{2e}{k_B T} \sqrt{\dfrac{e k_V x}{4\pi\, d\varepsilon(W_\pm)}} \right) \label{eq:6.38} \\
-\begin{bmatrix} \ln c \\ \ln (d\varepsilon) \end{bmatrix} &= -\mathbf{m}\, \ln\left( k_G W_\pm + G_{off} \right) + \mathbf{b} + \mathbf{E} \label{eq:6.39}
+g\left( x, W_\pm \right) = \frac{c(W_\pm)\, (k_V x)}{k_V k_G} \exp\!\left( \dfrac{2e}{k_B T} \sqrt{\dfrac{e k_V x}{4\pi\, d\varepsilon(W_\pm)}} \right) \label{eq:6.38}
 \end{align}
 
-\noindent Here, $\mathbf{m}$ represents slopes, $\mathbf{b}$ represents intercepts, and the error $\mathbf{E} \sim \mathcal{N}_2(0, \Sigma)$ is drawn from a normal distribution with zero mean and the residual covariance matrix $\Sigma$. The explicit notation $c(W_\pm)$ and $d\varepsilon(W_\pm)$ in Equation (\ref{eq:6.38}) records that the two PF parameters are not free at training time but are sampled per synapse from the bivariate regression of Equation (\ref{eq:6.39}) conditioned on the synapse's target weight $W_\pm$, so the forward map composes Equations (\ref{eq:6.39}) and (\ref{eq:6.38}) in that order.
+\noindent whose two coefficients follow from the measured states by a paired regression on conductance,
+\begin{align}
+\begin{bmatrix} \ln c \\ \ln (d\varepsilon) \end{bmatrix} = -\mathbf{m}\, \ln\left( k_G W_\pm + G_{off} \right) + \mathbf{b} + \mathbf{E} \label{eq:6.39}
+\end{align}
 
-\noindent With the device model calibrated, the resulting hardware-aware training is validated by classification. A two-layer network illustrates the \abbrev{SNN} structure (Figure \ref{fig:6i}). Multilayer SNNs operate as fully connected feedforward networks, with all neurons between adjacent layers connected, and both input and output neurons communicating via spike trains.\\
+\noindent Here $g$ returns $I/(k_Vk_G)$, and $k_V=2V_{ref}$ matches the upper voltage used in
+Equation~\ref{eq:6.34}. Both vectors $\mathbf{m}$ and $\mathbf{b}$ are fitted from the 49 retained states, and the
+correlated residual $\mathbf{E}$ is drawn once for each simulated synapse and held fixed throughout a run, so
+nominally identical conductances differ while each simulated device remains internally consistent. Each input spike
+therefore selects a conductance pair, the stochastic model returns its nonlinear differential current, and that
+current enters the \abbrev{LIF} update.
+
+\section[Static Hardware-Aware Classification]{Static Hardware-Aware Classification}
+\label{sec:6p2}
+
+\noindent Both static studies use the same measured current model, and each puts a different question to it. Dense and
+convolutional spiking networks are trained first on \abbrevdef{MNIST} \cite{lecun1998gradient} to establish whether
+they can learn through the nonlinear current and fixed device variation. A local firing-rate gate is then added to the
+dense architecture, and that comparison tests whether the gate improves generalisation under the same current model.
+Within each comparison, the architecture, optimiser, data, and training schedule remain fixed, and only the device
+model or the rate gate changes.\\
+
+\noindent Classification uses the full \abbrev{MNIST} split, ten timesteps, twelve epochs, batch size $64$, a
+learning rate of $5\times10^{-4}$, and three trained networks per condition. Homeostasis uses a
+$6{,}000/2{,}000$ subset, eight timesteps, six epochs, and twenty paired trained networks with the same batch size and
+learning rate, and both studies optimise with Adam. The classification study trains membrane outputs at each timestep,
+while the homeostasis study trains summed spike counts; their absolute accuracies are therefore reported separately.
+
+\subsection[Classification with the Static Device Model]{Classification with the Static Device
+Model}\label{sec:6p2class}
+
+\noindent Two architectures were trained with the static device model in the computational graph
+(Figure~\ref{fig:6i}). They differ in topology and in the fraction of synapses represented by memristive devices.\\
 \begin{figure}[htbp!] 
     \centering    
-    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/msnn_mnist_architecture.png}
-    \caption[Abstract SNN representation for MNIST pattern recognition.]{Abstract \abbrev{SNN} representation for \abbrev{MNIST} pattern recognition with input, hidden memristive
-    layers, and output layer.}
+    \includegraphics[width=0.75\textwidth]{Chapter6/Figs/msnn_architecture.pdf}
+    \caption[Abstract SNN representation for MNIST pattern recognition.]{\emph{Schematic}: \abbrev{SNN} for
+    \abbrev{MNIST} classification, showing the input, memristive hidden layers, and output layer.}
     \label{fig:6i}
 \end{figure}
 
-\noindent A two-layer memristive SNN (\abbrev{MSNN}) was designed to examine how non-linear device properties affect classification of the \abbrev{MNIST} handwritten dataset (converted to spike trains). The network takes 28x28 image inputs, trains on 60,000 samples and tests on 10,000, and learns representative features by updating synaptic weights. To evaluate non-ideality-aware training on more complex tasks, memristive convolutional spiking neural networks (\abbrevdef{MCSNN}) were trained, with the convolutional layers assumed digital and the fully connected layers using memristive crossbar arrays subject to high I-V nonlinearity.\\
+\noindent In the dense memristive \abbrev{SNN} (\abbrevdef{MSNN}), $28\times28$ image inputs pass through 100 hidden
+\abbrev{LIF} neurons to 10 output neurons, and every synapse uses the device model. The memristive convolutional
+spiking network (\abbrevdef{MCSNN}) uses convolutional stages with 12 and 64 filters, $5\times5$ kernels, and
+$2\times2$ pooling, followed by a memristive fully connected layer feeding 10 output neurons, while its convolutional
+encoder remains digital. Both networks train on $60{,}000$ samples and test on $10{,}000$, with the measured
+current model included in the forward and backward passes. Their results are separate evaluations because topology
+and memristive coverage both differ.\\
 
-\noindent The fully connected \abbrev{MSNN} model (Figure \ref{fig:6i}) has 100 hidden neurons with Leaky Integrate-and-Fire (\abbrev{LIF}) activation, followed by a 10-neuron output layer. The \abbrev{MCSNN} architecture stacks a convolutional layer (12 filters, $5 \times 5$ kernel, \abbrev{LIF} activation), a $2 \times 2$ pooling layer, a second convolutional layer (64 filters, $5 \times 5$ kernel, \abbrev{LIF} activation), and a second $2 \times 2$ pooling layer, with a final memristive fully connected layer feeding 10 \abbrev{LIF} output neurons. The Torch cross-entropy loss function \cite{eshraghian2023training} computes output loss and applies the softmax automatically.\\
-
-\noindent Local rules like \abbrev{STDP} facilitate unsupervised feature extraction but do not provide the global credit-assignment signal required by deep classification networks, so the experiments in this chapter use Backpropagation Through Time (\abbrev{BPTT}) on randomly initialised weights as the sole training mechanism. The optimiser is Adam, and the loss is the cross-entropy between the temporally averaged output spike rate and the digit label, computed over the full simulation window of each example. \abbrev{BPTT} unrolls the recurrent computation graph in time and propagates the error signal backward through both layers and time steps to assign weight contributions.\\
-
-\noindent The non-differentiability of the spike Heaviside, $s(t) = H(V(t) - V_{th})$, is handled with a surrogate-gradient trick: the forward pass uses true discrete spiking, and the backward pass replaces the Heaviside derivative by a smooth surrogate
-\begin{align}
-    \sigma(V) = \frac{1}{1 + e^{-\beta(V - V_{th})}} \label{eq:6.40}
-\end{align}
-\noindent whose derivative $d\sigma/dV$ approximates the missing gradient. The steepness $\beta$ controls how closely the surrogate tracks the Heaviside in the limit. This is distinct from stochastic gradient descent (\abbrevdef{SGD}), which refers to the optimiser update rule; the surrogate is a property of the backward pass, not of the optimiser. Together, the surrogate-gradient backward pass and the Adam update enable end-to-end gradient-based training of the multi-layer memristive \abbrev{SNN} while preserving discrete spike dynamics in forward inference.\\
-
-\noindent All synapses were simulated with empirical $SiO_x$ memristor models, folding non-idealities like I-V nonlinearity and variability (Equations \ref{eq:6.36}--\ref{eq:6.39}) directly into the forward and backward passes, so the algorithm learns to compensate for the targeted hardware imperfections during software training. Deployment then programs these optimised weights onto the physical memristor array.\\
-
-\noindent No per-image energy or latency advantage is inferred from these simulations. Such a comparison requires a specified cell, programming and read pulses, array dimensions, converters, routing, reward/control logic and a measured or extracted peripheral-energy model; spike count alone cannot supply it. The spike-integration window sets the algorithmic latency in the present encoding, while time-to-first-spike encoding or early stopping could shorten that window. Whether crossbar parallelism yields a net system advantage remains a circuit-level question.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.9\textwidth]{Chapter6/Figs/msnn_loss_accuracy.png}
-    \caption[Test loss and accuracy comparison for fully-connected SNN.]{Test Loss Comparison (left) and Test Accuracy Comparison (right) for a fully-connected Spiking Neural Network (\abbrev{SNN}) model under two conditions: Ideal Conductance (blue) and Memristive Conductance (orange).}
+\begin{figure}[htbp!]
+    \includegraphics[width=\textwidth]{Chapter6/Figs/training_curves.pdf}
+    \caption[Hardware-aware training of the two architectures.]{\emph{Simulated}: test loss and accuracy under ideal
+    conductance and the measured Poole--Frenkel response. \textbf{(a,\,b)} Dense \abbrev{MSNN}.
+    \textbf{(c,\,d)} Convolutional \abbrev{MCSNN}. Bands show one population standard deviation over three trained
+    networks. Both conditions use the full \abbrev{MNIST} split for twelve epochs.}
     \label{fig:6j}
 \end{figure}
 
-\noindent Figure \ref{fig:6j} (left) shows the ideal-conductance model (blue line) converging rapidly, its loss dropping from about 8 to below 4 and stabilising within the twelve training epochs. The memristive-conductance model (orange line) shows a higher, slower-decaying loss, starting near 18 and falling only to about 7. This separation shows that physical non-idealities, such as non-linear conductance updates, raise training loss and so call for non-ideality-aware training.\\
+\noindent With ideal synapses the dense network reaches $94.9\%$, and with the measured device model it reaches
+$85.8\%$, a $9.2$-percentage-point difference after twelve epochs. Its device-model accuracy peaks at $89.9\%$ after
+the first epoch, while its mean test loss falls from $3.85$ to $2.94$, compared with $2.99$ to $1.28$ in the ideal
+condition (Figure~\ref{fig:6j}a,b). The convolutional network reaches $97.7\%$ with ideal synapses and $87.3\%$ with
+the device model (Figure~\ref{fig:6j}c,d), and its device-model accuracy is still rising at epoch twelve, so the
+$10.4$-point difference at that epoch does not establish an asymptotic loss. These simulations extend
+nonideality-aware training
+\cite{joksas2022nonideality} to spiking architectures and show that both networks learn through the measured current
+model. They do not test post-training hardware mapping, circuit energy, or an architectural ranking between the two
+networks.
 
-\noindent Figure \ref{fig:6j} (right) plots accuracy across training epochs, the shaded band spanning one standard deviation over three seeds. The ideal-conductance model rapidly reaches and sustains high accuracy, settling near 88\%, while the memristive-conductance model converges more slowly to $80.9 \pm 1.9\%$. Device non-idealities degrade learning capacity, yet retaining roughly 81\% accuracy shows that fully-connected SNNs intrinsically tolerate substantial device non-linearity.\\
-
-\begin{figure}[htbp!] 
-    \centering    
-    \includegraphics[width=0.9\textwidth]{Chapter6/Figs/mcsnn_loss_accuracy.png}
-    \caption[Test loss and accuracy comparison for MCSNN.]{Test loss and test accuracy comparison for a memristive convolutional spiking neural network (\abbrev{MCSNN}) model under two conditions: Ideal Conductance (blue) and Memristive Conductance (orange).}
-    \label{fig:6k}
-\end{figure}
-
-\noindent Figure \ref{fig:6k} compares the convolutional \abbrev{SNN} models. The ideal-conductance model converges rapidly to a low loss, while the memristive-conductance model shows a higher, more gradually decreasing loss, indicating that I-V nonlinearities impede loss minimisation. The accuracy trends (Figure \ref{fig:6k}, right) mirror this: the ideal model stabilises near 95\%, the memristive model converges more slowly to $81.5 \pm 2.4\%$. Despite this degradation, the \abbrev{MCSNN}'s high retained accuracy shows that SNNs tolerate device non-linearities.\\
-
-\begin{table}[!t]
-    \caption[Model accuracy for different SNN configurations.]{Final test accuracy (mean $\pm$ standard deviation over three seeds) for the fully-connected and convolutional \abbrev{SNN}s, under ideal and memristive (Poole-Frenkel nonlinearity with device-to-device variability) conductances.}
-    \begin{center}
-    \begin{tabular}{|c|c|c|}
-    \hline
-    Model Accuracy  & Ideal implementations & Memristive non-idealities \\ \hline
-    Fully-Connected & $87.99 \pm 0.97 \%$  & $80.85 \pm 1.91 \%$ \\ \hline
-    Convolutional   & $94.57 \pm 0.94 \%$  & $81.50 \pm 2.40 \%$  \\ \hline
-    \end{tabular}
-    \label{table:6a}
-    \end{center}
-    \vspace*{-\baselineskip}
-\end{table}
-
-\noindent As Table \ref{table:6a} details, non-ideality-aware training produces the expected performance drops for both architectures. The \abbrev{MCSNN} averaged $81.5\%$ accuracy under memristive conductances, comparable to the fully connected \abbrev{MSNN} ($80.9\%$) but from a markedly higher ideal-device ceiling ($94.6\%$ versus $88.0\%$), and generally converged in fewer epochs. The convolutional advantage is partly one of resilience. Weight sharing and local connectivity spread each prediction across many synapses, averaging out localised memristor imperfections, whereas in a fully connected layer one faulty device maps directly onto a specific connection.\\
-
-\noindent These spiking results are best read alongside the non-spiking, nonideality-aware training of Joksas et al.\ \cite{joksas2022nonideality}, which uses the \emph{same} \abbrev{SiOx} devices and Poole-Frenkel characterisation but in a conventional (non-spiking) convolutional neural network (\abbrevdef{CNN}) rather than an \abbrev{SNN}. Their fully connected \abbrev{MNIST} network and the present \abbrev{MSNN} are not a controlled comparison, differing in width, training length, and the spiking versus rate-based substrate, so Table \ref{table:6b} reports the two as reference points on a shared device platform, not a like-for-like benchmark.\\
-
-\noindent The comparison is nonetheless informative. Under the high I-V nonlinearity of the high-resistance states, a naively trained non-spiking network degrades catastrophically (median error $41.6\%$), which nonideality-aware training recovers to $9.1\%$ (or $7.1\%$ with regularisation). The spiking networks here, whose training already injects the nonlinearity, sit in the same recovered regime at $19$--$20\%$ error. The shared message is that explicitly modelling the device non-ideality during training, rather than mapping pre-trained weights, is what makes high-resistance, low-power \abbrev{SiOx} devices usable.\\
-
-\begin{table}[!t]
-    \caption[Comparison with non-spiking nonideality-aware training.]{Comparison with the non-spiking nonideality-aware training of Joksas et al.\ \cite{joksas2022nonideality} on the same \abbrev{SiOx} devices and Poole-Frenkel model. Values are test error (\%); the two studies differ in architecture and training length, so they are reference points on a shared device platform rather than a controlled benchmark. ``Naive'' denotes mapping onto memristive conductances without modelling the nonideality during training; ``aware'' denotes injecting it into the training loop.}
-    \begin{center}
-    \begin{tabularx}{\textwidth}{@{}X c c c@{}}
-    \toprule
-    Network (dataset) & Digital/ideal & Naive & Aware \\
-    \midrule
-    Non-spiking MLP, \abbrev{MNIST} \cite{joksas2022nonideality}      & $4.6$  & $41.6$ & $9.1$ ($7.1$ reg.) \\
-    Non-spiking CNN, \abbrev{CIFAR}-10 \cite{joksas2022nonideality}   & ---    & $43.0$ & $18.9$ \\
-    This work: \abbrev{MSNN}, \abbrev{MNIST}                          & $12.0$ & ---    & $19.2$ \\
-    This work: \abbrev{MCSNN}, \abbrev{MNIST}                         & $5.4$  & ---    & $18.5$ \\
-    \bottomrule
-    \end{tabularx}
-    \label{table:6b}
-    \end{center}
-    \vspace*{-\baselineskip}
-\end{table}
-
-\noindent Modelling all non-idealities accurately for ex-situ training remains hard, as real fabrication variations often exceed simplified statistical models. Nonlinearity here was drawn from a truncated normal distribution, but exact means and standard deviations vary across batches, and unmodelled factors such as stuck-at faults, read noise, and retention loss degrade performance unless the hardware architecture mitigates them.\\
-
-\noindent These challenges demand tighter hardware-algorithm co-design. The non-ideality-aware training above compensates for the device's smooth I-V nonlinearity, but not for the most disruptive failure mode of a large array: the stuck-at faults and device-to-device spread that drive individual neurons into runaway firing. The next subsection adds a biologically inspired firing-rate regulariser that targets exactly this mode, and finds that its benefit depends on the network architecture.
-
-\subsection[Homeostatic Regularisation and its Architectural Ceiling]{Homeostatic Regularisation and its Architectural Ceiling}
+\subsection[Firing-Rate Homeostatic Gain]{Firing-Rate Homeostatic Gain}
 \label{sec:6p2p3homeo}
 
-\noindent Memristive devices frequently stick at either $G_{off}$ or $G_{on}$ \cite{joksas2020committee, xia2017stuck}. The fault model used here fixes a stuck realisation once, at programming time, and holds it for the rest of training, as a physically programmed array would. A fixed fraction of synapses, set by the failure rate, is drawn as stuck, while the rest retain their programmed conductance subject to device-to-device variability. A stuck device's conductance is sampled, on the non-negative support $G \geq 0$, from a reflected kernel density estimate (\abbrevdef{KDE}) of the measured conductance distribution \cite{turlach1993bandwidth, jones1993simple}:
-\begin{align}
-    p(G) = \frac{1}{n} \sum_{i=1}^{n} \left[ \mathcal{K}_h(G - G_i) + \mathcal{K}_h(G + G_i) \right] \label{eq:6.41}
-\end{align}
-\noindent where $\mathcal{K}_h$ is a Gaussian kernel with bandwidth $h$ chosen by Scott's rule \cite{scott2015multivariate}, and the second term reflects each sample at the origin to remove the boundary bias of standard \abbrev{KDE} on a half-bounded variable.\\
+\noindent This second study tests a local firing-rate gate in the same dense architecture, with no injected
+conductance faults. Both conditions use the stochastic Poole--Frenkel current model and differ only in whether the
+gate is active. Although its form is motivated by the excessive drive caused by a synapse stuck at $G_{on}$
+\cite{joksas2020committee, xia2017stuck}, the comparison isolates rate regularisation and makes no claim
+about fault recovery.\\
 
-\noindent Inaccurate programming also introduces device-to-device (D2D) variability. Resistance deviations follow a lognormal distribution, more pronounced in the high-resistance state (\abbrev{HRS}) than the low-resistance state (\abbrev{LRS}):
+\noindent Each presynaptic spike line is multiplied by a factor computed from that line's recent firing rate
+\cite{kim2021spiking, stoffel2024spiking}, which leaves both the conductance and the trained weight unchanged. For
+rate $r_{in}$,
 \begin{align}
-    G_{observed} = G_{target} \exp\left( \mathcal{N}(0, \sigma_g^2) \right) \label{eq:6.42}
+    h(r_{in}) = \frac{1}{1 + \left( \dfrac{r_{in}}{r_{th}} \right)^{n_H}},
+    \qquad \widetilde{x}(t) = h(r_{in})\, x(t), \label{eq:6.43}
 \end{align}
-\noindent The lognormal width $\sigma_g$ is set to a representative spread consistent with the device-to-device programming variability reported for comparable memristors \cite{joksas2022nonideality}, and is held at this nominal value for the baseline experiments below. The multiplicative form of Equation~(\ref{eq:6.42}) preserves positive-definite conductances.\\
+\noindent the gated train $\widetilde{x}(t)$ replaces $x(t)$ at the downstream layer. The gain is a Hill function of
+the firing rate: $r_{th}$ is its half-inhibition constant, the rate at which the gain halves, and $n_H$ is its Hill
+coefficient, which sets how sharply the gain falls beyond that rate. With a five-step window, $r_{th}=0.8$, and
+$n_H=1$, attenuation reaches the most active lines before their spikes propagate.\\
 
-\noindent The regulariser is a homeostatic gain control that adjusts synaptic conductance from the presynaptic neuron's firing rate alone, in the spirit of rate-dependent neuromorphic gain control \cite{kim2021spiking, stoffel2024spiking}. It is motivated by the steady state of the Chapter~\ref{ch:model} fill--emission balance under mean-rate drive (Equation~\ref{eq:5.15}), with $r_{th}=1/(\kappa\tau_{leak})$. Retention is measured, but the charging gain $\kappa$ is not independently identified, so the threshold remains a model parameter rather than a parameter-free device prediction. The steady-state conductance $G_{steady}$ decreases monotonically with input firing rate $r_{in}$, attenuating the most active units through deterministic divisive gain rather than stochastic dropout. Requiring neither bipolar presynaptic pulses nor access to postsynaptic variables, the rule simplifies circuit design:
-\begin{align}
-    G_{steady} = \frac{G_{max}}{1 + \left( \dfrac{r_{in}}{r_{th}} \right)^{n_H}} \label{eq:6.43}
-\end{align}
-\noindent where $G_{max}$ is the maximum conductance and $r_{th}$ the rate at which depression begins. The single-state construction fixes the Hill exponent $n_H=1$, the value used here; invoking additional effective screening states would change the response. The gate therefore follows $G_{steady}=G_{max}/(1+r_{in}/r_{th})$, while $r_{th}$ is selected for the simulation because $\kappa$ has not been measured. The synapse's output current is the product of $G_{steady}$ and the input voltage,
-\begin{align}
-    I_{out} = G_{steady}\, V_{in}. \label{eq:6.44}
-\end{align}
-
-\noindent A single causal chain explains why this addresses spike-rate runaway. A stuck-low-resistance synapse forces the forward map of Equation~(\ref{eq:6.38}) to its saturated maximum for any input $x$, adding a large weight-independent component to the bitline current of every postsynaptic neuron it drives. That component pushes the \abbrev{LIF} activation above threshold on every time step, so the neuron fires at near-saturation rate and its downstream synapses see a high $r_{in}$. Equation~(\ref{eq:6.43}) attenuates exactly those synapses as $r_{in}^{-n_H}$, breaking runaway at the first downstream layer rather than letting it propagate. The rule's locality also means no postsynaptic feedback path is required.\\
+\noindent That exponent follows from the measured device and not from a chosen sharpness.
+Equations~\ref{eq:5.12} and~\ref{eq:5.13} balance field-driven filling against field-free emission, and at the steady
+state of that balance the screened fraction is $f/(f+g)$. Letting the filling rate $f$ follow the presynaptic rate
+leaves the unscreened fraction $1/(1+r_{in}/r_{th})$, with $r_{th}$ the emission rate divided by the filling gained
+per spike. Equation~\ref{eq:6.43} at $n_H=1$ is that expression, so the value follows from a single screening state
+and not from the cascade depth fitted in Section~\ref{sec:5p3}. Only the five-step window and $r_{th}=0.8$ remain
+simulation settings, held fixed and chosen before the accuracy comparison.\\
 
 \begin{figure*}[!t]
     \centerline{\includegraphics[width=0.95\textwidth]{Chapter6/Figs/homeostatic_regulariser_architecture.png}}
-    \caption[Neuromorphic architecture with homeostatic gain regulariser.]{Neuromorphic architecture with a homeostatic gain-regulariser layer. A fully connected spiking network with input, hidden, regulariser, and output layers is shown, with the regulariser layer mapped onto an \abbrev{RRAM} crossbar that suppresses broken or overactive devices (red).}
+    \caption[Architecture of the homeostatic gain regulariser.]{\emph{Schematic}: homeostatic gain in
+    \textbf{(a)} the dense network and \textbf{(b)} its array mapping. Input drivers are green, hidden-layer
+    amplifiers are blue, and one element controls each output line. The mapping is proposed, not fabricated.}
     \label{fig:6n}
 \end{figure*}
 
-\noindent Figure~\ref{fig:6n} shows the architecture incorporating this regulariser layer into a convolutional memristive \abbrev{SNN} (\abbrev{MCSNN}). The mechanism evaluates a recent window of time steps rather than the whole sequence, identifying transient high-activity epochs and suppressing them locally. Figure~\ref{fig:6o} confirms this targeted action: in a convolutional layer seeded with hyperactive neurons, activating the regulariser suppresses only the hyperactive channels and leaves normal ones unaffected.\\
-
-\begin{figure*}[!t]
-    \centerline{\includegraphics[width=0.8\textwidth]{Chapter6/Figs/homeostatic_feature_maps.png}}
-    \caption[Feature maps at the second convolutional layer.]{Feature maps at the second convolutional layer, showing the suppression of simulated hyperactive neurons in a 16-channel convolutional layer at a threshold of five time steps.}
-    \label{fig:6o}
-\end{figure*}
-
-\noindent The regulariser was evaluated across architectures over 20 seeds, reporting the clean ($p=0$) generalisation benefit as the accuracy with the regulariser minus that without. On the fully connected \abbrev{MSNN} it recovers a clear benefit, $+2.62$\,pp ($[+1.98, +3.38]$) on \abbrev{MNIST} and $+4.36$\,pp ($[+3.22, +5.61]$) on Fashion-\abbrev{MNIST}, both with confidence intervals excluding zero (Table~\ref{table:6homeo}). Here a hyperactive unit is typically a faulty or overactive device, so suppressing it recovers accuracy. The benefit does not survive the move to a temporal network. On a temporal-convolutional \abbrev{MCSNN} trained on moving-\abbrev{MNIST}, the same regulariser \emph{reduces} accuracy by $8.5$\,pp ($[-10.1, -6.8]$; 19 of 20 seeds negative), because a high-firing unit there carries the motion the task depends on and suppressing it removes signal rather than noise (Figure~\ref{fig:6homeo}).\\
-
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.8\textwidth]{Chapter6/Figs/homeostatic_architecture_dependence.png}}
-    \caption[Architecture dependence of the homeostatic benefit.]{Clean ($p=0$) generalisation benefit of the regulariser (accuracy with minus without), with bootstrap $95\%$ confidence intervals over 20 seeds. The benefit is positive on fully connected networks, where high firing signals a faulty or overactive device, and reverses on a temporal-convolutional network, where high firing carries the signal that suppression then removes.}
-    \label{fig:6homeo}
-\end{figure}
+\noindent Figure~\ref{fig:6n} places one gain element on each hidden-layer output line, before the downstream
+crossbar sums its current. Because the rate is computed over only five steps, the gate responds to recent high activity
+instead of the mean rate over the whole sample. Twenty gate-on networks were paired with gate-off networks initialised
+identically, and confidence intervals were bootstrapped from the within-network accuracy differences. The gate
+increases mean accuracy by $2.58$\,pp on \abbrev{MNIST} and $4.46$\,pp on Fashion-\abbrev{MNIST}, with both intervals
+excluding zero (Table~\ref{table:6homeo}). These paired differences support rate-dependent regularisation of the
+presynaptic drive under the nonlinear current model.\\
 
 \begin{table}[!t]
-    \caption[Architecture dependence of the homeostatic benefit.]{Clean ($p=0$) homeostatic benefit by architecture (20 seeds, bootstrap $95\%$ confidence interval), ordered by reliance on sustained activity. Suppressing the transient helps the dense network and reverses once the network is temporal.}
+    \caption[Homeostatic benefit on the fully connected network.]{\emph{Simulated}: dense-network accuracy with and
+    without the firing-rate gate at zero fault probability. Values are means over twenty identically initialised
+    network pairs; intervals are percentile-bootstrap $95\%$ confidence intervals for the within-pair differences.
+    Training uses a $6{,}000/2{,}000$ subset for six epochs.}
     \begin{center}
-    \begin{tabular}{llr@{\,}c}
+    \begin{tabular}{lrrr@{\,}c}
     \toprule
-    Architecture & Task & \multicolumn{2}{c}{Benefit (pp) [95\% CI]} \\
+    Task & Without gate & With gate & \multicolumn{2}{c}{$\Delta$ accuracy (pp) [95\% CI]} \\
     \midrule
-    \abbrev{MSNN} (dense)          & \abbrev{MNIST}         & $+2.62$ & $[+1.98, +3.38]$ \\
-    \abbrev{MSNN} (dense)          & Fashion-\abbrev{MNIST} & $+4.36$ & $[+3.22, +5.61]$ \\
-    \abbrev{MCSNN} (temporal-conv) & moving-\abbrev{MNIST}  & $-8.5$  & $[-10.1, -6.8]$ \\
+    \abbrev{MNIST}         & $81.58\%$ & $84.16\%$ & $+2.58$ & $[+1.97, +3.28]$ \\
+    Fashion-\abbrev{MNIST} & $70.56\%$ & $75.01\%$ & $+4.46$ & $[+3.10, +6.11]$ \\
     \bottomrule
     \end{tabular}
     \label{table:6homeo}
@@ -456,191 +337,368 @@ g\left( x, W_\pm \right) &= \frac{c(W_\pm)\, (k_V x)}{k_V k_G} \exp\!\left( \dfr
     \vspace*{-\baselineskip}
 \end{table}
 
-\noindent The mechanism is thus specific to the dense, static regime, where sustained high firing marks a fault rather than a feature. Its action is local: unlike compensation strategies that add hardware redundancy or per-device calibration overhead, the homeostatic rule integrates directly into the synaptic update. That the same suppression reverses on a temporal network is not a shortcoming of the rule but a signpost, that once the firing dynamics carry the computation the transient is better used than suppressed. The next section takes that opposite regime.
+\noindent The gate acts locally in the forward path, requires no postsynaptic feedback or per-device recalibration,
+and was evaluated only in the dense static network. Both studies in this section therefore concern present-input
+transmission: the device current responds to each applied voltage but stores no information from earlier activity.
+Section~\ref{sec:6p3} adds the measured relaxation and tests the information retained by that volatile state.
 
-\section[The Transient as a Temporal-Integration Primitive]{The Transient as a Temporal-Integration Primitive}
-\label{sec:6p5}
+\section[Volatile State and Temporal Memory]{Volatile State and Temporal Memory}
+\label{sec:6p3}
 
-\noindent The homeostatic rule of the previous section suppressed the transient, and reached a ceiling once the firing dynamics carried the computation. This section takes the opposite strategy and uses the transient directly. When the network streams a signal in time, the same relaxation becomes the leak of the leaky integrate-and-fire membrane, and the declared $\tau_{leak}$ model setting determines a working-memory hold-time. Measured held-bias and near-zero relaxations constrain part of the sweep, but the values are not separately programmed devices. The reading is demonstrated first as a scaling relation between retention and bridgeable delay, then on recognised neuromorphic and biosignal benchmarks. Figure~\ref{fig:6liabilityasset} summarises this architectural split.
+\noindent Static transmission contains no memory of an earlier input. Both temporal experiments therefore multiply
+the static device current by the normalised \abbrev{ITO} relaxation and test classification after an input-free
+interval. In the first, one frozen output layer carries either the measured relaxation or an exponential of equal
+mean lifetime, so that only the decay profile differs between the two conditions. The second makes every synaptic
+layer volatile and removes state from selected layers to identify where delayed information remains.
 
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.98\textwidth]{Chapter6/Figs/fig_liability_asset.png}
-    \caption[Architecture-dependent use of the device transient.]{Architecture-dependent use of the same measured device transient. In the static regime homeostasis regulates sustained activity; in the temporal regime the relaxation sets the membrane leak and bridgeable delay.}
-    \label{fig:6liabilityasset}
-\end{figure}
+\subsection[Measured Decay and Numerical Kernel]{Measured Decay and Numerical Kernel}
+\label{sec:6p3p1}
 
-\subsection[The Device-Grounded LIF Membrane]{The Device-Grounded LIF Membrane}
-\label{sec:6p5p2}
-
-\noindent When the network streams a time-varying signal so that its neurons integrate it as it unfolds, the device relaxation becomes a computational primitive. The \abbrev{LIF} membrane of Equation~(\ref{eq:6.1}) is an exponentially leaky accumulator: writing its unit-step relaxation in multiplicative form, $V_m(t) = \beta\, V_m(t-1) + \sum_i w_{ij}\, x_i(t-1)$ with decay factor $\beta = \exp(-\Delta t/\tau_m)$ and the hard reset supplied by the firing rule of Equation~(\ref{eq:6.2}), makes explicit that the membrane retains a fraction $\beta$ of its state each step. Setting its time constant to the device's measured trap-discharge time makes the neuron's temporal memory the device's own relaxation,
-\begin{align}
-    \beta_{dev} = \exp\!\left( -\frac{\Delta t}{\tau_{leak}} \right), \label{eq:6.45}
-\end{align}
-\noindent where $\tau_{leak}$ is the field-free trap-discharge time resolved on the \abbrev{ITO}-contacted device, of order a few seconds (Chapter~\ref{ch:model}) \cite{vu2026ito}. The memory \emph{timescale} is then device-measured, while the integrator itself remains the standard leaky accumulator; the grounding is by calibration of the time constant, not reduction of the mechanism. The relevant constant is the discharge time, a decay, not the fill-rise time, which is a driven charging rate and the wrong kind of constant for a membrane leak. The synapses carry the same Poole--Frenkel map of Equation~(\ref{eq:6.38}); only the membrane is changed. A time-series input of length $T$ is streamed slice by slice (Figure~\ref{fig:6t}). Retention is probed by appending $D$ blank steps after the stimulus and reading the class from the output spikes accumulated over the final $R$ steps alone, after the gap,
-\begin{align}
-    \hat{y} = \arg\max_c \sum_{t=T+D-R+1}^{T+D} s_c^{out}(t), \label{eq:6.46readout}
-\end{align}
-\noindent so the decision depends on evidence the membrane must hold across $D$ rather than on the stimulus still being present.\\
+\noindent Ten post-drive relaxations were measured by the near-zero-bias read of Section~\ref{sec:3pulse}, from one
+\abbrev{ITO}-contacted pad in one session, each extending
+for about $226$~s after bias removal. Nine satisfied the kernel screen of Section~\ref{sec:3analysis} and
+define the decay used here (Figure~\ref{fig:6t}). This scatter measures within-session
+repeatability on one contact, not variation between devices. Delayed-readout tasks are constructed around this
+measured timescale because standard classification benchmarks contain no multi-second intervals without input.\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter6/Figs/device_temporal_network_architecture.png}}
-    \caption[The device-grounded temporal networks.]{The two device-grounded temporal networks. (a) A dense network streams a time-series input through a memristive fully connected layer, a device-leak \abbrev{LIF} hidden layer, and a readout. (b) A convolutional network streams a clip through memristive convolutional layers and the device-leak \abbrev{LIF} stage. In both, the synapses carry the Poole--Frenkel map [Equation~(\ref{eq:6.38})] and the membrane leak is the measured device retention [Equation~(\ref{eq:6.45})], carried across time steps; the decision is read after an appended delay $D$.}
+    \centerline{\includegraphics[width=\textwidth]{Chapter6/Figs/ito_kernel_derivation.pdf}}
+    \caption[Measured relaxation and the kernel derived from it.]{\textbf{(a)} \emph{Measured}: nine relaxations from
+    one \abbrev{ITO}-contacted pad in one session, with stretched-exponential fits. \textbf{(b)} \emph{Measured and
+    derived}: floor-subtracted, amplitude-normalised traces with the fitted profile and equal-mean exponential. The
+    dashed vertical marks where the measured and equal-mean profiles are equal, at $42.9$~s.
+    \textbf{(c)} \emph{Derived}: time constants and weights in Equation~(\ref{eq:6.47}). The traces show within-session
+    repeatability on one pad, not variation between devices.}
     \label{fig:6t}
 \end{figure}
 
-\subsection[Retention as a Device-Constrained Hold-Time]{Retention as a Device-Constrained Hold-Time}
-\label{sec:6p5p3}
-
-\noindent The retention sets how long a decision survives the delay. The maximum bridgeable delay $D_{max}(\tau_{leak})$, the largest $D$ at which mean accuracy stays above a per-task criterion ($45\%$ dense, $50\%$ convolutional; chance $10\%$), is measured over 20 seeds. Because these tasks carry no intrinsic physical clock, $\tau_{leak}$ and $D$ share time-step units and $D_{max}/\tau_{leak}$ is a pure ratio; the swept range spans the measured device band up to longer retentions reachable by trap-density and trap-depth engineering of the oxide. On the convolutional network with delayed \abbrevdef{N-MNIST} \cite{orchard2015nmnist}, the hold-time scales linearly with retention,
+\noindent After subtracting each fitted floor and dividing by its amplitude, the nine relaxations closely overlap.
+Their common normalised decay follows the stretched-exponential form
 \begin{align}
-    D_{max}(\tau_{leak}) \approx s_D\, \tau_{leak}, \qquad s_D = 6.1,\ R^2 = 0.93. \label{eq:6.47dmax}
+    q(t) = \exp\!\left[ -\left( \frac{t}{\tau} \right)^{\!\beta} \right], \label{eq:6.45}
 \end{align}
-\noindent A long-retention membrane ($\tau_{leak}=30$) holds the decision across the whole delay range ($89.9\%$ at no delay, $51.7\%$ at 160 steps), while a short one at the direct held-bias median ($\tau_{leak}=1.3$) falls to chance by a 30-step delay and the no-memory control falls at the first blank step (Figure~\ref{fig:6tr}). The decision at zero delay is comparable across membranes; retention buys delay tolerance, not baseline accuracy. The fitted slopes are task-specific simulation sensitivities, not universal constants or experimentally validated fabrication laws. The dense network streaming sequential \abbrev{MNIST} row by row shows the same monotonic but sublinear dependence ($R^2=0.65$), with a fixed startup cost suppressing $D_{max}$ at short retention.\\
+\noindent with aggregate parameters $\tau=16.0$~s and $\beta=0.622$, the leakage scale and exponent of
+Equation~\ref{eq:3.1} aggregated over the nine relaxations into one fitted profile. Because $\beta<1$, early loss is
+faster and the late tail slower than for a single exponential. Equation~\ref{eq:6.45} acts as the synaptic kernel:
+it multiplies the static device current by the fraction of written state remaining after time $t$, with no
+additional fitted amplitude. Measured amplitudes span a factor of $1.87$, while the normalised shapes remain
+closely aligned.\\
+
+\noindent This fitted leakage scale sits well above the field-free discharge of order a few seconds obtained in
+Section~\ref{sec:5p-ito} for the same relaxation, and the two estimates do not rest on the same footing.
+That earlier estimate extrapolates a held-bias fit to zero field; this kernel is fitted directly to the post-drive
+decay. Length of observation moves the fit as well: on these same measurements, $30$~s and $226$~s fitting intervals
+return $\beta=1.07$ and $0.622$. Protocol and observation length therefore both separate the two estimates, and
+neither is shown to account for the whole difference.\\
+
+\noindent Analytically, the fitted profile has a mean lifetime of
+$\langle t\rangle=(\tau/\beta)\Gamma(1/\beta)=23.0$~s, while the numerical approximation used for recursive
+simulation has a mean lifetime of $23.4$~s. The exponential comparator introduced below is matched to this
+implemented value, so the two simulated profiles have equal total retained state over time and differ in decay
+shape.\\
+
+\noindent A non-negative weighted sum of ordinary exponentials permits recursive state updates:
+\begin{align}
+        q(t) \simeq \sum_{i} w_i \exp\!\left( -\frac{t}{\tau_i} \right), \qquad w_i \geq 0, \qquad \sum_i w_i = 1.
+    \label{eq:6.47}
+\end{align}
+\noindent This sum reproduces the fitted profile over the simulated range with $R^2=0.99997$. One network step is
+$0.4525$~s, the mean sampling interval of the measured relaxation, and no component decays faster than this step.
+Its time constants provide a numerical representation of dispersive decay and are not identified microscopic trap
+lifetimes. Their weighted sum falls faster than an equal-mean exponential at early times and more slowly at late
+times (Figure~\ref{fig:6vso}).\\
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=\textwidth]{Chapter6/Figs/working_memory_hold_time.png}}
-    \caption[Working-memory hold-time on a delayed-response task.]{Working-memory hold-time on a delayed-response task (20 seeds, bootstrap $95\%$ confidence interval). (a) Dense network on sequential \abbrev{MNIST} and (b) convolutional network on \abbrev{N-MNIST}: test accuracy against appended delay $D$, one curve per membrane retention $\tau_{leak}$ (dark to light with increasing $\tau$), with the no-memory control (dashed) and the accuracy criterion. Longer-retention membranes hold the decision across longer delays; short-retention and no-memory controls fall to chance, while the zero-delay accuracy is comparable across membranes.}
-    \label{fig:6tr}
+    \centerline{\includegraphics[width=\textwidth]{Chapter6/Figs/volatile_synapse_origin.pdf}}
+    \caption[Why a volatile crosspoint can carry information across a gap.]{\emph{Conceptual schematic}.
+    \textbf{(a)} A simulated SiO$_x$ crossbar carries the decay shape measured at an \abbrev{ITO}
+    contact. Driven rows leave fading state that a later probe reads. \textbf{(b)} A distribution of release barriers
+    gives a distribution of rates. \textbf{(c)} Their weighted sum decays faster than an equal-mean exponential at
+    first and more slowly at late times. No microscopic trap energies are identified.}
+    \label{fig:6vso}
 \end{figure}
 
-\noindent The delay above is appended after the stimulus. On the store--recall benchmark, the canonical spiking working-memory task \cite{bellec2018lsnn}, the delay is intrinsic: a value is presented, a variable number of blank steps follow, and the network must reproduce it on a recall step. Here the informative comparison is not to a shorter membrane but to the mechanism the reference network uses, the adaptive leaky integrate-and-fire (\abbrevdef{ALIF}) neuron \cite{bellec2018lsnn}, whose slow timescale comes from an engineered second per-neuron state: an adaptation variable $b_j$ raised by each spike and decaying with its own long constant $\tau_a$, which lifts the firing threshold,
-\begin{align}
-    b_j(t) = \rho\, b_j(t-1) + s_j(t-1), \qquad \vartheta_j(t) = V_{th} + \gamma\, b_j(t), \qquad \rho = \exp\!\left( -\frac{\Delta t}{\tau_a} \right), \label{eq:6.48alif}
-\end{align}
-\noindent so that memory is carried by $b_j$ over $\sim\tau_a$, with $\gamma$ here the threshold-adaptation coupling (following \cite{bellec2018lsnn}), distinct from the I--V nonlinearity ratio of Equation~(\ref{eq:6.34}). The device-grounded neuron instead carries the same slow timescale in the membrane leak itself, with no extra simulated state. The question is whether that membrane leak alone reaches the same memory. At the declared $\tau_{leak}=8$ sensitivity, which lies between the two preliminary 1\,mV reads (4.31 and 9.20\,s) but is not a directly programmed device setting, it holds the value across the delay range ($94\%$ recall at $D=60$; chance $50\%$). The equally parameterised \abbrev{ALIF}, whose adaptation timescale is matched to the model ($\tau_a=8$), instead decays to chance by the longest delay ($51.7\%$ at $D=60$): a same-timescale slow variable does not by itself hold the value, and matching the model's hold requires widening it to $\tau_a=20$. The fast-membrane control and a held-bias-median retention ($\tau_{leak}=1.3$) fall to chance once the delay exceeds a few steps. The $\tau_{leak}=20$ condition is a synthetic target and holds with no further gain. Replacing the ideal synapse with the measured Poole--Frenkel map, then adding the $30\%$ stuck-off fault prior, leaves the $\tau_{leak}=8$ sensitivity holding the value ($87\%$ at $D=60$ under faults), where it matches or exceeds the \abbrev{ALIF} at long delay. This establishes a device-constrained model capability, not a fabricated network or a programmable-retention demonstration.\\
+\noindent Static and volatile behaviour enter the simulation from separate measurements: the Ti/Au measurements
+supply the static Poole--Frenkel current, conductance mapping, and fixed device variation, and the \abbrev{ITO}
+measurements supply only the normalised multiplier $q(t)$. Both comparison conditions use the same static model,
+device realisation, and mapped weights, so equal values of $q(t)$ give equal currents and only the decay profile
+changes. This multiplier acts on each device current before subtraction of the differential pair, allowing device
+mismatch to remain in the output. It represents synaptic state and does not alter the neuronal time constant in
+Equation~\ref{eq:6.1}. No fabricated device in this work combines both measured functions.
+
+\FloatBarrier
+\subsection[Decay Shape Sets Usable Delay]{Decay Shape Sets Usable Delay}
+\label{sec:6p3p2}
 
 \begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.72\textwidth]{Chapter6/Figs/store_recall_working_memory.png}}
-    \caption[Store--recall working memory.]{Store--recall working memory across a three-rung synapse ablation (20 seeds, bootstrap $95\%$ confidence interval; chance $50\%$). Device membrane solid, \abbrev{ALIF} dashed, no-memory fast control red dashed. The $\tau_{leak}=1.3$ setting represents the direct held-bias median; $\tau_{leak}=8$ lies between the two supplementary 1\,mV reads, and $\tau_{leak}=20$ is a synthetic target. (a) Ideal synapse, (b) measured Poole--Frenkel synapse on healthy devices, (c) the same synapse under the $30\%$ stuck-off fault prior. The 8-s sensitivity holds the value across the delay range, while the held-bias-median setting falls to chance.}
-    \label{fig:6sr}
+    \centering
+    \includegraphics[width=\textwidth]{Chapter6/Figs/pretrain_map_freeze.pdf}
+    \caption[Training, mapping and the fixed comparison are separated.]{\emph{Schematic}. \textbf{(a,\,b)} Each
+    network trains with an ideal, non-volatile output layer. \textbf{(c)} Mapping of the output matrix occurs once,
+    and one read-current conversion is calibrated from $256$ unlabelled zero-hold samples pooled across both
+    profiles. This fixed network is then evaluated under the measured decay and the equal-mean exponential.}
+    \label{fig:6pmf}
 \end{figure}
 
-\noindent The full accuracy grids behind these curves are given in Tables~\ref{table:6dmaxdense}--\ref{table:6sr}, the two delayed-response sweeps and the store--recall ablation, each the mean over 20 seeds.
+\noindent Both temporal architectures differ from the static networks: the dense model maps 578 inputs to 64 hidden
+neurons and then through a volatile $64\rightarrow10$ output synapse. The convolutional model uses two $3\times3$
+stages with 4 and 8 channels, each stage followed by $2\times2$ max pooling and \abbrev{LIF} neurons, and its 32
+features feed a volatile $32\rightarrow10$ output synapse. The encoder layers are ideal in both cases, leaving one
+fading layer between the stimulus and class decision.\\
+
+\noindent Each \abbrevdef{N-MNIST} sample supplies eight $2\times17\times17$ event frames, one frame per $0.4525$~s
+device update, and this assignment replaces the dataset's native timing to give a presentation of about $3.6$~s.
+Five networks per architecture are trained on $8{,}000$ samples, with $2{,}000$ reserved for validation and early
+stopping. Training uses an ideal, non-volatile output layer with no hold or probe. After training, the learned output
+matrix is mapped once onto the volatile layer without retraining (Figure~\ref{fig:6pmf}).\\
+
+\noindent One read-current conversion carries the measured current into the neuronal input, and it is calibrated once
+across both decay profiles from 256 unlabelled training samples read at zero added hold. Writing $I_{rj}$ for the
+current at probe step $r$ on output neuron $j$, the input to that neuron is
+\begin{align}
+    u_{rj} = A\,\frac{I_{rj} - \mu_{rj}}{s} + C,
+    \label{eq:6conv}
+\end{align}
+\noindent where $\mu_{rj}$ is the mean calibration current at that probe step and neuron, $s$ is a scale shared by
+both profiles, $A$ is a gain, and $C$ is an offset. The mean is taken separately for each probe step and neuron
+because the current falls during the twelve-step readout and differs between output neurons, so one pooled mean would
+leave a step-dependent offset in the input. Both profiles adopt the larger of their two values of $s$, which holds
+the narrower profile inside the same input range instead of rescaling it against its own spread. The gain and offset
+follow from a bounded iteration that brings spike counts to a mean of six of the twelve probe steps with a spread of
+three, the range in which a count still discriminates: near zero or twelve the counts saturate and ties decide the
+class.\\
+
+\noindent The calibration samples contribute equally under both profiles, and no test data enter it. Once calibrated,
+the weights, device realisation, and conversion remain fixed for every profile and delay, so substituting the
+equal-mean exponential for the measured relaxation changes only the temporal state retained by one fixed network.\\
+
+\noindent During evaluation, eight frames write the volatile state, no input is applied for an added delay $D$, and a
+common probe reads the remaining state for twelve steps. This probe supplies the voltage required to measure current
+but does not modify the simulated state or carry sample-specific information. Membrane states are reset before
+readout, and output spike counts select the class; ties are resolved by the largest final membrane potential among
+the tied classes.\\
+
+\noindent Thirteen requested delays spanning $0$--$226$~s were rounded to the device update interval, giving the grid
+used throughout,
+\begin{align}
+    D \in \{ &0,\, 1.81,\, 4.07,\, 8.15,\, 15.84,\, 23.08,\, 32.13, \nonumber \\
+    &\quad\, 44.80,\, 63.80,\, 90.05,\, 128.06,\, 180.10,\, 225.80 \}~\mathrm{s},
+    \label{eq:6grid}
+\end{align}
+\noindent where $D=0$ means no added hold after the complete sample rather than an instantaneous read. Because the
+eight frames were written at different times and the probe lasts twelve steps, the contributions reaching the output
+have elapsed times from $D+0.45$ to $D+8.60$~s when the probe begins, and up to a further twelve steps by the time it
+ends. Accuracy is evaluated on $2{,}000$ held-out samples at every delay with three read-noise repetitions.\\
+
+\noindent Usable delay, $D_{\max}$, is the added delay at which accuracy retains a fixed fraction $f$ of its
+zero-hold margin above the majority-class baseline:
+\begin{align}
+    a_{\mathrm{threshold}} = a_{\mathrm{floor}} + f\left( a_{0} - a_{\mathrm{floor}} \right), \qquad f = 0.75,
+    \label{eq:6.48}
+\end{align}
+\noindent where $a_0$ is zero-hold accuracy and $a_{\mathrm{floor}}=11.3\%$ is the majority-class rate. Fixing
+$f=0.75$ before replay, the primary analysis computes a separate threshold for each profile, so $D_{\max}$ measures
+retention of that profile's own starting margin. Isotonic regression by pooling adjacent violators gives a
+non-increasing accuracy--delay curve \cite{ayer1955empirical}, and linear interpolation locates its threshold
+crossing. A profile whose zero-hold accuracy does not exceed the
+one-sided $95\%$ Clopper--Pearson chance limit receives $D_{\max}=0$ \cite{clopper1934confidence}.\\
+
+\noindent The comparison uses
+$\Delta D_{\max}=D_{\max}^{(\mathrm{measured})}-D_{\max}^{(\mathrm{exponential})}$, in which negative values mean
+that the equal-mean exponential supports the longer delay. All five prespecified networks per architecture entered
+the analysis, and repeated read-noise evaluations are averaged within each network before Student-$t$ intervals are
+calculated across networks. A denser delay grid changes $\Delta D_{\max}$ by less than $0.2$~s.\\
+
+\noindent Zero-hold accuracies differ by less than $0.3$ percentage points: $87.7$--$88.0\%$ in the dense networks
+and $79.5$--$79.8\%$ in the convolutional networks. The shared conversion therefore places both profiles within the
+same readout range, and the comparison begins from equal accuracy. The equal-mean exponential then supports the
+longer usable delay in both architectures, by $5.3$~s in the dense networks and $6.4$~s in the convolutional
+networks, and the sign is negative in every one of the ten trained networks (Table~\ref{tab:6dmax} and
+Figure~\ref{fig:6dad}a,\,b).\\
 
 \begin{table}[htbp!]
-    \caption[Retention sweep, dense network (delayed sequential MNIST).]{Retention sweep, dense network (delayed sequential \abbrev{MNIST}): test accuracy (\%, mean over 20 seeds) against membrane retention $\tau_{leak}$ (rows) and appended delay $D$ in time-step units (columns). Chance $10$, criterion $45$. The maximum bridgeable delay $D_{max}$ (last column) rises monotonically but sublinearly with retention ($R^2=0.65$ through the origin), a fixed startup cost suppressing it at short retention.}
-    \begin{center}
-    \small
-    \begin{tabular}{r *{6}{c} c}
-    \toprule
-    $\tau_{leak}\backslash D$ & 0 & 10 & 20 & 30 & 45 & 60 & $D_{max}$ \\
-    \midrule
-    1.3  & 49.8 & 21.4 & 13.1 & 13.3 & 12.1 & 12.3 & 1.7 \\
-    2    & 62.3 & 41.2 & 18.6 & 13.1 & 11.2 & 11.3 & 8.2 \\
-    3    & 69.5 & 53.0 & 33.9 & 18.5 & 15.4 & 11.2 & 14.2 \\
-    5    & 73.2 & 68.6 & 49.1 & 35.5 & 22.5 & 13.4 & 23.1 \\
-    8    & 74.0 & 73.4 & 60.3 & 45.9 & 32.7 & 24.3 & 31.0 \\
-    12   & 75.4 & 75.1 & 64.0 & 49.8 & 36.6 & 30.9 & 35.5 \\
-    20   & 77.6 & 75.2 & 67.2 & 57.2 & 41.8 & 34.5 & 41.9 \\
-    30   & 78.4 & 74.2 & 68.3 & 60.5 & 50.0 & 35.4 & 50.2 \\
-    none & 23.8 & 16.4 & 16.4 & 16.4 & 12.2 & 16.4 & 0 \\
-    \bottomrule
-    \end{tabular}
-    \label{table:6dmaxdense}
-    \end{center}
-    \vspace*{-\baselineskip}
-\end{table}
-
-\begin{table}[htbp!]
-    \caption[Retention sweep, convolutional network (delayed N-MNIST).]{Retention sweep, convolutional network (delayed \abbrev{N-MNIST}): test accuracy (\%, mean over 20 seeds) against membrane retention $\tau_{leak}$ (rows) and appended delay $D$ (columns). Chance $10$, criterion $50$. The maximum bridgeable delay $D_{max}$ scales as $D_{max}\approx s_D\,\tau_{leak}$ with $s_D=6.1$ ($R^2=0.93$); only $\tau_{leak}=30$ stays above criterion at the largest swept delay.}
-    \begin{center}
+    \centering
+    \caption[Usable delay under each decay profile.]{\emph{Simulated}: usable delay $D_{\max}$ at the prespecified
+    $f=0.75$ criterion, as means over five independently trained networks per architecture with $95\%$
+    Student-$t$ intervals. The comparator is the exponential of equal implemented mean lifetime, $23.4$~s. A negative
+    $\Delta D_{\max}$ means the exponential supports the longer delay.}
+    \label{tab:6dmax}
     \footnotesize
-    \setlength{\tabcolsep}{4pt}
-    \begin{tabular}{r *{9}{c} c}
-    \toprule
-    $\tau_{leak}\backslash D$ & 0 & 5 & 15 & 30 & 45 & 60 & 90 & 120 & 160 & $D_{max}$ \\
-    \midrule
-    1.3  & 87.0 & 81.8 & 21.2 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 10.2 \\
-    2    & 87.6 & 85.7 & 57.9 & 12.5 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 17.5 \\
-    3    & 88.7 & 87.0 & 72.2 & 33.9 & 13.8 & 10.0 & 10.0 & 10.0 & 10.0 & 23.5 \\
-    5    & 89.1 & 87.6 & 79.6 & 63.2 & 45.1 & 20.6 & 11.0 & 10.0 & 10.3 & 40.6 \\
-    8    & 89.6 & 87.7 & 83.0 & 71.8 & 63.8 & 56.2 & 20.5 & 13.2 & 10.2 & 64.9 \\
-    12   & 89.7 & 88.2 & 84.5 & 75.9 & 69.2 & 63.7 & 55.3 & 31.8 & 12.9 & 96.2 \\
-    20   & 89.8 & 88.1 & 85.3 & 79.0 & 73.0 & 68.7 & 62.1 & 56.4 & 40.3 & 135.1 \\
-    30   & 89.9 & 88.5 & 85.0 & 79.9 & 73.9 & 70.4 & 64.3 & 58.6 & 51.7 & $\ge$160 \\
-    none & 76.5 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 10.0 & 0 \\
-    \bottomrule
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        Architecture & Measured decay $D_{\max}$ & Equal-mean exponential $D_{\max}$ & $\Delta D_{\max}$ \\
+        \midrule
+        TemporalMSNN  & $18.9$~s $[13.4, 24.4]$ & $24.2$~s $[20.0, 28.5]$ & $-5.3$~s $[-6.6, -4.0]$ \\
+        TemporalMCSNN & $13.0$~s $[8.0, 18.1]$  & $19.4$~s $[14.7, 24.2]$ & $-6.4$~s $[-7.0, -5.9]$ \\
+        \bottomrule
     \end{tabular}
-    \label{table:6dmaxconv}
-    \end{center}
-    \vspace*{-\baselineskip}
 \end{table}
+
+\noindent The two implemented profiles share a mean lifetime of $23.4$~s but distribute it differently: their
+half-lives are $9.18$~s and $16.2$~s and their $1/e$ times $16.4$~s and $23.4$~s, all four evaluated on the
+multi-exponential form used for recursive simulation. Equal mean lifetime therefore does not determine the usable
+delay of a fixed network.\\
+
+\begin{figure}[htbp!]
+    \centerline{\includegraphics[width=\textwidth]{Chapter6/Figs/frozen_substitution_delay.pdf}}
+    \caption[Usable delay in the frozen system, and its dependence on the criterion.]{\emph{Simulated}:
+    \textbf{(a)} dense and \textbf{(b)} convolutional networks, five each. Thin lines show individual networks, the
+    marked line their mean, shading the $12.53\%$ chance band, and triangles each $D_{\max}$. \textbf{(c)}
+    $\Delta D_{\max}$ across $f$, with $95\%$ Student-$t$ intervals and the prespecified $f=0.75$ marked.}
+    \label{fig:6dad}
+\end{figure}
+
+\noindent Three controls remove the information carried by the volatile state while preserving the trained network
+and readout. At $D=4.07$~s, clearing the written state before the probe gives exactly the same result as skipping the
+write, with accuracies of $8.80$--$11.25\%$ across the ten networks, all below the $12.53\%$ chance bound. Removing the
+volatile current contribution keeps accuracy below that bound over the complete delay grid and gives
+$D_{\max}=0$. Because membrane states are reset before every probe, the volatile output-layer state is the only
+sample-dependent quantity spanning the interval.\\
+
+\noindent The equal-mean profiles cross at $42.9$~s: before that time the exponential retains more state, and
+afterwards the measured profile retains more because its tail decays more slowly. At $f=0.75$, the oldest
+contributing state at $D_{\max}$ is $38.4$~s in the dense architecture and $32.9$~s in the convolutional
+architecture, placing both decisions before the crossing. The exponential therefore supports the longer usable delay
+at the primary criterion.\\
+
+\noindent Lowering $f$ admits a later part of the accuracy curve and eventually makes the measured profile's slower
+tail relevant. Averaged across networks, $\Delta D_{\max}$ changes from negative at high $f$ to positive below
+approximately $0.4$ (Figure~\ref{fig:6dad}c). The criterion therefore selects which part of the decay the task reads,
+and it is a property of the task and its readout and not of the device. Because both profiles share the conversion of
+Equation~\ref{eq:6conv} and take the larger of their two scales, this reversal cannot arise from separate readout
+scaling.\\
+
+\noindent Neither the leakage scale nor the mean lifetime alone specifies a volatile synaptic state once $\beta$ is
+free to vary. The fitted $\tau$ and $\beta$, the complete normalised decay, and the conditions under which it was
+measured together determine how much state survives to a task-relevant delay. The differences measured here apply to
+one \abbrev{ITO} contact, one volatile output layer, and the two simulated architectures tested.
+
+\subsection[Volatile State Across Layers]{Volatile State Across Layers}
+\label{sec:6p3p3}
+
+\noindent Where the output-layer substitution isolates decay shape in one synapse, the all-layer experiment applies
+the measured relaxation to every synaptic layer. The evaluation after a $4.07$~s input-free interval tests which
+retained states still contribute to classification. This experiment introduces no alternative decay: each trained
+network is compared with itself after selected volatile states are removed, so the conditions differ only in which
+layers still hold state when the probe arrives.\\
+
+\noindent Each fading layer changes the input received by the next, so the operating points are calibrated
+sequentially before training. A label-free bisection sets one frozen output offset per layer to produce a firing
+fraction of $0.15\pm0.02$ over the twelve-step read, and each calibrated layer is fixed before the next is placed.
+No class labels or accuracy target enter this procedure, so the calibration cannot import information about the
+classification task. Networks train with no hold and are frozen before the evaluation delay is introduced, preventing
+the weights from adapting to that delay.\\
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{Chapter6/Figs/allvolatile_intervention.pdf}
+    \caption[Delayed classification depends on volatile state distributed across layers.]{\emph{Simulated}: five
+    trained networks per architecture after a $4.07$-s interval. Points show networks, markers their means, and bars
+    $95\%$ Student-$t$ intervals. \textbf{(a,\,d)} Intact and all-state-cleared accuracy. \textbf{(b,\,e)} Accuracy
+    lost when one layer is cleared. \textbf{(c,\,f)} Accuracy recovered when only one layer is retained. Columns use
+    different baselines and scales.}
+    \label{fig:6av}
+\end{figure}
+
+\noindent All interventions start from the same state snapshot at the end of the hold
+(Figure~\ref{fig:6av}). Evaluation compares the intact network, each named layer cleared in turn, each named layer
+retained while all others are cleared, every layer cleared, and a never-written control. These conditions separate
+necessity from sufficiency: clearing one layer tests whether its state is needed for the intact decision, while
+retaining one layer alone tests how much of the intact performance that state can recover on its own. Clearing every
+layer tests whether volatile state carries the delayed information at all.\\
+
+\noindent On \abbrev{N-MNIST} \cite{orchard2015nmnist}, both architectures classify well above chance after the
+interval and fall to the never-written control once every volatile layer is cleared (Table~\ref{tab:6nmnist} and
+Figure~\ref{fig:6av}a,\,d). The dense networks retain $89.0\%$ $[87.6,90.4]$ and the convolutional networks $59.1\%$
+$[47.6,70.6]$ against the $14.1\%$ criterion, and clearing all state leaves $10.0\%$ and $10.5\%$, neither exceeding
+it. The wider convolutional interval reflects greater spread between its five trained networks and not a weaker effect
+of clearing.\\
+
+\noindent Clearing any single layer costs accuracy in every one of the five networks of each architecture, whereas retaining any single
+layer alone recovers little of it (Figure~\ref{fig:6av}b,\,c,\,e,\,f). The dense output synapse carries the larger
+share, costing $78.8$ points when cleared against $60.7$ for the hidden layer, and its state alone is the only one to
+lift accuracy clear of the never-written control, by $18.3$ points $[10.9,25.7]$. The three convolutional layers
+contribute comparably when cleared, between $39.5$ and $45.6$ points, and none of them alone separates from that
+control. Necessity without sufficiency in either architecture places the delayed decision on volatile state
+distributed across layers rather than held in any one of them.\\
 
 \begin{table}[htbp!]
-    \caption[Store--recall working memory, three-rung synapse ablation.]{Store--recall working memory (Figure~\ref{fig:6sr}): recall accuracy (\%, mean over 20 seeds) against delay $D$, for the device membrane and the engineered \abbrev{ALIF} neuron, with the fast-membrane control. Chance $50$. The 8-s setting, which lies between the two supplementary near-zero reads, holds the value across the delay range and matches or exceeds the same-timescale \abbrev{ALIF} at long delay. The 20-s curve is a synthetic target; the direct held-bias-median setting ($\tau_{leak}=1.3$) and fast control fall to chance.}
-    \begin{center}
-    \small
-    \begin{tabular}{l l r *{6}{c}}
-    \toprule
-    Synapse & Neuron & $\tau$ & $D{=}2$ & 5 & 10 & 20 & 40 & 60 \\
-    \midrule
-    Ideal & device & 8   & 100.0 & 100.0 & 100.0 & 100.0 & 90.0 & 94.0 \\
-    Ideal & device & 20  & 100.0 & 100.0 & 100.0 & 100.0 & 99.9 & 99.0 \\
-    Ideal & \abbrev{ALIF}   & 8   & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 51.7 \\
-    Ideal & \abbrev{ALIF}   & 20  & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
-    Ideal & device & 1.3 & 100.0 & 100.0 & 49.9 & 49.9 & 50.1 & 49.8 \\
-    Ideal & fast   & --  & 100.0 & 100.0 & 99.8 & 57.9 & 52.4 & 53.0 \\
-    \midrule
-    \abbrevdef{PF}, healthy & device & 8  & 74.9 & 80.0 & 90.2 & 97.3 & 82.4 & 64.9 \\
-    \abbrev{PF}, healthy & device & 20 & 82.4 & 82.3 & 89.9 & 94.1 & 91.9 & 91.9 \\
-    \abbrev{PF}, healthy & \abbrev{ALIF}   & 8  & 82.6 & 87.4 & 69.4 & 77.2 & 53.8 & 49.9 \\
-    \abbrev{PF}, healthy & fast   & -- & 72.3 & 79.2 & 63.9 & 49.9 & 49.9 & 49.9 \\
-    \midrule
-    \abbrev{PF}, $30\%$ off & device & 8  & 98.2 & 100.0 & 100.0 & 96.9 & 77.7 & 86.8 \\
-    \abbrev{PF}, $30\%$ off & device & 20 & 100.0 & 95.1 & 97.3 & 100.0 & 96.4 & 93.7 \\
-    \abbrev{PF}, $30\%$ off & \abbrev{ALIF}   & 8  & 100.0 & 95.0 & 89.3 & 94.3 & 56.4 & 51.2 \\
-    \abbrev{PF}, $30\%$ off & fast   & -- & 95.0 & 92.4 & 71.6 & 55.3 & 54.9 & 56.8 \\
-    \bottomrule
+    \centering
+    \caption[Which layers' volatile state the delayed decision needs.]{\emph{Simulated}: \abbrev{N-MNIST}
+    classification after the $4.07$-s interval, as means over five trained networks per architecture. Every synaptic
+    layer is volatile. Accuracy lost is referenced to the intact network and accuracy kept to the never-written
+    control, against a $14.1\%$ chance criterion on $512$ held-out samples.}
+    \label{tab:6nmnist}
+    \footnotesize
+    \setlength{\tabcolsep}{3.2pt}
+    \begin{tabular}{@{}lccrrrrrr@{}}
+        \toprule
+        & & & \multicolumn{3}{c}{Accuracy lost when cleared (pp)} &
+        \multicolumn{3}{c}{Accuracy kept alone (pp)} \\
+        \cmidrule(lr){4-6} \cmidrule(l){7-9}
+        Architecture & Intact & All cleared & Hidden/conv1 & Conv2 & Output & Hidden/conv1 & Conv2 & Output \\
+        \midrule
+        TemporalMSNN  & $89.0\%$ & $10.0\%$ & $60.7$ & --- & $78.8$ & $0.2$ & --- & $18.3$ \\
+        TemporalMCSNN & $59.1\%$ & $10.5\%$ & $43.8$ & $39.5$ & $45.6$ & $1.7$ & $0.2$ & $7.9$ \\
+        \bottomrule
     \end{tabular}
-    \label{table:6sr}
-    \end{center}
-    \vspace*{-\baselineskip}
 \end{table}
 
-\subsection[Neuromorphic and Biosignal Benchmarks]{Neuromorphic and Biosignal Benchmarks}
-\label{sec:6p5p4}
+\noindent Exact spike-count ties affect the reported accuracy but not the clearing result. Resolving ties with the
+final membrane potential gives $89.0\%$ in the dense architecture, and random tie-breaking gives $72.7\%$. The
+membrane rule is primary because it is deterministic and label-free, and the alternative is reported wherever the
+difference is material; using it adds no further persistent state, since every membrane is reset before the probe.\\
 
-\noindent Under the complete device model, the Poole--Frenkel synapse together with the $\tau_{leak}$ membrane, the temporal network was evaluated on recognised benchmarks spanning vision, audition, and human movement (Table~\ref{table:6cap}, Figure~\ref{fig:6cap}). The dense network clears sequential \abbrev{MNIST} at $85.2\%$, confirming that the device-grounded membrane learns genuine temporal structure, and on the Spiking Heidelberg Digits (\abbrevdef{SHD}) \cite{cramer2020shd}, spoken digits passed through a biophysical inner-ear model to 700 spiking channels, reaches $64.9\%$ (chance $5\%$). The convolutional network reaches $93.4\%$ on \abbrev{N-MNIST} \cite{orchard2015nmnist}, the event-camera version of \abbrev{MNIST}, and $61.2\%$ on IBM \abbrevdef{DVS128} Gesture \cite{amir2017dvsgesture}, hand gestures recorded with an event camera (chance $9\%$).\\
+\noindent The same intervention was applied to two further event-driven benchmarks of different modality and class
+count (Table~\ref{tab:6breadth}). \abbrevdef{SHD} \cite{cramer2020shd} supplies 700 audio channels over twenty classes
+to the dense architecture, and \abbrevdef{DVS}128 \cite{amir2017dvsgesture} supplies $2\times32\times32$ event frames
+over eleven classes to the convolutional architecture, with five networks evaluated for each dataset. Intact
+accuracy exceeds the dataset-specific chance criterion, clearing all state returns performance to the never-written
+reference, and at least two layers contribute in each task.\\
 
-\begin{table}[!t]
-    \caption[Benchmark capability of the device-grounded temporal network.]{Benchmark capability of the device-grounded temporal network (full-readout test accuracy, 20 seeds, bootstrap $95\%$ confidence interval), all under the complete device model (Poole--Frenkel synapse and measured-$\tau_{leak}$ membrane).}
-    \begin{center}
-    \begin{tabular}{lllr@{\,}c}
-    \toprule
-    Benchmark & Modality & Network & \multicolumn{2}{c}{Accuracy (\%) [95\% CI]} \\
-    \midrule
-    sequential \abbrev{MNIST} & vision (streamed)    & dense & $85.2$ & $[84.8, 85.5]$ \\
-    \abbrev{N-MNIST}          & event-camera vision  & conv  & $93.4$ & $[93.2, 93.6]$ \\
-    \abbrev{SHD}              & cochlea-model speech & dense & $64.9$ & $[64.1, 65.8]$ \\
-    \abbrev{DVS128} Gesture   & human hand gesture   & conv  & $61.2$ & $[60.0, 62.2]$ \\
-    \bottomrule
+\begin{table}[htbp!]
+    \centering
+    \caption[Distributed volatile state on two further benchmarks.]{\emph{Simulated}: mean accuracy over five trained
+    networks after the $4.07$-s interval. Every synaptic layer is volatile, and each is cleared while the others
+    remain intact. The datasets are separate results.}
+    \label{tab:6breadth}
+    \footnotesize
+    \setlength{\tabcolsep}{3.2pt}
+    \begin{tabular}{@{}llrrrrrr@{}}
+        \toprule
+        Dataset & Architecture & Intact & All cleared & Chance &
+        \multicolumn{3}{c}{Accuracy lost when layer cleared (pp)} \\
+        \cmidrule(l){6-8}
+        & & & & & Hidden/conv1 & Conv2 & Output \\
+        \midrule
+        \abbrev{SHD} & TemporalMSNN  & $51.1\%$ & $5.1\%$ & $6.6\%$  & $+45.3$ & --- & $+46.6$ \\
+        DVS128       & TemporalMCSNN & $49.7\%$ & $8.3\%$ & $20.7\%$ & $+37.6$ & $+25.0$ & $+41.7$ \\
+        \bottomrule
     \end{tabular}
-    \label{table:6cap}
-    \end{center}
-    \vspace*{-\baselineskip}
 \end{table}
 
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.7\textwidth]{Chapter6/Figs/temporal_network_benchmark.png}}
-    \caption[Benchmark capability of the device-grounded temporal network.]{Benchmark capability of the device-grounded temporal network (full-readout test accuracy, 20 seeds, bootstrap $95\%$ confidence interval; dotted lines mark chance), on sequential \abbrev{MNIST} and \abbrev{N-MNIST} (vision), \abbrev{SHD} (cochlea-model speech), and \abbrev{DVS128} Gesture (human hand movement).}
-    \label{fig:6cap}
-\end{figure}
+\noindent On \abbrev{SHD}, random tie-breaking reduces intact accuracy from $51.1\%$ to $33.8\%$, but every
+layer-clearing effect remains positive under either rule. On DVS128, the second convolutional stage has a mean
+$25.0$-point effect with four of five networks positive, so the evidence for distributed state rests on the first
+convolutional stage and output layer. These interventions identify where retained state is necessary; they do not
+isolate decay shape. That attribution comes from the frozen output-layer comparison, where $q(t)$ is the only
+quantity changed.
 
-\noindent These are capability results rather than further instances of the hold-time relation. On a signal with an intrinsic physical timescale, a Dynamic Vision Sensor (\abbrevdef{DVS}) gesture spanning about a second at roughly $83$\,ms per frame, the declared retention settings all correspond to membranes that barely decay over the stimulus, so a sweep cannot separate them. The hold-time relation of Equation~(\ref{eq:6.47dmax}) is therefore a simulation result on the \abbrev{MNIST}-derived tasks, whose abstract time steps admit the full range of decay factors, while \abbrev{SHD} and \abbrev{DVS128} Gesture show capability on recognised biosignal and event-camera data.\\
+\section[Summary]{Summary}\label{sec:6p4}
 
-\noindent The learned representation is itself class-structured (Figure~\ref{fig:6sep}). A linear probe on the second convolutional layer's spike features separates the ten \abbrev{N-MNIST} classes at $87\%$ (\abbrevdef{PCA}, held-out) and $80\%$ (\abbrevdef{UMAP}, held-out), well above the $10\%$ chance level, confirming that the network organises its features by class rather than relying on the output layer alone.\\
+\noindent The electroformed Ti/Au measurements enter the networks as static synaptic transmission: a conductance
+window, nonlinear current response, and fixed device variation. Dense and convolutional spiking networks learn under
+this measured forward model, and a local firing-rate gate improves generalisation in the dense network without
+injected faults.
+These results concern hardware-aware optimisation under static device properties; they do not establish circuit
+efficiency or local learning.\\
 
-\begin{figure}[htbp!]
-    \centerline{\includegraphics[width=0.9\textwidth]{Chapter6/Figs/nmnist_class_separability.png}}
-    \caption[Class structure of the learned device-conv representation on N-MNIST.]{Class structure of the learned device-convolutional representation on \abbrev{N-MNIST}. Second convolutional-layer spike features projected by \abbrev{PCA}, t-SNE, and \abbrev{UMAP} (rows), coloured by digit class, each with its logistic-probe confusion matrix. Held-out probe accuracy: $87\%$ (\abbrev{PCA}), $80\%$ (\abbrev{UMAP}); the t-SNE probe ($80\%$) is 5-fold cross-validated, visualisation-only as t-SNE has no out-of-sample map.}
-    \label{fig:6sep}
-\end{figure}
-
-\section[Summary]{Summary}
-
-\noindent This chapter implemented spiking neural networks (SNNs) on silicon-oxide memristive devices, organised around a single principle: the network architecture decides whether the device transient should be suppressed or used. Empirical Poole-Frenkel nonlinearity and device-to-device variability, extracted from metal-insulator-metal (\abbrev{MIM}) $SiO_x$ memristors \cite{Barmpatsalos2021-yn}, were injected directly into the forward and backward passes of a fully connected (\abbrev{MSNN}) and a convolutional (\abbrev{MCSNN}) network trained on \abbrev{MNIST} by backpropagation through time. This nonideality-aware training retained roughly 80\% accuracy despite the injected nonlinearity, against an ideal-device ceiling near 90\%, extending the group's earlier non-ideality compensation in artificial networks \cite{mehonic2019simulation, joksas2020committee, joksas2022nonideality} to event-driven spiking architectures.\\
-
-\noindent In the static classifier the transient is a variability to be suppressed. A homeostatic gain regulariser, reducing synaptic conductance in response to high presynaptic firing, recovers a clear generalisation benefit on fully connected networks ($+2.6$ to $+4.4$\,pp over 20 seeds) but reverses on a temporal-convolutional network ($-8.5$\,pp), where high firing carries the signal rather than marking a fault. That reversal is the signpost to the opposite regime. Streaming a signal in time, the same relaxation becomes the leak of the leaky integrate-and-fire membrane: setting its time constant from the measured-constrained $\tau_{leak}$ family \cite{vu2026ito} yields a device-grounded memory model. The simulated hold-time scales linearly with $\tau_{leak}$ ($D_{max}\approx6.1\,\tau_{leak}$, $R^2=0.93$), and on the store--recall benchmark the $\tau_{leak}=8$ sensitivity reaches the working memory of an engineered adaptive neuron with no added simulated per-neuron state, even through synapses carrying the measured fault prior. The temporal model clears recognised neuromorphic and biosignal benchmarks, reaching $93.4\%$ on \abbrev{N-MNIST} and learning cochlea-model speech and event-camera gestures; it does not demonstrate a fabricated membrane or programmed retention.\\
-
-\noindent Together these results establish a hardware-aware framework that folds experimental memristor data directly into \abbrev{SNN} training and shows the same modelled material property serving, by architecture, as either a variability to suppress or a temporal-integration primitive. The measured relaxation family constrains the declared timescales, but transferring or selecting those values in a fabricated circuit remains future work. The same $\tau_{leak}$ parameter used here as a classifier membrane reappears in Chapter~\ref{ch:learning} as the eligibility trace of reward-modulated learning, in line with the broader roadmap for emerging neuromorphic technologies \cite{mehonic2024review}.
+\noindent The \abbrev{ITO} relaxation enters as a volatile synaptic state that carries class information across an
+input-free interval, and removing that state returns performance to chance. An exponential with the same mean lifetime
+supports $5.3$~s and $6.4$~s more usable delay at the prespecified $f=0.75$ criterion, because the readout depends on
+the early decay. Lower values of $f$ reach the measured profile's slower tail and can reverse the ordering. A single
+retention time therefore does not specify task memory: a volatile synapse has to be described by its complete decay
+profile, timescale and shape together.
+Layer interventions further show that delayed classification uses volatile state distributed across the network.
+This chapter's biorealistic element is therefore the measured material relaxation that sets the temporal state, while
+weight optimisation still uses surrogate gradients and transported errors.
